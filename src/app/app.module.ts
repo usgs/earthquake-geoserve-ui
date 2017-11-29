@@ -7,8 +7,7 @@ import { RegionsService } from './regions.service';
 import { AdminRegionComponent } from './admin-region/admin-region.component';
 import { AppComponent } from './app.component';
 import { AuthoritativeRegionComponent } from './authoritative-region/authoritative-region.component';
-import { HazdevTemplateComponent } from './hazdev-template/hazdev-template.component';
-import { HazdevTemplateContentComponent } from './hazdev-template-content/hazdev-template-content.component';
+import { CoordinateInputComponent } from './coordinate-input/coordinate-input.component';
 import { HazdevTemplateFooterComponent } from './hazdev-template-footer/hazdev-template-footer.component';
 import { HazdevTemplateHeaderComponent } from './hazdev-template-header/hazdev-template-header.component';
 import { HazdevTemplateNavigationComponent } from './hazdev-template-navigation/hazdev-template-navigation.component';
@@ -27,8 +26,7 @@ import { TimezoneRegionComponent } from './timezone-region/timezone-region.compo
     AdminRegionComponent,
     AppComponent,
     AuthoritativeRegionComponent,
-    HazdevTemplateComponent,
-    HazdevTemplateContentComponent,
+    CoordinateInputComponent,
     HazdevTemplateFooterComponent,
     HazdevTemplateHeaderComponent,
     HazdevTemplateNavigationComponent,

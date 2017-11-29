@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HazdevTemplateComponent } from './hazdev-template.component';
+import { CoordinateInputComponent } from './coordinate-input.component';
 
-describe('HazdevTemplateComponent', () => {
-  let component: HazdevTemplateComponent;
-  let fixture: ComponentFixture<HazdevTemplateComponent>;
+describe('CoordinateInputComponent', () => {
+  let component: CoordinateInputComponent;
+  let fixture: ComponentFixture<CoordinateInputComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HazdevTemplateComponent ]
+      declarations: [ CoordinateInputComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HazdevTemplateComponent);
+    fixture = TestBed.createComponent(CoordinateInputComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
