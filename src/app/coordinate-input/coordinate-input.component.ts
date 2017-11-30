@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-coordinate-input',
@@ -6,10 +6,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./coordinate-input.component.css']
 })
 export class CoordinateInputComponent implements OnInit {
+  @Output() search: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  handleClick (latitude: string, longitude: string) {
+    this.search.emit({
+      latitude: +latitude,
+      longitude: +longitude
+    });
   }
 
 }

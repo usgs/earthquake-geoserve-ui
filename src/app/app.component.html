@@ -2,7 +2,7 @@
 <app-hazdev-template-navigation></app-hazdev-template-navigation>
 <h1>{{title}}</h1>
 <!-- REMOVE THIS -->
-<app-coordinate-input></app-coordinate-input>
+<app-coordinate-input (search)="handleSearch($event)"></app-coordinate-input>
 <!-- REMOVE THAT -->
 <app-admin-region></app-admin-region>
 <app-authoritative-region></app-authoritative-region>
