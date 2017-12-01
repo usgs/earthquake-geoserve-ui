@@ -1,3 +1,17 @@
-<p>
-  admin-region works!
-</p>
+<div *ngIf="region" className="output-section">
+<h2>Administrative Region</h2>
+<dl className="admin-region">
+  <dt>ISO</dt>
+  <dd>
+    {{region.properties.iso}}
+  </dd>
+  <dt>Region</dt>
+  <dd>
+    {{region.properties.region}}
+  </dd>
+  <dt>Country</dt>
+  <dd>
+    {{region.properties.country}}
+  </dd>
+</dl>
+</div>
