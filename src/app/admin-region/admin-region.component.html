@@ -1,17 +1,25 @@
-<div *ngIf="region" className="output-section">
-<h2>Administrative Region</h2>
-<dl className="admin-region">
-  <dt>ISO</dt>
-  <dd>
-    {{ region.properties.iso }}
-  </dd>
-  <dt>Region</dt>
-  <dd>
-    {{ region.properties.region }}
-  </dd>
-  <dt>Country</dt>
-  <dd>
-    {{ region.properties.country }}
-  </dd>
-</dl>
+<!-- Administrative region was returned, display the region -->
+<div *ngIf="region && region.length !== 0" className="output-section">
+  <h2>Administrative Region</h2>
+  <dl className="admin-region">
+    <dt>ISO</dt>
+    <dd>
+      {{region[0].properties.iso}}
+    </dd>
+    <dt>Region</dt>
+    <dd>
+      {{region[0].properties.region}}
+    </dd>
+    <dt>Country</dt>
+    <dd>
+      {{region[0].properties.country}}
+    </dd>
+  </dl>
+</div>
+
+<!-- No administrative region was returned -->
+<div *ngIf="region && region.length === 0">
+  <p class="alert warning">
+    There is no administrative region for this location
+  </p>
 </div>
