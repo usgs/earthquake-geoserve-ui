@@ -1,8 +1,18 @@
-<app-hazdev-template
-  [TITLE]="TITLE"
-  [NAVIGATION]="NAVIGATION"
-  [SITE_SITENAV]="SITE_SITENAV"
-  [SITE_COMMONNAV]="SITE_COMMONNAV"
->
-  <app-geoserve></app-geoserve>
-</app-hazdev-template>
+<app-hazdev-template-header></app-hazdev-template-header>
+<app-hazdev-template-navigation></app-hazdev-template-navigation>
+<h1>{{title}}</h1>
+<app-location-map></app-location-map>
+<!-- REMOVE THIS -->
+<app-coordinate-input (search)="handleSearch($event)"></app-coordinate-input>
+<!-- REMOVE THAT -->
+<app-location-output></app-location-output>
+<app-admin-region></app-admin-region>
+<app-authoritative-region></app-authoritative-region>
+<app-nearby-places></app-nearby-places>
+<app-neic-catalog-region></app-neic-catalog-region>
+<app-neic-response-region></app-neic-response-region>
+<app-offshore-region></app-offshore-region>
+<app-tectonic-summary-region></app-tectonic-summary-region>
+<app-timezone-region></app-timezone-region>
+<app-hazdev-template-footer></app-hazdev-template-footer>
+
