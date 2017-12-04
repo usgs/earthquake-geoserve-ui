@@ -1,11 +1,16 @@
 import { Component } from '@angular/core';
 
+import { Region } from './region';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  // TODO, set other region variables
+  admin: Region[];
+
   title = 'Geoserve';
 
   handleSearch (event) {
@@ -22,6 +27,9 @@ export class AppComponent {
       return response.json();
     }).then((json) => {
       console.log('regions', json);
+
+      this.admin = json.admin.features[0];
+      // TODO, set other regions
     });
   }
 }
