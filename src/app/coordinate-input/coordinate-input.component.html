@@ -1,3 +1,11 @@
-<p>
-  coordinate-input works!
-</p>
+<fieldset>
+  <label>
+    latitude
+    <input type="number" value="35" #latitude />
+  </label>
+  <label>
+    longitude
+    <input type="number" value="-105" #longitude />
+  </label>
+  <button (click)="handleClick(latitude.value, longitude.value)">Search</button>
+</fieldset>
