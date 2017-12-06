@@ -19,7 +19,7 @@ export class PlacesService {
   constructor (private http: HttpClient) {}
 
   empty (): void {
-    this._places.next();
+    this._places.next(null);
   }
 
   places (): Observable<any> {

@@ -1,8 +1,13 @@
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { TestBed, async } from '@angular/core/testing';
 import { MediaMatcher } from '@angular/cdk/layout';
 
 import { MatButtonModule, MatSidenavModule, MatListModule, MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { PlacesService } from './places.service';
+import { RegionsService } from './regions.service';
 
 import { PlacesService } from './places.service';
 import { RegionsService } from './regions.service';
@@ -18,6 +23,7 @@ import { HazdevTemplateNavigationComponent } from './hazdev-template-navigation/
 import { HazdevTemplatePageComponent } from './hazdev-template-page/hazdev-template-page.component';
 import { LocationMapComponent } from './location-map/location-map.component';
 import { LocationOutputComponent } from './location-output/location-output.component';
+import { NearbyPlaceComponent } from './nearby-place/nearby-place.component';
 import { NearbyPlacesComponent } from './nearby-places/nearby-places.component';
 import { NeicCatalogRegionComponent } from './neic-catalog-region/neic-catalog-region.component';
 import { NeicResponseRegionComponent } from './neic-response-region/neic-response-region.component';
@@ -40,6 +46,7 @@ describe('AppComponent', () => {
         HazdevTemplatePageComponent,
         LocationMapComponent,
         LocationOutputComponent,
+        NearbyPlaceComponent,
         NearbyPlacesComponent,
         NeicCatalogRegionComponent,
         NeicResponseRegionComponent,
@@ -57,7 +64,13 @@ describe('AppComponent', () => {
       providers: [
         PlacesService,
         RegionsService,
-        MediaMatcher
+        MediaMatcher,
+        BrowserModule,
+        HttpClientModule
+      ],
+      providers: [
+        PlacesService,
+        RegionsService
       ]
     }).compileComponents();
   }));
