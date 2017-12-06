@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+
+import { PlacesService } from '../places.service';
+
 
 @Component({
   selector: 'app-nearby-places',
@@ -7,9 +10,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NearbyPlacesComponent implements OnInit {
 
-  constructor() { }
+  constructor (private placesService: PlacesService) { }
 
-  ngOnInit() {
+  ngOnInit () {
   }
 
 }
