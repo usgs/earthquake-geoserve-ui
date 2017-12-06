@@ -4,6 +4,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
 
 import { MatButtonModule, MatSidenavModule, MatListModule, MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 
 import { PlacesService } from './places.service';
 import { RegionsService } from './regions.service';
@@ -19,6 +20,7 @@ import { HazdevTemplateNavigationComponent } from './hazdev-template-navigation/
 import { HazdevTemplatePageComponent } from './hazdev-template-page/hazdev-template-page.component';
 import { LocationMapComponent } from './location-map/location-map.component';
 import { LocationOutputComponent } from './location-output/location-output.component';
+import { NearbyPlaceComponent } from './nearby-place/nearby-place.component';
 import { NearbyPlacesComponent } from './nearby-places/nearby-places.component';
 import { NeicCatalogRegionComponent } from './neic-catalog-region/neic-catalog-region.component';
 import { NeicResponseRegionComponent } from './neic-response-region/neic-response-region.component';
@@ -41,6 +43,7 @@ import { TimezoneRegionComponent } from './timezone-region/timezone-region.compo
     HazdevTemplatePageComponent,
     LocationMapComponent,
     LocationOutputComponent,
+    NearbyPlaceComponent,
     NearbyPlacesComponent,
     NeicCatalogRegionComponent,
     NeicResponseRegionComponent,
@@ -63,7 +66,8 @@ import { TimezoneRegionComponent } from './timezone-region/timezone-region.compo
     MatButtonModule,
     MatSidenavModule,
     MatListModule,
-    MatInputModule
+    MatInputModule,
+    HttpClientModule
   ],
   providers: [
     PlacesService,

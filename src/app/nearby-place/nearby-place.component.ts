@@ -34,7 +34,7 @@ export class NearbyPlaceComponent implements OnInit {
     return 'Population: ' + place.properties.population;
   }
 
-  compassWinds (azimuth: number): string {
+  compassWinds (azimuth: any): string {
     let fullwind = 22.5;
     let directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE',
       'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW', 'N'];
