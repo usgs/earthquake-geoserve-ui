@@ -17,7 +17,7 @@ describe('NearbyPlaceComponent', () => {
     fixture = TestBed.createComponent(NearbyPlaceComponent);
     component = fixture.componentInstance;
     component.place = {
-      "type": "Feature",
+      'type': 'Feature',
       'id': 5496542,
       'geometry': {
         'type': 'Point',

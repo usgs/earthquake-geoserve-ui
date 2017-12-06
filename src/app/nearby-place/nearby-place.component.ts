@@ -35,8 +35,8 @@ export class NearbyPlaceComponent implements OnInit {
   }
 
   compassWinds (azimuth: any): string {
-    let fullwind = 22.5;
-    let directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE',
+    const fullwind = 22.5;
+    const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE',
       'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW', 'N'];
 
     // if direction is already in compass points
