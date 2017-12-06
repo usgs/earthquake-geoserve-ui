@@ -1,0 +1,15 @@
+.name {
+  display: block;
+}
+
+.distance,
+.population {
+  color: #666;
+  display: block;
+  float: left;
+  font-size: smaller;
+}
+
+.population {
+  float: right;
+}
