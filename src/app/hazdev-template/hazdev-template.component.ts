@@ -35,7 +35,6 @@ export class HazdevTemplateComponent implements OnInit {
   @Input() NAVIGATION: any[];
   @Input() SITE_SITENAV: any[];
   @Input() SITE_COMMONNAV: any[];
-  @Input() CONTENT: Component;
 
   constructor () { }
 

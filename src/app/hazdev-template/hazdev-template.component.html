@@ -12,7 +12,7 @@
   </header>
 
   <div class="page-content">
-    <ng-container *ngComponentOutlet="CONTENT"></ng-container>
+    <ng-content></ng-content>
   </div>
   <footer *ngIf="CONTACT_URL || SOCIAL" class="page-footer">
     <p *ngIf="CONTACT_URL">

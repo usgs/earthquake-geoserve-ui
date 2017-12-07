@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 
 import { Region } from './region';
-import { GeoserveComponent } from './geoserve/geoserve.component';
 
 @Component({
   selector: 'app-root',
@@ -41,8 +40,6 @@ export class AppComponent {
     {href: '/contactus/', display: 'Contacts'},
     {href: '/legal.php', display: 'Legal'}
   ];
-
-  CONTENT = GeoserveComponent;
 
   handleSearch (event) {
     // TODO use the servies, instead of fetch
