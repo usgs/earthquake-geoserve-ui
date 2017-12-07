@@ -44,7 +44,7 @@ export class HazdevTemplateComponent implements OnInit {
 
   getSocialHref (stub: string): string {
     return (stub
-      .replace('{URL}', escape(window.location.toString()))
+      .replace('{URL}', encodeURIComponent(window.location.toString()))
       .replace('{TITLE}', this.TITLE)
       .replace('{CONTACT}', this.CONTACT_URL)
     );
