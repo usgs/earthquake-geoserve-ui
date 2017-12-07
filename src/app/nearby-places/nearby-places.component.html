@@ -1,7 +1,7 @@
 <h2>Nearby Places</h2>
 
-<ul *ngIf="placesService.places() | async">
-  <li *ngFor="let place of placesService.places() | async">
+<ul *ngIf="placesService.places | async">
+  <li *ngFor="let place of placesService.places | async">
     <app-nearby-place [place]="place"></app-nearby-place>
   </li>
 </ul>

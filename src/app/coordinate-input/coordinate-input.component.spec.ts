@@ -7,8 +7,16 @@ import { PlacesService } from '../places.service';
 describe('CoordinateInputComponent', () => {
   let component: CoordinateInputComponent;
   let fixture: ComponentFixture<CoordinateInputComponent>;
+  let getPlacesSpy;
+  let placesService;
 
   beforeEach(async(() => {
+    const placesServiceStub = {
+      getPlaces: (latitude: string, longitude: string) => {
+        console.log('stubbified!');
+      }
+     };
+
     TestBed.configureTestingModule({
       declarations: [
         CoordinateInputComponent
@@ -17,7 +25,7 @@ describe('CoordinateInputComponent', () => {
         HttpClientModule
       ],
       providers: [
-        PlacesService
+        {provide: PlacesService, useValue: placesServiceStub}
       ]
     })
     .compileComponents();
@@ -26,10 +34,21 @@ describe('CoordinateInputComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CoordinateInputComponent);
     component = fixture.componentInstance;
+    placesService = fixture.debugElement.injector.get(PlacesService);
+    getPlacesSpy = spyOn(placesService, 'getPlaces');
+
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('handleClick', () => {
+    it('should handle click', () => {
+      component.handleClick('latitude', 'longitude');
+      expect(placesService.getPlaces).toHaveBeenCalled();
+      expect(placesService.getPlaces).toHaveBeenCalledWith('latitude', 'longitude');
+    });
+  })
 });

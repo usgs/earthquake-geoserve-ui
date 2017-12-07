@@ -46,4 +46,23 @@ describe('NearbyPlaceComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('getName', () => {
+    it('should return the formatted name components', () => {
+      const place = {
+        properties: {
+          name: 'name',
+          admin1_name: 'admin1_name',
+          country_name: 'country_name'
+        }
+      }
+      expect(component.getName(place)).toEqual('name, admin1_name, country_name');
+    });
+  });
+
+  describe('compassWinds', () => {
+    it('should accept compass wind as input and preserve', () => {
+      expect(component.compassWinds('SSE')).toEqual('SSE');
+     });
+  });
 });

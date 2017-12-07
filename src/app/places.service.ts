@@ -11,9 +11,10 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 @Injectable()
 export class PlacesService {
 
-  private placesUrl = 'https://dev-earthquake.cr.usgs.gov/ws/geoserve/places.json';
+  public readonly API_URL = 'https://dev-earthquake.cr.usgs.gov/ws/geoserve/places.json';
 
   private _places: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public readonly places: Observable<any> = this._places.asObservable();
 
 
   constructor (private http: HttpClient) {}
@@ -22,15 +23,11 @@ export class PlacesService {
     this._places.next(null);
   }
 
-  places (): Observable<any> {
-    return this._places.asObservable();
-  }
-
   getPlaces (latitude: string, longitude: string): void {
     const url = this.buildUrl(latitude, longitude);
 
     this.http.get<any>(url).pipe(
-      catchError(this.handleError('getPlaces', {}))
+      catchError(this.handleError('getPlaces', {event: {features: []}}))
     ).subscribe((response) => {
       this._places.next(response.event.features);
     });
@@ -45,7 +42,7 @@ export class PlacesService {
   }
 
   private buildUrl (latitude: string, longitude: string): string {
-    return this.placesUrl + '?' +
+    return this.API_URL + '?' +
       `latitude=${latitude}` +
       `&longitude=${longitude}` +
       '&type=event';
