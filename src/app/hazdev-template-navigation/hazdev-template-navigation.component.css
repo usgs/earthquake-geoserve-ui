@@ -1,0 +1,120 @@
+/* reset <a> tag styles */
+.site-sectionnav {
+  margin: 1em 0;
+}
+.site-sectionnav > a + a, .site-sectionnav > a + section, .site-sectionnav > section + a, .site-sectionnav > section + section {
+  border-top: 1px solid #dddddd;
+}
+.site-sectionnav a {
+  color: #666666;
+  display: block;
+  padding: 0.5em 1em;
+  text-decoration: none;
+}
+.site-sectionnav a:visited {
+  color: #666666;
+}
+.site-sectionnav a:hover, .site-sectionnav a.selected {
+  background: #f4f4f4;
+  color: #333333;
+}
+/* top level is dark gray */
+.site-sectionnav > a, .site-sectionnav > a:visited, .site-sectionnav > section > header > a, .site-sectionnav > section > header > a:visited {
+  color: #333333;
+}
+.site-sectionnav > section {
+  margin: 0.5em 0;/* leave more space for first section header link */
+}
+.site-sectionnav > section > header {
+  margin: 0.75em 1em;
+}
+/* leave a top margin of 0.5em */
+.site-sectionnav > section > header > a {
+  margin: -0.25em -1em -0.75em;
+}
+.site-sectionnav > section > a {
+  font-size: 0.88em;
+  padding: 0.66667em 1.13636em;
+}
+.site-sectionnav > section:first-child > header > a {
+  margin-top: 0;
+}
+.site-sectionnav > section:after {
+  content: '';
+  display: block;
+  overflow: auto;
+}
+/* style the section navigation */
+.site-footer {
+  padding: 1em;
+}
+/* ------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------- */
+/* search form */
+.site-search {
+  display: block;
+  margin-top: 1em;
+  position: relative;
+}
+.site-search > [type="search"] {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+      appearance: none;
+  display: block;
+  margin: 0;
+  width: 100%;
+}
+.site-search > label {
+  display: block;
+  float: left;
+  font-size: smaller;
+  margin-right: 1em;
+}
+.site-search > button {
+  clear: both;
+  display: block;
+  margin: 1em 0;
+}
+/* site nav */
+.site-sitenav {
+  background-color: #3d5e80;
+  margin: 1em 0;
+  overflow: visible;
+}
+.site-sitenav > a, .site-sitenav > strong {/* Do not use variable colors, must be transparent */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  display: block;
+  font-weight: normal;
+  padding: 0.66667em 1em;
+  text-decoration: none;
+  text-shadow: 0 0 2px #000;
+  transition: background .25s ease-out;
+}
+.site-sitenav > a:visited, .site-sitenav > strong:visited {
+  color: #ffffff;
+}
+.site-sitenav > a:hover, .site-sitenav > strong:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: #ffffff;
+}
+.site-sitenav > strong, .site-sitenav > .current-page, .site-sitenav > strong:hover, .site-sitenav > .current-page:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: #ffffff;
+}
+
+@media screen and (min-width: 768px) {
+  .site-footer {
+    float: left;
+    width: 25%;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .site-footer {
+    width: 20%;
+  }
+}

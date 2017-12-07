@@ -1,5 +1,8 @@
 <app-hazdev-template-header></app-hazdev-template-header>
-<app-hazdev-template-navigation></app-hazdev-template-navigation>
+<app-hazdev-template-navigation
+  [sectionNavigation]="sectionNavigation"
+  [siteNavigation]="siteNavigation"
+  [includeSearch]="includeSearch"></app-hazdev-template-navigation>
 <h1>{{title}}</h1>
 <app-location-map></app-location-map>
 <!-- REMOVE THIS -->

@@ -12,6 +12,26 @@ export class AppComponent {
   admin: Region[];
 
   title = 'Geoserve';
+  sectionNavigation = [
+    {'href': '/ws/geoserve/index.php', 'display': 'Geoserve'},
+    {
+      header: {href: '/ws/geoserve/services.php', display: 'Geoserve Documentation'},
+      links: [
+        {href: '/ws/geoserve/places.php', display: 'Places Service'},
+        {href: '/ws/geoserve/regions.php', display: 'Regions Service'},
+        {href: '/ws/geoserve/layers.php', display: 'Layers Service'}
+      ]
+    }
+  ];
+  siteNavigation = [
+    {href: '/earthquakes/', display: 'Earthquakes'},
+    {href: '/hazards/', display: 'Hazards'},
+    {href: '/data/', display: 'Data &amp; Products'},
+    {href: '/learn/', display: 'Learn'},
+    {href: '/monitoring/', display: 'Monitoring'},
+    {href: '/research/', display: 'Research'}
+  ];
+  includeSearch = true;
 
   handleSearch (event) {
     // TODO use the servies, instead of fetch
