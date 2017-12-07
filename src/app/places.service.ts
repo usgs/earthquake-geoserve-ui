@@ -34,7 +34,7 @@ export class PlacesService {
   }
 
 
-  private handleError<T> (action = 'action', result?: T) {
+  private handleError<T> (action: string, result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);
       return of(result as T);
