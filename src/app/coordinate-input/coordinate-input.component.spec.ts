@@ -50,5 +50,5 @@ describe('CoordinateInputComponent', () => {
       expect(placesService.getPlaces).toHaveBeenCalled();
       expect(placesService.getPlaces).toHaveBeenCalledWith('latitude', 'longitude');
     });
-  })
+  });
 });

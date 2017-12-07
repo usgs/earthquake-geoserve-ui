@@ -34,8 +34,8 @@ describe('PlacesService', () => {
   describe('empty', () => {
 
     it('notifies with null', () => {
-      let spy = jasmine.createSpy('subscriber spy');
-      let places = placesService.places;
+      const spy = jasmine.createSpy('subscriber spy');
+      const places = placesService.places;
 
       places.subscribe(spy);
       placesService.empty();
@@ -47,7 +47,7 @@ describe('PlacesService', () => {
 
   describe('getPlaces', () => {
     it('calls http get', () => {
-      let placesJson = {
+      const placesJson = {
         event: {
           features: [
             'feature 1',

@@ -55,7 +55,7 @@ describe('NearbyPlaceComponent', () => {
           admin1_name: 'admin1_name',
           country_name: 'country_name'
         }
-      }
+      };
       expect(component.getName(place)).toEqual('name, admin1_name, country_name');
     });
   });
