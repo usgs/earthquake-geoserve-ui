@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { Region } from './region';
+import { GeoserveComponent } from './geoserve/geoserve.component';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +12,9 @@ export class AppComponent {
   // TODO, set other region variables
   admin: Region[];
 
-  title = 'Geoserve';
-  sectionNavigation = [
+  TITLE = 'Geoserve';
+
+  NAVIGATION = [
     {'href': '/ws/geoserve/index.php', 'display': 'Geoserve'},
     {
       header: {href: '/ws/geoserve/services.php', display: 'Geoserve Documentation'},
@@ -23,15 +25,24 @@ export class AppComponent {
       ]
     }
   ];
-  siteNavigation = [
+
+  SITE_SITENAV = [
     {href: '/earthquakes/', display: 'Earthquakes'},
     {href: '/hazards/', display: 'Hazards'},
-    {href: '/data/', display: 'Data &amp; Products'},
+    {href: '/data/', display: 'Data & Products'},
     {href: '/learn/', display: 'Learn'},
     {href: '/monitoring/', display: 'Monitoring'},
     {href: '/research/', display: 'Research'}
   ];
-  includeSearch = true;
+
+  SITE_COMMONNAV = [
+    {href: '/', display: 'Home'},
+    {href: '/aboutus/', display: 'About Us'},
+    {href: '/contactus/', display: 'Contacts'},
+    {href: '/legal.php', display: 'Legal'}
+  ];
+
+  CONTENT = GeoserveComponent;
 
   handleSearch (event) {
     // TODO use the servies, instead of fetch
