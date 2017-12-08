@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, Input } from '@angular/core';
+import {MediaMatcher} from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-hazdev-template',
@@ -6,6 +7,9 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./hazdev-template.component.css']
 })
 export class HazdevTemplateComponent implements OnInit {
+  mobileQuery: MediaQueryList;
+  private _mobileQueryListener: () => void;
+
   public href = '';
 
   @Input() TITLE: string;
@@ -36,7 +40,15 @@ export class HazdevTemplateComponent implements OnInit {
   @Input() SITE_SITENAV: any[];
   @Input() SITE_COMMONNAV: any[];
 
-  constructor () { }
+  constructor (changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
+    this.mobileQuery = media.matchMedia('(max-width: 768px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
+  }
+
+  ngOnDestroy(): void {
+    this.mobileQuery.removeListener(this._mobileQueryListener);
+  }
 
   ngOnInit() {
   }

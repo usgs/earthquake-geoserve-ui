@@ -1,5 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { ChangeDetectorRef, NgModule } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+
+import { MatButtonModule, MatSidenavModule, MatListModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { PlacesService } from './places.service';
 import { RegionsService } from './regions.service';
@@ -42,11 +46,22 @@ import { TimezoneRegionComponent } from './timezone-region/timezone-region.compo
     GeoserveComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatListModule
+  ],
+  exports: [
+    MatButtonModule,
+    MatSidenavModule,
+    MatListModule
   ],
   providers: [
     PlacesService,
-    RegionsService
+    RegionsService,
+    MediaMatcher,
+    ChangeDetectorRef
   ],
   bootstrap: [AppComponent]
 })

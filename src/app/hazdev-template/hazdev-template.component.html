@@ -1,69 +1,75 @@
-<div class="offcanvas-enabled">
 <header role="banner" class="site-header">
   <a class="site-logo" href="/" title="U.S. Geological Survey">
     <img src="assets/usgs-logo.svg" alt=""/>
   </a>
   <a class="jumplink-navigation" href="#site-sectionnav">Jump to Navigation</a>
+  <button mat-raised-button (click)="sidenav.toggle()" class="sidenav-toggle">Menu</button>
 </header>
 
-<main role="main" class="page" aria-labelledby="page-header">
-  <header class="page-header" id="page-header">
-    <h1>{{ TITLE }}</h1>
-  </header>
 
-  <div class="page-content">
-    <ng-content></ng-content>
-  </div>
-  <footer *ngIf="CONTACT_URL || SOCIAL" class="page-footer">
-    <p *ngIf="CONTACT_URL">
-      <a href="{{ CONTACT_URL }}">Questions or comments?</a>
-    </p>
+<mat-sidenav-container>
+  <mat-sidenav-content>
+    <main role="main" class="page" aria-labelledby="page-header">
+      <header class="page-header" id="page-header">
+        <h1>{{ TITLE }}</h1>
+      </header>
 
-    <nav *ngIf="SOCIAL" class="page-social" aria-label="Share this page">
-      <!-- TODO :: Deal with custom page urls etc... -->
-      <a *ngFor="let social of SOCIAL"
-        href="{{ getSocialHref(social.href) }}"
-        title="Share using {{ social.display }}"
-        class="{{ social.class }}"
-      >{{ social.display }}</a>
-    </nav>
-  </footer>
-</main>
+      <div class="page-content">
+        <ng-content></ng-content>
+      </div>
+      <footer *ngIf="CONTACT_URL || SOCIAL" class="page-footer">
+        <p *ngIf="CONTACT_URL">
+          <a href="{{ CONTACT_URL }}">Questions or comments?</a>
+        </p>
 
-<nav class="site-footer offcanvas">
-  <section *ngIf="NAVIGATION"
-    id="site-sectionnav"
-    class="site-sectionnav"
-    aria-label="Section Navigation"
+        <nav *ngIf="SOCIAL" class="page-social" aria-label="Share this page">
+          <!-- TODO :: Deal with custom page urls etc... -->
+          <a *ngFor="let social of SOCIAL"
+            href="{{ getSocialHref(social.href) }}"
+            title="Share using {{ social.display }}"
+            class="{{ social.class }}"
+          >{{ social.display }}</a>
+        </nav>
+      </footer>
+    </main>
+  </mat-sidenav-content>
+
+  <mat-sidenav #sidenav
+      [mode]="mobileQuery.matches ? 'over' : 'side'"
+      [fixedInViewport]="true"
+      [fixedTopGap]="mobileQuery.matches ? 56  : 132.5"
+      [opened]="!mobileQuery.matches"
   >
-    <ng-container *ngFor="let item of NAVIGATION">
-      <section *ngIf="item.header">
-        <header>
-          <a href="{{ item.header.href }}">{{ item.header.display }}</a>
-        </header>
-        <a *ngFor="let link of item.links" href="{{ link.href }}">{{ link.display }}</a>
+    <mat-nav-list *ngIf="NAVIGATION">
+      <ng-container *ngFor="let item of NAVIGATION">
+        <ng-container *ngIf="item.header">
+          <mat-divider></mat-divider>
+          <h3 mat-list-item matSubheader>
+            <a  href="{{ item.header.href }}">{{ item.header.display }}</a>
+          </h3>
+          <a *ngFor="let link of item.links" mat-list-item href="{{ link.href }}">{{ link.display }}</a>
+        </ng-container>
+        <a *ngIf="item.href" mat-list-item href="{{ item.href }}">{{ item.display }}</a>
+      </ng-container>
+    </mat-nav-list>
+
+      <section *ngIf="SITE_SITENAV"
+        class="site-sitenav"
+        aria-label="Site Navigation"
+      >
+        <a *ngFor="let item of SITE_SITENAV" href="{{ item.href }}">{{ item.display }}</a>
       </section>
-      <a *ngIf="item.href" href="{{ item.href }}">{{ item.display }}</a>
-    </ng-container>
-  </section>
 
-  <section *ngIf="SITE_SITENAV"
-    class="site-sitenav"
-    aria-label="Site Navigation"
-  >
-    <a *ngFor="let item of SITE_SITENAV" href="{{ item.href }}">{{ item.display }}</a>
-  </section>
-
-  <form class="site-search" role="search" action="//search.usa.gov/search" method="get" accept-charset="UTF-8">
-    <input name="utf8" type="hidden" value="✓"/>
-    <input name="affiliate" type="hidden" value="usgs"/>
-    <input name="sitelimit" type="hidden" value="<?php echo $SITE_URL; ?>"/>
-    <input id="query" name="query" type="search" placeholder="Search..." title="Search"/>
-    <button type="submit">Search</button>
-  </form>
-</nav>
+      <form class="site-search" role="search" action="//search.usa.gov/search" method="get" accept-charset="UTF-8">
+        <input name="utf8" type="hidden" value="✓"/>
+        <input name="affiliate" type="hidden" value="usgs"/>
+        <input name="sitelimit" type="hidden" value="<?php echo $SITE_URL; ?>"/>
+        <input id="query" name="query" type="search" placeholder="Search..." title="Search"/>
+        <button type="submit">Search</button>
+      </form>
+  </mat-sidenav>
+</mat-sidenav-container>
 
 <footer *ngIf="SITE_COMMONNAV" class="site-commonnav">
   <a *ngFor="let item of SITE_COMMONNAV" href="{{ item.href }}">{{ item.display }}</a>
 </footer>
-</div>
