@@ -1,8 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { ChangeDetectorRef, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 
-import { MatButtonModule, MatSidenavModule, MatListModule } from '@angular/material';
+import { MatButtonModule, MatSidenavModule, MatListModule, MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { PlacesService } from './places.service';
@@ -14,6 +14,7 @@ import { AuthoritativeRegionComponent } from './authoritative-region/authoritati
 import { CoordinateInputComponent } from './coordinate-input/coordinate-input.component';
 import { GeoserveComponent } from './geoserve/geoserve.component';
 import { HazdevTemplateComponent } from './hazdev-template/hazdev-template.component';
+import { HazdevTemplateHeaderComponent } from './hazdev-template-header/hazdev-template-header.component';
 import { LocationMapComponent } from './location-map/location-map.component';
 import { LocationOutputComponent } from './location-output/location-output.component';
 import { NearbyPlacesComponent } from './nearby-places/nearby-places.component';
@@ -22,6 +23,8 @@ import { NeicResponseRegionComponent } from './neic-response-region/neic-respons
 import { OffshoreRegionComponent } from './offshore-region/offshore-region.component';
 import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tectonic-summary-region.component';
 import { TimezoneRegionComponent } from './timezone-region/timezone-region.component';
+import { HazdevTemplateNavigationComponent } from './hazdev-template-navigation/hazdev-template-navigation.component';
+import { HazdevTemplatePageComponent } from './hazdev-template-page/hazdev-template-page.component';
 
 
 
@@ -33,6 +36,7 @@ import { TimezoneRegionComponent } from './timezone-region/timezone-region.compo
     CoordinateInputComponent,
     GeoserveComponent,
     HazdevTemplateComponent,
+    HazdevTemplateHeaderComponent,
     LocationMapComponent,
     LocationOutputComponent,
     NearbyPlacesComponent,
@@ -40,7 +44,9 @@ import { TimezoneRegionComponent } from './timezone-region/timezone-region.compo
     NeicResponseRegionComponent,
     OffshoreRegionComponent,
     TectonicSummaryRegionComponent,
-    TimezoneRegionComponent
+    TimezoneRegionComponent,
+    HazdevTemplateNavigationComponent,
+    HazdevTemplatePageComponent
   ],
   entryComponents: [
     GeoserveComponent
@@ -50,18 +56,19 @@ import { TimezoneRegionComponent } from './timezone-region/timezone-region.compo
     BrowserAnimationsModule,
     MatButtonModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    MatInputModule
   ],
   exports: [
     MatButtonModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    MatInputModule
   ],
   providers: [
     PlacesService,
     RegionsService,
-    MediaMatcher,
-    ChangeDetectorRef
+    MediaMatcher
   ],
   bootstrap: [AppComponent]
 })

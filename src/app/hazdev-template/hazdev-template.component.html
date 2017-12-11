@@ -1,75 +1,40 @@
-<header role="banner" class="site-header">
-  <a class="site-logo" href="/" title="U.S. Geological Survey">
-    <img src="assets/usgs-logo.svg" alt=""/>
-  </a>
-  <a class="jumplink-navigation" href="#site-sectionnav">Jump to Navigation</a>
-  <button mat-raised-button (click)="sidenav.toggle()" class="sidenav-toggle">Menu</button>
-</header>
+<app-hazdev-template-header>
+  <button
+      (click)="sidenav.toggle()"
+      class="hazdev-sidenav-toggle"
+      mat-raised-button
+  >
+    Menu
+  </button>
+</app-hazdev-template-header>
 
 
 <mat-sidenav-container>
   <mat-sidenav-content>
-    <main role="main" class="page" aria-labelledby="page-header">
-      <header class="page-header" id="page-header">
-        <h1>{{ TITLE }}</h1>
-      </header>
-
-      <div class="page-content">
-        <ng-content></ng-content>
-      </div>
-      <footer *ngIf="CONTACT_URL || SOCIAL" class="page-footer">
-        <p *ngIf="CONTACT_URL">
-          <a href="{{ CONTACT_URL }}">Questions or comments?</a>
-        </p>
-
-        <nav *ngIf="SOCIAL" class="page-social" aria-label="Share this page">
-          <!-- TODO :: Deal with custom page urls etc... -->
-          <a *ngFor="let social of SOCIAL"
-            href="{{ getSocialHref(social.href) }}"
-            title="Share using {{ social.display }}"
-            class="{{ social.class }}"
-          >{{ social.display }}</a>
-        </nav>
-      </footer>
-    </main>
+    <app-hazdev-template-page
+        [TITLE]="TITLE"
+        [CONTACT]="CONTACT"
+        [SOCIAL]="SOCIAL"
+    >
+      <ng-content></ng-content>
+    </app-hazdev-template-page>
   </mat-sidenav-content>
 
   <mat-sidenav #sidenav
+      class="site-footer"
       [mode]="mobileQuery.matches ? 'over' : 'side'"
       [fixedInViewport]="true"
       [fixedTopGap]="mobileQuery.matches ? 56  : 132.5"
       [opened]="!mobileQuery.matches"
   >
-    <mat-nav-list *ngIf="NAVIGATION">
-      <ng-container *ngFor="let item of NAVIGATION">
-        <ng-container *ngIf="item.header">
-          <mat-divider></mat-divider>
-          <h3 mat-list-item matSubheader>
-            <a  href="{{ item.header.href }}">{{ item.header.display }}</a>
-          </h3>
-          <a *ngFor="let link of item.links" mat-list-item href="{{ link.href }}">{{ link.display }}</a>
-        </ng-container>
-        <a *ngIf="item.href" mat-list-item href="{{ item.href }}">{{ item.display }}</a>
-      </ng-container>
-    </mat-nav-list>
-
-      <section *ngIf="SITE_SITENAV"
-        class="site-sitenav"
-        aria-label="Site Navigation"
-      >
-        <a *ngFor="let item of SITE_SITENAV" href="{{ item.href }}">{{ item.display }}</a>
-      </section>
-
-      <form class="site-search" role="search" action="//search.usa.gov/search" method="get" accept-charset="UTF-8">
-        <input name="utf8" type="hidden" value="✓"/>
-        <input name="affiliate" type="hidden" value="usgs"/>
-        <input name="sitelimit" type="hidden" value="<?php echo $SITE_URL; ?>"/>
-        <input id="query" name="query" type="search" placeholder="Search..." title="Search"/>
-        <button type="submit">Search</button>
-      </form>
+    <app-hazdev-template-navigation
+        [NAVIGATION]="NAVIGATION"
+        [SITE_SITENAV]="SITE_SITENAV"
+        [SITE_URL]="SITE_URL"
+    ></app-hazdev-template-navigation>
   </mat-sidenav>
 </mat-sidenav-container>
 
 <footer *ngIf="SITE_COMMONNAV" class="site-commonnav">
-  <a *ngFor="let item of SITE_COMMONNAV" href="{{ item.href }}">{{ item.display }}</a>
+    <a *ngFor="let item of SITE_COMMONNAV" mat-list-item href="{{ item.href }}">{{ item.display }}</a>
 </footer>

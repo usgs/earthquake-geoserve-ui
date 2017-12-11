@@ -1,106 +1,23 @@
-[role="banner"] {
-  background-color: #3d5e80;
-  height: 56px;
-  position: relative;
-}
-[role="banner"] > .cooperators {/* banner cooperator styles. */
-  background-color: #000;
-  height: 100%;
-  left: 186px;
-  overflow: hidden;
-  position: absolute;
-  top: 0;
-  white-space: nowrap;/* hide banner cooperator logos on small screens. */
-  display: none;
-}
-[role="banner"] > .cooperators > img, [role="banner"] > .cooperators > a > img {
-  padding: 1em 0;
-}
-/* position usgs logo over background. */
-[role="banner"] > .site-logo {/*
-    bottom padding of 0
-    + overflow: hidden
-    + image height 140%
-    = hide "science for a changing world" on small screens.
-  */
-  background-color: #3d5e80;
-  display: block;
-  height: 42px;
-  left: 0;
-  overflow: hidden;
-  padding: 14px 14px 0;
-  position: absolute;
-  top: 0;
-}
-[role="banner"] > .site-logo > img {
-  height: 140%;
-  border: none;
-}
-/* visually hide navigation jumplink. */
-[role="banner"] > .jumplink-navigation {
-  display: block;
-  left: -9999px;
-  position: absolute;
-  top: 0;
-}
-.sidenav-toggle {
+/* Mobile styles first */
+.hazdev-sidenav-toggle {
   float: right;
   margin: 10px 14px 0 0;
 }
+
+mat-sidenav {
+  width: 228px; /* Don't use a percentage here */
+}
+
+
+/* Larger screen styles */
 @media screen and (min-width: 768px) {
-  [role="banner"] {/* make banner larger on large screens. */
-    background-color: #000;
-    background-image: url('/assets/banner.png');
-    background-position: 186px 0;
-    background-repeat: no-repeat;
-    background-size: auto 100%;
-    height: 90px;/* 1.5 line-height on 1em text, with 0.25em padding top/bottom */
-    margin-bottom: 2.5em;
-  }/* also adjust size of usgs logo */
-  [role="banner"] > .site-logo {
-    background-color: #000;
-    height: 100%;
-    padding: 0;
-  }/*width: 157px;*/
-  [role="banner"] > .site-logo > img {
-    height: 100%;
-    padding: 1em;
-  }
-  [role="banner"]:after {
-    background-color: #3d5e80;
-    color: #ffffff;
-    content: 'Earthquake Hazards Program';
-    display: block;
-    left: 0;
-    line-height: 2;
-    padding: 0.25em 0 0.25em 1em;
-    position: absolute;
-    right: 0;
-    text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-    top: 100%;
-  }
-  .sidenav-toggle {
+  .hazdev-sidenav-toggle {
     margin: 1em 1em 0 0;
   }
 }
-@media print {/** Only show USGS logo when printing, requires background colors... */
-  [role="banner"] {
-    background-color: #fff;
-    height: 0;
-    margin: 0;
-    padding: 0;
-    visibility: hidden;
-    width: 100%;
-  }
-  [role="banner"]:after {
-    color: #333;
-    content: 'U.S. Geological Survey - ' 'Earthquake Hazards Program';
-    display: block;
-    visibility: visible;
-  }
-  [role="main"] {
-    padding: 1em 0 0 !important;
-  }
+
+/* Print styles */
+@media print {
   .sidenav-toggle {
     display: none;
   }

@@ -13,7 +13,7 @@ export class HazdevTemplateComponent implements OnInit {
   public href = '';
 
   @Input() TITLE: string;
-  @Input() CONTACT_URL = 'mailto:noreply@example.com';
+  @Input() CONTACT = 'mailto:noreply@example.com';
   @Input() SOCIAL: any[] = [
     {
       display: 'Facebook',
@@ -37,8 +37,9 @@ export class HazdevTemplateComponent implements OnInit {
     }
   ];
   @Input() NAVIGATION: any[];
-  @Input() SITE_SITENAV: any[];
   @Input() SITE_COMMONNAV: any[];
+  @Input() SITE_SITENAV: any[];
+  @Input() SITE_URL = 'http//localhost.localdomain';
 
   constructor (changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
     this.mobileQuery = media.matchMedia('(max-width: 768px)');
@@ -51,13 +52,5 @@ export class HazdevTemplateComponent implements OnInit {
   }
 
   ngOnInit() {
-  }
-
-  getSocialHref (stub: string): string {
-    return (stub
-      .replace('{URL}', encodeURIComponent(window.location.toString()))
-      .replace('{TITLE}', this.TITLE)
-      .replace('{CONTACT}', this.CONTACT_URL)
-    );
   }
 }

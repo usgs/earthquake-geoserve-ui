@@ -92,15 +92,3 @@ mark {
   background-color: #ffa;
   padding: 2px 4px;
 }
-
-
-
-@media screen and (min-width: 768px) {
-  .offcanvas-enabled .offcanvas {
-    /* TODO :: Make this take precedence w/o !important. If moved to component
-     *         CSS, the .offcanvas-enabled scope does not match. If left here,
-     *         the [_ngcontent-cX] makes component styles override.
-     */
-    padding: 0 1em !important;
-  }
-}
