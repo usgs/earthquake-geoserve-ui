@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-hazdev-template-navigation',
@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./hazdev-template-navigation.component.css']
 })
 export class HazdevTemplateNavigationComponent implements OnInit {
+  @Input() NAVIGATION: any[];
+  @Input() SITE_SITENAV: any[];
+  @Input() SITE_URL: string;
 
   constructor() { }
 

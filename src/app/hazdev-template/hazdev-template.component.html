@@ -1,0 +1,40 @@
+<app-hazdev-template-header>
+  <button
+      (click)="sidenav.toggle()"
+      class="hazdev-sidenav-toggle"
+      mat-raised-button
+  >
+    Menu
+  </button>
+</app-hazdev-template-header>
+
+
+<mat-sidenav-container>
+  <mat-sidenav-content>
+    <app-hazdev-template-page
+        [TITLE]="TITLE"
+        [CONTACT]="CONTACT"
+        [SOCIAL]="SOCIAL"
+    >
+      <ng-content></ng-content>
+    </app-hazdev-template-page>
+  </mat-sidenav-content>
+
+  <mat-sidenav #sidenav
+      class="site-footer"
+      [mode]="mobileQuery.matches ? 'over' : 'side'"
+      [fixedInViewport]="true"
+      [fixedTopGap]="mobileQuery.matches ? 56  : 132.5"
+      [opened]="!mobileQuery.matches"
+  >
+    <app-hazdev-template-navigation
+        [NAVIGATION]="NAVIGATION"
+        [SITE_SITENAV]="SITE_SITENAV"
+        [SITE_URL]="SITE_URL"
+    ></app-hazdev-template-navigation>
+  </mat-sidenav>
+</mat-sidenav-container>
+
+<footer *ngIf="SITE_COMMONNAV" class="site-commonnav">
+    <a *ngFor="let item of SITE_COMMONNAV" mat-list-item href="{{ item.href }}">{{ item.display }}</a>
+</footer>
