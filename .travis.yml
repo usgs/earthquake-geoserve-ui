@@ -14,9 +14,6 @@ addons:
       - google-chrome-stable
       - google-chrome-beta
 
-env:
-
-
 before_install:
   - export CHROME_BIN=/usr/bin/google-chrome
   - export DISPLAY=:99.0
