@@ -54,12 +54,6 @@ describe('AppComponent', () => {
         MatListModule,
         MatInputModule
       ],
-      exports: [
-        MatButtonModule,
-        MatSidenavModule,
-        MatListModule,
-        MatInputModule
-      ],
       providers: [
         PlacesService,
         RegionsService,
