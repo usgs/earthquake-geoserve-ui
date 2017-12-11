@@ -1,19 +1,31 @@
-sudo: false
-
+sudo: required
+dist: trusty
 language: node_js
-
 node_js:
   - "8.9.1"
   - "node"
-  - "lts"
+  - "lts/*"
+
+addons:
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
+      - google-chrome-beta
+
+env:
+  - CHROME_BIN=/usr/bin/google-chrome
+  - DISPLAY=:99.0
 
 before_install:
-  - npm list -g
+  - sh -e /etc/init.d/xvfb start
 
 install:
+  - npm install -g angular-cli codecov
   - npm install
-  - npm install -g codecov
 
 script:
-  - npm run test --code-coverage --sourcemaps=false --environment=prod --progress
+  - ng build --prod
+  - npm run test --code-coverage --sourcemaps=false --environment prod --progress
   - codecov
