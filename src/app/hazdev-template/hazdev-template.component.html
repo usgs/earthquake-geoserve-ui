@@ -35,6 +35,6 @@
   </mat-sidenav>
 </mat-sidenav-container>
 
-<footer *ngIf="SITE_COMMONNAV" class="site-commonnav">
-    <a *ngFor="let item of SITE_COMMONNAV" mat-list-item href="{{ item.href }}">{{ item.display }}</a>
-</footer>
+<app-hazdev-template-footer
+    [SITE_COMMONNAV]="SITE_COMMONNAV"
+></app-hazdev-template-footer>
