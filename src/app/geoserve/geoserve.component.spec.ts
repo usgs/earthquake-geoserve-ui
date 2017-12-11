@@ -1,20 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MockComponent } from 'ng2-mock-component';
 
-
-import { AdminRegionComponent } from '../admin-region/admin-region.component';
-import { AppComponent } from '../app.component';
-import { AuthoritativeRegionComponent } from '../authoritative-region/authoritative-region.component';
-import { CoordinateInputComponent } from '../coordinate-input/coordinate-input.component';
 import { GeoserveComponent } from './geoserve.component';
-import { HazdevTemplateComponent } from '../hazdev-template/hazdev-template.component';
-import { LocationMapComponent } from '../location-map/location-map.component';
-import { LocationOutputComponent } from '../location-output/location-output.component';
-import { NearbyPlacesComponent } from '../nearby-places/nearby-places.component';
-import { NeicCatalogRegionComponent } from '../neic-catalog-region/neic-catalog-region.component';
-import { NeicResponseRegionComponent } from '../neic-response-region/neic-response-region.component';
-import { OffshoreRegionComponent } from '../offshore-region/offshore-region.component';
-import { TectonicSummaryRegionComponent } from '../tectonic-summary-region/tectonic-summary-region.component';
-import { TimezoneRegionComponent } from '../timezone-region/timezone-region.component';
+
 
 describe('GeoserveComponent', () => {
   let component: GeoserveComponent;
@@ -23,20 +11,19 @@ describe('GeoserveComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AdminRegionComponent,
-        AppComponent,
-        AuthoritativeRegionComponent,
-        CoordinateInputComponent,
         GeoserveComponent,
-        HazdevTemplateComponent,
-        LocationMapComponent,
-        LocationOutputComponent,
-        NearbyPlacesComponent,
-        NeicCatalogRegionComponent,
-        NeicResponseRegionComponent,
-        OffshoreRegionComponent,
-        TectonicSummaryRegionComponent,
-        TimezoneRegionComponent
+
+        MockComponent({selector: 'app-admin-region', inputs: ['region']}),
+        MockComponent({selector: 'app-authoritative-region'}),
+        MockComponent({selector: 'app-coordinate-input'}),
+        MockComponent({selector: 'app-location-map'}),
+        MockComponent({selector: 'app-location-output'}),
+        MockComponent({selector: 'app-nearby-places'}),
+        MockComponent({selector: 'app-neic-catalog-region'}),
+        MockComponent({selector: 'app-neic-response-region'}),
+        MockComponent({selector: 'app-offshore-region'}),
+        MockComponent({selector: 'app-tectonic-summary-region'}),
+        MockComponent({selector: 'app-timezone-region'})
       ]
     })
     .compileComponents();
