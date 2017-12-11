@@ -27,6 +27,8 @@ install:
   - npm install
 
 script:
-  - ng build --prod
-  - npm run test --code-coverage --sourcemaps=false --environment prod --progress
+  - ng test --single-run true --code-coverage
+  - ng e2e
+
+after_success:
   - codecov
