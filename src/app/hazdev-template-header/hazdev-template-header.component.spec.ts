@@ -8,7 +8,9 @@ describe('HazdevTemplateHeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HazdevTemplateHeaderComponent ]
+      declarations: [
+        HazdevTemplateHeaderComponent
+      ]
     })
     .compileComponents();
   }));

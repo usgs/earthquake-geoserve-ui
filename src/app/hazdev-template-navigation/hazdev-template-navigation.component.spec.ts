@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MockComponent } from 'ng2-mock-component';
 
 import { HazdevTemplateNavigationComponent } from './hazdev-template-navigation.component';
+
 
 describe('HazdevTemplateNavigationComponent', () => {
   let component: HazdevTemplateNavigationComponent;
@@ -8,7 +10,13 @@ describe('HazdevTemplateNavigationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HazdevTemplateNavigationComponent ]
+      declarations: [
+        HazdevTemplateNavigationComponent,
+
+        MockComponent({selector: 'mat-divider'}),
+        MockComponent({selector: 'mat-form-field'}),
+        MockComponent({selector: 'mat-nav-list'})
+       ]
     })
     .compileComponents();
   }));

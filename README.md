@@ -1,4 +1,9 @@
-# EarthquakeGeoserveUi
+# Earthquake Geoserve UI
+User interface from Geoserve web service data.
+
+[![Build Status](https://travis-ci.org/usgs/earthquake-geoserve-ui.svg?branch=master)](https://travis-ci.org/usgs/earthquake-geoserve-ui)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/bc4483e5ad814d5f857d493827e1bf63)](https://www.codacy.com/app/usgs/earthquake-geoserve-ui?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=usgs/earthquake-geoserve-ui&amp;utm_campaign=Badge_Grade)
+[![Coverage](https://api.codacy.com/project/badge/Coverage/bc4483e5ad814d5f857d493827e1bf63)](https://www.codacy.com/app/usgs/earthquake-geoserve-ui?utm_source=github.com&utm_medium=referral&utm_content=usgs/earthquake-geoserve-ui&utm_campaign=Badge_Coverage)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.5.
 
