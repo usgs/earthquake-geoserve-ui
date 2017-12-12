@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, OnDestroy Input } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, OnDestroy, Input } from '@angular/core';
 import {MediaMatcher} from '@angular/cdk/layout';
 
 @Component({
