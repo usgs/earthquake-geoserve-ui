@@ -12,5 +12,4 @@ export class GeoserveComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }
