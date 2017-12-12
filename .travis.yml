@@ -22,7 +22,8 @@ install:
   - npm install
 
 script:
-  - ng test --single-run true --code-coverage
+  - ng lint
+  - ng test --single-run --code-coverage
   - ng e2e
 
 after_success:
