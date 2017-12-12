@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, OnDestroy, Input } from '@angular/core';
 import {MediaMatcher} from '@angular/cdk/layout';
 
 @Component({
@@ -6,7 +6,7 @@ import {MediaMatcher} from '@angular/cdk/layout';
   templateUrl: './hazdev-template.component.html',
   styleUrls: ['./hazdev-template.component.css']
 })
-export class HazdevTemplateComponent implements OnInit {
+export class HazdevTemplateComponent implements OnInit, OnDestroy {
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
 

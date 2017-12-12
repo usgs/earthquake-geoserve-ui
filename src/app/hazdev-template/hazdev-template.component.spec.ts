@@ -15,7 +15,7 @@ describe('HazdevTemplateComponent', () => {
       matchMedia: () => {
         return {
           addListener: () => {}
-        }
+        };
       }
     };
 
@@ -23,7 +23,7 @@ describe('HazdevTemplateComponent', () => {
       declarations: [ HazdevTemplateComponent,
 
         MockComponent({selector: 'app-hazdev-template-header'}),
-        MockComponent({selector: 'app-hazdev-template-page', inputs: ['CONTACT', 'SOCIAL', 'TITLE',]}),
+        MockComponent({selector: 'app-hazdev-template-page', inputs: ['CONTACT', 'SOCIAL', 'TITLE']}),
         MockComponent({selector: 'app-hazdev-template-navigation'}),
 
         MockComponent({selector: 'mat-sidenav', inputs: ['mode', 'fixedInViewport', 'fixedTopGap', 'opened']}),
