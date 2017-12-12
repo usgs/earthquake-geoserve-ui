@@ -42,7 +42,7 @@ $ docker build --build-arg BASE_IMAGE=SOME_BASE_IMAGE -t IMAGE_TAG .
 For example:
 ```
 $ cd ~/earthquake-geoserve-ui
-$ docker build --build-arg BASE_IMAGE=nginx:latest -t local/earthquake-geoserve-ws:latest
+$ docker build --build-arg BASE_IMAGE=nginx:latest -t local/earthquake-geoserve-ui:latest .
 ```
 > Note: In this specific example, the specified `BASE_IMAGE` is the same as
 >       what would be used by default and could thus be ommitted. It is
