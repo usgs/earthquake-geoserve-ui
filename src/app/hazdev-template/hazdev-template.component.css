@@ -4,6 +4,10 @@
   margin: 10px 14px 0 0;
 }
 
+.mat-drawer-container {
+  background: #fff;
+}
+
 mat-sidenav {
   width: 228px; /* Don't use a percentage here */
 }
