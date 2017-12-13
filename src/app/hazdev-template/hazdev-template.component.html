@@ -23,8 +23,6 @@
   <mat-sidenav #sidenav
       class="site-footer"
       [mode]="mobileQuery.matches ? 'over' : 'side'"
-      [fixedInViewport]="true"
-      [fixedTopGap]="mobileQuery.matches ? 56  : 132.5"
       [opened]="!mobileQuery.matches"
   >
     <app-hazdev-template-navigation
