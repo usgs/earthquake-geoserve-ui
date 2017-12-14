@@ -1,10 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 
 import { MatButtonModule, MatSidenavModule, MatListModule, MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
 
 import { PlacesService } from './places.service';
 import { RegionsService } from './regions.service';
@@ -64,11 +64,11 @@ import { TimezoneRegionComponent } from './timezone-region/timezone-region.compo
     MatInputModule
   ],
   exports: [
+    HttpClientModule,
     MatButtonModule,
     MatSidenavModule,
     MatListModule,
-    MatInputModule,
-    HttpClientModule
+    MatInputModule
   ],
   providers: [
     PlacesService,

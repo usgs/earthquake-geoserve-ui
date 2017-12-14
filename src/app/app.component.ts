@@ -1,16 +1,11 @@
 import { Component } from '@angular/core';
 
-import { Region } from './region';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  // TODO, set other region variables
-  admin: Region[];
-
   TITLE = 'Geoserve';
 
   NAVIGATION = [
