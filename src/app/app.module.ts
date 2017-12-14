@@ -5,7 +5,6 @@ import { MediaMatcher } from '@angular/cdk/layout';
 
 import { MatButtonModule, MatSidenavModule, MatListModule, MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
 
 import { PlacesService } from './places.service';
 import { RegionsService } from './regions.service';
