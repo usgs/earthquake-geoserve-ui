@@ -2,6 +2,13 @@ import { async, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { MockComponent } from 'ng2-mock-component';
 
+import { MatButtonModule, MatSidenavModule, MatListModule, MatInputModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { PlacesService } from './places.service';
+import { RegionsService } from './regions.service';
+
+import { AdminRegionComponent } from './admin-region/admin-region.component';
 import { AppComponent } from './app.component';
 
 
@@ -10,12 +17,41 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
-
         MockComponent({selector: 'app-hazdev-template'}),
         MockComponent({selector: 'app-geoserve'})
       ],
       schemas: [
-        NO_ERRORS_SCHEMA
+        NO_ERRORS_SCHEMA,
+        AuthoritativeRegionComponent,
+        CoordinateInputComponent,
+        GeoserveComponent,
+        HazdevTemplateComponent,
+        HazdevTemplateHeaderComponent,
+        HazdevTemplateNavigationComponent,
+        HazdevTemplatePageComponent,
+        LocationMapComponent,
+        LocationOutputComponent,
+        NearbyPlaceComponent,
+        NearbyPlacesComponent,
+        NeicCatalogRegionComponent,
+        NeicResponseRegionComponent,
+        OffshoreRegionComponent,
+        TectonicSummaryRegionComponent,
+        TimezoneRegionComponent
+      ],
+      imports: [
+        BrowserAnimationsModule,
+        MatButtonModule,
+        MatSidenavModule,
+        MatListModule,
+        MatInputModule
+      ],
+      providers: [
+        PlacesService,
+        RegionsService,
+        MediaMatcher,
+        BrowserModule,
+        HttpClientModule
       ]
     }).compileComponents();
   }));
