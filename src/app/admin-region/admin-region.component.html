@@ -1,24 +1,24 @@
 <!-- Administrative region was returned, display the region -->
-<div *ngIf="region && region.length !== 0" className="output-section">
+<div *ngIf="regionsService.adminRegions | async" className="output-section">
   <h2>Administrative Region</h2>
   <dl className="admin-region">
     <dt>ISO</dt>
     <dd>
-      {{region[0].properties.iso}}
+      {{ (regionsService.adminRegions | async)?.properties.iso }}
     </dd>
     <dt>Region</dt>
     <dd>
-      {{region[0].properties.region}}
+      {{ (regionsService.adminRegions | async)?.properties.region }}
     </dd>
     <dt>Country</dt>
     <dd>
-      {{region[0].properties.country}}
+      {{ (regionsService.adminRegions | async)?.properties.country }}
     </dd>
   </dl>
 </div>
 
 <!-- No administrative region was returned -->
-<div *ngIf="region && region.length === 0">
+<div *ngIf="regionsService.admin && regionsService.admin.length === 0 | async">
   <p class="alert warning">
     There is no administrative region for this location
   </p>
