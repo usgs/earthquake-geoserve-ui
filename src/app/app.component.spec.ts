@@ -17,41 +17,12 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
+
         MockComponent({selector: 'app-hazdev-template'}),
         MockComponent({selector: 'app-geoserve'})
       ],
       schemas: [
-        NO_ERRORS_SCHEMA,
-        AuthoritativeRegionComponent,
-        CoordinateInputComponent,
-        GeoserveComponent,
-        HazdevTemplateComponent,
-        HazdevTemplateHeaderComponent,
-        HazdevTemplateNavigationComponent,
-        HazdevTemplatePageComponent,
-        LocationMapComponent,
-        LocationOutputComponent,
-        NearbyPlaceComponent,
-        NearbyPlacesComponent,
-        NeicCatalogRegionComponent,
-        NeicResponseRegionComponent,
-        OffshoreRegionComponent,
-        TectonicSummaryRegionComponent,
-        TimezoneRegionComponent
-      ],
-      imports: [
-        BrowserAnimationsModule,
-        MatButtonModule,
-        MatSidenavModule,
-        MatListModule,
-        MatInputModule
-      ],
-      providers: [
-        PlacesService,
-        RegionsService,
-        MediaMatcher,
-        BrowserModule,
-        HttpClientModule
+        NO_ERRORS_SCHEMA
       ]
     }).compileComponents();
   }));
