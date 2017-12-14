@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClient, HttpHandler } from '@angular/common/http';
 
 import { AdminRegionComponent } from './admin-region.component';
+import { RegionsService } from '../regions.service';
 
 describe('AdminRegionComponent', () => {
   let component: AdminRegionComponent;
@@ -8,7 +10,12 @@ describe('AdminRegionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AdminRegionComponent ]
+      declarations: [ AdminRegionComponent ],
+      providers: [
+        HttpClient,
+        HttpHandler,
+        RegionsService
+      ]
     })
     .compileComponents();
   }));
