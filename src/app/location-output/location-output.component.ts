@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+
+import { PlacesService } from '../places.service';
 
 @Component({
   selector: 'app-location-output',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LocationOutputComponent implements OnInit {
 
-  constructor() { }
+  constructor (private placesService: PlacesService) {}
 
   ngOnInit() {
   }
