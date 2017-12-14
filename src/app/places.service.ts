@@ -7,11 +7,16 @@ import { of } from 'rxjs/observable/of';
 import { catchError, tap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
+import { Coordinates } from './coordinates';
+
 
 @Injectable()
 export class PlacesService {
 
   public readonly API_URL = 'https://dev-earthquake.cr.usgs.gov/ws/geoserve/places.json';
+
+  private _coordinates: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public readonly coordinates: Observable<any> = this._coordinates.asObservable();
 
   private _places: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public readonly places: Observable<any> = this._places.asObservable();
@@ -25,6 +30,12 @@ export class PlacesService {
 
   getPlaces (latitude: string, longitude: string): void {
     const url = this.buildUrl(latitude, longitude);
+
+    // set coordinates
+    this._coordinates.next({
+      latitude: latitude,
+      longitude: longitude
+    });
 
     this.http.get<any>(url).pipe(
       catchError(this.handleError('getPlaces', {event: {features: []}}))
