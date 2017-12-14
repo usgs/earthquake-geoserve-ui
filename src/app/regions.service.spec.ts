@@ -49,8 +49,7 @@ describe('RegionsService', () => {
       const regionsJson = {
         admin: {
           features: [
-            'feature 1',
-            'feature 2'
+            'feature'
           ]
         }
       };
@@ -58,13 +57,13 @@ describe('RegionsService', () => {
       regionsService.getRegions('latitude', 'longitude');
 
       const request = httpClient.expectOne(regionsService.API_URL +
-        '?latitude=latitude&longitude=longitude&type=event');
+        '?latitude=latitude&longitude=longitude');
 
       expect(request.request.method).toBe('GET');
       request.flush(regionsJson);
 
       regionsService.adminRegions.subscribe((result) => {
-        expect(result).toEqual(regionsJson.admin.features);
+        expect(result).toEqual(regionsJson.admin.features[0]);
       });
     });
 
@@ -72,12 +71,12 @@ describe('RegionsService', () => {
       regionsService.getRegions('latitude', 'longitude');
 
       const request = httpClient.expectOne(regionsService.API_URL +
-        '?latitude=latitude&longitude=longitude&type=event');
+        '?latitude=latitude&longitude=longitude');
 
       request.error(null);
 
       regionsService.adminRegions.subscribe((result) => {
-        expect(result.length).toBe(0);
+        expect(result).toBe(null);
       });
     });
   });

@@ -31,16 +31,12 @@ export class RegionsService {
     const url = this.buildUrl(latitude, longitude);
 
     this.http.get<any>(url).pipe(
-      catchError(this.handleError('getRegions', {event: {features: []}}))
+      catchError(this.handleError('getRegions', {}))
     ).subscribe((data) => {
-      console.log(data);
       this._regions.next(data);
-
       if (data.admin) {
-        console.log('sending: ', data.admin.features[0]);
         this._adminRegions.next(data.admin.features[0]);
       } else {
-        console.log('sending: null');
         this._adminRegions.next(null);
       }
     });
