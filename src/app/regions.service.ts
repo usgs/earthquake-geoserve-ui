@@ -27,7 +27,7 @@ export class RegionsService {
     this._regions.next(null);
   }
 
-  getRegions (latitude:string, longitude:string): void {
+  getRegions (latitude: string, longitude: string): void {
     const url = this.buildUrl(latitude, longitude);
 
     this.http.get<any>(url).pipe(
