@@ -6,9 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  // TODO, set other region variables
-  admin: Region[];
-
   TITLE = 'Geoserve';
 
   NAVIGATION = [
