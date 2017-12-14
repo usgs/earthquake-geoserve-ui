@@ -28,8 +28,6 @@ import { NeicResponseRegionComponent } from './neic-response-region/neic-respons
 import { OffshoreRegionComponent } from './offshore-region/offshore-region.component';
 import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tectonic-summary-region.component';
 import { TimezoneRegionComponent } from './timezone-region/timezone-region.component';
-;
-
 
 
 @NgModule({
