@@ -7,12 +7,11 @@
     <ng-content></ng-content>
   </div>
 
-  <footer *ngIf="CONTACT || SOCIAL">
-    <p *ngIf="CONTACT">
+  <footer *ngIf="CONTACT || SOCIAL" class="page-footer">
+    <div *ngIf="CONTACT">
       <a href="{{ CONTACT }}">Questions or comments?</a>
-    </p>
-
-    <nav *ngIf="SOCIAL" class="hazdev-page-social" aria-label="Share this page">
+    </div>
+    <nav *ngIf="SOCIAL" class="page-social" aria-label="Share this page">
       <a *ngFor="let social of SOCIAL"
         href="{{ getSocialHref(social.href) }}"
         title="Share using {{ social.display }}"

@@ -15,6 +15,7 @@ import { AuthoritativeRegionComponent } from './authoritative-region/authoritati
 import { CoordinateInputComponent } from './coordinate-input/coordinate-input.component';
 import { GeoserveComponent } from './geoserve/geoserve.component';
 import { HazdevTemplateComponent } from './hazdev-template/hazdev-template.component';
+import { HazdevTemplateFooterComponent } from './hazdev-template-footer/hazdev-template-footer.component';
 import { HazdevTemplateHeaderComponent } from './hazdev-template-header/hazdev-template-header.component';
 import { HazdevTemplateNavigationComponent } from './hazdev-template-navigation/hazdev-template-navigation.component';
 import { HazdevTemplatePageComponent } from './hazdev-template-page/hazdev-template-page.component';
@@ -27,6 +28,7 @@ import { NeicResponseRegionComponent } from './neic-response-region/neic-respons
 import { OffshoreRegionComponent } from './offshore-region/offshore-region.component';
 import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tectonic-summary-region.component';
 import { TimezoneRegionComponent } from './timezone-region/timezone-region.component';
+;
 
 
 
@@ -38,6 +40,7 @@ import { TimezoneRegionComponent } from './timezone-region/timezone-region.compo
     CoordinateInputComponent,
     GeoserveComponent,
     HazdevTemplateComponent,
+    HazdevTemplateFooterComponent,
     HazdevTemplateHeaderComponent,
     HazdevTemplateNavigationComponent,
     HazdevTemplatePageComponent,
