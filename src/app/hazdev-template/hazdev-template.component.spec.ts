@@ -20,7 +20,8 @@ describe('HazdevTemplateComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      declarations: [ HazdevTemplateComponent,
+      declarations: [
+        HazdevTemplateComponent,
 
         MockComponent({selector: 'app-hazdev-template-header'}),
         MockComponent({selector: 'app-hazdev-template-page', inputs: ['CONTACT', 'SOCIAL', 'TITLE']}),
