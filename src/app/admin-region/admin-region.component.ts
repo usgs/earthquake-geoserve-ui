@@ -9,18 +9,10 @@ import { RegionsService } from '../regions.service';
   styleUrls: ['./admin-region.component.css']
 })
 export class AdminRegionComponent implements OnInit {
-  private region: Region;
 
-  constructor(
-    private regionsService: RegionsService
-  ) { }
+  constructor (private regionsService: RegionsService) { }
 
   ngOnInit() {
-    this.regionsService.currentRegions.subscribe((result) => {
-      if (result.admin) {
-        this.region = result.admin.features;
-      }
-    });
   }
 
 }
