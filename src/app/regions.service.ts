@@ -44,8 +44,10 @@ export class RegionsService {
       catchError(this.handleError('getRegions', {}))
     ).subscribe((data) => {
       if (data.admin) {
+        this.setRegionFlag(true);
         this._adminRegions.next(data.admin.features[0]);
       } else {
+        this.setRegionFlag(false);
         this._adminRegions.next(null);
       }
 
