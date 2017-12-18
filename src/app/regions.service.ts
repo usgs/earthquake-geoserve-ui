@@ -12,6 +12,7 @@ import { Coordinates } from './coordinates';
 export class RegionsService {
 
   public API_URL = 'https://earthquake.usgs.gov/ws/geoserve/regions.json';
+  public adminRegionFlag = false;
 
   private _adminRegions: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private _coordinates: BehaviorSubject<any> = new BehaviorSubject<any>(null);
@@ -55,6 +56,7 @@ export class RegionsService {
       }
     });
   }
+
 
   private handleError<T> (action: string, result?: T) {
     return(error: any): Observable<T> => {
