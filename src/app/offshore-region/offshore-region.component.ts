@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { RegionsService } from '../regions.service';
+
 @Component({
   selector: 'app-offshore-region',
   templateUrl: './offshore-region.component.html',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OffshoreRegionComponent implements OnInit {
 
-  constructor() { }
+  constructor (private regionsService: RegionsService) { }
 
   ngOnInit() {
   }
