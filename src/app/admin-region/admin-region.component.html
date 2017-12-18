@@ -1,17 +1,18 @@
 <h2>Administrative Region</h2>
-<div *ngIf="regionsService.adminRegions | async; else noAdminRegion" class="output-section">
+<div *ngIf="regionsService.adminRegions | async; else noAdminRegion;
+    let adminRegions" class="output-section">
   <dl class="admin-region">
     <dt>ISO</dt>
     <dd>
-      {{ (regionsService.adminRegions | async)?.properties.iso }}
+      {{ adminRegions?.properties.iso }}
     </dd>
     <dt>Region</dt>
     <dd>
-      {{ (regionsService.adminRegions | async)?.properties.region }}
+      {{ adminRegions?.properties.region }}
     </dd>
     <dt>Country</dt>
     <dd>
-      {{ (regionsService.adminRegions | async)?.properties.country }}
+      {{ adminRegions?.properties.country }}
     </dd>
   </dl>
 </div>
