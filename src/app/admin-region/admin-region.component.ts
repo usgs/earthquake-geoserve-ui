@@ -10,9 +10,9 @@ import { RegionsService } from '../regions.service';
 })
 export class AdminRegionComponent implements OnInit {
 
+
   constructor (private regionsService: RegionsService) { }
 
   ngOnInit() {
   }
-
 }
