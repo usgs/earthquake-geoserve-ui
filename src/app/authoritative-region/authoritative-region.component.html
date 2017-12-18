@@ -1,0 +1,17 @@
+<h2>Authoritative Region</h2>
+<div *ngIf="regionsService.authoritative | async; else noAuthoritative; let authoritative" class="authoritative-output">
+  <dl>
+    <dt>Name</dt>
+    <dd>{{ authoritative.properties.name }}</dd>
+    <dt>Network</dt>
+    <dd>{{ authoritative.properties.network }}</dd>
+    <dt>Type</dt>
+    <dd>{{ authoritative.properties.type }}</dd>
+  </dl>
+</div>
+
+<ng-template #noAuthoritative>
+  <p *ngIf="(regionsService.coordinates | async)">
+    No authoritative region exists for the selected location.
+  </p>
+</ng-template>

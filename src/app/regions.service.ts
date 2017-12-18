@@ -15,6 +15,7 @@ export class RegionsService {
   public API_URL = 'https://earthquake.usgs.gov/ws/geoserve/regions.json';
 
   private _adminRegions: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private _authoritative: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private _coordinates: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private _neicCatalog: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private _neicResponse: BehaviorSubject<any> = new BehaviorSubject<any>(null);
@@ -24,6 +25,8 @@ export class RegionsService {
 
   public readonly adminRegions: Observable<any> =
       this._adminRegions.asObservable();
+  public readonly authoritative: Observable<any> =
+      this._authoritative.asObservable();
   public readonly coordinates: Observable<any> =
       this._coordinates.asObservable();
   public readonly neicCatalog: Observable<any> =
@@ -41,6 +44,7 @@ export class RegionsService {
 
   empty (): void {
     this._adminRegions.next(null);
+    this._authoritative.next(null);
     this._coordinates.next(null);
     this._neicCatalog.next(null);
     this._neicResponse.next(null);
@@ -80,11 +84,15 @@ export class RegionsService {
       } else {
         this._tectonic.next(null);
       }
-
       if (data.offshore) {
         this._offshoreRegions.next(data.offshore.features[0]);
       } else {
         this._offshoreRegions.next(null);
+      }
+      if (data.authoritative) {
+        this._authoritative.next(data.authoritative.features[0]);
+      } else {
+        this._authoritative.next(null);
       }
     });
   }
