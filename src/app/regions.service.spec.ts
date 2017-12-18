@@ -80,12 +80,4 @@ describe('RegionsService', () => {
       });
     });
   });
-
-  describe('setRegionFlag', () => {
-    it('sets flag from false to true', () => {
-      expect(regionsService.adminRegionFlag).toEqual(false);
-      regionsService.setRegionFlag();
-      expect(regionsService.adminRegionFlag).toEqual(true);
-    });
-  });
 });
