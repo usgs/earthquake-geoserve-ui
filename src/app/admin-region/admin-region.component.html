@@ -1,6 +1,5 @@
-<!-- Administrative region was returned, display the region -->
 <h2>Administrative Region</h2>
-<div *ngIf="regionsService.adminRegions | async" class="output-section">
+<div *ngIf="regionsService.adminRegions | async; else noRegion" class="output-section">
   <dl class="admin-region">
     <dt>ISO</dt>
     <dd>
@@ -18,8 +17,12 @@
 </div>
 
 <!-- No administrative region was returned -->
-<div *ngIf="!regionsService.adminRegions | async">
-  <p class="alert warning">
-    There is no administrative region for this location
-  </p>
-</div>
+<ng-template #noRegion>
+  <div *ngIf="regionsService.adminRegionFlag === true">
+    <p class="alert warning">
+      There is no administrative region for this location
+    </p>
+  </div>
+<ng-template>
+
+
