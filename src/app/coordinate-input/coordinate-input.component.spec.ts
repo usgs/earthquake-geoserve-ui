@@ -12,7 +12,6 @@ describe('CoordinateInputComponent', () => {
   let getRegionSpy;
   let placesService;
   let regionsService;
-  let setRegionFlagSpy;
 
   beforeEach(async(() => {
     const placesServiceStub = {
@@ -24,9 +23,6 @@ describe('CoordinateInputComponent', () => {
     const regionsServiceStub = {
       getRegions: (latitude: string, longitude: string) => {
         console.log('stubbified!');
-      },
-      setRegionFlag: () => {
-        console.log('stub');
       }
     };
 
@@ -52,7 +48,6 @@ describe('CoordinateInputComponent', () => {
     getPlacesSpy = spyOn(placesService, 'getPlaces');
     regionsService = fixture.debugElement.injector.get(RegionsService);
     getRegionSpy = spyOn(regionsService, 'getRegions');
-    setRegionFlagSpy = spyOn(regionsService, 'setRegionFlag');
 
     fixture.detectChanges();
   });
@@ -68,7 +63,6 @@ describe('CoordinateInputComponent', () => {
       expect(placesService.getPlaces).toHaveBeenCalledWith('latitude', 'longitude');
       expect(regionsService.getRegions).toHaveBeenCalled();
       expect(regionsService.getRegions).toHaveBeenCalledWith('latitude', 'longitude');
-      expect(regionsService.setRegionFlag).toHaveBeenCalled();
     });
   });
 });
