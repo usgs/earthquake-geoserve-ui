@@ -1,10 +1,10 @@
 <!-- Offshore region was returned, display the region -->
 <h2>Offshore Region</h2>
-<div *ngIf="regionsService.offshoreRegions | async; else noOffshoreRegion"
-    class="output-section">
+<div *ngIf="regionsService.offshoreRegions | async; else noOffshoreRegion;
+    let offshoreRegions" class="output-section">
   <dl>Name</dl>
   <dd>
-    {{ (regionsService.offshoreRegions | async)?.properties.name }}
+    {{ offshoreRegions?.properties.name }}
   </dd>
 </div>
 
