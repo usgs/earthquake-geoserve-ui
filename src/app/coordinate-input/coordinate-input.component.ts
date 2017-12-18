@@ -21,6 +21,5 @@ export class CoordinateInputComponent implements OnInit {
   handleClick (latitude: string, longitude: string) {
     this.placesService.getPlaces(latitude, longitude);
     this.regionsService.getRegions(latitude, longitude);
-    this.regionsService.setRegionFlag();
   }
 }
