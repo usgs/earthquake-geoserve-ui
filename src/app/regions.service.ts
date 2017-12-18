@@ -12,7 +12,6 @@ import { Coordinates } from './coordinates';
 export class RegionsService {
 
   public API_URL = 'https://earthquake.usgs.gov/ws/geoserve/regions.json';
-  public adminRegionFlag = false;
 
   private _adminRegions: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private _coordinates: BehaviorSubject<any> = new BehaviorSubject<any>(null);
@@ -44,10 +43,8 @@ export class RegionsService {
       catchError(this.handleError('getRegions', {}))
     ).subscribe((data) => {
       if (data.admin) {
-        this.setRegionFlag(true);
         this._adminRegions.next(data.admin.features[0]);
       } else {
-        this.setRegionFlag(false);
         this._adminRegions.next(null);
       }
 
