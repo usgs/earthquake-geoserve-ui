@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { RegionsService } from '../regions.service';
+
 @Component({
   selector: 'app-tectonic-summary-region',
   templateUrl: './tectonic-summary-region.component.html',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TectonicSummaryRegionComponent implements OnInit {
 
-  constructor() { }
+  constructor(private regionsService: RegionsService) { }
 
   ngOnInit() {
   }

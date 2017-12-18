@@ -6,42 +6,55 @@ import { of } from 'rxjs/observable/of';
 import { catchError, tap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
+import { Coordinates } from './coordinates';
 
 @Injectable()
 export class RegionsService {
 
   public API_URL = 'https://earthquake.usgs.gov/ws/geoserve/regions.json';
 
-  private _regions: BehaviorSubject<any> = new BehaviorSubject<any>({});
   private _adminRegions: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private _coordinates: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private _tectonic: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   public readonly adminRegions: Observable<any> =
       this._adminRegions.asObservable();
+  public readonly coordinates: Observable<any> = this._coordinates.asObservable();
+  public readonly tectonic: Observable<any> = this._tectonic.asObservable();
 
-  public readonly currentRegions: Observable<any> =
-      this._regions.asObservable();
 
   constructor (private http: HttpClient) {}
 
   empty (): void {
-    this._regions.next(null);
+    this._adminRegions.next(null);
+    this._tectonic.next(null);
   }
 
   getRegions (latitude: string, longitude: string): void {
     const url = this.buildUrl(latitude, longitude);
 
+    // set coordinates
+    this._coordinates.next({
+      latitude: latitude,
+      longitude: longitude
+    });
+
     this.http.get<any>(url).pipe(
       catchError(this.handleError('getRegions', {}))
     ).subscribe((data) => {
-      this._regions.next(data);
       if (data.admin) {
         this._adminRegions.next(data.admin.features[0]);
       } else {
         this._adminRegions.next(null);
       }
+
+      if (data.tectonic) {
+        this._tectonic.next(data.tectonic.features[0]);
+      } else {
+        this._tectonic.next(null);
+      }
     });
   }
-
 
   private handleError<T> (action: string, result?: T) {
     return(error: any): Observable<T> => {
@@ -55,4 +68,6 @@ export class RegionsService {
       `latitude=${latitude}` +
       `&longitude=${longitude}`;
   }
+
+
 }

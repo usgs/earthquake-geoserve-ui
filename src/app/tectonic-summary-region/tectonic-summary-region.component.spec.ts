@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClient, HttpHandler } from '@angular/common/http';
 
 import { TectonicSummaryRegionComponent } from './tectonic-summary-region.component';
+import { RegionsService } from '../regions.service';
 
 describe('TectonicSummaryRegionComponent', () => {
   let component: TectonicSummaryRegionComponent;
@@ -8,7 +10,12 @@ describe('TectonicSummaryRegionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TectonicSummaryRegionComponent ]
+      declarations: [ TectonicSummaryRegionComponent ],
+      providers: [
+        HttpClient,
+        HttpHandler,
+        RegionsService
+      ]
     })
     .compileComponents();
   }));
