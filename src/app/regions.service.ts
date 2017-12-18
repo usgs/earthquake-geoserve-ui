@@ -8,6 +8,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { Coordinates } from './coordinates';
 
+
 @Injectable()
 export class RegionsService {
 
@@ -17,12 +18,19 @@ export class RegionsService {
   private _coordinates: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private _neicCatalog: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private _tectonic: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private _offshoreRegions: BehaviorSubject<any> =
+      new BehaviorSubject<any>(null);
 
   public readonly adminRegions: Observable<any> =
       this._adminRegions.asObservable();
-  public readonly coordinates: Observable<any> = this._coordinates.asObservable();
-  public readonly neicCatalog: Observable<any> = this._neicCatalog.asObservable();
+  public readonly coordinates: Observable<any> =
+      this._coordinates.asObservable();
+  public readonly neicCatalog: Observable<any> =
+      this._neicCatalog.asObservable();
+  public readonly offshoreRegions: Observable<any> =
+      this._offshoreRegions.asObservable();
   public readonly tectonic: Observable<any> = this._tectonic.asObservable();
+
 
 
   constructor (private http: HttpClient) {}
@@ -62,6 +70,12 @@ export class RegionsService {
       } else {
         this._tectonic.next(null);
       }
+
+      if (data.offshore) {
+        this._offshoreRegions.next(data.offshore.features[0]);
+      } else {
+        this._offshoreRegions.next(null);
+      }
     });
   }
 
@@ -78,6 +92,4 @@ export class RegionsService {
       `latitude=${latitude}` +
       `&longitude=${longitude}`;
   }
-
-
 }
