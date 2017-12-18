@@ -1,3 +1,4 @@
-<p>
-  tectonic-summary-region works!
-</p>
+<h2>Tectonic Summary</h2>
+<div *ngIf="regionsService.tectonic | async" class="tectonic-output">
+  <div [innerHTML]="(regionsService.tectonic | async)?.properties.summary"></div>
+</div>
