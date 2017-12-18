@@ -2,11 +2,11 @@
 <div *ngIf="regionsService.authoritative | async; else noAuthoritative; let authoritative" class="authoritative-output">
   <dl>
     <dt>Name</dt>
-    <dd>{{ authoritative.properties.name }}</dd>
+    <dd>{{ authoritative?.properties.name }}</dd>
     <dt>Network</dt>
-    <dd>{{ authoritative.properties.network }}</dd>
+    <dd>{{ authoritative?.properties.network }}</dd>
     <dt>Type</dt>
-    <dd>{{ authoritative.properties.type }}</dd>
+    <dd>{{ authoritative?.properties.type }}</dd>
   </dl>
 </div>
 
