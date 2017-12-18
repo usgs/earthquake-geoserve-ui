@@ -6,6 +6,7 @@ import { of } from 'rxjs/observable/of';
 import { catchError, tap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
+import { Coordinates } from './coordinates';
 
 @Injectable()
 export class RegionsService {
@@ -13,12 +14,13 @@ export class RegionsService {
   public API_URL = 'https://earthquake.usgs.gov/ws/geoserve/regions.json';
 
   private _adminRegions: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private _coordinates: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private _tectonic: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   public readonly adminRegions: Observable<any> =
       this._adminRegions.asObservable();
+  public readonly coordinates: Observable<any> = this._coordinates.asObservable();
   public readonly tectonic: Observable<any> = this._tectonic.asObservable();
-
 
 
   constructor (private http: HttpClient) {}
@@ -30,6 +32,12 @@ export class RegionsService {
 
   getRegions (latitude: string, longitude: string): void {
     const url = this.buildUrl(latitude, longitude);
+
+    // set coordinates
+    this._coordinates.next({
+      latitude: latitude,
+      longitude: longitude
+    });
 
     this.http.get<any>(url).pipe(
       catchError(this.handleError('getRegions', {}))
@@ -48,7 +56,6 @@ export class RegionsService {
     });
   }
 
-
   private handleError<T> (action: string, result?: T) {
     return(error: any): Observable<T> => {
       console.error(error);
@@ -61,4 +68,6 @@ export class RegionsService {
       `latitude=${latitude}` +
       `&longitude=${longitude}`;
   }
+
+
 }

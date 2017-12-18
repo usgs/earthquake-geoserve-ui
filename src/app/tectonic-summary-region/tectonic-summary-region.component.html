@@ -1,4 +1,10 @@
 <h2>Tectonic Summary</h2>
-<div *ngIf="regionsService.tectonic | async" class="tectonic-output">
+<div *ngIf="regionsService.tectonic | async; else noTectonic" class="tectonic-output">
   <div [innerHTML]="(regionsService.tectonic | async)?.properties.summary"></div>
 </div>
+
+<ng-template #noTectonic>
+  <p *ngIf="(regionsService.coordinates | async)">
+    No tectonic summary exists for the selected location.
+  </p>
+</ng-template>
