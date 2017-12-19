@@ -2,7 +2,11 @@
 
 node {
   stage('Initialize') {
-
+    sh '''
+      env
+      pwd
+      ls -la
+    '''
   }
 
   stage('Unit Test') {
