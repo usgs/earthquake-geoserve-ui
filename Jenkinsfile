@@ -28,17 +28,6 @@ node {
       ]
     ])
 
-    // docker
-    //   .image('usgs/hazdev-base-images:8-node')
-    //   .withRun("-v .:/hazdev-build")
-    //   .inside() {
-    //     sh '''
-    //       cd /hazdev-build
-    //       npm install
-    //     '''
-    //   }
-
-
 
     sh """
       docker run --rm --name npm-installer \
@@ -53,26 +42,19 @@ node {
     '''
   }
 
-  stage('Unit Test') {
-
-  }
-
-  stage('End to End Tests') {
-
-  }
-
-  stage('Coverage') {
-
-  }
-
-  stage('Build') {
-
+  stage('Tests') {
+    sh """
+      docker run --rm --name ${BUILD_TAG}-Tests \
+      -v ${WORKSPACE}:/app \
+      ${DOCKER_TEST_IMAGE} \
+      /bin/bash --login -c \
+      "npm run alltests"
+    """
   }
 
   stage('Create Image') {
 
   }
-
 
   stage('Image Vulnerabilities') {
 
