@@ -47,7 +47,7 @@ node {
             npm config set package-lock false
             # TODO :: Uncomment the next line
             # npm update --no-save
-            npm run build -- --prod
+            npm run build -- --prod --progress false
           '''
         }
       }
@@ -56,10 +56,12 @@ node {
     stage('Image') {
       // Build candidate image for subsequent penetration testing
       // This depends on "dist" folder from Install stage
-      docker.build(
-        image: DOCKER_CANDIDATE_IMAGE,
-        args: "--build-arg BASE_IMAGE=${DOCKER_DEPLOY_BASE_IMAGE}"
-      )
+      sh """
+        docker build \
+          --build-arg BASE_IMAGE=${DOCKER_DEPLOY_BASE_IMAGE} \
+          -t ${DOCKER_CANDIDATE_IMAGE} \
+          .
+      """
     }
 
     stage('Dependencies') {
