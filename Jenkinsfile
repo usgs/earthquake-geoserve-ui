@@ -28,15 +28,19 @@ node {
       ]
     ])
 
-    docker
-      .image('usgs/hazdev-base-images:8-node')
-      .withRun("-v .:/hazdev-build")
-      .inside() {
-        sh '''
-          cd /hazdev-build
-          npm install
-        '''
-      }
+    // docker
+    //   .image('usgs/hazdev-base-images:8-node')
+    //   .withRun("-v .:/hazdev-build")
+    //   .inside() {
+    //     sh '''
+    //       cd /hazdev-build
+    //       npm install
+    //     '''
+    //   }
+
+    sh """
+      docker run --name npm-installer --rm -v ${WORKSPACE}:/hazdev-build ${DOCKER_NODE_IMAGE} /bin/bash --login -c "cd /hazdev-build && npm install"
+    """
 
     sh '''
       ls -la
