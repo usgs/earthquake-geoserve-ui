@@ -49,11 +49,12 @@ node {
         image: DOCKER_NODE_IMAGE,
         args: '--user hazdev-user'
       ) {
+        withEnv([
+          'npm_config_cache=npm-cache',
+          'HOME=.'
+        ]) {
         sh '''
-          pwd
-          ls -la
-          env
-          npm install
+          /bin/bash --login -c "npm install"
         '''
       }
 
