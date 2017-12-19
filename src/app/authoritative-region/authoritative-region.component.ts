@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { RegionsService } from '../regions.service';
+
 @Component({
   selector: 'app-authoritative-region',
   templateUrl: './authoritative-region.component.html',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AuthoritativeRegionComponent implements OnInit {
 
-  constructor() { }
+  constructor(private regionsService: RegionsService) { }
 
   ngOnInit() {
   }
