@@ -51,7 +51,7 @@ node {
       "ng lint && ng test --single-run --code-coverage && ng e2e"
     """
 
-    publicHTML(target: [
+    publishHTML(target: [
       allowMissing: true,
       alwaysLinkToLastBuild: false,
       keepAll: true,
