@@ -12,7 +12,7 @@ node {
   // Used to run linting, tests, coverage, e2e within this container
   def DOCKER_TEST_CONTAINER = "${APP_NAME}-${BUILD_ID}-TEST"
   // Used to run penetration tests against before tagging for release
-  def DOCKER_CANDIATE_IMAGE = "local/${APP_NAME}:${BUILD_ID}"
+  def DOCKER_CANDIDATE_IMAGE = "local/${APP_NAME}:${BUILD_ID}"
 
   try {
     stage('Initialize') {
@@ -83,11 +83,11 @@ node {
           -v ${WORKSPACE}:/app \
           ${DOCKER_NODE_IMAGE} \
           /bin/bash --login -c \
-          "cd /app && npm run build -- --prod"
+          "cd /app && npm run build -- --prod --progress false"
 
         docker build \
           --build-arg BASE_IMAGE=${DOCKER_DEPLOY_BASE_IMAGE} \
-          -t ${DOCKER_CANDIATE_IMAGE} \
+          -t ${DOCKER_CANDIDATE_IMAGE} \
           .
       """
 
