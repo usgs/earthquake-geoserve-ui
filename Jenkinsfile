@@ -85,58 +85,62 @@ node {
           --build-arg BASE_IMAGE=${DOCKER_DEPLOY_BASE_IMAGE} \
           -t ${DOCKER_CANDIDATE_IMAGE} \
           .
+
+        if [ ! -d "${OWASP_REPORT_DIR}" ]; then
+          mkdir -p ${OWASP_REPORT_DIR}
+          chmod 777 ${OWASP_REPORT_DIR}
+        fi
+
+        ZAP_API_PORT=8090
+        docker run --rm --name ${DOCKER_PENTEST_CONTAINER} \
+          -d ${DOCKER_CANDIDATE_IMAGE}
+
+        docker run --rm -d -u zap \
+          --name=${DOCKER_OWASP_CONTAINER} \
+          --link=${DOCKER_PENTEST_CONTAINER} \
+          -v ${OWASP_REPORT_DIR}:/zap/reports:rw \
+          -i ${DOCKER_OWASP_IMAGE} \
+          zap.sh \
+          -daemon \
+          -port 8090 \
+          -config api.disablekey=true
       """
 
+
+      // Wait for OWASP container to be ready, but not for too long
       timeout(
-        time: 120,
+        time: 20,
         unit: 'SECONDS'
       ) {
         sh """
-          if [ ! -d "${OWASP_REPORT_DIR}" ]; then
-            mkdir -p ${OWASP_REPORT_DIR}
-            chmod 777 ${OWASP_REPORT_DIR}
-          fi
-
-          ZAP_API_PORT=8090
-          docker run --rm --name ${DOCKER_PENTEST_CONTAINER} \
-            -d ${DOCKER_CANDIDATE_IMAGE}
-
-          docker run --rm -d -u zap \
-            --name=${DOCKER_OWASP_CONTAINER} \
-            --link=${DOCKER_PENTEST_CONTAINER} \
-            -v ${OWASP_REPORT_DIR}:/zap/reports:rw \
-            -i ${DOCKER_OWASP_IMAGE} \
-            zap.sh \
-            -daemon \
-            -port 8090 \
-            -config api.disablekey=true
-
           status='FAILED'
           while [ \$status != 'SUCCESS' ]; do
             sleep 1;
             status=`(docker exec -i ${DOCKER_OWASP_CONTAINER} curl -I localhost:\${ZAP_API_PORT} > /dev/null 2>&1 && echo 'SUCCESS') || echo 'FAILED'`
           done
-
-          PENTEST_IP=`docker inspect \
-            -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' \
-            ${DOCKER_PENTEST_CONTAINER} \
-          `
-
-          docker exec ${DOCKER_OWASP_CONTAINER} \
-            zap-cli -v -p \$ZAP_API_PORT spider \
-            http://\$PENTEST_IP/
-
-          docker exec ${DOCKER_OWASP_CONTAINER} \
-            zap-cli -v -p \$ZAP_API_PORT active-scan \
-            http://\$PENTEST_IP/
-
-          docker exec ${DOCKER_OWASP_CONTAINER} \
-            zap-cli -v -p \$ZAP_API_PORT report \
-            -o /zap/reports/owasp-zap-report.html -f html
-
-          docker stop ${DOCKER_OWASP_CONTAINER} ${DOCKER_PENTEST_CONTAINER}
         """
       }
+
+      sh """
+        PENTEST_IP=`docker inspect \
+          -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' \
+          ${DOCKER_PENTEST_CONTAINER} \
+        `
+
+        docker exec ${DOCKER_OWASP_CONTAINER} \
+          zap-cli -v -p \$ZAP_API_PORT spider \
+          http://\$PENTEST_IP/
+
+        docker exec ${DOCKER_OWASP_CONTAINER} \
+          zap-cli -v -p \$ZAP_API_PORT active-scan \
+          http://\$PENTEST_IP/
+
+        docker exec ${DOCKER_OWASP_CONTAINER} \
+          zap-cli -v -p \$ZAP_API_PORT report \
+          -o /zap/reports/owasp-zap-report.html -f html
+
+        docker stop ${DOCKER_OWASP_CONTAINER} ${DOCKER_PENTEST_CONTAINER}
+      """
 
       publishHTML (target: [
         allowMissing: true,
