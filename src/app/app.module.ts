@@ -2,9 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
-
 import { MatButtonModule, MatSidenavModule, MatListModule, MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 import { PlacesService } from './places.service';
 import { RegionsService } from './regions.service';
@@ -61,6 +62,7 @@ import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tecton
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    LeafletModule.forRoot(),
     MatButtonModule,
     MatSidenavModule,
     MatListModule,
