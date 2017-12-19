@@ -1,20 +1,20 @@
 #!/usr/bin/env groovy
 
 node {
+  // Set by "checkout" step below
+  def SCM_VARS = [:];
+  def FAILURE = null;
+
+  // Used for consistency between other variables
+  def APP_NAME = 'earthuake-geoserve-ui'
+  // Used to install dependencies and build distributables
+  def DOCKER_BUILD_CONTAINER = "${APP_NAME}-${BUILD_ID}-BUILD"
+  // Used to run linting, tests, coverage, e2e within this container
+  def DOCKER_TEST_CONTAINER = "${APP_NAME}-${BUILD_ID}-TEST"
+  // Used to run penetration tests against before tagging for release
+  def DOCKER_CANDIATE_IMAGE = "local/${APP_NAME}:${BUILD_ID}"
+
   try {
-    // Set by "checkout" step below
-    def SCM_VARS = [:];
-    def FAILURE = null;
-
-    // Used for consistency between other variables
-    def APP_NAME = 'earthuake-geoserve-ui'
-    // Used to install dependencies and build distributables
-    def DOCKER_BUILD_CONTAINER = "${APP_NAME}-${BUILD_ID}-BUILD"
-    // Used to run linting, tests, coverage, e2e within this container
-    def DOCKER_TEST_CONTAINER = "${APP_NAME}-${BUILD_ID}-TEST"
-    // Used to run penetration tests against before tagging for release
-    def DOCKER_CANDIATE_IMAGE = "local/${APP_NAME}:${BUILD_ID}"
-
     stage('Initialize') {
       sh '''
         env
@@ -47,7 +47,7 @@ node {
           -v ${WORKSPACE}:/app \
           ${DOCKER_NODE_IMAGE} \
           /bin/bash --login -c \
-          "cd /app && npm install"
+          "cd /app && npm update"
 
         ls -al
       """
