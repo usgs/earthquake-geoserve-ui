@@ -44,7 +44,8 @@ node {
           sh '''
             source /etc/profile.d/nvm.sh > /dev/null 2>&1
             npm config set package-lock false
-            npm update --no-save
+            # TODO :: Uncomment the next line
+            # npm update --no-save
           '''
         }
       }
