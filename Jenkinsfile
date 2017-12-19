@@ -174,7 +174,8 @@ node {
             ${DOCKER_DEPLOY_IMAGE}:${IMAGE_VERSION}
 
           docker push ${DOCKER_DEPLOY_IMAGE}:${IMAGE_VERSION}
-      """
+        """
+      }
     }
   } catch (e) {
     mail to: 'emartinez@usgs.gov',
