@@ -102,54 +102,49 @@ node {
           .
       """
 
-      // TODO :: Run pen tests
-      withCredentials([usernamePassword(
-        credentialsId: 'gitlab-innersource-admin',
-        passwordVariable: 'REGISTRY_PASS',
-        usernameVariable: 'REGISTRY_USER'
-      )]) {
-        sh """
-          docker login ${REGISTRY_HOST} -u ${REGISTRY_USER} -p ${REGISTRY_PASS}
+      sh """
+        docker login ${REGISTRY_HOST} -u ${REGISTRY_USER} -p ${REGISTRY_PASS}
 
-          if [ ! -d "${OWASP_REPORT_DIR}" ]; then
-            mkdir -p ${OWASP_REPORT_DIR}
-            chmod 777 ${OWASP_REPORT_DIR}
-          fi
+        if [ ! -d "${OWASP_REPORT_DIR}" ]; then
+          mkdir -p ${OWASP_REPORT_DIR}
+          chmod 777 ${OWASP_REPORT_DIR}
+        fi
 
-          docker run --rm --name ${DOCKER_PENTEST_CONTAINER} \
-            -d ${DOCKER_CANDIDATE_IMAGE}
+        docker run --rm --name ${DOCKER_PENTEST_CONTAINER} \
+          -d ${DOCKER_CANDIDATE_IMAGE}
 
-          docker run --rm -d -u zap \
-            --name=${DOCKER_OWASP_CONTAINER} \
-            --link=${DOCKER_PENTEST_CONTAINER} \
-            -v ${OWASP_REPORT_DIR}:/zap/reports:rw \
-            -i ${DOCKER_OWASP_IMAGE} \
-            zap.sh \
-            -daemon \
-            -port 8090 \
-            -config api.disablekey=true
+        docker run --rm -d -u zap \
+          --name=${DOCKER_OWASP_CONTAINER} \
+          --link=${DOCKER_PENTEST_CONTAINER} \
+          -v ${OWASP_REPORT_DIR}:/zap/reports:rw \
+          -i ${DOCKER_OWASP_IMAGE} \
+          zap.sh \
+          -daemon \
+          -port 8090 \
+          -config api.disablekey=true
 
-          sleep 20;
+        sleep 20
 
-          ZAP_API_PORT=8090
-          PENTEST_IP=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${DOCKER_PENTEST_CONTAINER}`
+        ZAP_API_PORT=8090
+        PENTEST_IP=`docker inspect \
+          -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' \
+          ${DOCKER_PENTEST_CONTAINER} \
+        `
 
-          docker exec ${DOCKER_OWASP_CONTAINER} \
-            zap-cli -v -p \$ZAP_API_PORT spider \
-            http://\$PENTEST_IP/
+        docker exec ${DOCKER_OWASP_CONTAINER} \
+          zap-cli -v -p \$ZAP_API_PORT spider \
+          http://\$PENTEST_IP/
 
-          docker exec ${DOCKER_OWASP_CONTAINER} \
-            zap-cli -v -p \$ZAP_API_PORT active-scan \
-            http://\$PENTEST_IP/
+        docker exec ${DOCKER_OWASP_CONTAINER} \
+          zap-cli -v -p \$ZAP_API_PORT active-scan \
+          http://\$PENTEST_IP/
 
-          docker exec ${DOCKER_OWASP_CONTAINER} \
-            zap-cli -v -p \$ZAP_API_PORT report \
-            -o /zap/reports/owasp-zap-report.html -f html
+        docker exec ${DOCKER_OWASP_CONTAINER} \
+          zap-cli -v -p \$ZAP_API_PORT report \
+          -o /zap/reports/owasp-zap-report.html -f html
 
-          docker stop ${DOCKER_OWASP_CONTAINER} ${DOCKER_PENTEST_CONTAINER}
-        """
-      }
-
+        docker stop ${DOCKER_OWASP_CONTAINER} ${DOCKER_PENTEST_CONTAINER}
+      """
       publishHTML (target: [
         allowMissing: true,
         alwaysLinkToLastBuild: true,
@@ -159,8 +154,27 @@ node {
         reportName: 'OWASP ZAP Report'
       ])
 
-      // TODO :: retag as DOCKER_DEPLOY_IMAGE:DOCKRE_DEPLOY_IMAGE_VERSION
-      // TODO :: push to registry
+      if (SCM_VARS.GIT_BRANCH == 'origin/master') {
+        IMAGE_VERSION = ${DOCKKER_DEPLOY_IMAGE_VERSION}
+      } else {
+        IMAGE_VERSION = SCM_VARS.GIT_BRANCH.replace('origin/', '').replace(' ', '_')\
+      }
+
+      echo IMAGE_VERSION
+      withCredentials([usernamePassword(
+        credentialsId: 'gitlab-innersource-admin',
+        passwordVariable: 'REGISTRY_PASS',
+        usernameVariable: 'REGISTRY_USER'
+      )]) {
+        sh """
+          docker login ${REGISTRY_HOST} -u ${REGISTRY_USER} -p ${REGISTRY_PASS}
+
+          docker tag \
+            ${DOCKER_CANDIDATE_IMAGE} \
+            ${DOCKER_DEPLOY_IMAGE}:${IMAGE_VERSION}
+
+          docker push ${DOCKER_DEPLOY_IMAGE}:${IMAGE_VERSION}
+      """
     }
   } catch (e) {
     mail to: 'emartinez@usgs.gov',
