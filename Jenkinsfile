@@ -62,9 +62,9 @@ node {
         ls -al
       """
 
-      Leaves behind ...
-        ${WORKSPACE}/node_modules <-- Used by later stages
-        ${WORKSPACE}/dist         <-- Contains distributable artifacts
+      // Leaves behind ...
+      //   ${WORKSPACE}/node_modules <-- Used by later stages
+      //   ${WORKSPACE}/dist         <-- Contains distributable artifacts
     }
 
     stage('Tests') {
