@@ -51,7 +51,9 @@ node {
     }
 
     stage('Dependencies') {
-      docker.image(DOCKER_NODE_IMAGE).inside() {
+      def candidateImage = docker.build(DOCKER_CANDIDATE_IMAGE)
+
+      candidateImage.inside() {
         withEnv([
           'npm_config_cache=/tmp/npm-cache',
           'HOME=/tmp'
