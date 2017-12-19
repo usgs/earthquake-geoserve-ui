@@ -13,7 +13,7 @@ node {
     // Used to run linting, tests, coverage, e2e within this container
     def DOCKER_TEST_CONTAINER = "${APP_NAME}-${BUILD_ID}-TEST"
     // Used to run penetration tests against before tagging for release
-    def DOCKER_TEST_IMAGE = "local/${APP_NAME}:${BUILD_ID}"
+    def DOCKER_CANDIATE_IMAGE = "local/${APP_NAME}:${BUILD_ID}"
 
     stage('Initialize') {
       sh '''
@@ -79,9 +79,13 @@ node {
       sh """
         docker build \
           --build-arg BASE_IMAGE=${DOCKER_DEPLOY_BASE_IMAGE} \
-          -t local/earthquake-geoserve-ui:build-${BUILD_ID} \
+          -t ${DOCKER_CANDIATE_IMAGE} \
           .
       """
+
+      // TODO :: Run pen tests
+      // TODO :: retag as DOCKER_DEPLOY_IMAGE:DOCKRE_DEPLOY_IMAGE_VERSION
+      // TODO :: push to registry
     }
   } catch (e) {
     mail to: 'emartinez@usgs.gov',
