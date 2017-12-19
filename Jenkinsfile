@@ -63,7 +63,7 @@ node {
         -v ${WORKSPACE}:/app \
         ${DOCKER_TEST_IMAGE} \
         /bin/bash --login -c \
-        "ng lint && ng test --single-run --code-coverage && ng e2e --progress false"
+        "ng lint && ng test --single-run --code-coverage --progress false && ng e2e --progress false"
       """
 
       publishHTML(target: [
@@ -107,7 +107,7 @@ node {
       sh """
         docker container rm --force ${DOCKER_BUILD_CONTAINER} || echo 'No spurious build container'
         docker container rm --force ${DOCKER_TEST_CONTAINER} || echo 'No spurious test container'
-        docker image rm --force ${DOCKER_TEST_IMAGE} || echo 'No spuious test image'
+        docker image rm --force ${DOCKER_CANDIDATE_IMAGE} || echo 'No spuious test image'
       """
 
       if (FAILURE) {
