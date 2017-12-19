@@ -36,6 +36,7 @@ node {
     }
 
     stage('Install') {
+      // Install dependencies and build project distributables
       docker.image(DOCKER_NODE_IMAGE).inside() {
         withEnv([
           'npm_config_cache=/tmp/npm-cache',
@@ -46,23 +47,30 @@ node {
             npm config set package-lock false
             # TODO :: Uncomment the next line
             # npm update --no-save
+            npm run build -- --prod
           '''
         }
       }
     }
 
+    stage('Image') {
+      // Build candidate image for subsequent penetration testing
+      // This depends on "dist" folder from Install stage
+      docker.build(
+        image: DOCKER_CANDIDATE_IMAGE,
+        args: "--build-arg BASE_IMAGE=${DOCKER_DEPLOY_BASE_IMAGE}"
+      )
+    }
+
     stage('Dependencies') {
       docker.image(DOCKER_NODE_IMAGE).inside() {
-        withEnv([
-          'npm_config_cache=/tmp/npm-cache',
-          'HOME=/tmp'
-        ]) {
-          sh '''
-            source /etc/profile.d/nvm.sh > /dev/null 2>&1
-            npm run build -- --prod
-          '''
-        }
+        // This depends on "dist" folder from Install stage
 
+        // TODO :: Better dependency checking. Do not need to check all of
+        //         node_modules because they are not included in build, but
+        //         checking just the distribution files seems incomplete.
+
+        // Analyze dependencies
         dependencyCheckAnalyzer(
           datadir: '',
           hintsFile: '',
@@ -79,6 +87,7 @@ node {
           zipExtensions: ''
         )
 
+        // Publish results
         dependencyCheckPublisher(
           canComputeNew: false,
           defaultEncoding: '',
@@ -87,6 +96,39 @@ node {
           unHealthy: ''
         )
       }
+    }
+
+    stage('Unit Tests') {
+      // Note that running angular tests destroys the "dist" folder that was
+      // originally created in Install stage. This is not needed later, so
+      // okay, but just be aware ...
+
+      // Run linting, unit tests, and end-to-end tests
+      docker
+        .image(DOCKER_TEST_CONTAINER)
+        .inside () {
+          sh """
+            npm run lint
+            npm run test -- --single-run --code-coverage --progress false
+            npm run e2e -- --progress false
+          """
+        }
+
+      // Publish results
+      cobertura(
+        autoUpdateHealth: false,
+        autoUpdateStability: false,
+        coberturaReportFile: '**/cobertura-coverage.xml',
+        conditionalCoverageTargets: '70, 0, 0',
+        failUnhealthy: false,
+        failUnstable: false,
+        lineCoverageTargets: '80, 0, 0',
+        maxNumberOfBuilds: 0,
+        methodCoverageTargets: '80, 0, 0',
+        onlyStable: false,
+        sourceEncoding: 'ASCII',
+        zoomCoverageChart: false
+      )
     }
 
     // stage('Tests') {
