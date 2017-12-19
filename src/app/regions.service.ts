@@ -52,7 +52,6 @@ export class RegionsService {
     this.http.get<any>(url).pipe(
       catchError(this.handleError('getRegions', {}))
     ).subscribe((data) => {
-      console.log(data);
       if (data.admin) {
         this._adminRegions.next(data.admin.features[0]);
       } else {
