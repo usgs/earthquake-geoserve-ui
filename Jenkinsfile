@@ -52,7 +52,8 @@ node {
         ]) {
           sh '''
             source /etc/profile.d/nvm.sh
-            npm update
+            npm config setpackage-lock false
+            npm update --no-save
           '''
         }
       }
