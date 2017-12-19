@@ -51,7 +51,7 @@ node {
           'HOME=/tmp'
         ]) {
           sh '''
-            /etc/profile
+            /etc/profile.d/nvm.sh
             npm install
           '''
         }
