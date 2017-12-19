@@ -51,12 +51,7 @@ node {
     }
 
     stage('Dependencies') {
-      def candidateImage = docker.build(
-        image: DOCKER_CANDIDATE_IMAGE,
-        args: "--build-arg BASE_IMAGE=${DOCKER_DEPLOY_BASE_IMAGE}"
-      )
-
-      docker.image(candidateImage).inside() {
+      docker.image(DOCKER_NODE_IMAGE).inside() {
         withEnv([
           'npm_config_cache=/tmp/npm-cache',
           'HOME=/tmp'
@@ -76,7 +71,7 @@ node {
           includeVulnReports: false,
           isAutoupdateDisabled: false,
           outdir: '',
-          scanpath: '/',
+          scanpath: 'dist',
           skipOnScmChange: false,
           skipOnUpstreamChange: false,
           suppressionFile: '',
