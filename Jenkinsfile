@@ -45,7 +45,7 @@ node {
 
       //   ls -al
       // """
-      withDockerImage(
+      withDockerContainer(
         image: DOCKER_NODE_IMAGE,
         args: '--user hazdev-user'
       ) {
