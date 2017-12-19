@@ -52,50 +52,50 @@ node {
       ])
 
 
-      // sh """
-      //   docker run --rm --name ${DOCKER_BUILD_CONTAINER} \
-      //     -v ${WORKSPACE}:/app \
-      //     ${DOCKER_NODE_IMAGE} \
-      //     /bin/bash --login -c \
-      //     "cd /app && npm update"
+      sh """
+        docker run --rm --name ${DOCKER_BUILD_CONTAINER} \
+          -v ${WORKSPACE}:/app \
+          ${DOCKER_NODE_IMAGE} \
+          /bin/bash --login -c \
+          "cd /app && npm update"
 
-      //   ls -al
-      // """
+        ls -al
+      """
 
-      // Leaves behind ...
-      //   ${WORKSPACE}/node_modules <-- Used by later stages
-      //   ${WORKSPACE}/dist         <-- Contains distributable artifacts
+      Leaves behind ...
+        ${WORKSPACE}/node_modules <-- Used by later stages
+        ${WORKSPACE}/dist         <-- Contains distributable artifacts
     }
 
     stage('Tests') {
-      // TODO :: Re-enable tests
-      // sh """
-      //   docker run --rm --name ${DOCKER_TEST_CONTAINER} \
-      //   -v ${WORKSPACE}:/app \
-      //   ${DOCKER_TEST_IMAGE} \
-      //   /bin/bash --login -c \
-      //   "ng lint && ng test --single-run --code-coverage --progress false && ng e2e --progress false"
-      // """
+      TODO :: Re-enable tests
+      sh """
+        docker run --rm --name ${DOCKER_TEST_CONTAINER} \
+        -v ${WORKSPACE}:/app \
+        ${DOCKER_TEST_IMAGE} \
+        /bin/bash --login -c \
+        "ng lint && ng test --single-run --code-coverage --progress false && ng e2e --progress false"
+      """
 
-      // publishHTML(target: [
-      //   allowMissing: true,
-      //   alwaysLinkToLastBuild: false,
-      //   keepAll: true,
-      //   reportDir: 'coverage',
-      //   reportFiles: 'index.html',
-      //   reportName: 'Code Coverage',
-      //   reportTitles: 'Code Coverage Report'
-      // ])
+      publishHTML(target: [
+        allowMissing: true,
+        alwaysLinkToLastBuild: false,
+        keepAll: true,
+        reportDir: 'coverage',
+        reportFiles: 'index.html',
+        reportName: 'Code Coverage',
+        reportTitles: 'Code Coverage Report'
+      ])
     }
 
     stage('Publish') {
       // TODO :: Use ng base-url switch during build process
-        // docker run --rm --name ${DOCKER_BUILD_CONTAINER} \
-        //   -v ${WORKSPACE}:/app \
-        //   ${DOCKER_NODE_IMAGE} \
-        //   /bin/bash --login -c \
-        //   "cd /app && npm run build -- --prod --progress false"
       sh """
+        docker run --rm --name ${DOCKER_BUILD_CONTAINER} \
+          -v ${WORKSPACE}:/app \
+          ${DOCKER_NODE_IMAGE} \
+          /bin/bash --login -c \
+          "cd /app && npm run build -- --prod --progress false"
 
         docker build \
           --build-arg BASE_IMAGE=${DOCKER_DEPLOY_BASE_IMAGE} \
