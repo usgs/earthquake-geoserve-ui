@@ -237,7 +237,7 @@ node {
   //       currentBuild.result = 'FAILURE'
   //       throw FAILURE
   //     }
-    }
+  //   }
 
   }
 
