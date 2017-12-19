@@ -47,11 +47,12 @@ node {
       // """
       docker.image(DOCKER_NODE_IMAGE).inside() {
         withEnv([
-          'npm_config_cache=npm-cache',
-          'HOME=/'
+          'npm_config_cache=/tmp/npm-cache',
+          'HOME=/tmp'
         ]) {
           sh '''
-            /bin/bash --login -c "npm install"
+            source /etc/profile
+            npm install
           '''
         }
       }
