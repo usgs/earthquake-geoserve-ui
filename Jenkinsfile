@@ -47,7 +47,9 @@ node {
           -v ${WORKSPACE}:/app \
           ${DOCKER_NODE_IMAGE} \
           /bin/bash --login -c \
-          "cd /app && npm install && npm run build --prod"
+          "cd /app && npm install && npm run build -- --prod"
+
+        ls -al
       """
 
       // Leaves behind ...
