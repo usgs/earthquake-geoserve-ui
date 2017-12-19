@@ -51,7 +51,7 @@ node {
           'HOME=/tmp'
         ]) {
           sh '''
-            source /etc/profile.d/nvm.sh
+            source /etc/profile.d/nvm.sh > /dev/null 2>&1
             npm config set package-lock false
             npm update --no-save
           '''
