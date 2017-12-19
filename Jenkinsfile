@@ -51,7 +51,10 @@ node {
     }
 
     stage('Dependencies') {
-      def candidateImage = docker.build(DOCKER_CANDIDATE_IMAGE)
+      def candidateImage = docker.build(
+        image: DOCKER_CANDIDATE_IMAGE,
+        args: "--build-arg BASE_IMAGE=${DOCKER_DEPLOY_BASE_IMAGE}"
+      )
 
       candidateImage.inside() {
         withEnv([
@@ -73,7 +76,7 @@ node {
           includeVulnReports: false,
           isAutoupdateDisabled: false,
           outdir: '',
-          scanpath: 'dist',
+          scanpath: '/',
           skipOnScmChange: false,
           skipOnUpstreamChange: false,
           suppressionFile: '',
