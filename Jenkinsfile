@@ -111,11 +111,10 @@ node {
             -port 8090 \
             -config api.disablekey=true
 
-          status=1
-          while [ \$status ]; do
+          status='FAILED'
+          while [ \$status != 'SUCCESS' ]; do
             sleep 1;
-            docker exec -i ${DOCKER_OWASP_CONTAINER} curl -I localhost:\${ZAP_API_PORT}
-            status=\$?
+            status=`(docker exec -i ${DOCKER_OWASP_CONTAINER} curl -I localhost:\${ZAP_API_PORT} > /dev/null 2>&1 && echo 'SUCCESS') || echo 'FAILED'`
           done
 
           PENTEST_IP=`docker inspect \
