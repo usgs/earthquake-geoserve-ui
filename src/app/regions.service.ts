@@ -15,11 +15,13 @@ export class RegionsService {
 
   private _adminRegions: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private _coordinates: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private _neicCatalog: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private _tectonic: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   public readonly adminRegions: Observable<any> =
       this._adminRegions.asObservable();
   public readonly coordinates: Observable<any> = this._coordinates.asObservable();
+  public readonly neicCatalog: Observable<any> = this._neicCatalog.asObservable();
   public readonly tectonic: Observable<any> = this._tectonic.asObservable();
 
 
@@ -42,10 +44,17 @@ export class RegionsService {
     this.http.get<any>(url).pipe(
       catchError(this.handleError('getRegions', {}))
     ).subscribe((data) => {
+      console.log(data);
       if (data.admin) {
         this._adminRegions.next(data.admin.features[0]);
       } else {
         this._adminRegions.next(null);
+      }
+
+      if (data.neiccatalog) {
+        this._neicCatalog.next(data.neiccatalog.features[0]);
+      } else {
+        this._neicCatalog.next(null);
       }
 
       if (data.tectonic) {

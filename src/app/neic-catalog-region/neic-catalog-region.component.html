@@ -1,3 +1,25 @@
-<p>
-  neic-catalog-region works!
-</p>
+<!-- NEIC Catalog region was returned, display the region -->
+<h2>NEIC Catalog Region</h2>
+<div *ngIf="regionsService.neicCatalog | async; else noRegion; let region" class="output-section">
+  <dl class="neic-catalog-region">
+    <dt>Name</dt>
+    <dd>
+      {{ region?.properties.name }}
+    </dd>
+    <dt>Type</dt>
+    <dd>
+      {{ region?.properties.type }}
+    </dd>
+    <dt>Magnitude</dt>
+    <dd>
+      {{ region?.properties.magnitude }}
+    </dd>
+  </dl>
+</div>
+
+<!-- No NEIC Catalog region was returned -->
+<div *ngIf="!regionsService.neicCatalog | async">
+  <p class="alert warning">
+    There is no NEIC catalog region for this location
+  </p>
+</div>
