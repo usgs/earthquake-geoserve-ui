@@ -45,9 +45,9 @@ node {
           sh """
             source /etc/profile.d/nvm.sh > /dev/null 2>&1
             npm config set package-lock false
-            # TODO :: Uncomment the next line
+            # TODO :: Uncomment the next lines
             # npm update --no-save
-            npm run build -- --prod --progress false
+            # npm run build -- --prod --progress false
 
           if [ ! -d "${OWASP_REPORT_DIR}" ]; then
             mkdir -p ${OWASP_REPORT_DIR}
@@ -141,37 +141,49 @@ node {
     stage('Penetration Tests') {
       def ZAP_API_PORT = '8090'
 
-      docker.image(DOCKER_CANDIDATE_IMAGE).inside() { APP_IMAGE
-        docker.image(DOCKER_OWASP_IMAGE).inside(
-          args: "--link=${APP_IMAGE.id}:APP -v ${OWASP_REPORT_DIR}:/zap/reports:rw",
-          command: "zap.sh -daemon -port ${ZAP_API_PORT} -config api.disablekey=true"
-        ) {
-          // Wait for OWASP container to be ready, but not for too long
-          timeout(
-            time: 20,
-            unit: 'SECONDS'
-          ) {
-            sh """
-              status='FAILED'
-              while [ \$status != 'SUCCESS' ]; do
-                sleep 1;
-                status=`(\
-                  docker exec -i ${DOCKER_OWASP_CONTAINER} \
-                    curl -I localhost:${ZAP_API_PORT} \
-                    > /dev/null 2>&1 && echo 'SUCCESS'\
-                  ) || echo 'FAILED'`
-              done
-            """
-          }
+      def candidateContainer = null;
 
-          sh """
-            zap-cli -v -p ${ZAP_API_PORT} spider http://APP/
-            zap-cli -v -p ${ZAP_API_PORT} active-scan http://APP/
-            zap-cli -v -p ${ZAP_API_PORT} report \
-              -o /zap/reports/owasp-zap-report.html -f html
-          """
+      try {
+        candidateContainer = docker.run(
+          image: DOCKER_CANDIDATE_IMAGE,
+          args: "--rm --name"
+        );
+      } catch (e) {
+        if (candidateContainer) {
+          candidateContainer.stop()
         }
       }
+      // docker.image(DOCKER_CANDIDATE_IMAGE).inside() { APP_IMAGE
+      //   docker.image(DOCKER_OWASP_IMAGE).inside(
+      //     args: "--link=${APP_IMAGE.id}:APP -v ${OWASP_REPORT_DIR}:/zap/reports:rw",
+      //     command: "zap.sh -daemon -port ${ZAP_API_PORT} -config api.disablekey=true"
+      //   ) {
+      //     // Wait for OWASP container to be ready, but not for too long
+      //     timeout(
+      //       time: 20,
+      //       unit: 'SECONDS'
+      //     ) {
+      //       sh """
+      //         status='FAILED'
+      //         while [ \$status != 'SUCCESS' ]; do
+      //           sleep 1;
+      //           status=`(\
+      //             docker exec -i ${DOCKER_OWASP_CONTAINER} \
+      //               curl -I localhost:${ZAP_API_PORT} \
+      //               > /dev/null 2>&1 && echo 'SUCCESS'\
+      //             ) || echo 'FAILED'`
+      //         done
+      //       """
+      //     }
+
+      //     sh """
+      //       zap-cli -v -p ${ZAP_API_PORT} spider http://APP/
+      //       zap-cli -v -p ${ZAP_API_PORT} active-scan http://APP/
+      //       zap-cli -v -p ${ZAP_API_PORT} report \
+      //         -o /zap/reports/owasp-zap-report.html -f html
+      //     """
+      //   }
+      // }
 
       // Publish results
       publishHTML (target: [
