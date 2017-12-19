@@ -216,27 +216,27 @@ node {
     //   }
     // }
   } catch (e) {
-    mail to: 'emartinez@usgs.gov',
-      from: 'noreply@jenkins',
-      subject: 'Jenkins: earthquake-design-ui',
-      body: "Project build (${BUILD_TAG}) failed with '${e.message}'"
+  //   mail to: 'emartinez@usgs.gov',
+  //     from: 'noreply@jenkins',
+  //     subject: 'Jenkins: earthquake-design-ui',
+  //     body: "Project build (${BUILD_TAG}) failed with '${e.message}'"
 
-    FAILURE = e
-  } finally {
-    stage('Cleanup') {
-      sh """
-        docker container rm --force ${DOCKER_BUILD_CONTAINER} \
-          || echo 'No spurious build container'
-        docker container rm --force ${DOCKER_TEST_CONTAINER} \
-          || echo 'No spurious test container'
-        docker image rm --force ${DOCKER_CANDIDATE_IMAGE} \
-          || echo 'No spurious test image'
-      """
+  //   FAILURE = e
+  // } finally {
+  //   stage('Cleanup') {
+  //     sh """
+  //       docker container rm --force ${DOCKER_BUILD_CONTAINER} \
+  //         || echo 'No spurious build container'
+  //       docker container rm --force ${DOCKER_TEST_CONTAINER} \
+  //         || echo 'No spurious test container'
+  //       docker image rm --force ${DOCKER_CANDIDATE_IMAGE} \
+  //         || echo 'No spurious test image'
+  //     """
 
-      if (FAILURE) {
-        currentBuild.result = 'FAILURE'
-        throw FAILURE
-      }
+  //     if (FAILURE) {
+  //       currentBuild.result = 'FAILURE'
+  //       throw FAILURE
+  //     }
     }
 
   }
