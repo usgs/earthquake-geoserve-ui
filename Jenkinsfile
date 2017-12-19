@@ -38,18 +38,19 @@ node {
       //   SCM_VARS.GIT_PREVIOUS_COMMIT
       //   SCM_VARS.GIT_PREVIOUS_SUCCESSFUL_COMMIT
       //   SCM_VARS.GIT_URL
-      SCM_VARS = checkout([
-        $class: 'GitSCM',
-        branches: [
-          [name: GIT_BRANCH]
-        ],
-        doGenerateSubmoduleConfigurations: false,
-        extensions: [],
-        submoduleCfg: [],
-        userRemoteConfigs: [
-          [url: GIT_URL]
-        ]
-      ])
+      // SCM_VARS = checkout([
+      //   $class: 'GitSCM',
+      //   branches: [
+      //     [name: GIT_BRANCH]
+      //   ],
+      //   doGenerateSubmoduleConfigurations: false,
+      //   extensions: [],
+      //   submoduleCfg: [],
+      //   userRemoteConfigs: [
+      //     [url: GIT_URL]
+      //   ]
+      // ])
+      SCM_VARS = checkout scm
 
 
       sh """
