@@ -169,7 +169,7 @@ node {
       """
 
       if (FAILURE) {
-        echo FAILURE
+        FAILURE.printStackTrace()
         currentBuild.result = 'FAILURE'
       }
     }
