@@ -7,6 +7,15 @@ node {
       pwd
       ls -la
     '''
+
+    def scmVars = checkout scm;
+    scmVars.each { key, value ->
+      echo "SCMVars[${key}] = ${value}"
+    }
+
+    sh '''
+      ls -la
+    '''
   }
 
   stage('Unit Test') {
