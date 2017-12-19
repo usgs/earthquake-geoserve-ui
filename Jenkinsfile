@@ -42,13 +42,18 @@ node {
           'npm_config_cache=/tmp/npm-cache',
           'HOME=/tmp'
         ]) {
-          sh '''
+          sh """
             source /etc/profile.d/nvm.sh > /dev/null 2>&1
             npm config set package-lock false
             # TODO :: Uncomment the next line
             # npm update --no-save
             npm run build -- --prod --progress false
-          '''
+
+          if [ ! -d "${OWASP_REPORT_DIR}" ]; then
+            mkdir -p ${OWASP_REPORT_DIR}
+            chmod 777 ${OWASP_REPORT_DIR}
+          fi
+          """
         }
       }
     }
@@ -131,6 +136,75 @@ node {
         sourceEncoding: 'ASCII',
         zoomCoverageChart: false
       )
+    }
+
+    stage('Penetration Tests') {
+      docker
+        .image(DOCKER_CANDIDATE_IMAGE)
+        .withRun() { APP_IMAGE
+          docker
+            .image(DOCKER_OWASP_IMAGE)
+            .withRun(
+              args: "--link=${APP_IMAGE.id:APP} -v ${OWASP_REPORT_DIR}:/zap/reports:rw",
+              command: "zap.sh -daemon -port ${ZAP_API_PORT} -config api.disablekey=true"
+            ) {
+              // Wait for OWASP container to be ready, but not for too long
+              timeout(
+                time: 20,
+                unit: 'SECONDS'
+              ) {
+                sh """
+                  status='FAILED'
+                  while [ \$status != 'SUCCESS' ]; do
+                    sleep 1;
+                    status=`(\
+                      docker exec -i ${DOCKER_OWASP_CONTAINER} \
+                        curl -I localhost:${ZAP_API_PORT} \
+                        > /dev/null 2>&1 && echo 'SUCCESS'\
+                      ) || echo 'FAILED'`
+                  done
+                """
+              }
+
+              sh """
+                zap-cli -v -p ${ZAP_API_PORT} spider http://APP/
+                zap-cli -v -p ${ZAP_API_PORT} active-scan http://APP/
+                zap-cli -v -p ${ZAP_API_PORT} report \
+                  -o /zap/reports/owasp-zap-report.html -f html
+              """
+            }
+        }
+
+
+    //   sh """
+    //     PENTEST_IP=`docker inspect \
+    //       -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' \
+    //       ${DOCKER_PENTEST_CONTAINER} \
+    //     `
+
+    //     docker exec ${DOCKER_OWASP_CONTAINER} \
+    //       zap-cli -v -p ${ZAP_API_PORT} spider \
+    //       http://\$PENTEST_IP/
+
+    //     docker exec ${DOCKER_OWASP_CONTAINER} \
+    //       zap-cli -v -p ${ZAP_API_PORT} active-scan \
+    //       http://\$PENTEST_IP/
+
+    //     docker exec ${DOCKER_OWASP_CONTAINER} \
+    //       zap-cli -v -p ${ZAP_API_PORT} report \
+    //       -o /zap/reports/owasp-zap-report.html -f html
+
+    //     docker stop ${DOCKER_OWASP_CONTAINER} ${DOCKER_PENTEST_CONTAINER}
+    //   """
+
+    //   publishHTML (target: [
+    //     allowMissing: true,
+    //     alwaysLinkToLastBuild: true,
+    //     keepAll: true,
+    //     reportDir: OWASP_REPORT_DIR,
+    //     reportFiles: 'owasp-zap-report.html',
+    //     reportName: 'OWASP ZAP Report'
+    //   ])
     }
 
     // stage('Tests') {
