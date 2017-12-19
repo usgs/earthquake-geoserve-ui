@@ -26,12 +26,6 @@ node {
 
   try {
     stage('Initialize') {
-      sh '''
-        env
-        pwd
-        ls -la
-      '''
-
       // Sets ...
       //   SCM_VARS.GIT_BRANCH (e.g. origin/master)
       //   SCM_VARS.GIT_COMMIT
