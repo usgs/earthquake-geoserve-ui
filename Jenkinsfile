@@ -37,9 +37,9 @@ node {
         "cd /hazdev-build && npm install && npm run build --prod"
     """
 
-    sh '''
-      ls -la
-    '''
+    // Leaves behind ...
+    //   ${WORKSPACE}/node_modules <-- Used by later stages
+    //   ${WORKSPACE}/dist         <-- Contains distributable artifacts
   }
 
   stage('Tests') {
@@ -48,19 +48,27 @@ node {
       -v ${WORKSPACE}:/app \
       ${DOCKER_TEST_IMAGE} \
       /bin/bash --login -c \
-      "npm run alltests"
+      "ng lint && ng test --single-run --code-coverage && ng e2e"
+    """
+
+    publicHTML(target: [
+      allowMissing: true,
+      alwaysLinkToLastBuild: false,
+      keepAll: true,
+      reportDir: 'coverage',
+      reportFiles: 'index.html',
+      reportName: 'Code Coverage',
+      reportTitles: 'Code Coverage Report'
+    ])
+  }
+
+  stage('Publish') {
+    sh """
+      docker build \
+        --build-arg BASE_IMAGE=${DOCKER_DEPLOY_BASE_IMAGE} \
+        -t local/earthquake-geoserve-ui:build-${BUILD_ID} \
+        .
     """
   }
 
-  stage('Create Image') {
-
-  }
-
-  stage('Image Vulnerabilities') {
-
-  }
-
-  stage('Publish Image') {
-
-  }
 }
