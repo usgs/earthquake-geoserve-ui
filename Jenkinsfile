@@ -15,11 +15,6 @@ node {
     //   SCM_VARS.GIT_PREVIOUS_COMMIT
     //   SCM_VARS.GIT_PREVIOUS_SUCCESSFUL_COMMIT
     //   SCM_VARS.GIT_URL
-    scm.each { key ->
-      echo "scm[${key}]"
-    }
-    echo "$scm.userRemoteConfigs";
-    // SCM_VARS = checkout scm;
     SCM_VARS = checkout([
       $class: 'GitSCM',
       branches: [
@@ -32,6 +27,10 @@ node {
         [url: 'https://github.com/emartinez-usgs/earthquake-geoserve-ui.git']
       ]
     ])
+
+    SCM_VARS.each { key, value ->
+      echo "SCM_VARS[${key}] = ${value}"
+    }
 
     sh '''
       ls -la
