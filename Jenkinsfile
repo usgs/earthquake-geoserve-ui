@@ -52,15 +52,15 @@ node {
       ])
 
 
-      sh """
-        docker run --rm --name ${DOCKER_BUILD_CONTAINER} \
-          -v ${WORKSPACE}:/app \
-          ${DOCKER_NODE_IMAGE} \
-          /bin/bash --login -c \
-          "cd /app && npm update"
+      // sh """
+      //   docker run --rm --name ${DOCKER_BUILD_CONTAINER} \
+      //     -v ${WORKSPACE}:/app \
+      //     ${DOCKER_NODE_IMAGE} \
+      //     /bin/bash --login -c \
+      //     "cd /app && npm update"
 
-        ls -al
-      """
+      //   ls -al
+      // """
 
       // Leaves behind ...
       //   ${WORKSPACE}/node_modules <-- Used by later stages
@@ -112,14 +112,17 @@ node {
         sh '''
           docker login ${REGISTRY_HOST} -u ${REGISTRY_USER} -p ${REGISTRY_PASS}
 
-          if [ ! -d ${OWASP_REPORT_DIR} ]; then
+          echo ${OWASP_REPORT_DIR}
+          if [ ! -d "${OWASP_REPORT_DIR}"" ]; then
             mkdir -p ${OWASP_REPORT_DIR}
             chmod 777 ${OWASP_REPORT_DIR}
           fi
+          echo "STEP 1"
 
           docker run --name ${DOCKER_PENTEST_CONTAINER} \
             -d ${DOCKER_CANDIDATE_IMAGE}
 
+          echo "STEP 2"
           OWASP_CONTAINER_ID=`docker run -d -u zap \
             --name=${DOCKER_OWASP_CONTAINER} \
             --link=${DOCKER_PENTEST_CONTAINER} \
@@ -131,6 +134,7 @@ node {
             -config api.disablekey=true \
           `
 
+          echo "STEP 3"
           sleep 20;
 
           ZAP_API_PORT=8090
