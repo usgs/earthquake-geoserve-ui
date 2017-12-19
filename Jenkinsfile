@@ -143,6 +143,7 @@ node {
 
       def candidateContainer = null;
 
+      echo "Before"
       try {
         candidateContainer = docker.image(DOCKER_CANDIDATE_IMAGE).run(
           args: "--rm -d"
@@ -152,6 +153,7 @@ node {
           candidateContainer.stop()
         }
       }
+      echo "After"
       // docker.image(DOCKER_CANDIDATE_IMAGE).inside() { APP_IMAGE
       //   docker.image(DOCKER_OWASP_IMAGE).inside(
       //     args: "--link=${APP_IMAGE.id}:APP -v ${OWASP_REPORT_DIR}:/zap/reports:rw",
