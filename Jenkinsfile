@@ -88,7 +88,7 @@ node {
       """
 
       timeout(
-        time: 30,
+        time: 60,
         unit: 'SECONDS'
       ) {
         sh """
