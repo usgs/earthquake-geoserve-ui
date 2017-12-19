@@ -11,6 +11,8 @@ node {
   def DOCKER_BUILD_CONTAINER = "${APP_NAME}-${BUILD_ID}-BUILD"
   // Used to run linting, tests, coverage, e2e within this container
   def DOCKER_TEST_CONTAINER = "${APP_NAME}-${BUILD_ID}-TEST"
+  // Used to run penetration tests against
+  def DOCKER_PENTSET_CONTAINER = "${APP_NAME}-${BUILD_ID}-PENTEST"
   // Used to run penetration tests against before tagging for release
   def DOCKER_CANDIDATE_IMAGE = "local/${APP_NAME}:${BUILD_ID}"
 
@@ -78,6 +80,7 @@ node {
     }
 
     stage('Publish') {
+      // TODO :: Use ng base-url switch during build process
       sh """
         docker run --rm --name ${DOCKER_BUILD_CONTAINER} \
           -v ${WORKSPACE}:/app \
@@ -92,6 +95,40 @@ node {
       """
 
       // TODO :: Run pen tests
+      sh """
+        docker login ${REGISTRY_HOST} -u ${REGISTRY_USER} -p ${REGISTRY_PASS}
+
+        docker run --name ${DOCKER_PENTSET_CONTAINER} \
+          -d ${DOCKER_CANDIDATE_IMAGE}
+
+        OWASP_CONTAINER_ID=`docker run -d -u zap \
+          --name=${DOCKER_OWASP_CONTAINER} \
+          --link=${DOCKER_PENTEST_CONTAINER} \
+          -v ${OWASP_REPORT_DIR}:/zap/reports:rw \
+          -i ${OWASP_IMAGE} \
+          zap.sh \
+          -daemon \
+          -port 8090 \
+          -config api.disablekey=true \
+        `
+
+        sleep 20;
+
+        PENTEST_IP=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${DOCKER_PENTEST_CONTAINER}`
+
+        docker exec $OWASP_CONTAINER_ID \
+          zap-cli -v -p 8090 spider \
+          http://$PENTEST_IP/
+
+        docker exec $OWASP_CONTAINER_ID \
+          zap-cli -v $ZAP_API_PORT active-scan \
+          http://$PENTEST_IP/
+
+        docker exec $OWASP_CONTAINER_ID \
+          zap-cli -v -p 8090 report \
+          -o /zap/reports/wasp-zap-report.html -f html
+      """
+
       // TODO :: retag as DOCKER_DEPLOY_IMAGE:DOCKRE_DEPLOY_IMAGE_VERSION
       // TODO :: push to registry
     }
