@@ -155,10 +155,9 @@ node {
     }
   } catch (e) {
     mail to: 'emartinez@usgs.gov',
-      from: 'noreply@jenkins'
-
-      // subject: 'Jenkins: earthquake-design-ui',
-      // body: "Project build (${BUILD_TAG}) failed with '${e.message}'"
+      from: 'noreply@jenkins',
+      subject: 'Jenkins: earthquake-design-ui',
+      body: "Project build (${BUILD_TAG}) failed with '${e.message}'"
 
     FAILURE = e;
   } finally {
