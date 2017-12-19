@@ -15,6 +15,9 @@ node {
     //   SCM_VARS.GIT_PREVIOUS_COMMIT
     //   SCM_VARS.GIT_PREVIOUS_SUCCESSFUL_COMMIT
     //   SCM_VARS.GIT_URL
+    scm.each { key ->
+      echo "scm[${key}]"
+    }
     echo "$scm.userRemoteConfigs";
     // SCM_VARS = checkout scm;
     SCM_VARS = checkout([
