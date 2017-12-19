@@ -52,6 +52,7 @@ node {
             pwd
             ls -la
             env
+            npm install
           '''
         }
 
