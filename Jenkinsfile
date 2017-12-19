@@ -52,7 +52,7 @@ node {
         ]) {
           sh '''
             source /etc/profile.d/nvm.sh
-            npm install
+            npm update
           '''
         }
       }
