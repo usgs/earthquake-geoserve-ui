@@ -112,10 +112,10 @@ node {
         sh '''
           docker login ${REGISTRY_HOST} -u ${REGISTRY_USER} -p ${REGISTRY_PASS}
 
-          echo ${OWASP_REPORT_DIR}
-          if [ ! -d ${OWASP_REPORT_DIR} ]; then
-            mkdir -p ${OWASP_REPORT_DIR}
-            chmod 777 ${OWASP_REPORT_DIR}
+          echo "${OWASP_REPORT_DIR}"
+          if [ ! -d "${OWASP_REPORT_DIR}" ]; then
+            mkdir -p "${OWASP_REPORT_DIR}"
+            chmod 777 "${OWASP_REPORT_DIR}"
           fi
           echo "STEP 1"
 
