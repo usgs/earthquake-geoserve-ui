@@ -38,8 +38,14 @@ node {
     //     '''
     //   }
 
+
+
     sh """
-      docker run --name npm-installer --rm -v ${WORKSPACE}:/hazdev-build ${DOCKER_NODE_IMAGE} /bin/bash --login -c "cd /hazdev-build && npm install"
+      docker run --rm --name npm-installer \
+        -v ${WORKSPACE}:/hazdev-build \
+        ${DOCKER_NODE_IMAGE} \
+        /bin/bash --login -c \
+        "cd /hazdev-build && npm install && npm run build --prod"
     """
 
     sh '''
