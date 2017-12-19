@@ -90,12 +90,12 @@ node {
 
     stage('Publish') {
       // TODO :: Use ng base-url switch during build process
+        // docker run --rm --name ${DOCKER_BUILD_CONTAINER} \
+        //   -v ${WORKSPACE}:/app \
+        //   ${DOCKER_NODE_IMAGE} \
+        //   /bin/bash --login -c \
+        //   "cd /app && npm run build -- --prod --progress false"
       sh """
-        docker run --rm --name ${DOCKER_BUILD_CONTAINER} \
-          -v ${WORKSPACE}:/app \
-          ${DOCKER_NODE_IMAGE} \
-          /bin/bash --login -c \
-          "cd /app && npm run build -- --prod --progress false"
 
         docker build \
           --build-arg BASE_IMAGE=${DOCKER_DEPLOY_BASE_IMAGE} \
@@ -109,7 +109,7 @@ node {
         passwordVariable: 'REGISTRY_PASS',
         usernameVariable: 'REGISTRY_USER'
       )]) {
-        sh """
+        sh '''
           docker login ${REGISTRY_HOST} -u ${REGISTRY_USER} -p ${REGISTRY_PASS}
 
           if [ ! -d ${OWASP_REPORT_DIR} ]; then
@@ -147,7 +147,7 @@ node {
           docker exec ${OWASP_CONTAINER_ID} \
             zap-cli -v -p ZAP_API_PORT report \
             -o /zap/reports/wasp-zap-report.html -f html
-        """
+        '''
       }
 
       // TODO :: retag as DOCKER_DEPLOY_IMAGE:DOCKRE_DEPLOY_IMAGE_VERSION
@@ -169,7 +169,8 @@ node {
       """
 
       if (FAILURE) {
-        currentBuild.result = 'FAILURE';
+        echo FAILURE
+        currentBuild.result = 'FAILURE'
       }
     }
 
