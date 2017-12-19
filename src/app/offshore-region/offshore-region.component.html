@@ -1,3 +1,18 @@
-<p>
-  offshore-region works!
-</p>
+<!-- Offshore region was returned, display the region -->
+<h2>Offshore Region</h2>
+<div *ngIf="regionsService.offshoreRegions | async; else noOffshoreRegion;
+    let offshoreRegions" class="output-section">
+  <dl>Name</dl>
+  <dd>
+    {{ offshoreRegions?.properties.name }}
+  </dd>
+</div>
+
+<!-- No offshore region was returned -->
+<ng-template #noOffshoreRegion>
+  <div *ngIf="regionsService.coordinates | async">
+    <p class="alert warning">
+      Data not available
+    </p>
+  </div>
+</ng-template>
