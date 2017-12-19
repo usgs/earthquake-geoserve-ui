@@ -139,6 +139,8 @@ node {
     }
 
     stage('Penetration Tests') {
+      def ZAP_API_PORT = '8090'
+
       docker
         .image(DOCKER_CANDIDATE_IMAGE)
         .withRun() { APP_IMAGE
@@ -207,25 +209,6 @@ node {
     //   ])
     }
 
-    // stage('Tests') {
-    //   sh """
-    //     docker run --rm --name ${DOCKER_TEST_CONTAINER} \
-    //     -v ${WORKSPACE}:/app \
-    //     ${DOCKER_TEST_IMAGE} \
-    //     /bin/bash --login -c \
-    //     "ng lint && ng test --single-run --code-coverage --progress false && ng e2e --progress false"
-    //   """
-
-    //   publishHTML(target: [
-    //     allowMissing: true,
-    //     alwaysLinkToLastBuild: true,
-    //     keepAll: true,
-    //     reportDir: 'coverage',
-    //     reportFiles: 'index.html',
-    //     reportName: 'Code Coverage',
-    //     reportTitles: 'Code Coverage Report'
-    //   ])
-    // }
 
     // stage('Publish') {
     //   // TODO :: Use ng base-url switch during build process
