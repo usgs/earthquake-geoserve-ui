@@ -42,15 +42,15 @@ node {
       ])
 
 
-      // sh """
-      //   docker run --rm --name ${DOCKER_BUILD_CONTAINER} \
-      //     -v ${WORKSPACE}:/app \
-      //     ${DOCKER_NODE_IMAGE} \
-      //     /bin/bash --login -c \
-      //     "cd /app && npm install && npm run build -- --prod"
+      sh """
+        docker run --rm --name ${DOCKER_BUILD_CONTAINER} \
+          -v ${WORKSPACE}:/app \
+          ${DOCKER_NODE_IMAGE} \
+          /bin/bash --login -c \
+          "cd /app && npm install"
 
-      //   ls -al
-      // """
+        ls -al
+      """
 
       // Leaves behind ...
       //   ${WORKSPACE}/node_modules <-- Used by later stages
@@ -83,7 +83,7 @@ node {
           -v ${WORKSPACE}:/app \
           ${DOCKER_NODE_IMAGE} \
           /bin/bash --login -c \
-          "cd /app && npm install && npm run build -- --prod"
+          "cd /app && npm run build -- --prod"
 
         docker build \
           --build-arg BASE_IMAGE=${DOCKER_DEPLOY_BASE_IMAGE} \
