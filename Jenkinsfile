@@ -97,6 +97,7 @@ node {
             chmod 777 ${OWASP_REPORT_DIR}
           fi
 
+          ZAP_API_PORT=8090
           docker run --rm --name ${DOCKER_PENTEST_CONTAINER} \
             -d ${DOCKER_CANDIDATE_IMAGE}
 
@@ -113,11 +114,10 @@ node {
           status=1
           while [ $status ]; do
             sleep 1;
-            docker exec -it ${DOCKER_OWASP_CONTAINER} curl -I
-            status = $?
+            docker exec -it ${DOCKER_OWASP_CONTAINER} curl -I localhost:\${ZAP_API_PORT}
+            status=\$?
           done
 
-          ZAP_API_PORT=8090
           PENTEST_IP=`docker inspect \
             -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' \
             ${DOCKER_PENTEST_CONTAINER} \
