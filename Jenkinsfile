@@ -49,6 +49,7 @@ node {
         .image(DOCKER_NODE_IMAGE)
         .inside {
           sh '''
+            #!/bin/bash --login
             pwd
             ls -la
             env
