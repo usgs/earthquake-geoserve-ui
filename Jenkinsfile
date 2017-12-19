@@ -11,10 +11,18 @@ node {
   def DOCKER_BUILD_CONTAINER = "${APP_NAME}-${BUILD_ID}-BUILD"
   // Used to run linting, tests, coverage, e2e within this container
   def DOCKER_TEST_CONTAINER = "${APP_NAME}-${BUILD_ID}-TEST"
-  // Used to run penetration tests against
-  def DOCKER_PENTSET_CONTAINER = "${APP_NAME}-${BUILD_ID}-PENTEST"
-  // Used to run penetration tests against before tagging for release
+  // Container to run application for testing penetration
+  def DOCKER_PENTEST_CONTAINER = "${APP_NAME}-${BUILD_ID}-PENTEST"
+  // Container to run OWASP testing
+  def DOCKER_OWASP_CONTAINER = "${APP_NAME}-${BUILD_ID}-OWASP"
+
+  // Image of application created locally prior to tagging for publication.
+  // Used to start DOCKER_PENTEST_IMAGE for security testing
   def DOCKER_CANDIDATE_IMAGE = "local/${APP_NAME}:${BUILD_ID}"
+  // Image to use when starting DOCKER_OWASP_CONTAINER
+  def DOCKER_OWASP_IMAGE = "${REGISTRY_HOST}/devops/containers/library/owasp/zap2docker-stable"
+
+  def OWASP_REPORT_DIR = "${WORKSPACE}/owasp-data";
 
   try {
     stage('Initialize') {
@@ -95,39 +103,51 @@ node {
       """
 
       // TODO :: Run pen tests
-      sh """
-        docker login ${REGISTRY_HOST} -u ${REGISTRY_USER} -p ${REGISTRY_PASS}
+      withCredentials([usernamePassword(
+        credentialsId: 'code.usgs.gov__admin',
+        passwordVariable: 'REGISTRY_PASS',
+        usernameVariable: 'REGISTRY_USER'
+      )]) {
+        sh """
+          docker login ${REGISTRY_HOST} -u ${REGISTRY_USER} -p ${REGISTRY_PASS}
 
-        docker run --name ${DOCKER_PENTSET_CONTAINER} \
-          -d ${DOCKER_CANDIDATE_IMAGE}
+          if [ ! -d ${OWASP_REPORT_DIR} ]; then
+            mkdir -p ${OWASP_REPORT_DIR}
+            chmod 777 ${OWASP_REPORT_DIR}
+          fi
 
-        OWASP_CONTAINER_ID=`docker run -d -u zap \
-          --name=${DOCKER_OWASP_CONTAINER} \
-          --link=${DOCKER_PENTEST_CONTAINER} \
-          -v ${OWASP_REPORT_DIR}:/zap/reports:rw \
-          -i ${OWASP_IMAGE} \
-          zap.sh \
-          -daemon \
-          -port 8090 \
-          -config api.disablekey=true \
-        `
+          docker run --name ${DOCKER_PENTEST_CONTAINER} \
+            -d ${DOCKER_CANDIDATE_IMAGE}
 
-        sleep 20;
+          OWASP_CONTAINER_ID=`docker run -d -u zap \
+            --name=${DOCKER_OWASP_CONTAINER} \
+            --link=${DOCKER_PENTEST_CONTAINER} \
+            -v ${OWASP_REPORT_DIR}:/zap/reports:rw \
+            -i ${DOCKER_OWASP_IMAGE} \
+            zap.sh \
+            -daemon \
+            -port 8090 \
+            -config api.disablekey=true \
+          `
 
-        PENTEST_IP=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${DOCKER_PENTEST_CONTAINER}`
+          sleep 20;
 
-        docker exec $OWASP_CONTAINER_ID \
-          zap-cli -v -p 8090 spider \
-          http://$PENTEST_IP/
+          ZAP_API_PORT=8090
+          PENTEST_IP=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${DOCKER_PENTEST_CONTAINER}`
 
-        docker exec $OWASP_CONTAINER_ID \
-          zap-cli -v $ZAP_API_PORT active-scan \
-          http://$PENTEST_IP/
+          docker exec $OWASP_CONTAINER_ID \
+            zap-cli -v -p $ZAP_API_PORT spider \
+            http://$PENTEST_IP/
 
-        docker exec $OWASP_CONTAINER_ID \
-          zap-cli -v -p 8090 report \
-          -o /zap/reports/wasp-zap-report.html -f html
-      """
+          docker exec $OWASP_CONTAINER_ID \
+            zap-cli -v $ZAP_API_PORT active-scan \
+            http://$PENTEST_IP/
+
+          docker exec $OWASP_CONTAINER_ID \
+            zap-cli -v -p ZAP_API_PORT report \
+            -o /zap/reports/wasp-zap-report.html -f html
+        """
+      }
 
       // TODO :: retag as DOCKER_DEPLOY_IMAGE:DOCKRE_DEPLOY_IMAGE_VERSION
       // TODO :: push to registry
