@@ -52,6 +52,16 @@ node {
 
     stage('Dependencies') {
       docker.image(DOCKER_NODE_IMAGE).inside() {
+        withEnv([
+          'npm_config_cache=/tmp/npm-cache',
+          'HOME=/tmp'
+        ]) {
+          sh '''
+            source /etc/profile.d/nvm.sh > /dev/null 2>&1
+            npm run build -- --prod
+          '''
+        }
+
         dependencyCheckAnalyzer(
           datadir: '',
           hintsFile: '',
@@ -61,7 +71,7 @@ node {
           includeVulnReports: false,
           isAutoupdateDisabled: false,
           outdir: '',
-          scanpath: 'node_modules',
+          scanpath: 'dist',
           skipOnScmChange: false,
           skipOnUpstreamChange: false,
           suppressionFile: '',
@@ -75,7 +85,6 @@ node {
           pattern: '**/dependency-check-report.xml',
           unHealthy: ''
         )
-
       }
     }
 
