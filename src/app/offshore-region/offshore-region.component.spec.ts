@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClient, HttpHandler } from '@angular/common/http';
 import { OffshoreRegionComponent } from './offshore-region.component';
+import { RegionsService } from '../regions.service';
 
 describe('OffshoreRegionComponent', () => {
   let component: OffshoreRegionComponent;
@@ -8,7 +9,12 @@ describe('OffshoreRegionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OffshoreRegionComponent ]
+      declarations: [ OffshoreRegionComponent ],
+      providers: [
+        HttpClient,
+        HttpHandler,
+        RegionsService
+      ]
     })
     .compileComponents();
   }));
