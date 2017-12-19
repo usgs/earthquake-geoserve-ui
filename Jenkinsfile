@@ -45,16 +45,17 @@ node {
 
       //   ls -al
       // """
-      docker
-        .image(DOCKER_NODE_IMAGE)
-        .inside('--user hazdev-user') {
-          sh '''
-            pwd
-            ls -la
-            env
-            /bin/bash --login -c "npm install"
-          '''
-        }
+      withDockerImage(
+        image: DOCKER_NODE_IMAGE,
+        args: '--user hazdev-user'
+      ) {
+        sh '''
+          pwd
+          ls -la
+          env
+          npm install
+        '''
+      }
 
     }
 
