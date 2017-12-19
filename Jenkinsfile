@@ -52,7 +52,7 @@ node {
 
     stage('Dependencies') {
       docker.image(DOCKER_NODE_IMAGE).inside() {
-        dependencyCheckAnalyzer
+        dependencyCheckAnalyzer(
           datadir: '',
           hintsFile: '',
           includeCsvReports: false,
@@ -66,13 +66,15 @@ node {
           skipOnUpstreamChange: false,
           suppressionFile: '',
           zipExtensions: ''
+        )
 
-        dependencyCheckPublisher
+        dependencyCheckPublisher(
           canComputeNew: false,
           defaultEncoding: '',
           healthy: '',
           pattern: 'owasp-dependency-results',
           unHealthy: ''
+        )
 
       }
     }
