@@ -72,6 +72,8 @@ node {
 
     stage('Publish') {
       // TODO :: Use ng base-url switch during build process
+      def ZAP_API_PORT = '8090'
+
       sh """
         docker run --rm --name ${DOCKER_BUILD_CONTAINER} \
           -v ${WORKSPACE}:/app \
@@ -91,7 +93,6 @@ node {
           chmod 777 ${OWASP_REPORT_DIR}
         fi
 
-        ZAP_API_PORT=8090
         docker run --rm --name ${DOCKER_PENTEST_CONTAINER} \
           -d ${DOCKER_CANDIDATE_IMAGE}
 
@@ -102,7 +103,7 @@ node {
           -i ${DOCKER_OWASP_IMAGE} \
           zap.sh \
           -daemon \
-          -port 8090 \
+          -port ${ZAP_API_PORT} \
           -config api.disablekey=true
       """
 
@@ -116,7 +117,7 @@ node {
           status='FAILED'
           while [ \$status != 'SUCCESS' ]; do
             sleep 1;
-            status=`(docker exec -i ${DOCKER_OWASP_CONTAINER} curl -I localhost:\${ZAP_API_PORT} > /dev/null 2>&1 && echo 'SUCCESS') || echo 'FAILED'`
+            status=`(docker exec -i ${DOCKER_OWASP_CONTAINER} curl -I localhost:${ZAP_API_PORT} > /dev/null 2>&1 && echo 'SUCCESS') || echo 'FAILED'`
           done
         """
       }
@@ -128,15 +129,15 @@ node {
         `
 
         docker exec ${DOCKER_OWASP_CONTAINER} \
-          zap-cli -v -p \$ZAP_API_PORT spider \
+          zap-cli -v -p ${ZAP_API_PORT} spider \
           http://\$PENTEST_IP/
 
         docker exec ${DOCKER_OWASP_CONTAINER} \
-          zap-cli -v -p \$ZAP_API_PORT active-scan \
+          zap-cli -v -p ${ZAP_API_PORT} active-scan \
           http://\$PENTEST_IP/
 
         docker exec ${DOCKER_OWASP_CONTAINER} \
-          zap-cli -v -p \$ZAP_API_PORT report \
+          zap-cli -v -p ${ZAP_API_PORT} report \
           -o /zap/reports/owasp-zap-report.html -f html
 
         docker stop ${DOCKER_OWASP_CONTAINER} ${DOCKER_PENTEST_CONTAINER}
