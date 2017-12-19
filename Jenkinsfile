@@ -45,13 +45,10 @@ node {
 
       //   ls -al
       // """
-      withDockerContainer(
-        image: DOCKER_NODE_IMAGE,
-        args: '--user hazdev-user'
-      ) {
+      docker.image(DOCKER_NODE_IMAGE).inside() {
         withEnv([
           'npm_config_cache=npm-cache',
-          'HOME=.'
+          'HOME=/'
         ]) {
           sh '''
             /bin/bash --login -c "npm install"
