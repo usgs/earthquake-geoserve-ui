@@ -30,7 +30,7 @@ node {
 
     docker
       .image('usgs/hazdev-base-images:8-node')
-      .withRun("-v ${WORKSPACE}:/hazdev-build")
+      .withRun("-v .:/hazdev-build")
       .inside() {
         sh '''
           cd /hazdev-build
