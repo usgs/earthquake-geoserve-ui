@@ -49,11 +49,10 @@ node {
         .image(DOCKER_NODE_IMAGE)
         .inside {
           sh '''
-            #!/bin/bash --login
             pwd
             ls -la
             env
-            npm install
+            /bin/bash --login -c "npm install"
           '''
         }
 
