@@ -56,7 +56,7 @@ node {
         args: "--build-arg BASE_IMAGE=${DOCKER_DEPLOY_BASE_IMAGE}"
       )
 
-      candidateImage.inside() {
+      docker.image(candidateImage).inside() {
         withEnv([
           'npm_config_cache=/tmp/npm-cache',
           'HOME=/tmp'
