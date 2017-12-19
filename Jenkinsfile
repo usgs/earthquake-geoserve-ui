@@ -53,9 +53,10 @@ node {
           'npm_config_cache=npm-cache',
           'HOME=.'
         ]) {
-        sh '''
-          /bin/bash --login -c "npm install"
-        '''
+          sh '''
+            /bin/bash --login -c "npm install"
+          '''
+        }
       }
 
     }
