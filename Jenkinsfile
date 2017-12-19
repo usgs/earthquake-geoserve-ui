@@ -105,7 +105,7 @@ node {
 
       // TODO :: Run pen tests
       withCredentials([usernamePassword(
-        credentialsId: 'code.usgs.gov__admin',
+        credentialsId: 'gitlab-innersource-admin',
         passwordVariable: 'REGISTRY_PASS',
         usernameVariable: 'REGISTRY_USER'
       )]) {
