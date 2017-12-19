@@ -109,7 +109,7 @@ node {
         passwordVariable: 'REGISTRY_PASS',
         usernameVariable: 'REGISTRY_USER'
       )]) {
-        sh '''
+        sh """
           docker login ${REGISTRY_HOST} -u ${REGISTRY_USER} -p ${REGISTRY_PASS}
 
           echo "${OWASP_REPORT_DIR}"
@@ -151,7 +151,7 @@ node {
           docker exec ${OWASP_CONTAINER_ID} \
             zap-cli -v -p ZAP_API_PORT report \
             -o /zap/reports/wasp-zap-report.html -f html
-        '''
+        """
       }
 
       // TODO :: retag as DOCKER_DEPLOY_IMAGE:DOCKRE_DEPLOY_IMAGE_VERSION
