@@ -9,7 +9,7 @@ import { PlacesService } from '../places.service';
 })
 export class LocationOutputComponent implements OnInit {
 
-  constructor (private placesService: PlacesService) {}
+  constructor (public readonly placesService: PlacesService) {}
 
   ngOnInit() {
   }
