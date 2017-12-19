@@ -145,13 +145,12 @@ node {
 
       try {
         candidateContainer = docker.image(DOCKER_CANDIDATE_IMAGE).run(
-          args: "--rm --name"
+          args: "--rm -d"
         );
       } catch (e) {
         if (candidateContainer) {
           candidateContainer.stop()
         }
-        throw e
       }
       // docker.image(DOCKER_CANDIDATE_IMAGE).inside() { APP_IMAGE
       //   docker.image(DOCKER_OWASP_IMAGE).inside(
