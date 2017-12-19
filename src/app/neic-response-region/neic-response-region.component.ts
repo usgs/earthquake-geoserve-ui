@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { RegionsService } from '../regions.service';
+
 @Component({
   selector: 'app-neic-response-region',
   templateUrl: './neic-response-region.component.html',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NeicResponseRegionComponent implements OnInit {
 
-  constructor() { }
+  constructor(private regionsService: RegionsService) { }
 
   ngOnInit() {
   }

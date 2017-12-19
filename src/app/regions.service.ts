@@ -17,6 +17,7 @@ export class RegionsService {
   private _adminRegions: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private _coordinates: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private _neicCatalog: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private _neicResponse: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private _tectonic: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private _offshoreRegions: BehaviorSubject<any> =
       new BehaviorSubject<any>(null);
@@ -27,9 +28,12 @@ export class RegionsService {
       this._coordinates.asObservable();
   public readonly neicCatalog: Observable<any> =
       this._neicCatalog.asObservable();
+  public readonly neicResponse: Observable<any> =
+      this._neicResponse.asObservable();
   public readonly offshoreRegions: Observable<any> =
       this._offshoreRegions.asObservable();
-  public readonly tectonic: Observable<any> = this._tectonic.asObservable();
+  public readonly tectonic: Observable<any> =
+      this._tectonic.asObservable();
 
 
 
@@ -37,6 +41,10 @@ export class RegionsService {
 
   empty (): void {
     this._adminRegions.next(null);
+    this._coordinates.next(null);
+    this._neicCatalog.next(null);
+    this._neicResponse.next(null);
+    this._offshoreRegions.next(null);
     this._tectonic.next(null);
   }
 
@@ -57,13 +65,16 @@ export class RegionsService {
       } else {
         this._adminRegions.next(null);
       }
-
       if (data.neiccatalog) {
         this._neicCatalog.next(data.neiccatalog.features[0]);
       } else {
         this._neicCatalog.next(null);
       }
-
+      if (data.neicresponse) {
+        this._neicResponse.next(data.neicresponse.features[0]);
+      } else {
+        this._neicResponse.next(null);
+      }
       if (data.tectonic) {
         this._tectonic.next(data.tectonic.features[0]);
       } else {
@@ -77,7 +88,6 @@ export class RegionsService {
       }
     });
   }
-
 
   private handleError<T> (action: string, result?: T) {
     return(error: any): Observable<T> => {
