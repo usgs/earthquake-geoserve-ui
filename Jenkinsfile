@@ -161,7 +161,7 @@ node {
     mail to: 'emartinez@usgs.gov',
       from: 'noreply@jenkins',
       subject: 'Jenkins: earthquake-design-ui',
-      body: "Project build (${BUILD_TAG}) failed with '${e.message}'"
+      body: "Project build (${BUILD_TAG}) failed with '${e.message}' Stack ${e.getStackTrace()}"
 
     FAILURE = e;
   } finally {
