@@ -48,7 +48,11 @@ export class HazdevTemplateComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.mobileQuery.removeListener(this._mobileQueryListener);
+    try {
+      this.mobileQuery.removeListener(this._mobileQueryListener);
+    } catch (e) {
+      // Ignore
+    }
   }
 
   ngOnInit() {
