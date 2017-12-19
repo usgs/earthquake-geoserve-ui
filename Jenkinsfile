@@ -78,13 +78,19 @@ node {
 
       publishHTML(target: [
         allowMissing: true,
-        alwaysLinkToLastBuild: false,
+        alwaysLinkToLastBuild: true,
         keepAll: true,
         reportDir: 'coverage',
         reportFiles: 'index.html',
         reportName: 'Code Coverage',
         reportTitles: 'Code Coverage Report'
       ])
+
+      step([
+        $class: 'CoberturaPublisher',
+        coberturaReportFile: '**/coverage/cobertura-coverage.xml'
+      ])
+
     }
 
     stage('Publish') {
@@ -152,7 +158,7 @@ node {
 
       publishHTML (target: [
         allowMissing: true,
-        alwaysLinkToLastBuild: false,
+        alwaysLinkToLastBuild: true,
         keepAll: true,
         reportDir: OWASP_REPORT_DIR,
         reportFiles: 'owasp-zap-report.html',
