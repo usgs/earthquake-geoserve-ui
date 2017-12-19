@@ -2,8 +2,8 @@
 
 node {
   // Set by "checkout" step below
-  def SCM_VARS = [:];
-  def FAILURE = null;
+  def SCM_VARS = [:]
+  def FAILURE = null
 
   // Used for consistency between other variables
   def APP_NAME = 'earthquake-geoserve-ui'
@@ -22,7 +22,7 @@ node {
   // Image to use when starting DOCKER_OWASP_CONTAINER
   def DOCKER_OWASP_IMAGE = "${REGISTRY_HOST}/devops/containers/library/owasp/zap2docker-stable"
 
-  def OWASP_REPORT_DIR = "${WORKSPACE}/owasp-data";
+  def OWASP_REPORT_DIR = "${WORKSPACE}/owasp-data"
 
   try {
     stage('Initialize') {
@@ -85,12 +85,6 @@ node {
         reportName: 'Code Coverage',
         reportTitles: 'Code Coverage Report'
       ])
-
-      step([
-        $class: 'CoberturaPublisher',
-        coberturaReportFile: '**/coverage/cobertura-coverage.xml'
-      ])
-
     }
 
     stage('Publish') {
@@ -174,13 +168,16 @@ node {
       subject: 'Jenkins: earthquake-design-ui',
       body: "Project build (${BUILD_TAG}) failed with '${e.message}'"
 
-    FAILURE = e;
+    FAILURE = e
   } finally {
     stage('Cleanup') {
       sh """
-        docker container rm --force ${DOCKER_BUILD_CONTAINER} || echo 'No spurious build container'
-        docker container rm --force ${DOCKER_TEST_CONTAINER} || echo 'No spurious test container'
-        docker image rm --force ${DOCKER_CANDIDATE_IMAGE} || echo 'No spuious test image'
+        docker container rm --force ${DOCKER_BUILD_CONTAINER} \
+          || echo 'No spurious build container'
+        docker container rm --force ${DOCKER_TEST_CONTAINER} \
+          || echo 'No spurious test container'
+        docker image rm --force ${DOCKER_CANDIDATE_IMAGE} \
+          || echo 'No spurious test image'
       """
 
       if (FAILURE) {
