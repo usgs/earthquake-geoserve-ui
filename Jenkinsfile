@@ -145,7 +145,7 @@ node {
           docker
             .image(DOCKER_OWASP_IMAGE)
             .withRun(
-              args: "--link=${APP_IMAGE.id:APP} -v ${OWASP_REPORT_DIR}:/zap/reports:rw",
+              args: "--link=${APP_IMAGE.id}:APP -v ${OWASP_REPORT_DIR}:/zap/reports:rw",
               command: "zap.sh -daemon -port ${ZAP_API_PORT} -config api.disablekey=true"
             ) {
               // Wait for OWASP container to be ready, but not for too long
