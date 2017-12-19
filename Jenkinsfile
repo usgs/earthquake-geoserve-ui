@@ -107,7 +107,7 @@ node {
 
       // Run linting, unit tests, and end-to-end tests
       docker
-        .image(DOCKER_TEST_CONTAINER)
+        .image(DOCKER_TEST_IMAGE)
         .inside () {
           sh """
             npm run lint
