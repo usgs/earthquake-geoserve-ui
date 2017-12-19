@@ -145,7 +145,7 @@ node {
             http://\$PENTEST_IP/
 
           docker exec \${OWASP_CONTAINER_ID} \
-            zap-cli -v \$ZAP_API_PORT active-scan \
+            zap-cli -v -p \$ZAP_API_PORT active-scan \
             http://\$PENTEST_IP/
 
           docker exec \${OWASP_CONTAINER_ID} \
