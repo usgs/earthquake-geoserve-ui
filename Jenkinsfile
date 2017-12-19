@@ -68,7 +68,6 @@ node {
     }
 
     stage('Tests') {
-      TODO :: Re-enable tests
       sh """
         docker run --rm --name ${DOCKER_TEST_CONTAINER} \
         -v ${WORKSPACE}:/app \
