@@ -28,9 +28,15 @@ node {
       ]
     ])
 
-    SCM_VARS.each { key, value ->
-      echo "SCM_VARS[${key}] = ${value}"
-    }
+    docker
+      .image(DOCKER_NODE_IMAGE)
+      .withRun("-v ${WORKSPACE}:/hazdev-build")
+      .inside() {
+        sh '''
+          cd /hazdev-build
+          npm install
+        '''
+      }
 
     sh '''
       ls -la
