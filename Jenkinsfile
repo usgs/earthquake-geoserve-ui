@@ -140,15 +140,15 @@ node {
           ZAP_API_PORT=8090
           PENTEST_IP=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${DOCKER_PENTEST_CONTAINER}`
 
-          docker exec ${OWASP_CONTAINER_ID} \
+          docker exec "${OWASP_CONTAINER_ID}" \
             zap-cli -v -p $ZAP_API_PORT spider \
             http://$PENTEST_IP/
 
-          docker exec ${OWASP_CONTAINER_ID} \
+          docker exec "${OWASP_CONTAINER_ID}" \
             zap-cli -v $ZAP_API_PORT active-scan \
             http://$PENTEST_IP/
 
-          docker exec ${OWASP_CONTAINER_ID} \
+          docker exec "${OWASP_CONTAINER_ID}" \
             zap-cli -v -p ZAP_API_PORT report \
             -o /zap/reports/wasp-zap-report.html -f html
         """
