@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClient, HttpHandler } from '@angular/common/http';
 
 import { NeicResponseRegionComponent } from './neic-response-region.component';
+import { RegionsService } from '../regions.service';
 
 describe('NeicResponseRegionComponent', () => {
   let component: NeicResponseRegionComponent;
@@ -8,7 +10,12 @@ describe('NeicResponseRegionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NeicResponseRegionComponent ]
+      declarations: [ NeicResponseRegionComponent ],
+      providers: [
+        HttpClient,
+        HttpHandler,
+        RegionsService
+      ]
     })
     .compileComponents();
   }));

@@ -1,3 +1,27 @@
-<p>
-  neic-response-region works!
-</p>
+<!-- NEIC Response region was returned, display the region -->
+<h2>NEIC Response Region</h2>
+<div *ngIf="regionsService.neicResponse | async; else noRegion; let region" class="output-section">
+  <dl class="neic-response-region">
+    <dt>Name</dt>
+    <dd>
+      {{ region?.properties.name }}
+    </dd>
+    <dt>Magnitude</dt>
+    <dd>
+      {{ region?.properties.magnitude }}
+    </dd>
+    <dt>Type</dt>
+    <dd>
+      {{ region?.properties.type }}
+    </dd>
+  </dl>
+</div>
+
+<!-- No administrative region was returned -->
+<ng-template #noRegion>
+  <div *ngIf="regionsService.coordinates | async">
+    <p class="alert warning">
+      There is no neic response region for this location
+    </p>
+  </div>
+</ng-template>
