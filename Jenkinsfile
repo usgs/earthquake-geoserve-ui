@@ -6,7 +6,7 @@ node {
   def FAILURE = null;
 
   // Used for consistency between other variables
-  def APP_NAME = 'earthuake-geoserve-ui'
+  def APP_NAME = 'earthquake-geoserve-ui'
   // Used to install dependencies and build distributables
   def DOCKER_BUILD_CONTAINER = "${APP_NAME}-${BUILD_ID}-BUILD"
   // Used to run linting, tests, coverage, e2e within this container
@@ -119,11 +119,11 @@ node {
           fi
           echo "STEP 1"
 
-          docker run --name ${DOCKER_PENTEST_CONTAINER} \
+          docker run --rm --name ${DOCKER_PENTEST_CONTAINER} \
             -d ${DOCKER_CANDIDATE_IMAGE}
 
           echo "STEP 2"
-          OWASP_CONTAINER_ID=`docker run -d -u zap \
+          OWASP_CONTAINER_ID=`docker run --rm -d -u zap \
             --name=${DOCKER_OWASP_CONTAINER} \
             --link=${DOCKER_PENTEST_CONTAINER} \
             -v ${OWASP_REPORT_DIR}:/zap/reports:rw \
