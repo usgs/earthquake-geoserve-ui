@@ -18,13 +18,13 @@ node {
     SCM_VARS = checkout([
       $class: 'GitSCM',
       branches: [
-        [name: '*/issue-16']
+        [name: GIT_BRANCH]
       ],
       doGenerateSubmoduleConfigurations: false,
       extensions: [],
       submoduleCfg: [],
       userRemoteConfigs: [
-        [url: 'https://github.com/emartinez-usgs/earthquake-geoserve-ui.git']
+        [url: GIT_URL]
       ]
     ])
 
