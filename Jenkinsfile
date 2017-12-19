@@ -70,72 +70,72 @@ node {
     }
 
     stage('Dependencies') {
-      docker.image(DOCKER_NODE_IMAGE).inside() {
-        // This depends on "dist" folder from Install stage
+      echo "TODO :: Enable this stage"
+      // docker.image(DOCKER_NODE_IMAGE).inside() {
+      //   // This depends on "dist" folder from Install stage
 
-        // TODO :: Better dependency checking. Do not need to check all of
-        //         node_modules because they are not included in build, but
-        //         checking just the distribution files seems incomplete.
+      //   // TODO :: Better dependency checking. Do not need to check all of
+      //   //         node_modules because they are not included in build, but
+      //   //         checking just the distribution files seems incomplete.
 
-        // Analyze dependencies
-        dependencyCheckAnalyzer(
-          datadir: '',
-          hintsFile: '',
-          includeCsvReports: false,
-          includeHtmlReports: false,
-          includeJsonReports: false,
-          includeVulnReports: false,
-          isAutoupdateDisabled: false,
-          outdir: '',
-          scanpath: 'dist',
-          skipOnScmChange: false,
-          skipOnUpstreamChange: false,
-          suppressionFile: '',
-          zipExtensions: ''
-        )
+      //   // Analyze dependencies
+      //   dependencyCheckAnalyzer(
+      //     datadir: '',
+      //     hintsFile: '',
+      //     includeCsvReports: false,
+      //     includeHtmlReports: false,
+      //     includeJsonReports: false,
+      //     includeVulnReports: false,
+      //     isAutoupdateDisabled: false,
+      //     outdir: '',
+      //     scanpath: 'dist',
+      //     skipOnScmChange: false,
+      //     skipOnUpstreamChange: false,
+      //     suppressionFile: '',
+      //     zipExtensions: ''
+      //   )
 
-        // Publish results
-        dependencyCheckPublisher(
-          canComputeNew: false,
-          defaultEncoding: '',
-          healthy: '',
-          pattern: '**/dependency-check-report.xml',
-          unHealthy: ''
-        )
-      }
+      //   // Publish results
+      //   dependencyCheckPublisher(
+      //     canComputeNew: false,
+      //     defaultEncoding: '',
+      //     healthy: '',
+      //     pattern: '**/dependency-check-report.xml',
+      //     unHealthy: ''
+      //   )
+      // }
     }
 
     stage('Unit Tests') {
-      // Note that running angular tests destroys the "dist" folder that was
-      // originally created in Install stage. This is not needed later, so
-      // okay, but just be aware ...
+      echo "TODO :: Enable this stage"
+      // // Note that running angular tests destroys the "dist" folder that was
+      // // originally created in Install stage. This is not needed later, so
+      // // okay, but just be aware ...
 
-      // Run linting, unit tests, and end-to-end tests
-      docker
-        .image(DOCKER_TEST_IMAGE)
-        .inside () {
-          sh """
-            npm run lint
-            npm run test -- --single-run --code-coverage --progress false
-            npm run e2e -- --progress false
-          """
-        }
+      // // Run linting, unit tests, and end-to-end tests
+      // docker.image(DOCKER_TEST_IMAGE).inside () {
+      //   sh """
+      //     npm run lint
+      //     npm run test -- --single-run --code-coverage --progress false
+      //     npm run e2e -- --progress false
+      //   """
+      // }
 
-      // Publish results
-      cobertura(
-        autoUpdateHealth: false,
-        autoUpdateStability: false,
-        coberturaReportFile: '**/cobertura-coverage.xml',
-        conditionalCoverageTargets: '70, 0, 0',
-        failUnhealthy: false,
-        failUnstable: false,
-        lineCoverageTargets: '80, 0, 0',
-        maxNumberOfBuilds: 0,
-        methodCoverageTargets: '80, 0, 0',
-        onlyStable: false,
-        sourceEncoding: 'ASCII',
-        zoomCoverageChart: false
-      )
+      // // Publish results
+      // cobertura(
+      //   autoUpdateHealth: false,
+      //   autoUpdateStability: false,
+      //   coberturaReportFile: '**/cobertura-coverage.xml',
+      //   conditionalCoverageTargets: '70, 0, 0',
+      //   failUnhealthy: false,
+      //   failUnstable: false,
+      //   lineCoverageTargets: '80, 0, 0',
+      //   maxNumberOfBuilds: 0,
+      //   methodCoverageTargets: '80, 0, 0',
+      //   onlyStable: false,
+      //   sourceEncoding: 'ASCII',
+      //   zoomCoverageChart: false
+      // )
     }
 
     stage('Penetration Tests') {
