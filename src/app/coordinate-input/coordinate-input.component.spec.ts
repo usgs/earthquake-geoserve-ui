@@ -9,7 +9,7 @@ describe('CoordinateInputComponent', () => {
   let component: CoordinateInputComponent;
   let fixture: ComponentFixture<CoordinateInputComponent>;
   let getPlacesSpy;
-  let getRegionsSpy;
+  let getRegionSpy;
   let placesService;
   let regionsService;
 
@@ -47,7 +47,7 @@ describe('CoordinateInputComponent', () => {
     placesService = fixture.debugElement.injector.get(PlacesService);
     getPlacesSpy = spyOn(placesService, 'getPlaces');
     regionsService = fixture.debugElement.injector.get(RegionsService);
-    getRegionsSpy = spyOn(regionsService, 'getRegions');
+    getRegionSpy = spyOn(regionsService, 'getRegions');
 
     fixture.detectChanges();
   });
