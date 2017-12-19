@@ -114,7 +114,7 @@ node {
           status=1
           while [ \$status ]; do
             sleep 1;
-            docker exec -it ${DOCKER_OWASP_CONTAINER} curl -I localhost:\${ZAP_API_PORT}
+            docker exec -i ${DOCKER_OWASP_CONTAINER} curl -I localhost:\${ZAP_API_PORT}
             status=\$?
           done
 
