@@ -97,6 +97,8 @@ node {
           /bin/bash --login -c \
           "cd /app && npm run build -- --prod --progress false"
 
+        docker pull ${DOCKER_DEPLOY_BASE_IMAGE}
+
         docker build \
           --build-arg BASE_IMAGE=${DOCKER_DEPLOY_BASE_IMAGE} \
           -t ${DOCKER_CANDIDATE_IMAGE} \
@@ -144,6 +146,7 @@ node {
 
         docker stop ${DOCKER_OWASP_CONTAINER} ${DOCKER_PENTEST_CONTAINER}
       """
+
       publishHTML (target: [
         allowMissing: true,
         alwaysLinkToLastBuild: true,
