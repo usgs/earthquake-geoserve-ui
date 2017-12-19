@@ -75,7 +75,7 @@ describe('PlacesService', () => {
       const request = httpClient.expectOne(placesService.API_URL +
         '?latitude=latitude&longitude=longitude&type=event');
 
-      request.error(null);
+      request.error(new ErrorEvent('You may safely ignore this error.'));
 
       placesService.places.subscribe((result) => {
         expect(result.length).toBe(0);

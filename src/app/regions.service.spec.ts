@@ -73,7 +73,7 @@ describe('RegionsService', () => {
       const request = httpClient.expectOne(regionsService.API_URL +
         '?latitude=latitude&longitude=longitude');
 
-      request.error(null);
+      request.error(new ErrorEvent('You may safely ignore this error.'));
 
       regionsService.adminRegions.subscribe((result) => {
         expect(result).toBe(null);

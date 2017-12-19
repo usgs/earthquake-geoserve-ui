@@ -13,7 +13,7 @@ import { Coordinates } from './coordinates';
 @Injectable()
 export class PlacesService {
 
-  public readonly API_URL = 'https://dev-earthquake.cr.usgs.gov/ws/geoserve/places.json';
+  public readonly API_URL = 'https://earthquake.usgs.gov/ws/geoserve/places.json';
 
   private _coordinates: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public readonly coordinates: Observable<any> = this._coordinates.asObservable();
