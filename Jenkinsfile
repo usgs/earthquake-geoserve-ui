@@ -47,7 +47,7 @@ node {
       // """
       docker
         .image(DOCKER_NODE_IMAGE)
-        .inside {
+        .inside('--user hazdev-user') {
           sh '''
             pwd
             ls -la
