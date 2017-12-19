@@ -42,15 +42,15 @@ node {
       ])
 
 
-      sh """
-        docker run --rm --name ${DOCKER_BUILD_CONTAINER} \
-          -v ${WORKSPACE}:/app \
-          ${DOCKER_NODE_IMAGE} \
-          /bin/bash --login -c \
-          "cd /app && npm install && npm run build -- --prod"
+      // sh """
+      //   docker run --rm --name ${DOCKER_BUILD_CONTAINER} \
+      //     -v ${WORKSPACE}:/app \
+      //     ${DOCKER_NODE_IMAGE} \
+      //     /bin/bash --login -c \
+      //     "cd /app && npm install && npm run build -- --prod"
 
-        ls -al
-      """
+      //   ls -al
+      // """
 
       // Leaves behind ...
       //   ${WORKSPACE}/node_modules <-- Used by later stages
@@ -63,7 +63,7 @@ node {
         -v ${WORKSPACE}:/app \
         ${DOCKER_TEST_IMAGE} \
         /bin/bash --login -c \
-        "ng lint && ng test --single-run --code-coverage && ng e2e"
+        "ng lint && ng test --single-run --code-coverage && ng e2e --progress false"
       """
 
       publishHTML(target: [
@@ -79,8 +79,12 @@ node {
 
     stage('Publish') {
       sh """
-        pwd
-        ls -la
+        docker run --rm --name ${DOCKER_BUILD_CONTAINER} \
+          -v ${WORKSPACE}:/app \
+          ${DOCKER_NODE_IMAGE} \
+          /bin/bash --login -c \
+          "cd /app && npm install && npm run build -- --prod"
+
         docker build \
           --build-arg BASE_IMAGE=${DOCKER_DEPLOY_BASE_IMAGE} \
           -t ${DOCKER_CANDIATE_IMAGE} \
