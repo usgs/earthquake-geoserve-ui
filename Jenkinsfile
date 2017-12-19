@@ -60,7 +60,7 @@ node {
           includeJsonReports: false,
           includeVulnReports: false,
           isAutoupdateDisabled: false,
-          outdir: 'owasp-dependency-results',
+          outdir: '',
           scanpath: 'node_modules',
           skipOnScmChange: false,
           skipOnUpstreamChange: false,
@@ -72,7 +72,7 @@ node {
           canComputeNew: false,
           defaultEncoding: '',
           healthy: '',
-          pattern: 'owasp-dependency-results',
+          pattern: '**/dependency-check-report.xml',
           unHealthy: ''
         )
 
