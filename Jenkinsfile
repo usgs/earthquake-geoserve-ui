@@ -36,15 +36,6 @@ node {
     }
 
     stage('Install') {
-      // sh """
-      //   docker run --rm --name ${DOCKER_BUILD_CONTAINER} \
-      //     -v ${WORKSPACE}:/app \
-      //     ${DOCKER_NODE_IMAGE} \
-      //     /bin/bash --login -c \
-      //     "cd /app && npm update"
-
-      //   ls -al
-      // """
       docker.image(DOCKER_NODE_IMAGE).inside() {
         withEnv([
           'npm_config_cache=/tmp/npm-cache',
@@ -57,7 +48,33 @@ node {
           '''
         }
       }
+    }
 
+    stage('Dependencies') {
+      docker.image(DOCKER_NODE_IMAGE).inside() {
+        dependencyCheckAnalyzer
+          datadir: '',
+          hintsFile: '',
+          includeCsvReports: false,
+          includeHtmlReports: false,
+          includeJsonReports: false,
+          includeVulnReports: false,
+          isAutoupdateDisabled: false,
+          outdir: 'owasp-dependency-results',
+          scanpath: 'node_modules',
+          skipOnScmChange: false,
+          skipOnUpstreamChange: false,
+          suppressionFile: '',
+          zipExtensions: ''
+
+        dependencyCheckPublisher
+          canComputeNew: false,
+          defaultEncoding: '',
+          healthy: '',
+          pattern: 'owasp-dependency-results',
+          unHealthy: ''
+
+      }
     }
 
     // stage('Tests') {
