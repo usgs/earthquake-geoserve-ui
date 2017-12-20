@@ -308,6 +308,7 @@ node {
       subject: 'Jenkins: earthquake-design-ui',
       body: "Project build (${BUILD_TAG}) failed with '${e}'"
 
+
     FAILURE = e
   } finally {
     stage('Cleanup') {
