@@ -287,11 +287,13 @@ node {
     }
 
     stage('Publish') {
+      def IMAGE_VERSION = null
+
       // Determine image tag to use
       if (SCM_VARS.GIT_BRANCH == 'origin/master') {
         IMAGE_VERSION = ${DOCKER_DEPLOY_IMAGE_VERSION}
       } else {
-        IMAGE_VERSION = SCM_VARS.GIT_BRANCH.replace('origin/', '').replace(' ', '_')\
+        IMAGE_VERSION = SCM_VARS.GIT_BRANCH.split('/').last().replace(' ', '_')
       }
 
       // Re-tag candidate image as actual image name and push actual image to
