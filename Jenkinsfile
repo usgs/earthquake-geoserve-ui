@@ -27,10 +27,6 @@ node {
   try {
     stage('Update') {
       cleanWs()
-      sh '''
-        pwd
-        ls -la
-      '''
 
       // Sets ...
       //   SCM_VARS.GIT_BRANCH (e.g. origin/master)
@@ -43,27 +39,10 @@ node {
       SCM_VARS.each { key, value ->
         echo "SCM_VARS[${key}] = ${value}"
       }
+      sh '''
+        exit -1;
+      '''
     }
-
-    // stage('Install') {
-    //   // Install dependencies and build project distributables
-    //   docker.image(DOCKER_NODE_IMAGE).inside() {
-    //     withEnv([
-    //       'npm_config_cache=/tmp/npm-cache',
-    //       'HOME=/tmp'
-    //     ]) {
-    //       sh """
-    //         source /etc/profile.d/nvm.sh > /dev/null 2>&1
-    //         npm config set package-lock false
-
-    //         npm update --no-save
-    //         npm run build -- --prod --progress false
-
-
-    //       """
-    //     }
-    //   }
-    // }
 
     stage('Dependencies') {
       docker.image(DOCKER_NODE_IMAGE).inside() {
@@ -247,7 +226,15 @@ node {
           status='FAILED'
           while [ \$status != 'SUCCESS' ]; do
             sleep 1;
-            status=`(docker exec -i ${DOCKER_OWASP_CONTAINER} curl -I localhost:${ZAP_API_PORT} > /dev/null 2>&1 && echo 'SUCCESS') || echo 'FAILED'`
+            status=`\
+              (\
+                docker exec -i ${DOCKER_OWASP_CONTAINER} \
+                  curl -I localhost:${ZAP_API_PORT} \
+                  > /dev/null 2>&1 && echo 'SUCCESS'\
+              ) \
+              || \
+              echo 'FAILED'\
+            `
           done
         """
       }
@@ -322,7 +309,7 @@ node {
     mail to: 'emartinez@usgs.gov',
       from: 'noreply@jenkins',
       subject: 'Jenkins: earthquake-design-ui',
-      body: "Project build (${BUILD_TAG}) failed with '${e.message}'"
+      body: "Project build (${BUILD_TAG}) failed with '${e}'"
 
     FAILURE = e
   } finally {
