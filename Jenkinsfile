@@ -26,7 +26,7 @@ node {
 
   try {
     stage('Update') {
-      cleanWs
+      cleanWs()
       sh '''
         pwd
         ls -la
