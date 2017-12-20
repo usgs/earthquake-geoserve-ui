@@ -9,6 +9,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 import { PlacesService } from './places.service';
 import { RegionsService } from './regions.service';
+import { Util } from './util/app.utility.service';
 
 import { AdminRegionComponent } from './admin-region/admin-region.component';
 import { AppComponent } from './app.component';
@@ -30,6 +31,7 @@ import { NeicResponseRegionComponent } from './neic-response-region/neic-respons
 import { NoDataComponent } from './no-data/no-data.component';
 import { OffshoreRegionComponent } from './offshore-region/offshore-region.component';
 import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tectonic-summary-region.component';
+
 
 
 
@@ -78,7 +80,8 @@ import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tecton
   providers: [
     PlacesService,
     RegionsService,
-    MediaMatcher
+    MediaMatcher,
+    Util
   ],
   bootstrap: [AppComponent]
 })

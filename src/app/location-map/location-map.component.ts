@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { icon, latLng, Layer, marker, polyline, tileLayer } from 'leaflet';
 
 import { PlacesService } from '../places.service';
+import { Util } from '../util/app.utility.service';
 
 
 @Component({
@@ -68,15 +69,19 @@ export class LocationMapComponent implements OnInit {
   };
 
   markers: Layer[] = [];
-  center = [ 46.879966, -121.726909 ];
+  center = [ 38, -95 ];
+  zoom = 4;
 
   options = {
-    zoom: 7,
+    zoom: this.zoom,
     center: this.center
   };
 
 
-  constructor (private placesService: PlacesService) {}
+  constructor (
+    private placesService: PlacesService,
+    private util: Util
+  ) {}
 
   ngOnInit() {
     // subscribe to coordinate changes
@@ -102,7 +107,13 @@ export class LocationMapComponent implements OnInit {
   }
 
   // center the map on the provided coordinates
-  moveMap (latitude: number, longitude: number) {
-    this.center = [ latitude, longitude ];
+  moveMap (latitude: string, longitude: string) {
+    this.center = [ +latitude, +longitude ];
+    this.zoom = this.util.computeZoomFromConfidence(
+        this.util.computeFromCoordinates(latitude, longitude)
+      );
+
+    console.log('zoom: ' + this.zoom);
   }
+
 }
