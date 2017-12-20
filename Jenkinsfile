@@ -228,27 +228,29 @@ node {
       }
 
       // Run the penetration tests
-      sh """
-        # Get IP of application image, OWASP hates hostnames
-        PENTEST_IP=`docker inspect \
-          -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' \
-          ${PENTEST_CONTAINER} \
-        `
+      ansiColor('xterm') {
+        sh """
+          # Get IP of application image, OWASP hates hostnames
+          PENTEST_IP=`docker inspect \
+            -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' \
+            ${PENTEST_CONTAINER} \
+          `
 
-        docker exec ${OWASP_CONTAINER} \
-          zap-cli -v -p ${ZAP_API_PORT} spider \
-          http://\$PENTEST_IP/
+          docker exec ${OWASP_CONTAINER} \
+            zap-cli -v -p ${ZAP_API_PORT} spider \
+            http://\$PENTEST_IP/
 
-        docker exec ${OWASP_CONTAINER} \
-          zap-cli -v -p ${ZAP_API_PORT} active-scan \
-          http://\$PENTEST_IP/
+          docker exec ${OWASP_CONTAINER} \
+            zap-cli -v -p ${ZAP_API_PORT} active-scan \
+            http://\$PENTEST_IP/
 
-        docker exec ${OWASP_CONTAINER} \
-          zap-cli -v -p ${ZAP_API_PORT} report \
-          -o /zap/reports/owasp-zap-report.html -f html
+          docker exec ${OWASP_CONTAINER} \
+            zap-cli -v -p ${ZAP_API_PORT} report \
+            -o /zap/reports/owasp-zap-report.html -f html
 
-        docker stop ${OWASP_CONTAINER} ${PENTEST_CONTAINER}
-      """
+          docker stop ${OWASP_CONTAINER} ${PENTEST_CONTAINER}
+        """
+      }
 
       // Publish results
       publishHTML (target: [
@@ -278,15 +280,18 @@ node {
         passwordVariable: 'REGISTRY_PASS',
         usernameVariable: 'REGISTRY_USER'
       )]) {
-        sh """
-          docker login ${REGISTRY_HOST} -u ${REGISTRY_USER} -p ${REGISTRY_PASS}
+        ansiColor('xterm') {
+          sh """
+            docker login ${REGISTRY_HOST} -u ${REGISTRY_USER} -p ${REGISTRY_PASS}
 
-          docker tag \
-            ${LOCAL_IMAGE} \
-            ${DEPLOY_IMAGE}:${IMAGE_VERSION}
+            docker tag \
+              ${LOCAL_IMAGE} \
+              ${DEPLOY_IMAGE}:${IMAGE_VERSION}
 
-          docker push ${DEPLOY_IMAGE}:${IMAGE_VERSION}
-        """
+            # TODO :: Figure out why pushes are failing
+            #docker push ${DEPLOY_IMAGE}:${IMAGE_VERSION}
+          """
+        }
       }
     }
 
@@ -305,10 +310,13 @@ node {
     stage('Cleanup') {
       sh """
         set +x
-        docker container rm --force ${BUILDER_CONTAINER} \
-          || echo 'No spurious build container'
-        docker container rm --force ${TESTER_CONTAINER} \
-          || echo 'No spurious test container'
+        docker container rm --force \
+          ${BUILDER_CONTAINER} \
+          ${OWASP_CONTAINER} \
+          ${PENTEST_CONTAINER} \
+          ${TESTER_CONTAINER} \
+        || echo 'No spurious containers'
+
         docker image rm --force ${LOCAL_IMAGE} \
           || echo 'No spurious test image'
       """
