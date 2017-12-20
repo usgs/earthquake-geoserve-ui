@@ -45,14 +45,14 @@ node {
           sh """
             source /etc/profile.d/nvm.sh > /dev/null 2>&1
             npm config set package-lock false
-            # TODO :: Uncomment the next lines
-            # npm update --no-save
-            # npm run build -- --prod --progress false
 
-          if [ ! -d "${OWASP_REPORT_DIR}" ]; then
-            mkdir -p ${OWASP_REPORT_DIR}
-            chmod 777 ${OWASP_REPORT_DIR}
-          fi
+            npm update --no-save
+            npm run build -- --prod --progress false
+
+            if [ ! -d "${OWASP_REPORT_DIR}" ]; then
+              mkdir -p ${OWASP_REPORT_DIR}
+              chmod 777 ${OWASP_REPORT_DIR}
+            fi
           """
         }
       }
@@ -71,72 +71,70 @@ node {
     }
 
     stage('Dependencies') {
-      echo "TODO :: Enable this stage"
-      // docker.image(DOCKER_NODE_IMAGE).inside() {
-      //   // This depends on "dist" folder from Install stage
+      docker.image(DOCKER_NODE_IMAGE).inside() {
+        // This depends on "dist" folder from Install stage
 
-      //   // TODO :: Better dependency checking. Do not need to check all of
-      //   //         node_modules because they are not included in build, but
-      //   //         checking just the distribution files seems incomplete.
+        // TODO :: Better dependency checking. Do not need to check all of
+        //         node_modules because they are not included in build, but
+        //         checking just the distribution files seems incomplete.
 
-      //   // Analyze dependencies
-      //   dependencyCheckAnalyzer(
-      //     datadir: '',
-      //     hintsFile: '',
-      //     includeCsvReports: false,
-      //     includeHtmlReports: false,
-      //     includeJsonReports: false,
-      //     includeVulnReports: false,
-      //     isAutoupdateDisabled: false,
-      //     outdir: '',
-      //     scanpath: 'dist',
-      //     skipOnScmChange: false,
-      //     skipOnUpstreamChange: false,
-      //     suppressionFile: '',
-      //     zipExtensions: ''
-      //   )
+        // Analyze dependencies
+        dependencyCheckAnalyzer(
+          datadir: '',
+          hintsFile: '',
+          includeCsvReports: false,
+          includeHtmlReports: false,
+          includeJsonReports: false,
+          includeVulnReports: false,
+          isAutoupdateDisabled: false,
+          outdir: '',
+          scanpath: 'dist',
+          skipOnScmChange: false,
+          skipOnUpstreamChange: false,
+          suppressionFile: '',
+          zipExtensions: ''
+        )
 
-      //   // Publish results
-      //   dependencyCheckPublisher(
-      //     canComputeNew: false,
-      //     defaultEncoding: '',
-      //     healthy: '',
-      //     pattern: '**/dependency-check-report.xml',
-      //     unHealthy: ''
-      //   )
-      // }
+        // Publish results
+        dependencyCheckPublisher(
+          canComputeNew: false,
+          defaultEncoding: '',
+          healthy: '',
+          pattern: '**/dependency-check-report.xml',
+          unHealthy: ''
+        )
+      }
     }
 
     stage('Unit Tests') {
-      echo "TODO :: Enable this stage"
-      // // Note that running angular tests destroys the "dist" folder that was
-      // // originally created in Install stage. This is not needed later, so
-      // // okay, but just be aware ...
+      // Note that running angular tests destroys the "dist" folder that was
+      // originally created in Install stage. This is not needed later, so
+      // okay, but just be aware ...
 
-      // // Run linting, unit tests, and end-to-end tests
-      // docker.image(DOCKER_TEST_IMAGE).inside () {
-      //   sh """
-      //     npm run lint
-      //     npm run test -- --single-run --code-coverage --progress false
-      //     npm run e2e -- --progress false
-      //   """
-      // }
+      // Run linting, unit tests, and end-to-end tests
+      docker.image(DOCKER_TEST_IMAGE).inside () {
+        sh """
+          npm run lint
+          npm run test -- --single-run --code-coverage --progress false
+          npm run e2e -- --progress false
+        """
+      }
 
-      // // Publish results
-      // cobertura(
-      //   autoUpdateHealth: false,
-      //   autoUpdateStability: false,
-      //   coberturaReportFile: '**/cobertura-coverage.xml',
-      //   conditionalCoverageTargets: '70, 0, 0',
-      //   failUnhealthy: false,
-      //   failUnstable: false,
-      //   lineCoverageTargets: '80, 0, 0',
-      //   maxNumberOfBuilds: 0,
-      //   methodCoverageTargets: '80, 0, 0',
-      //   onlyStable: false,
-      //   sourceEncoding: 'ASCII',
-      //   zoomCoverageChart: false
-      // )
+      // Publish results
+      cobertura(
+        autoUpdateHealth: false,
+        autoUpdateStability: false,
+        coberturaReportFile: '**/cobertura-coverage.xml',
+        conditionalCoverageTargets: '70, 0, 0',
+        failUnhealthy: false,
+        failUnstable: false,
+        lineCoverageTargets: '80, 0, 0',
+        maxNumberOfBuilds: 0,
+        methodCoverageTargets: '80, 0, 0',
+        onlyStable: false,
+        sourceEncoding: 'ASCII',
+        zoomCoverageChart: false
+      )
     }
 
     stage('Penetration Tests') {
@@ -206,7 +204,9 @@ node {
         time: 20,
         unit: 'SECONDS'
       ) {
+        echo "Waiting for OWASP container to finish starting up"
         sh """
+          set +x
           status='FAILED'
           while [ \$status != 'SUCCESS' ]; do
             sleep 1;
