@@ -1,37 +1,45 @@
 #!/usr/bin/env groovy
 
 node {
-  // Set by "checkout" step below
-  def SCM_VARS = [:]
-  def FAILURE = null
-
-  def DOCKER_NODE_IMAGE = "${REGISTRY_HOST}/devops/containers/node:8"
-  def DOCKER_TEST_IMAGE = "${REGISTRY_HOST}/devops/containers/library/trion/ng-cli-e2e"
-  def DOCKER_DEPLOY_BASE_IMAGE = "${REGISTRY_HOST}/devops/containers/nginx:latest"
-  def DOCKER_DEPLOY_IMAGE = "${REGISTRY_HOST}/ghsc/hazdev/earthquake-geosurve/ui"
-
-
   // Used for consistency between other variables
   def APP_NAME = 'earthquake-geoserve-ui'
+  // Base group from where general images may be pulled
+  def DEVOPS_REGISTRY = "${REGISTRY_HOST}/devops/containers"
+  // Flag to capture exceptions and mark build as failure
+  def FAILURE = null
+  // Set by "checkout" step below
+  def SCM_VARS = [:]
+
+
+  // Name of image to use as basis when building LOCAL_IMAGE/DEPLOY_IMAGE
+  def BASE_IMAGE = "${DEVOPS_REGISTRY}/nginx:latest"
+
   // Used to install dependencies and build distributables
-  def DOCKER_BUILD_CONTAINER = "${APP_NAME}-${BUILD_ID}-BUILD"
-  // Used to run linting, tests, coverage, e2e within this container
-  def DOCKER_TEST_CONTAINER = "${APP_NAME}-${BUILD_ID}-TEST"
-  // Container to run application for testing penetration
-  def DOCKER_PENTEST_CONTAINER = "${APP_NAME}-${BUILD_ID}-PENTEST"
-  // Container to run OWASP testing
-  def DOCKER_OWASP_CONTAINER = "${APP_NAME}-${BUILD_ID}-OWASP"
+  def BUILDER_IMAGE = "${DEVOPS_REGISTRY}/node:8"
+  def BUILDER_CONTAINER = "${APP_NAME}-${BUILD_ID}-BUILDER"
+
+  // Name of image to deploy (push) to registry
+  def DEPLOY_IMAGE = "${REGISTRY_HOST}/ghsc/hazdev/earthquake-geosurve/ui"
 
   // Image of application created locally prior to tagging for publication.
-  // Used to start DOCKER_PENTEST_IMAGE for security testing
-  def DOCKER_CANDIDATE_IMAGE = "local/${APP_NAME}:${BUILD_ID}"
-  // Image to use when starting DOCKER_OWASP_CONTAINER
-  def DOCKER_OWASP_IMAGE = "${REGISTRY_HOST}/devops/containers/library/owasp/zap2docker-stable"
+  // Used to start PENTEST_CONTAINER for security testing
+  def LOCAL_IMAGE = "local/${APP_NAME}:${BUILD_ID}"
 
-  def OWASP_REPORT_DIR = "${WORKSPACE}/owasp-data"
+  // Runs zap.sh as daemon and used to execute zap-cli calls within
+  def OWASP_IMAGE = "${DEVOPS_REGISTRY}/library/owasp/zap2docker-stable"
+  def OWASP_CONTAINER = "${APP_NAME}-${BUILD_ID}-OWASP"
+
+  // Run application for testing security vulnerabilities
+  def PENTEST_CONTAINER = "${APP_NAME}-${BUILD_ID}-PENTEST"
+
+  // Used to run linting, unit tests, coverage, and e2e within this container
+  def TESTER_IMAGE = "${DEVOPS_REGISTRY}/library/trion/ng-cli-e2e"
+  def TESTER_CONTAINER = "${APP_NAME}-${BUILD_ID}-TESTER"
+
 
   try {
     stage('Update') {
+      // Start from scratch
       cleanWs()
 
       // Sets ...
@@ -41,10 +49,6 @@ node {
       //   SCM_VARS.GIT_PREVIOUS_SUCCESSFUL_COMMIT
       //   SCM_VARS.GIT_URL
       SCM_VARS = checkout scm
-
-      SCM_VARS.each { key, value ->
-        echo "SCM_VARS[${key}] = ${value}"
-      }
 
       if (GIT_BRANCH != '') {
         // Check out the specified branch
@@ -60,37 +64,41 @@ node {
     }
 
     stage('Dependencies') {
-      docker.image(DOCKER_NODE_IMAGE).inside() {
+      docker.image(BUILDER_IMAGE).inside() {
         // Create dependencies
         withEnv([
           'npm_config_cache=/tmp/npm-cache',
           'HOME=/tmp'
         ]) {
-          sh """
-            source /etc/profile.d/nvm.sh > /dev/null 2>&1
-            npm config set package-lock false
+          ansiColor('xterm') {
+            sh """
+              source /etc/profile.d/nvm.sh > /dev/null 2>&1
+              npm config set package-lock false
 
-            # Using --production installs dependencies but not devDependencies
-            npm install --production
-          """
+              # Using --production installs dependencies but not devDependencies
+              npm install --production
+            """
+          }
         }
 
         // Analyze dependencies
-        dependencyCheckAnalyzer(
-          datadir: '',
-          hintsFile: '',
-          includeCsvReports: false,
-          includeHtmlReports: false,
-          includeJsonReports: false,
-          includeVulnReports: false,
-          isAutoupdateDisabled: false,
-          outdir: '',
-          scanpath: 'node_modules',
-          skipOnScmChange: false,
-          skipOnUpstreamChange: false,
-          suppressionFile: '',
-          zipExtensions: ''
-        )
+        ansiColor('xterm') {
+          dependencyCheckAnalyzer(
+            datadir: '',
+            hintsFile: '',
+            includeCsvReports: false,
+            includeHtmlReports: false,
+            includeJsonReports: false,
+            includeVulnReports: false,
+            isAutoupdateDisabled: false,
+            outdir: '',
+            scanpath: 'node_modules',
+            skipOnScmChange: false,
+            skipOnUpstreamChange: false,
+            suppressionFile: '',
+            zipExtensions: ''
+          )
+        }
 
         // Publish results
         dependencyCheckPublisher(
@@ -105,7 +113,7 @@ node {
 
     stage('Image') {
       // Install all dependencies so
-      docker.image(DOCKER_NODE_IMAGE).inside() {
+      docker.image(BUILDER_IMAGE).inside() {
         withEnv([
           'npm_config_cache=/tmp/npm-cache',
           'HOME=/tmp'
@@ -122,10 +130,10 @@ node {
 
       // Build candidate image for later penetration testing
       sh """
-        docker pull ${DOCKER_DEPLOY_BASE_IMAGE}
+        docker pull ${BASE_IMAGE}
         docker build \
-          --build-arg BASE_IMAGE=${DOCKER_DEPLOY_BASE_IMAGE} \
-          -t ${DOCKER_CANDIDATE_IMAGE} \
+          --build-arg BASE_IMAGE=${BASE_IMAGE} \
+          -t ${LOCAL_IMAGE} \
           .
       """
     }
@@ -136,12 +144,12 @@ node {
       // okay, but just be aware ...
 
       // Run linting, unit tests, and end-to-end tests
-      docker.image(DOCKER_TEST_IMAGE).inside () {
+      docker.image(TESTER_IMAGE).inside () {
         ansiColor('xterm') {
           sh """
             ng lint
-            ng test --single-run --code-coverage
-            ng e2e
+            ng test --single-run --code-coverage --progress false
+            ng e2e --progress false
           """
         }
       }
@@ -165,44 +173,7 @@ node {
 
     stage('Penetration Tests') {
       def ZAP_API_PORT = '8090'
-
-      //
-      // TODO :: Get this approach to work
-      // This **should** work but does not. Typically fails with error
-      // Scripts not permitted to use method groovy.lang.GroovyObject invokeMethod
-      //
-
-      // docker.image(DOCKER_CANDIDATE_IMAGE).withRun() { APP_IMAGE ->
-      //   docker.image(DOCKER_OWASP_IMAGE).withRun(
-      //     args: "--link=${APP_IMAGE.id}:APP -v ${OWASP_REPORT_DIR}:/zap/reports:rw",
-      //     command: "zap.sh -daemon -port ${ZAP_API_PORT} -config api.disablekey=true"
-      //   ) {
-      //     // Wait for OWASP container to be ready, but not for too long
-      //     timeout(
-      //       time: 20,
-      //       unit: 'SECONDS'
-      //     ) {
-      //       sh """
-      //         status='FAILED'
-      //         while [ \$status != 'SUCCESS' ]; do
-      //           sleep 1;
-      //           status=`(\
-      //             docker exec -i ${DOCKER_OWASP_CONTAINER} \
-      //               curl -I localhost:${ZAP_API_PORT} \
-      //               > /dev/null 2>&1 && echo 'SUCCESS'\
-      //             ) || echo 'FAILED'`
-      //         done
-      //       """
-      //     }
-
-      //     sh """
-      //       zap-cli -v -p ${ZAP_API_PORT} spider http://APP/
-      //       zap-cli -v -p ${ZAP_API_PORT} active-scan http://APP/
-      //       zap-cli -v -p ${ZAP_API_PORT} report \
-      //         -o /zap/reports/owasp-zap-report.html -f html
-      //     """
-      //   }
-      // }
+      def OWASP_REPORT_DIR = "${WORKSPACE}/owasp-data"
 
 
       // Ensure report output directory exists
@@ -215,17 +186,17 @@ node {
 
       // Start a container to run penetration tests against
       sh """
-        docker run --rm --name ${DOCKER_PENTEST_CONTAINER} \
-          -d ${DOCKER_CANDIDATE_IMAGE}
+        docker run --rm --name ${PENTEST_CONTAINER} \
+          -d ${LOCAL_IMAGE}
       """
 
       // Start a container to execute OWASP PENTEST
       sh """
         docker run --rm -d -u zap \
-          --name=${DOCKER_OWASP_CONTAINER} \
-          --link=${DOCKER_PENTEST_CONTAINER} \
+          --name=${OWASP_CONTAINER} \
+          --link=${PENTEST_CONTAINER} \
           -v ${OWASP_REPORT_DIR}:/zap/reports:rw \
-          -i ${DOCKER_OWASP_IMAGE} \
+          -i ${OWASP_IMAGE} \
           zap.sh \
           -daemon \
           -port ${ZAP_API_PORT} \
@@ -245,7 +216,7 @@ node {
             sleep 1;
             status=`\
               (\
-                docker exec -i ${DOCKER_OWASP_CONTAINER} \
+                docker exec -i ${OWASP_CONTAINER} \
                   curl -I localhost:${ZAP_API_PORT} \
                   > /dev/null 2>&1 && echo 'SUCCESS'\
               ) \
@@ -261,22 +232,22 @@ node {
         # Get IP of application image, OWASP hates hostnames
         PENTEST_IP=`docker inspect \
           -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' \
-          ${DOCKER_PENTEST_CONTAINER} \
+          ${PENTEST_CONTAINER} \
         `
 
-        docker exec ${DOCKER_OWASP_CONTAINER} \
+        docker exec ${OWASP_CONTAINER} \
           zap-cli -v -p ${ZAP_API_PORT} spider \
           http://\$PENTEST_IP/
 
-        docker exec ${DOCKER_OWASP_CONTAINER} \
+        docker exec ${OWASP_CONTAINER} \
           zap-cli -v -p ${ZAP_API_PORT} active-scan \
           http://\$PENTEST_IP/
 
-        docker exec ${DOCKER_OWASP_CONTAINER} \
+        docker exec ${OWASP_CONTAINER} \
           zap-cli -v -p ${ZAP_API_PORT} report \
           -o /zap/reports/owasp-zap-report.html -f html
 
-        docker stop ${DOCKER_OWASP_CONTAINER} ${DOCKER_PENTEST_CONTAINER}
+        docker stop ${OWASP_CONTAINER} ${PENTEST_CONTAINER}
       """
 
       // Publish results
@@ -295,7 +266,7 @@ node {
 
       // Determine image tag to use
       if (SCM_VARS.GIT_BRANCH == 'origin/master') {
-        IMAGE_VERSION = ${DOCKER_DEPLOY_IMAGE_VERSION}
+        IMAGE_VERSION = 'latest'
       } else {
         IMAGE_VERSION = SCM_VARS.GIT_BRANCH.split('/').last().replace(' ', '_')
       }
@@ -311,10 +282,10 @@ node {
           docker login ${REGISTRY_HOST} -u ${REGISTRY_USER} -p ${REGISTRY_PASS}
 
           docker tag \
-            ${DOCKER_CANDIDATE_IMAGE} \
-            ${DOCKER_DEPLOY_IMAGE}:${IMAGE_VERSION}
+            ${LOCAL_IMAGE} \
+            ${DEPLOY_IMAGE}:${IMAGE_VERSION}
 
-          docker push ${DOCKER_DEPLOY_IMAGE}:${IMAGE_VERSION}
+          docker push ${DEPLOY_IMAGE}:${IMAGE_VERSION}
         """
       }
     }
@@ -334,11 +305,11 @@ node {
     stage('Cleanup') {
       sh """
         set +x
-        docker container rm --force ${DOCKER_BUILD_CONTAINER} \
+        docker container rm --force ${BUILDER_CONTAINER} \
           || echo 'No spurious build container'
-        docker container rm --force ${DOCKER_TEST_CONTAINER} \
+        docker container rm --force ${TESTER_CONTAINER} \
           || echo 'No spurious test container'
-        docker image rm --force ${DOCKER_CANDIDATE_IMAGE} \
+        docker image rm --force ${LOCAL_IMAGE} \
           || echo 'No spurious test image'
       """
 
