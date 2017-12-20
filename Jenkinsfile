@@ -26,6 +26,12 @@ node {
 
   try {
     stage('Update') {
+      cleanWs
+      sh '''
+        pwd
+        ls -la
+      '''
+
       // Sets ...
       //   SCM_VARS.GIT_BRANCH (e.g. origin/master)
       //   SCM_VARS.GIT_COMMIT
@@ -33,11 +39,35 @@ node {
       //   SCM_VARS.GIT_PREVIOUS_SUCCESSFUL_COMMIT
       //   SCM_VARS.GIT_URL
       SCM_VARS = checkout scm
+
+      SCM_VARS.each { key, value ->
+        echo "SCM_VARS[${key}] = ${value}"
+      }
     }
 
-    stage('Install') {
-      // Install dependencies and build project distributables
+    // stage('Install') {
+    //   // Install dependencies and build project distributables
+    //   docker.image(DOCKER_NODE_IMAGE).inside() {
+    //     withEnv([
+    //       'npm_config_cache=/tmp/npm-cache',
+    //       'HOME=/tmp'
+    //     ]) {
+    //       sh """
+    //         source /etc/profile.d/nvm.sh > /dev/null 2>&1
+    //         npm config set package-lock false
+
+    //         npm update --no-save
+    //         npm run build -- --prod --progress false
+
+
+    //       """
+    //     }
+    //   }
+    // }
+
+    stage('Dependencies') {
       docker.image(DOCKER_NODE_IMAGE).inside() {
+        // Create dependencies
         withEnv([
           'npm_config_cache=/tmp/npm-cache',
           'HOME=/tmp'
@@ -46,37 +76,10 @@ node {
             source /etc/profile.d/nvm.sh > /dev/null 2>&1
             npm config set package-lock false
 
-            npm update --no-save
-            npm run build -- --prod --progress false
-
-            if [ ! -d "${OWASP_REPORT_DIR}" ]; then
-              mkdir -p ${OWASP_REPORT_DIR}
-              chmod 777 ${OWASP_REPORT_DIR}
-            fi
+            # Using --production installs dependencies but not devDependencies
+            npm install --production
           """
         }
-      }
-    }
-
-    stage('Image') {
-      // Build candidate image for subsequent penetration testing
-      // This depends on "dist" folder from Install stage
-      sh """
-        docker pull ${DOCKER_DEPLOY_BASE_IMAGE}
-        docker build \
-          --build-arg BASE_IMAGE=${DOCKER_DEPLOY_BASE_IMAGE} \
-          -t ${DOCKER_CANDIDATE_IMAGE} \
-          .
-      """
-    }
-
-    stage('Dependencies') {
-      docker.image(DOCKER_NODE_IMAGE).inside() {
-        // This depends on "dist" folder from Install stage
-
-        // TODO :: Better dependency checking. Do not need to check all of
-        //         node_modules because they are not included in build, but
-        //         checking just the distribution files seems incomplete.
 
         // Analyze dependencies
         dependencyCheckAnalyzer(
@@ -88,7 +91,7 @@ node {
           includeVulnReports: false,
           isAutoupdateDisabled: false,
           outdir: '',
-          scanpath: 'dist',
+          scanpath: 'node_modules',
           skipOnScmChange: false,
           skipOnUpstreamChange: false,
           suppressionFile: '',
@@ -106,6 +109,33 @@ node {
       }
     }
 
+    stage('Image') {
+      // Install all dependencies so
+      docker.image(DOCKER_NODE_IMAGE).inside() {
+        withEnv([
+          'npm_config_cache=/tmp/npm-cache',
+          'HOME=/tmp'
+        ]) {
+          sh """
+            source /etc/profile.d/nvm.sh > /dev/null 2>&1
+            npm config set package-lock false
+
+            npm install --no-save
+            npm run build -- --prod --progress false
+          """
+        }
+      }
+
+      // Build candidate image for later penetration testing
+      sh """
+        docker pull ${DOCKER_DEPLOY_BASE_IMAGE}
+        docker build \
+          --build-arg BASE_IMAGE=${DOCKER_DEPLOY_BASE_IMAGE} \
+          -t ${DOCKER_CANDIDATE_IMAGE} \
+          .
+      """
+    }
+
     stage('Unit Tests') {
       // Note that running angular tests destroys the "dist" folder that was
       // originally created in Install stage. This is not needed later, so
@@ -114,9 +144,9 @@ node {
       // Run linting, unit tests, and end-to-end tests
       docker.image(DOCKER_TEST_IMAGE).inside () {
         sh """
-          npm run lint
-          npm run test -- --single-run --code-coverage --progress false
-          npm run e2e -- --progress false
+          ng lint
+          ng test --single-run --code-coverage --progress false
+          ng e2e --progress false
         """
       }
 
@@ -179,6 +209,13 @@ node {
       // }
 
 
+      // Ensure report output directory exists
+      sh """
+        if [ ! -d "${OWASP_REPORT_DIR}" ]; then
+          mkdir -p ${OWASP_REPORT_DIR}
+          chmod 777 ${OWASP_REPORT_DIR}
+        fi
+      """
 
       // Start a container to run penetration tests against
       sh """
@@ -252,7 +289,7 @@ node {
     stage('Publish') {
       // Determine image tag to use
       if (SCM_VARS.GIT_BRANCH == 'origin/master') {
-        IMAGE_VERSION = ${DOCKKER_DEPLOY_IMAGE_VERSION}
+        IMAGE_VERSION = ${DOCKER_DEPLOY_IMAGE_VERSION}
       } else {
         IMAGE_VERSION = SCM_VARS.GIT_BRANCH.replace('origin/', '').replace(' ', '_')\
       }
