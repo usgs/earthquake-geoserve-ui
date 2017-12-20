@@ -7,9 +7,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
+import { CoordinatesService } from './coordinates.service';
 import { PlacesService } from './places.service';
 import { RegionsService } from './regions.service';
-import { Util } from './util/app.utility.service';
 
 import { AdminRegionComponent } from './admin-region/admin-region.component';
 import { AppComponent } from './app.component';
@@ -78,10 +78,10 @@ import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tecton
     MatInputModule
   ],
   providers: [
+    CoordinatesService,
     PlacesService,
     RegionsService,
-    MediaMatcher,
-    Util
+    MediaMatcher
   ],
   bootstrap: [AppComponent]
 })

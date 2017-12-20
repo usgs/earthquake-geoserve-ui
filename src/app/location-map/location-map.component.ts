@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { icon, latLng, Layer, marker, polyline, tileLayer } from 'leaflet';
 
-import { PlacesService } from '../places.service';
-import { Util } from '../util/app.utility.service';
+import { CoordinatesService } from '../coordinates.service';
+
+import { Coordinates } from '../coordinates';
 
 
 @Component({
@@ -79,25 +80,26 @@ export class LocationMapComponent implements OnInit {
 
 
   constructor (
-    private placesService: PlacesService,
-    private util: Util
+    private coordinatesService: CoordinatesService
   ) {}
 
   ngOnInit() {
     // subscribe to coordinate changes
-    this.placesService.coordinates.subscribe((data) => {
-      console.log(data);
-      if (data) {
-        this.addMarker(+data.latitude, +data.longitude);
-        this.moveMap(data.latitude, data.longitude);
+    this.coordinatesService.coordinates.subscribe((coordinates) => {
+      if (coordinates) {
+        this.addMarker(coordinates);
+        this.moveMap(coordinates);
       }
     });
   }
 
   // Reset marker when coordinates change
-  addMarker (latitude: number, longitude: number) :void {
+  addMarker (coordinates: Coordinates) :void {
     const newMarker = marker(
-      [ latitude, longitude ],
+      [
+        coordinates.latitude,
+        coordinates.longitude
+      ],
       {
         icon: this.markerIcon
       }
@@ -107,13 +109,9 @@ export class LocationMapComponent implements OnInit {
   }
 
   // center the map on the provided coordinates
-  moveMap (latitude: string, longitude: string) {
-    this.center = [ +latitude, +longitude ];
-    this.zoom = this.util.computeZoomFromConfidence(
-        this.util.computeFromCoordinates(latitude, longitude)
-      );
-
-    console.log('zoom: ' + this.zoom);
+  moveMap (coordinates: Coordinates) :void {
+    this.center = [ coordinates.latitude, coordinates.longitude ];
+    this.zoom = coordinates.zoom;
   }
 
 }

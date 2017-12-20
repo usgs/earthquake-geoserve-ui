@@ -1,7 +1,21 @@
-import {Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
+
+import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
+import { catchError, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
+import { Coordinates } from './coordinates';
+
 
 @Injectable()
-export class Util {
+export class CoordinatesService {
+
+  private _coordinates: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public readonly coordinates: Observable<Coordinates> = this._coordinates.asObservable();
+
+
+  constructor() { }
 
   // ----------------------------------------------------------------------
   // Public Static Variables
@@ -93,6 +107,27 @@ export class Util {
     } else {
       return 1;
     }
+  }
+
+  /**
+   * Set the coordinate observable.next value
+   * @param {string} latitude  [description]
+   * @param {string} longitude [description]
+   */
+  public setCoordinates (latitude: string, longitude: string, method: string) {
+    let confidence,
+        zoom;
+
+    confidence = this.computeFromCoordinates(latitude, longitude);
+    zoom = this.computeZoomFromConfidence(confidence);
+
+    this._coordinates.next({
+      confidence: confidence,
+      latitude: +latitude,
+      longitude: +longitude,
+      zoom: zoom,
+      method: method
+    });
   }
 
 }

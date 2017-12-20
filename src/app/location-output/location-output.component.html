@@ -1,9 +1,9 @@
-<div *ngIf="placesService.coordinates | async" class="location-output">
+<div *ngIf="coordinatesService.coordinates | async; let coordinates" class="location-output">
   <h2>Location</h2>
   <span class="coordinates">
     (
-      {{ (placesService.coordinates | async)?.latitude }},
-      {{ (placesService.coordinates | async)?.longitude }}
+      {{ coordinates?.latitude }},
+      {{ coordinates?.longitude }}
     )
   </span>
 </div>
