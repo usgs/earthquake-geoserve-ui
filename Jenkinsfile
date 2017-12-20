@@ -315,6 +315,7 @@ node {
   } finally {
     stage('Cleanup') {
       sh """
+        set +x
         docker container rm --force ${DOCKER_BUILD_CONTAINER} \
           || echo 'No spurious build container'
         docker container rm --force ${DOCKER_TEST_CONTAINER} \
