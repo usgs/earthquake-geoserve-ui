@@ -142,7 +142,7 @@ node {
     stage('Penetration Tests') {
       def ZAP_API_PORT = '8090'
 
-      docker.image(DOCKER_CANDIDATE_IMAGE).inside() { APP_IMAGE
+      docker.image(DOCKER_CANDIDATE_IMAGE).inside() { APP_IMAGE ->
         docker.image(DOCKER_OWASP_IMAGE).inside(
           args: "--link=${APP_IMAGE.id}:APP -v ${OWASP_REPORT_DIR}:/zap/reports:rw",
           command: "zap.sh -daemon -port ${ZAP_API_PORT} -config api.disablekey=true"
