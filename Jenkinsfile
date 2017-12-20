@@ -39,9 +39,6 @@ node {
       SCM_VARS.each { key, value ->
         echo "SCM_VARS[${key}] = ${value}"
       }
-      sh '''
-        exit -1;
-      '''
     }
 
     stage('Dependencies') {
