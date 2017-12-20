@@ -42,261 +42,261 @@ node {
     }
 
     stage('Dependencies') {
-      docker.image(DOCKER_NODE_IMAGE).inside() {
-        // Create dependencies
-        withEnv([
-          'npm_config_cache=/tmp/npm-cache',
-          'HOME=/tmp'
-        ]) {
-          sh """
-            source /etc/profile.d/nvm.sh > /dev/null 2>&1
-            npm config set package-lock false
+      // docker.image(DOCKER_NODE_IMAGE).inside() {
+      //   // Create dependencies
+      //   withEnv([
+      //     'npm_config_cache=/tmp/npm-cache',
+      //     'HOME=/tmp'
+      //   ]) {
+      //     sh """
+      //       source /etc/profile.d/nvm.sh > /dev/null 2>&1
+      //       npm config set package-lock false
 
-            # Using --production installs dependencies but not devDependencies
-            npm install --production
-          """
-        }
+      //       # Using --production installs dependencies but not devDependencies
+      //       npm install --production
+      //     """
+      //   }
 
-        // Analyze dependencies
-        dependencyCheckAnalyzer(
-          datadir: '',
-          hintsFile: '',
-          includeCsvReports: false,
-          includeHtmlReports: false,
-          includeJsonReports: false,
-          includeVulnReports: false,
-          isAutoupdateDisabled: false,
-          outdir: '',
-          scanpath: 'node_modules',
-          skipOnScmChange: false,
-          skipOnUpstreamChange: false,
-          suppressionFile: '',
-          zipExtensions: ''
-        )
+      //   // Analyze dependencies
+      //   dependencyCheckAnalyzer(
+      //     datadir: '',
+      //     hintsFile: '',
+      //     includeCsvReports: false,
+      //     includeHtmlReports: false,
+      //     includeJsonReports: false,
+      //     includeVulnReports: false,
+      //     isAutoupdateDisabled: false,
+      //     outdir: '',
+      //     scanpath: 'node_modules',
+      //     skipOnScmChange: false,
+      //     skipOnUpstreamChange: false,
+      //     suppressionFile: '',
+      //     zipExtensions: ''
+      //   )
 
-        // Publish results
-        dependencyCheckPublisher(
-          canComputeNew: false,
-          defaultEncoding: '',
-          healthy: '',
-          pattern: '**/dependency-check-report.xml',
-          unHealthy: ''
-        )
-      }
+      //   // Publish results
+      //   dependencyCheckPublisher(
+      //     canComputeNew: false,
+      //     defaultEncoding: '',
+      //     healthy: '',
+      //     pattern: '**/dependency-check-report.xml',
+      //     unHealthy: ''
+      //   )
+      // }
     }
 
     stage('Image') {
-      // Install all dependencies so
-      docker.image(DOCKER_NODE_IMAGE).inside() {
-        withEnv([
-          'npm_config_cache=/tmp/npm-cache',
-          'HOME=/tmp'
-        ]) {
-          sh """
-            source /etc/profile.d/nvm.sh > /dev/null 2>&1
-            npm config set package-lock false
-
-            npm install --no-save
-            npm run build -- --prod --progress false
-          """
-        }
-      }
-
-      // Build candidate image for later penetration testing
-      sh """
-        docker pull ${DOCKER_DEPLOY_BASE_IMAGE}
-        docker build \
-          --build-arg BASE_IMAGE=${DOCKER_DEPLOY_BASE_IMAGE} \
-          -t ${DOCKER_CANDIDATE_IMAGE} \
-          .
-      """
-    }
-
-    stage('Unit Tests') {
-      // Note that running angular tests destroys the "dist" folder that was
-      // originally created in Install stage. This is not needed later, so
-      // okay, but just be aware ...
-
-      // Run linting, unit tests, and end-to-end tests
-      docker.image(DOCKER_TEST_IMAGE).inside () {
-        sh """
-          ng lint
-          ng test --single-run --code-coverage --progress false
-          ng e2e --progress false
-        """
-      }
-
-      // Publish results
-      cobertura(
-        autoUpdateHealth: false,
-        autoUpdateStability: false,
-        coberturaReportFile: '**/cobertura-coverage.xml',
-        conditionalCoverageTargets: '70, 0, 0',
-        failUnhealthy: false,
-        failUnstable: false,
-        lineCoverageTargets: '80, 0, 0',
-        maxNumberOfBuilds: 0,
-        methodCoverageTargets: '80, 0, 0',
-        onlyStable: false,
-        sourceEncoding: 'ASCII',
-        zoomCoverageChart: false
-      )
-    }
-
-    stage('Penetration Tests') {
-      def ZAP_API_PORT = '8090'
-
-      //
-      // TODO :: Get this approach to work
-      // This **should** work but does not. Typically fails with error
-      // Scripts not permitted to use method groovy.lang.GroovyObject invokeMethod
-      //
-
-      // docker.image(DOCKER_CANDIDATE_IMAGE).withRun() { APP_IMAGE ->
-      //   docker.image(DOCKER_OWASP_IMAGE).withRun(
-      //     args: "--link=${APP_IMAGE.id}:APP -v ${OWASP_REPORT_DIR}:/zap/reports:rw",
-      //     command: "zap.sh -daemon -port ${ZAP_API_PORT} -config api.disablekey=true"
-      //   ) {
-      //     // Wait for OWASP container to be ready, but not for too long
-      //     timeout(
-      //       time: 20,
-      //       unit: 'SECONDS'
-      //     ) {
-      //       sh """
-      //         status='FAILED'
-      //         while [ \$status != 'SUCCESS' ]; do
-      //           sleep 1;
-      //           status=`(\
-      //             docker exec -i ${DOCKER_OWASP_CONTAINER} \
-      //               curl -I localhost:${ZAP_API_PORT} \
-      //               > /dev/null 2>&1 && echo 'SUCCESS'\
-      //             ) || echo 'FAILED'`
-      //         done
-      //       """
-      //     }
-
+      // // Install all dependencies so
+      // docker.image(DOCKER_NODE_IMAGE).inside() {
+      //   withEnv([
+      //     'npm_config_cache=/tmp/npm-cache',
+      //     'HOME=/tmp'
+      //   ]) {
       //     sh """
-      //       zap-cli -v -p ${ZAP_API_PORT} spider http://APP/
-      //       zap-cli -v -p ${ZAP_API_PORT} active-scan http://APP/
-      //       zap-cli -v -p ${ZAP_API_PORT} report \
-      //         -o /zap/reports/owasp-zap-report.html -f html
+      //       source /etc/profile.d/nvm.sh > /dev/null 2>&1
+      //       npm config set package-lock false
+
+      //       npm install --no-save
+      //       npm run build -- --prod --progress false
       //     """
       //   }
       // }
 
+      // // Build candidate image for later penetration testing
+      // sh """
+      //   docker pull ${DOCKER_DEPLOY_BASE_IMAGE}
+      //   docker build \
+      //     --build-arg BASE_IMAGE=${DOCKER_DEPLOY_BASE_IMAGE} \
+      //     -t ${DOCKER_CANDIDATE_IMAGE} \
+      //     .
+      // """
+    }
 
-      // Ensure report output directory exists
-      sh """
-        if [ ! -d "${OWASP_REPORT_DIR}" ]; then
-          mkdir -p ${OWASP_REPORT_DIR}
-          chmod 777 ${OWASP_REPORT_DIR}
-        fi
-      """
+    stage('Unit Tests') {
+      // // Note that running angular tests destroys the "dist" folder that was
+      // // originally created in Install stage. This is not needed later, so
+      // // okay, but just be aware ...
 
-      // Start a container to run penetration tests against
-      sh """
-        docker run --rm --name ${DOCKER_PENTEST_CONTAINER} \
-          -d ${DOCKER_CANDIDATE_IMAGE}
-      """
+      // // Run linting, unit tests, and end-to-end tests
+      // docker.image(DOCKER_TEST_IMAGE).inside () {
+      //   sh """
+      //     ng lint
+      //     ng test --single-run --code-coverage --progress false
+      //     ng e2e --progress false
+      //   """
+      // }
 
-      // Start a container to execute OWASP PENTEST
-      sh """
-        docker run --rm -d -u zap \
-          --name=${DOCKER_OWASP_CONTAINER} \
-          --link=${DOCKER_PENTEST_CONTAINER} \
-          -v ${OWASP_REPORT_DIR}:/zap/reports:rw \
-          -i ${DOCKER_OWASP_IMAGE} \
-          zap.sh \
-          -daemon \
-          -port ${ZAP_API_PORT} \
-          -config api.disablekey=true
-      """
+      // // Publish results
+      // cobertura(
+      //   autoUpdateHealth: false,
+      //   autoUpdateStability: false,
+      //   coberturaReportFile: '**/cobertura-coverage.xml',
+      //   conditionalCoverageTargets: '70, 0, 0',
+      //   failUnhealthy: false,
+      //   failUnstable: false,
+      //   lineCoverageTargets: '80, 0, 0',
+      //   maxNumberOfBuilds: 0,
+      //   methodCoverageTargets: '80, 0, 0',
+      //   onlyStable: false,
+      //   sourceEncoding: 'ASCII',
+      //   zoomCoverageChart: false
+      // )
+    }
 
-      // Wait for OWASP container to be ready, but not for too long
-      timeout(
-        time: 20,
-        unit: 'SECONDS'
-      ) {
-        echo "Waiting for OWASP container to finish starting up"
-        sh """
-          set +x
-          status='FAILED'
-          while [ \$status != 'SUCCESS' ]; do
-            sleep 1;
-            status=`\
-              (\
-                docker exec -i ${DOCKER_OWASP_CONTAINER} \
-                  curl -I localhost:${ZAP_API_PORT} \
-                  > /dev/null 2>&1 && echo 'SUCCESS'\
-              ) \
-              || \
-              echo 'FAILED'\
-            `
-          done
-        """
-      }
+    stage('Penetration Tests') {
+      // def ZAP_API_PORT = '8090'
 
-      // Run the penetration tests
-      sh """
-        # Get IP of application image, OWASP hates hostnames
-        PENTEST_IP=`docker inspect \
-          -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' \
-          ${DOCKER_PENTEST_CONTAINER} \
-        `
+      // //
+      // // TODO :: Get this approach to work
+      // // This **should** work but does not. Typically fails with error
+      // // Scripts not permitted to use method groovy.lang.GroovyObject invokeMethod
+      // //
 
-        docker exec ${DOCKER_OWASP_CONTAINER} \
-          zap-cli -v -p ${ZAP_API_PORT} spider \
-          http://\$PENTEST_IP/
+      // // docker.image(DOCKER_CANDIDATE_IMAGE).withRun() { APP_IMAGE ->
+      // //   docker.image(DOCKER_OWASP_IMAGE).withRun(
+      // //     args: "--link=${APP_IMAGE.id}:APP -v ${OWASP_REPORT_DIR}:/zap/reports:rw",
+      // //     command: "zap.sh -daemon -port ${ZAP_API_PORT} -config api.disablekey=true"
+      // //   ) {
+      // //     // Wait for OWASP container to be ready, but not for too long
+      // //     timeout(
+      // //       time: 20,
+      // //       unit: 'SECONDS'
+      // //     ) {
+      // //       sh """
+      // //         status='FAILED'
+      // //         while [ \$status != 'SUCCESS' ]; do
+      // //           sleep 1;
+      // //           status=`(\
+      // //             docker exec -i ${DOCKER_OWASP_CONTAINER} \
+      // //               curl -I localhost:${ZAP_API_PORT} \
+      // //               > /dev/null 2>&1 && echo 'SUCCESS'\
+      // //             ) || echo 'FAILED'`
+      // //         done
+      // //       """
+      // //     }
 
-        docker exec ${DOCKER_OWASP_CONTAINER} \
-          zap-cli -v -p ${ZAP_API_PORT} active-scan \
-          http://\$PENTEST_IP/
+      // //     sh """
+      // //       zap-cli -v -p ${ZAP_API_PORT} spider http://APP/
+      // //       zap-cli -v -p ${ZAP_API_PORT} active-scan http://APP/
+      // //       zap-cli -v -p ${ZAP_API_PORT} report \
+      // //         -o /zap/reports/owasp-zap-report.html -f html
+      // //     """
+      // //   }
+      // // }
 
-        docker exec ${DOCKER_OWASP_CONTAINER} \
-          zap-cli -v -p ${ZAP_API_PORT} report \
-          -o /zap/reports/owasp-zap-report.html -f html
 
-        docker stop ${DOCKER_OWASP_CONTAINER} ${DOCKER_PENTEST_CONTAINER}
-      """
+      // // Ensure report output directory exists
+      // sh """
+      //   if [ ! -d "${OWASP_REPORT_DIR}" ]; then
+      //     mkdir -p ${OWASP_REPORT_DIR}
+      //     chmod 777 ${OWASP_REPORT_DIR}
+      //   fi
+      // """
 
-      // Publish results
-      publishHTML (target: [
-        allowMissing: true,
-        alwaysLinkToLastBuild: true,
-        keepAll: true,
-        reportDir: OWASP_REPORT_DIR,
-        reportFiles: 'owasp-zap-report.html',
-        reportName: 'OWASP ZAP Report'
-      ])
+      // // Start a container to run penetration tests against
+      // sh """
+      //   docker run --rm --name ${DOCKER_PENTEST_CONTAINER} \
+      //     -d ${DOCKER_CANDIDATE_IMAGE}
+      // """
+
+      // // Start a container to execute OWASP PENTEST
+      // sh """
+      //   docker run --rm -d -u zap \
+      //     --name=${DOCKER_OWASP_CONTAINER} \
+      //     --link=${DOCKER_PENTEST_CONTAINER} \
+      //     -v ${OWASP_REPORT_DIR}:/zap/reports:rw \
+      //     -i ${DOCKER_OWASP_IMAGE} \
+      //     zap.sh \
+      //     -daemon \
+      //     -port ${ZAP_API_PORT} \
+      //     -config api.disablekey=true
+      // """
+
+      // // Wait for OWASP container to be ready, but not for too long
+      // timeout(
+      //   time: 20,
+      //   unit: 'SECONDS'
+      // ) {
+      //   echo "Waiting for OWASP container to finish starting up"
+      //   sh """
+      //     set +x
+      //     status='FAILED'
+      //     while [ \$status != 'SUCCESS' ]; do
+      //       sleep 1;
+      //       status=`\
+      //         (\
+      //           docker exec -i ${DOCKER_OWASP_CONTAINER} \
+      //             curl -I localhost:${ZAP_API_PORT} \
+      //             > /dev/null 2>&1 && echo 'SUCCESS'\
+      //         ) \
+      //         || \
+      //         echo 'FAILED'\
+      //       `
+      //     done
+      //   """
+      // }
+
+      // // Run the penetration tests
+      // sh """
+      //   # Get IP of application image, OWASP hates hostnames
+      //   PENTEST_IP=`docker inspect \
+      //     -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' \
+      //     ${DOCKER_PENTEST_CONTAINER} \
+      //   `
+
+      //   docker exec ${DOCKER_OWASP_CONTAINER} \
+      //     zap-cli -v -p ${ZAP_API_PORT} spider \
+      //     http://\$PENTEST_IP/
+
+      //   docker exec ${DOCKER_OWASP_CONTAINER} \
+      //     zap-cli -v -p ${ZAP_API_PORT} active-scan \
+      //     http://\$PENTEST_IP/
+
+      //   docker exec ${DOCKER_OWASP_CONTAINER} \
+      //     zap-cli -v -p ${ZAP_API_PORT} report \
+      //     -o /zap/reports/owasp-zap-report.html -f html
+
+      //   docker stop ${DOCKER_OWASP_CONTAINER} ${DOCKER_PENTEST_CONTAINER}
+      // """
+
+      // // Publish results
+      // publishHTML (target: [
+      //   allowMissing: true,
+      //   alwaysLinkToLastBuild: true,
+      //   keepAll: true,
+      //   reportDir: OWASP_REPORT_DIR,
+      //   reportFiles: 'owasp-zap-report.html',
+      //   reportName: 'OWASP ZAP Report'
+      // ])
     }
 
     stage('Publish') {
-      def IMAGE_VERSION = null
+      // def IMAGE_VERSION = null
 
-      // Determine image tag to use
-      if (SCM_VARS.GIT_BRANCH == 'origin/master') {
-        IMAGE_VERSION = ${DOCKER_DEPLOY_IMAGE_VERSION}
-      } else {
-        IMAGE_VERSION = SCM_VARS.GIT_BRANCH.split('/').last().replace(' ', '_')
-      }
+      // // Determine image tag to use
+      // if (SCM_VARS.GIT_BRANCH == 'origin/master') {
+      //   IMAGE_VERSION = ${DOCKER_DEPLOY_IMAGE_VERSION}
+      // } else {
+      //   IMAGE_VERSION = SCM_VARS.GIT_BRANCH.split('/').last().replace(' ', '_')
+      // }
 
-      // Re-tag candidate image as actual image name and push actual image to
-      // repository
-      withCredentials([usernamePassword(
-        credentialsId: 'gitlab-innersource-admin',
-        passwordVariable: 'REGISTRY_PASS',
-        usernameVariable: 'REGISTRY_USER'
-      )]) {
-        sh """
-          docker login ${REGISTRY_HOST} -u ${REGISTRY_USER} -p ${REGISTRY_PASS}
+      // // Re-tag candidate image as actual image name and push actual image to
+      // // repository
+      // withCredentials([usernamePassword(
+      //   credentialsId: 'gitlab-innersource-admin',
+      //   passwordVariable: 'REGISTRY_PASS',
+      //   usernameVariable: 'REGISTRY_USER'
+      // )]) {
+      //   sh """
+      //     docker login ${REGISTRY_HOST} -u ${REGISTRY_USER} -p ${REGISTRY_PASS}
 
-          docker tag \
-            ${DOCKER_CANDIDATE_IMAGE} \
-            ${DOCKER_DEPLOY_IMAGE}:${IMAGE_VERSION}
+      //     docker tag \
+      //       ${DOCKER_CANDIDATE_IMAGE} \
+      //       ${DOCKER_DEPLOY_IMAGE}:${IMAGE_VERSION}
 
-          docker push ${DOCKER_DEPLOY_IMAGE}:${IMAGE_VERSION}
-        """
-      }
+      //     docker push ${DOCKER_DEPLOY_IMAGE}:${IMAGE_VERSION}
+      //   """
+      // }
     }
 
     stage('Deploy') {
