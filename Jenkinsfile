@@ -142,9 +142,11 @@ node {
     stage('Penetration Tests') {
       def ZAP_API_PORT = '8090'
 
-      def candidateImage = docker.image(DOCKER_CANDIDATE_IMAGE).run(
-        args: "-d"
-      )
+      //
+      // TODO :: Get this approach to work
+      // This **should** work but does not. Typically fails with error
+      // Scripts not permitted to use method groovy.lang.GroovyObject invokeMethod
+      //
 
       // docker.image(DOCKER_CANDIDATE_IMAGE).withRun() { APP_IMAGE ->
       //   docker.image(DOCKER_OWASP_IMAGE).withRun(
@@ -180,61 +182,61 @@ node {
 
 
 
-      // // Start a container to run penetration tests against
-      // sh """
-      //   docker run --rm --name ${DOCKER_PENTEST_CONTAINER} \
-      //     -d ${DOCKER_CANDIDATE_IMAGE}
-      // """
+      // Start a container to run penetration tests against
+      sh """
+        docker run --rm --name ${DOCKER_PENTEST_CONTAINER} \
+          -d ${DOCKER_CANDIDATE_IMAGE}
+      """
 
-      // // Start a container to execute OWASP PENTEST
-      // sh """
-      //   docker run --rm -d -u zap \
-      //     --name=${DOCKER_OWASP_CONTAINER} \
-      //     --link=${DOCKER_PENTEST_CONTAINER} \
-      //     -v ${OWASP_REPORT_DIR}:/zap/reports:rw \
-      //     -i ${DOCKER_OWASP_IMAGE} \
-      //     zap.sh \
-      //     -daemon \
-      //     -port ${ZAP_API_PORT} \
-      //     -config api.disablekey=true
-      // """
+      // Start a container to execute OWASP PENTEST
+      sh """
+        docker run --rm -d -u zap \
+          --name=${DOCKER_OWASP_CONTAINER} \
+          --link=${DOCKER_PENTEST_CONTAINER} \
+          -v ${OWASP_REPORT_DIR}:/zap/reports:rw \
+          -i ${DOCKER_OWASP_IMAGE} \
+          zap.sh \
+          -daemon \
+          -port ${ZAP_API_PORT} \
+          -config api.disablekey=true
+      """
 
-      // // Wait for OWASP container to be ready, but not for too long
-      // timeout(
-      //   time: 20,
-      //   unit: 'SECONDS'
-      // ) {
-      //   sh """
-      //     status='FAILED'
-      //     while [ \$status != 'SUCCESS' ]; do
-      //       sleep 1;
-      //       status=`(docker exec -i ${DOCKER_OWASP_CONTAINER} curl -I localhost:${ZAP_API_PORT} > /dev/null 2>&1 && echo 'SUCCESS') || echo 'FAILED'`
-      //     done
-      //   """
-      // }
+      // Wait for OWASP container to be ready, but not for too long
+      timeout(
+        time: 20,
+        unit: 'SECONDS'
+      ) {
+        sh """
+          status='FAILED'
+          while [ \$status != 'SUCCESS' ]; do
+            sleep 1;
+            status=`(docker exec -i ${DOCKER_OWASP_CONTAINER} curl -I localhost:${ZAP_API_PORT} > /dev/null 2>&1 && echo 'SUCCESS') || echo 'FAILED'`
+          done
+        """
+      }
 
-      // // Run the penetration tests
-      // sh """
-      //   # Get IP of application image, OWASP hates hostnames
-      //   PENTEST_IP=`docker inspect \
-      //     -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' \
-      //     ${DOCKER_PENTEST_CONTAINER} \
-      //   `
+      // Run the penetration tests
+      sh """
+        # Get IP of application image, OWASP hates hostnames
+        PENTEST_IP=`docker inspect \
+          -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' \
+          ${DOCKER_PENTEST_CONTAINER} \
+        `
 
-      //   docker exec ${DOCKER_OWASP_CONTAINER} \
-      //     zap-cli -v -p ${ZAP_API_PORT} spider \
-      //     http://\$PENTEST_IP/
+        docker exec ${DOCKER_OWASP_CONTAINER} \
+          zap-cli -v -p ${ZAP_API_PORT} spider \
+          http://\$PENTEST_IP/
 
-      //   docker exec ${DOCKER_OWASP_CONTAINER} \
-      //     zap-cli -v -p ${ZAP_API_PORT} active-scan \
-      //     http://\$PENTEST_IP/
+        docker exec ${DOCKER_OWASP_CONTAINER} \
+          zap-cli -v -p ${ZAP_API_PORT} active-scan \
+          http://\$PENTEST_IP/
 
-      //   docker exec ${DOCKER_OWASP_CONTAINER} \
-      //     zap-cli -v -p ${ZAP_API_PORT} report \
-      //     -o /zap/reports/owasp-zap-report.html -f html
+        docker exec ${DOCKER_OWASP_CONTAINER} \
+          zap-cli -v -p ${ZAP_API_PORT} report \
+          -o /zap/reports/owasp-zap-report.html -f html
 
-      //   docker stop ${DOCKER_OWASP_CONTAINER} ${DOCKER_PENTEST_CONTAINER}
-      // """
+        docker stop ${DOCKER_OWASP_CONTAINER} ${DOCKER_PENTEST_CONTAINER}
+      """
 
       // Publish results
       publishHTML (target: [
