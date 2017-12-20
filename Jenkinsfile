@@ -5,6 +5,12 @@ node {
   def SCM_VARS = [:]
   def FAILURE = null
 
+  def DOCKER_NODE_IMAGE = "${REGISTRY_HOST}/devops/containers/node:8"
+  def DOCKER_TEST_IMAGE = "${REGISTRY_HOST}/devops/containers/library/trion/ng-cli-e2e"
+  def DOCKER_DEPLOY_BASE_IMAGE = "${REGISTRY_HOST}/devops/containers/nginx:latest"
+  def DOCKER_DEPLOY_IMAGE = "${REGISTRY_HOST}/ghsc/hazdev/earthquake-geosurve/ui"
+
+
   // Used for consistency between other variables
   def APP_NAME = 'earthquake-geoserve-ui'
   // Used to install dependencies and build distributables
