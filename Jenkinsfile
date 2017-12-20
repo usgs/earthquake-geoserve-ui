@@ -315,10 +315,16 @@ node {
           ${OWASP_CONTAINER} \
           ${PENTEST_CONTAINER} \
           ${TESTER_CONTAINER} \
-        || echo 'No spurious containers'
+        || echo 'Container cleanup successful'
 
-        docker image rm --force ${LOCAL_IMAGE} \
-          || echo 'No spurious test image'
+        docker image rm --force \
+          ${BASE_IMAGE} \
+          ${BUILDER_IMAGE} \
+          ${DEPLOY_IMAGE} \
+          ${LOCAL_IMAGE} \
+          ${OWASP_IMAGE} \
+          ${TESTER_IMAGE} \
+        || echo 'Image cleanup successful'
       """
 
       if (FAILURE) {
