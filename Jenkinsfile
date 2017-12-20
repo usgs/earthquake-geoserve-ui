@@ -45,6 +45,18 @@ node {
       SCM_VARS.each { key, value ->
         echo "SCM_VARS[${key}] = ${value}"
       }
+
+      if (GIT_BRANCH != '') {
+        // Check out the specified branch
+        sh "git checkout --detach ${GIT_BRANCH}"
+
+        // Update relevant SCM_VARS
+        SCM_VARS.GIT_BRANCH = GIT_BRANCH
+        SCM_VARS.GIT_COMMIT = sh(
+          returnStdout: true,
+          script: "git rev-parse HEAD"
+        )
+      }
     }
 
     stage('Dependencies') {
@@ -125,11 +137,13 @@ node {
 
       // Run linting, unit tests, and end-to-end tests
       docker.image(DOCKER_TEST_IMAGE).inside () {
-        sh """
-          ng lint
-          ng test --single-run --code-coverage --progress false
-          ng e2e --progress false
-        """
+        ansiColor('xterm') {
+          sh """
+            ng lint
+            ng test --single-run --code-coverage
+            ng e2e
+          """
+        }
       }
 
       // Publish results
