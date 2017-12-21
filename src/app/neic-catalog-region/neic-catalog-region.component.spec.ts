@@ -1,8 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 
-import { NeicCatalogRegionComponent } from './neic-catalog-region.component';
 import { RegionsService } from '../regions.service';
+
+import { NeicCatalogRegionComponent } from './neic-catalog-region.component';
+import { NoDataComponent } from '../no-data/no-data.component';
+
 
 describe('NeicCatalogRegionComponent', () => {
   let component: NeicCatalogRegionComponent;
@@ -10,7 +13,10 @@ describe('NeicCatalogRegionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NeicCatalogRegionComponent ],
+      declarations: [
+        NeicCatalogRegionComponent,
+        NoDataComponent
+      ],
       providers: [
         HttpClient,
         HttpHandler,

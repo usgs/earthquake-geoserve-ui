@@ -12,8 +12,7 @@ describe('NoDataComponent', () => {
       declarations: [ NoDataComponent ],
       providers: [
         HttpClient,
-        HttpHandler,
-        RegionsService
+        HttpHandler
       ]
     })
     .compileComponents();

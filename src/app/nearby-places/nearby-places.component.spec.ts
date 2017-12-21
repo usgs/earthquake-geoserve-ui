@@ -5,6 +5,7 @@ import { PlacesService } from '../places.service';
 
 import { NearbyPlaceComponent } from '../nearby-place/nearby-place.component';
 import { NearbyPlacesComponent } from './nearby-places.component';
+import { NoDataComponent } from '../no-data/no-data.component';
 
 describe('NearbyPlacesComponent', () => {
   let component: NearbyPlacesComponent;
@@ -14,7 +15,8 @@ describe('NearbyPlacesComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         NearbyPlaceComponent,
-        NearbyPlacesComponent
+        NearbyPlacesComponent,
+        NoDataComponent
       ],
       providers: [
         HttpClient,
