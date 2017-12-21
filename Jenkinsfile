@@ -46,7 +46,10 @@ node {
         url: ${REGISTRY_HOST},
         credentialsId: 'gitlab-innersource-admin'
       ) {
-        deployImage.push(DEPLOY_IMAGE)
+        echo "deployImage.id = ${deployImage.id}"
+        sh """
+          docker push ${deployImage.id}
+        """
       }
     }
 
