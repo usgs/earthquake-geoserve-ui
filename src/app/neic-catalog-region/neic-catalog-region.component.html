@@ -18,8 +18,6 @@
 </div>
 
 <!-- No NEIC Catalog region was returned -->
-<div *ngIf="!regionsService.neicCatalog | async">
-  <p class="alert warning">
-    There is no NEIC catalog region for this location
-  </p>
-</div>
+<ng-template #noRegion>
+  <app-no-data></app-no-data>
+</ng-template>
