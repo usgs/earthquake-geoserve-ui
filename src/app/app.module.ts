@@ -25,9 +25,11 @@ import { NearbyPlaceComponent } from './nearby-place/nearby-place.component';
 import { NearbyPlacesComponent } from './nearby-places/nearby-places.component';
 import { NeicCatalogRegionComponent } from './neic-catalog-region/neic-catalog-region.component';
 import { NeicResponseRegionComponent } from './neic-response-region/neic-response-region.component';
+import { NoDataComponent } from './no-data/no-data.component';
 import { OffshoreRegionComponent } from './offshore-region/offshore-region.component';
 import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tectonic-summary-region.component';
 import { TimezoneRegionComponent } from './timezone-region/timezone-region.component';
+
 
 
 @NgModule({
@@ -48,6 +50,7 @@ import { TimezoneRegionComponent } from './timezone-region/timezone-region.compo
     NearbyPlacesComponent,
     NeicCatalogRegionComponent,
     NeicResponseRegionComponent,
+    NoDataComponent,
     OffshoreRegionComponent,
     TectonicSummaryRegionComponent,
     TimezoneRegionComponent
