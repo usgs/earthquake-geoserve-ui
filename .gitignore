@@ -8,6 +8,10 @@
 # dependencies
 /node_modules
 
+# ci/cd artifacts
+/dependency-check-data
+/owasp-data
+
 # IDEs and editors
 /.idea
 .project
