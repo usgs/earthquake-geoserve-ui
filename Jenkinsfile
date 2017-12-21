@@ -310,8 +310,12 @@ node {
       echo 'TODO :: Call deploy pipeline'
     }
   } catch (e) {
-    def message = "Project build (${BUILD_TAG}) failed.\n"
-    def stack = e.getStackTrace().join("\n")
+    def sw = new StringWriter()
+    def pw = new PrintWriter(sw)
+    err.printStackTrace(pw)
+    def stack = sw.toString()
+
+    def message = "Project build (${BUILD_TAG}) failed."
 
     mail to: 'emartinez@usgs.gov',
       from: 'noreply@jenkins',
