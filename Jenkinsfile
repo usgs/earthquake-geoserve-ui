@@ -298,23 +298,25 @@ node {
       subject: 'Jenkins: earthquake-design-ui',
       body: "Project build (${BUILD_TAG}) failed '${e}'"
 
-
     FAILURE = e
   } finally {
     stage('Cleanup') {
       sh """
-        set +x
+        set +e
+
+        # Cleaning up any leftover containers...
         docker container rm --force \
           ${BUILDER_CONTAINER} \
           ${OWASP_CONTAINER} \
           ${LOCAL_CONTAINER} \
-          ${TESTER_CONTAINER} \
-        || echo 'Container cleanup successful'
+          ${TESTER_CONTAINER}
 
+        # Cleaning up any leftover images...
         docker image rm --force \
           ${DEPLOY_IMAGE} \
-          ${LOCAL_IMAGE} \
-        || echo 'Image cleanup successful'
+          ${LOCAL_IMAGE}
+
+        exit 0
       """
 
       if (FAILURE) {
@@ -322,7 +324,5 @@ node {
         throw FAILURE
       }
     }
-
   }
-
 }
