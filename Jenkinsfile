@@ -89,7 +89,7 @@ node {
             includeJsonReports: false,
             includeVulnReports: true,
             isAutoupdateDisabled: false,
-            outdir: '',
+            outdir: 'dependency-check-data',
             scanpath: 'node_modules',
             skipOnScmChange: false,
             skipOnUpstreamChange: false,
@@ -107,14 +107,23 @@ node {
           unHealthy: ''
         )
 
-        // publishHTML (target: [
-        //   allowMissing: true,
-        //   alwaysLinkToLastBuild: true,
-        //   keepAll: true,
-        //   reportDir: OWASP_REPORT_DIR,
-        //   reportFiles: 'owasp-zap-report.html',
-        //   reportName: 'OWASP ZAP Report'
-        // ])
+        publishHTML (target: [
+          allowMissing: true,
+          alwaysLinkToLastBuild: true,
+          keepAll: true,
+          reportDir: 'dependency-check-data',
+          reportFiles: 'dependency-check-report.html',
+          reportName: 'Dependency Analysis'
+        ])
+
+        publishHTML (target: [
+          allowMissing: true,
+          alwaysLinkToLastBuild: true,
+          keepAll: true,
+          reportDir: 'dependency-check-data',
+          reportFiles: 'dependency-check-vulnerability.html',
+          reportName: 'Dependency Vulnerabilities'
+        ])
       }
     }
 
