@@ -43,7 +43,7 @@ node {
       )
 
       docker.withRegistry(
-        url: ${REGISTRY_HOST},
+        url: REGISTRY_HOST,
         credentialsId: 'gitlab-innersource-admin'
       ) {
         echo "deployImage.id = ${deployImage.id}"
