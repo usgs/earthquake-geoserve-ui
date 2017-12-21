@@ -313,17 +313,17 @@ node {
       echo 'TODO :: Call deploy pipeline'
     }
   } catch (e) {
-    def sw = new StringWriter()
-    def pw = new PrintWriter(sw)
-    e.printStackTrace(pw)
-    def stack = sw.toString()
+    // def sw = new StringWriter()
+    // def pw = new PrintWriter(sw)
+    // e.printStackTrace(pw)
+    // def stack = sw.toString()
 
-    def message = "Project build (${BUILD_TAG}) failed."
+    def message = "Project build (${BUILD_TAG}) failed '${e}'."
 
     mail to: 'emartinez@usgs.gov',
       from: 'noreply@jenkins',
       subject: 'Jenkins: earthquake-design-ui',
-      body: "${message}\n\n${stack}"
+      body: "${message}" //\n\n${stack}"
 
 
     FAILURE = e
