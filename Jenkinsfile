@@ -19,7 +19,7 @@ node {
   def BUILDER_IMAGE = "${DEVOPS_REGISTRY}/node:8"
 
   // Name of image to deploy (push) to registry
-  def DEPLOY_IMAGE = "${REGISTRY_HOST}/ghsc/hazdev/earthquake-geosurve/ui"
+  def DEPLOY_IMAGE = "${REGISTRY_HOST}/ghsc/hazdev/earthquake-geoserve/ui"
 
   // Run application locally for testing security vulnerabilities
   def LOCAL_CONTAINER = "${APP_NAME}-${BUILD_ID}-PENTEST"
@@ -46,7 +46,7 @@ node {
         url: ${REGISTRY_HOST},
         credentialsId: 'gitlab-innersource-admin'
       ) {
-        deployImage.push()
+        deployImage.push(DEPLOY_IMAGE)
       }
     }
 
