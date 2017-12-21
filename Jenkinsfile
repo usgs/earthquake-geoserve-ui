@@ -312,7 +312,7 @@ node {
   } catch (e) {
     def sw = new StringWriter()
     def pw = new PrintWriter(sw)
-    err.printStackTrace(pw)
+    e.printStackTrace(pw)
     def stack = sw.toString()
 
     def message = "Project build (${BUILD_TAG}) failed."
