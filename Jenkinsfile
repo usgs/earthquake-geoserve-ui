@@ -39,7 +39,7 @@ node {
     stage('experimental') {
       def deployImage = docker.build(
         DEPLOY_IMAGE,
-        "--build-arg BASE_IMAGE=${BASE_IMAGE}"
+        "--pull --build-arg BASE_IMAGE=${BASE_IMAGE} ."
       )
 
       docker.withRegistry(
