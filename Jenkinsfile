@@ -38,8 +38,8 @@ node {
   try {
     stage('experimental') {
       def deployImage = docker.build(
-        image: DEPLOY_IMAGE,
-        args: "--build-arg BASE_IMAGE=${BASE_IMAGE}"
+        DEPLOY_IMAGE,
+        "--build-arg BASE_IMAGE=${BASE_IMAGE}"
       )
 
       docker.withRegistry(
