@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { icon, latLng, Layer, marker, polyline, tileLayer } from 'leaflet';
 import * as L from 'leaflet';
@@ -14,6 +14,11 @@ import { Coordinates } from '../coordinates';
   styleUrls: ['./location-map.component.css']
 })
 export class LocationMapComponent implements OnInit {
+  @Input() leaflet: any;
+  @Input() leafletBaseLayers: any;
+  @Input() leafletCenter: any;
+  @Input() leafletLayers: any;
+  @Input() leafletZoom: any;
 
   markerIcon = icon({
     iconSize: [ 25, 41 ],
@@ -63,21 +68,16 @@ export class LocationMapComponent implements OnInit {
     })
   };
 
-
+  // Leaflet options
   baseLayers = {
     'Esri Terrain Map': this.LAYER_TERRAIN.layer,
     'Open Street Map': this.LAYER_STREET.layer,
     'Esri Satellite Map': this.LAYER_SATELLITE.layer
   };
-
-  markers: Layer[] = [];
   center = [ 38, -95 ];
+  markers: Layer[] = [];
   zoom = 4;
 
-  options = {
-    zoom: this.zoom,
-    center: this.center
-  };
 
   constructor (
     private coordinatesService: CoordinatesService
