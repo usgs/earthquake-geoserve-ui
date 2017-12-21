@@ -28,7 +28,6 @@ import { NeicResponseRegionComponent } from './neic-response-region/neic-respons
 import { NoDataComponent } from './no-data/no-data.component';
 import { OffshoreRegionComponent } from './offshore-region/offshore-region.component';
 import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tectonic-summary-region.component';
-import { TimezoneRegionComponent } from './timezone-region/timezone-region.component';
 
 
 
@@ -52,8 +51,7 @@ import { TimezoneRegionComponent } from './timezone-region/timezone-region.compo
     NeicResponseRegionComponent,
     NoDataComponent,
     OffshoreRegionComponent,
-    TectonicSummaryRegionComponent,
-    TimezoneRegionComponent
+    TectonicSummaryRegionComponent
   ],
   entryComponents: [
     GeoserveComponent

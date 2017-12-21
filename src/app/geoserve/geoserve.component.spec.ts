@@ -22,8 +22,7 @@ describe('GeoserveComponent', () => {
         MockComponent({selector: 'app-neic-catalog-region'}),
         MockComponent({selector: 'app-neic-response-region'}),
         MockComponent({selector: 'app-offshore-region'}),
-        MockComponent({selector: 'app-tectonic-summary-region'}),
-        MockComponent({selector: 'app-timezone-region'})
+        MockComponent({selector: 'app-tectonic-summary-region'})
       ]
     })
     .compileComponents();
