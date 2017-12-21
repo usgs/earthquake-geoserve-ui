@@ -85,9 +85,9 @@ node {
             datadir: '',
             hintsFile: '',
             includeCsvReports: false,
-            includeHtmlReports: false,
+            includeHtmlReports: true,
             includeJsonReports: false,
-            includeVulnReports: false,
+            includeVulnReports: true,
             isAutoupdateDisabled: false,
             outdir: '',
             scanpath: 'node_modules',
@@ -106,6 +106,15 @@ node {
           pattern: '**/dependency-check-report.xml',
           unHealthy: ''
         )
+
+        // publishHTML (target: [
+        //   allowMissing: true,
+        //   alwaysLinkToLastBuild: true,
+        //   keepAll: true,
+        //   reportDir: OWASP_REPORT_DIR,
+        //   reportFiles: 'owasp-zap-report.html',
+        //   reportName: 'OWASP ZAP Report'
+        // ])
       }
     }
 
