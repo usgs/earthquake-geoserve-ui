@@ -10,9 +10,5 @@
 
 <!-- No offshore region was returned -->
 <ng-template #noOffshoreRegion>
-  <div *ngIf="regionsService.coordinates | async">
-    <p class="alert warning">
-      Data not available
-    </p>
-  </div>
+  <app-no-data></app-no-data>
 </ng-template>

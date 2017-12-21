@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 
+import { NoDataComponent } from '../no-data/no-data.component';
 import { TectonicSummaryRegionComponent } from './tectonic-summary-region.component';
 import { RegionsService } from '../regions.service';
 
@@ -10,7 +11,10 @@ describe('TectonicSummaryRegionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TectonicSummaryRegionComponent ],
+      declarations: [
+        NoDataComponent,
+        TectonicSummaryRegionComponent
+      ],
       providers: [
         HttpClient,
         HttpHandler,

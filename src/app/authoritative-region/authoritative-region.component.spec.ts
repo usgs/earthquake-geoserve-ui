@@ -1,8 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 
-import { AuthoritativeRegionComponent } from './authoritative-region.component';
 import { RegionsService } from '../regions.service';
+
+import { AuthoritativeRegionComponent } from './authoritative-region.component';
+import { NoDataComponent } from '../no-data/no-data.component';
+
 
 describe('AuthoritativeRegionComponent', () => {
   let component: AuthoritativeRegionComponent;
@@ -10,7 +13,10 @@ describe('AuthoritativeRegionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AuthoritativeRegionComponent ],
+      declarations: [
+        AuthoritativeRegionComponent,
+        NoDataComponent
+      ],
       providers: [
         HttpClient,
         HttpHandler,

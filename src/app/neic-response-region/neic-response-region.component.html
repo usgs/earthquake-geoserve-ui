@@ -19,9 +19,5 @@
 
 <!-- No administrative region was returned -->
 <ng-template #noRegion>
-  <div *ngIf="regionsService.coordinates | async">
-    <p class="alert warning">
-      There is no neic response region for this location
-    </p>
-  </div>
+  <app-no-data></app-no-data>
 </ng-template>
