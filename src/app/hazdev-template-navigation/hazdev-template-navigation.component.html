@@ -23,7 +23,7 @@
 <form class="site-search" role="search" action="//search.usa.gov/search" method="get" accept-charset="UTF-8">
     <input name="utf8" type="hidden" value="✓"/>
     <input name="affiliate" type="hidden" value="usgs"/>
-    <input name="sitelimit" type="hidden" value="<?php echo $SITE_URL; ?>"/>
+    <input name="sitelimit" type="hidden" value="{{ SITE_URL }}" />
   <mat-form-field>
     <input matInput id="query" name="query" type="search" placeholder="Search..." title="Search"/>
   </mat-form-field>

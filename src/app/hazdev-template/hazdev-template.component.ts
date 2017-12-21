@@ -39,7 +39,7 @@ export class HazdevTemplateComponent implements OnInit, OnDestroy {
   @Input() NAVIGATION: any[];
   @Input() SITE_COMMONNAV: any[];
   @Input() SITE_SITENAV: any[];
-  @Input() SITE_URL = 'http//localhost.localdomain';
+  @Input() SITE_URL = 'http://localhost.localdomain';
 
   constructor (changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
     this.mobileQuery = media.matchMedia('(max-width: 768px)');
