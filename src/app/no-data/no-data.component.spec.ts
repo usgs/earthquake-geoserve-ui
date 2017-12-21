@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClient, HttpHandler } from '@angular/common/http';
 
 import { NoDataComponent } from './no-data.component';
 
@@ -8,7 +9,12 @@ describe('NoDataComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NoDataComponent ]
+      declarations: [ NoDataComponent ],
+      providers: [
+        HttpClient,
+        HttpHandler,
+        RegionsService
+      ]
     })
     .compileComponents();
   }));
