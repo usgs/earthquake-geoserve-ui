@@ -11,7 +11,5 @@
 </div>
 
 <ng-template #noRegion>
-  <p *ngIf="(regionsService.coordinates | async)">
-    No authoritative region exists for the selected location.
-  </p>
+  <app-no-data></app-no-data>
 </ng-template>
