@@ -2,6 +2,10 @@
   height: 450px;
 }
 
+.leaflet-location-control {
+  cursor: pointer;
+}
+
 .leaflet-location-control > a.material-icons {
   font-size: 16px;
   font-weight: bold;

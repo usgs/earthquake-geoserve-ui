@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { icon, latLng, Layer, marker, polyline, tileLayer } from 'leaflet';
 import * as L from 'leaflet';
@@ -11,7 +11,8 @@ import { Coordinates } from '../coordinates';
 @Component({
   selector: 'app-location-map',
   templateUrl: './location-map.component.html',
-  styleUrls: ['./location-map.component.css']
+  styleUrls: ['./location-map.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class LocationMapComponent implements OnInit {
   @Input() leaflet: any;
