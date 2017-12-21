@@ -310,10 +310,13 @@ node {
       echo 'TODO :: Call deploy pipeline'
     }
   } catch (e) {
+    def message = "Project build (${BUILD_TAG}) failed.\n"
+    def stack = e.getStackTrace().join("\n")
+
     mail to: 'emartinez@usgs.gov',
       from: 'noreply@jenkins',
       subject: 'Jenkins: earthquake-design-ui',
-      body: "Project build (${BUILD_TAG}) failed with '${e.getStackTrace()}'"
+      body: "${message}\n\n${stack}"
 
 
     FAILURE = e
