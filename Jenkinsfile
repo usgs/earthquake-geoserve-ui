@@ -36,6 +36,20 @@ node {
 
 
   try {
+    stage('experimental') {
+      def deployImage = docker.build(
+        image: ${DEPLOY_IMAGE}
+        args: "--build-arg BASE_IMAGE=${BASE_IMAGE}"
+      )
+
+      docker.withRegistry(
+        url: ${REGISTRY_HOST},
+        credentialsId: 'gitlab-innersource-admin'
+      ) {
+        deployImage.push()
+      }
+    }
+
     stage('Update') {
       // Start from scratch
       cleanWs()
@@ -299,7 +313,7 @@ node {
     mail to: 'emartinez@usgs.gov',
       from: 'noreply@jenkins',
       subject: 'Jenkins: earthquake-design-ui',
-      body: "Project build (${BUILD_TAG}) failed with '${e}'"
+      body: "Project build (${BUILD_TAG}) failed with '${e.getStackTrace()}'"
 
 
     FAILURE = e
