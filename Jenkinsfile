@@ -36,23 +36,6 @@ node {
 
 
   try {
-    stage('experimental') {
-      def deployImage = docker.build(
-        DEPLOY_IMAGE,
-        "--pull --build-arg BASE_IMAGE=${BASE_IMAGE} ."
-      )
-
-      docker.withRegistry(
-        "https://${REGISTRY_HOST}",
-        'gitlab-innersource-admin'
-      ) {
-        echo "deployImage.id = ${deployImage.id}"
-        sh """
-          docker push ${deployImage.id}
-        """
-      }
-    }
-
     stage('Update') {
       // Start from scratch
       cleanWs()
@@ -78,7 +61,7 @@ node {
       }
     }
 
-    stage('Dependencies') {
+    stage('Scan Dependencies') {
       docker.image(BUILDER_IMAGE).inside() {
         // Create dependencies
         withEnv([
@@ -126,7 +109,7 @@ node {
       }
     }
 
-    stage('Image') {
+    stage('Build Image') {
       // Install all dependencies so
       docker.image(BUILDER_IMAGE).inside() {
         withEnv([
@@ -278,7 +261,7 @@ node {
       ])
     }
 
-    stage('Publish') {
+    stage('Publish Image') {
       def IMAGE_VERSION = 'latest'
 
       // Determine image tag to use
@@ -288,42 +271,32 @@ node {
 
       // Re-tag candidate image as actual image name and push actual image to
       // repository
-      withCredentials([usernamePassword(
-        credentialsId: 'gitlab-innersource-admin',
-        passwordVariable: 'REGISTRY_PASS',
-        usernameVariable: 'REGISTRY_USER'
-      )]) {
+      docker.withRegistry(
+        "https://${REGISTRY_HOST}",
+        'gitlab-innersource-admin'
+      ) {
         ansiColor('xterm') {
           sh """
-            docker login ${REGISTRY_HOST} \
-              -u ${REGISTRY_USER} \
-              -p ${REGISTRY_PASS}
-
             docker tag \
               ${LOCAL_IMAGE} \
               ${DEPLOY_IMAGE}:${IMAGE_VERSION}
+          """
 
+          sh """
             docker push ${DEPLOY_IMAGE}:${IMAGE_VERSION}
           """
         }
       }
     }
 
-    stage('Deploy') {
+    stage('Trigger Deploy') {
       echo 'TODO :: Call deploy pipeline'
     }
   } catch (e) {
-    // def sw = new StringWriter()
-    // def pw = new PrintWriter(sw)
-    // e.printStackTrace(pw)
-    // def stack = sw.toString()
-
-    def message = "Project build (${BUILD_TAG}) failed '${e}'."
-
     mail to: 'emartinez@usgs.gov',
       from: 'noreply@jenkins',
       subject: 'Jenkins: earthquake-design-ui',
-      body: "${message}" //\n\n${stack}"
+      body: "Project build (${BUILD_TAG}) failed '${e}'"
 
 
     FAILURE = e
