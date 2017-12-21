@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { icon, latLng, Layer, marker, polyline, tileLayer } from 'leaflet';
+import * as L from 'leaflet';
 
 import { CoordinatesService } from '../coordinates.service';
 
@@ -78,7 +79,6 @@ export class LocationMapComponent implements OnInit {
     center: this.center
   };
 
-
   constructor (
     private coordinatesService: CoordinatesService
   ) {}
@@ -94,7 +94,7 @@ export class LocationMapComponent implements OnInit {
   }
 
   // Reset marker when coordinates change
-  addMarker (coordinates: Coordinates) :void {
+  addMarker (coordinates: Coordinates): void {
     const newMarker = marker(
       [
         coordinates.latitude,
@@ -109,9 +109,37 @@ export class LocationMapComponent implements OnInit {
   }
 
   // center the map on the provided coordinates
-  moveMap (coordinates: Coordinates) :void {
+  moveMap (coordinates: Coordinates): void {
     this.center = [ coordinates.latitude, coordinates.longitude ];
     this.zoom = coordinates.zoom;
+  }
+
+  onMapReady(map: L.Map) {
+    // create custom location control
+    let LocationControl = L.Control.extend({
+        options: {
+          position: 'topleft'
+        },
+        onAdd: function(map) {
+          let container;
+
+          container = L.DomUtil.create('div', 'leaflet-bar leaflet-control ' +
+              'leaflet-location-control');
+          container.innerHTML = '<a class="material-icons">location_searching' +
+              '</a>';
+
+          container.onclick = function(){
+            alert('location control clicked');
+          }
+          return container;
+        },
+
+        onRemove: function(map) {
+            // Nothing to do here
+        }
+    });
+
+    map.addControl(new LocationControl());
   }
 
 }

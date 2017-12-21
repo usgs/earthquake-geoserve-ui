@@ -4,5 +4,6 @@
      [leafletBaseLayers]="baseLayers"
      [leafletCenter]="center"
      [leafletLayers]="markers"
-     [leafletZoom]="zoom">
+     [leafletZoom]="zoom"
+     (leafletMapReady)="onMapReady($event)">
 </div>

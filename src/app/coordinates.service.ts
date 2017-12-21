@@ -59,9 +59,10 @@ export class CoordinatesService {
       return this.NOT_COMPUTED;
     }
 
-    var latitudePieces = latitude.split('.'),
-        longitudePieces = longitude.split('.'),
-        minDecimals;
+    let minDecimals;
+
+    const latitudePieces = latitude.split('.'),
+        longitudePieces = longitude.split('.');
 
     if (latitudePieces.length === 1 || longitudePieces.length === 1) {
       minDecimals = 0;
@@ -96,13 +97,13 @@ export class CoordinatesService {
   public computeZoomFromConfidence (confidence: number) {
     if (confidence === this.HIGH_CONFIDENCE) {
       return 16;
-    } else if( confidence === this.ABOVE_AVERAGE_CONFIDENCE) {
+    } else if (confidence === this.ABOVE_AVERAGE_CONFIDENCE) {
       return 13;
-    } else if( confidence === this.AVERAGE_CONFIDENCE) {
+    } else if (confidence === this.AVERAGE_CONFIDENCE) {
       return 9;
-    } else if( confidence === this.BELOW_AVERAGE_CONFIDENCE) {
+    } else if (confidence === this.BELOW_AVERAGE_CONFIDENCE) {
       return 5;
-    } else if( confidence === this.LOW_CONFIDENCE) {
+    } else if (confidence === this.LOW_CONFIDENCE) {
       return 1;
     } else {
       return 1;
