@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { MatButtonModule, MatSidenavModule, MatListModule, MatInputModule } from '@angular/material';
+import { MatButtonModule, MatDialogModule, MatSidenavModule, MatListModule, MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
@@ -31,7 +31,7 @@ import { NeicResponseRegionComponent } from './neic-response-region/neic-respons
 import { NoDataComponent } from './no-data/no-data.component';
 import { OffshoreRegionComponent } from './offshore-region/offshore-region.component';
 import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tectonic-summary-region.component';
-
+import { LocationDialogComponent } from './location-dialog/location-dialog.component';
 
 
 
@@ -56,7 +56,8 @@ import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tecton
     NeicResponseRegionComponent,
     NoDataComponent,
     OffshoreRegionComponent,
-    TectonicSummaryRegionComponent
+    TectonicSummaryRegionComponent,
+    LocationDialogComponent
   ],
   entryComponents: [
     GeoserveComponent
@@ -73,9 +74,10 @@ import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tecton
   exports: [
     HttpClientModule,
     MatButtonModule,
-    MatSidenavModule,
+    MatDialogModule,
+    MatInputModule,
     MatListModule,
-    MatInputModule
+    MatSidenavModule
   ],
   providers: [
     CoordinatesService,

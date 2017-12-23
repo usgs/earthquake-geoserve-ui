@@ -4,5 +4,6 @@
      [leafletCenter]="center"
      [leafletLayers]="markers"
      [leafletZoom]="zoom"
-     (leafletMapReady)="onMapReady($event)">
+     (leafletMapReady)="onMapReady($event)"
+     (click)="onMapClick($event)">
 </div>

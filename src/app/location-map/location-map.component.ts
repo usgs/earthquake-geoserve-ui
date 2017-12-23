@@ -1,11 +1,12 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { MatDialog } from '@angular/material';
 
 import { icon, latLng, Layer, marker, polyline, tileLayer } from 'leaflet';
 import * as L from 'leaflet';
 
 import { CoordinatesService } from '../coordinates.service';
-
 import { Coordinates } from '../coordinates';
+import { LocationDialogComponent } from '../location-dialog/location-dialog.component';
 
 
 @Component({
@@ -81,7 +82,8 @@ export class LocationMapComponent implements OnInit {
 
 
   constructor (
-    private coordinatesService: CoordinatesService
+    private coordinatesService: CoordinatesService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -129,9 +131,10 @@ export class LocationMapComponent implements OnInit {
           container.innerHTML = '<a class="material-icons">location_searching' +
               '</a>';
 
-          container.onclick = function(){
-            alert('location control clicked');
-          }
+          // container.onclick = (() => {
+          //   this.openDialog();
+          // });
+
           return container;
         },
 
@@ -141,6 +144,22 @@ export class LocationMapComponent implements OnInit {
     });
 
     map.addControl(new LocationControl());
+  }
+
+  openDialog() {
+    let dialogRef = this.dialog.open(LocationDialogComponent, {
+      height: '400px',
+      width: '600px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  onMapClick(event) {
+    this.openDialog();
+    console.log(event.target);
   }
 
 }
