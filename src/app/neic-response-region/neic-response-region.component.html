@@ -1,19 +1,14 @@
 <!-- NEIC Response region was returned, display the region -->
 <h2>NEIC Response Region</h2>
-<div *ngIf="regionsService.neicResponse | async; else noRegion; let region" class="output-section">
+<div *ngIf="regionsService.neicResponse | async; else noRegion;
+    let region" class="output-section">
   <dl class="neic-response-region">
-    <dt>Name</dt>
-    <dd>
-      {{ region?.properties.name }}
-    </dd>
-    <dt>Magnitude</dt>
-    <dd>
-      {{ region?.properties.magnitude }}
-    </dd>
-    <dt>Type</dt>
-    <dd>
-      {{ region?.properties.type }}
-    </dd>
+    <app-list-item TITLE="Name" DATA="{{ region?.properties.name }}">
+    </app-list-item>
+    <app-list-item TITLE="Magnitude" DATA="{{ region?.properties.magnitude }}">
+    </app-list-item>
+    <app-list-item TITLE="Type" DATA="{{ region?.properties.type }}">
+    </app-list-item>
   </dl>
 </div>
 
