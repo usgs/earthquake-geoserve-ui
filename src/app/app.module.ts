@@ -19,6 +19,7 @@ import { HazdevTemplateFooterComponent } from './hazdev-template-footer/hazdev-t
 import { HazdevTemplateHeaderComponent } from './hazdev-template-header/hazdev-template-header.component';
 import { HazdevTemplateNavigationComponent } from './hazdev-template-navigation/hazdev-template-navigation.component';
 import { HazdevTemplatePageComponent } from './hazdev-template-page/hazdev-template-page.component';
+import { ListItemComponent } from './list-item/list-item.component';
 import { LocationMapComponent } from './location-map/location-map.component';
 import { LocationOutputComponent } from './location-output/location-output.component';
 import { NearbyPlaceComponent } from './nearby-place/nearby-place.component';
@@ -43,6 +44,7 @@ import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tecton
     HazdevTemplateHeaderComponent,
     HazdevTemplateNavigationComponent,
     HazdevTemplatePageComponent,
+    ListItemComponent,
     LocationMapComponent,
     LocationOutputComponent,
     NearbyPlaceComponent,
