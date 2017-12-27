@@ -3,6 +3,7 @@ import { HttpClient, HttpHandler } from '@angular/common/http';
 
 import { RegionsService } from '../regions.service';
 
+import { ListItemComponent } from '../list-item/list-item.component';
 import { NeicResponseRegionComponent } from './neic-response-region.component';
 import { NoDataComponent } from '../no-data/no-data.component';
 
@@ -14,6 +15,7 @@ describe('NeicResponseRegionComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
+        ListItemComponent,
         NeicResponseRegionComponent,
         NoDataComponent
       ],

@@ -4,6 +4,7 @@ import { HttpClient, HttpHandler } from '@angular/common/http';
 import { RegionsService } from '../regions.service';
 
 import { AdminRegionComponent } from './admin-region.component';
+import { ListItemComponent } from '../list-item/list-item.component';
 import { NoDataComponent } from '../no-data/no-data.component';
 
 
@@ -15,6 +16,7 @@ describe('AdminRegionComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         AdminRegionComponent,
+        ListItemComponent,
         NoDataComponent
       ],
       providers: [

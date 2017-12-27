@@ -4,6 +4,7 @@ import { HttpClient, HttpHandler } from '@angular/common/http';
 import { RegionsService } from '../regions.service';
 
 import { AuthoritativeRegionComponent } from './authoritative-region.component';
+import { ListItemComponent } from '../list-item/list-item.component';
 import { NoDataComponent } from '../no-data/no-data.component';
 
 
@@ -15,6 +16,7 @@ describe('AuthoritativeRegionComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         AuthoritativeRegionComponent,
+        ListItemComponent,
         NoDataComponent
       ],
       providers: [
