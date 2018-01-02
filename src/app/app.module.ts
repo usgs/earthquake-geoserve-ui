@@ -60,7 +60,9 @@ import { LocationDialogComponent } from './location-dialog/location-dialog.compo
     LocationDialogComponent
   ],
   entryComponents: [
-    GeoserveComponent
+    CoordinateInputComponent,
+    GeoserveComponent,
+    LocationDialogComponent
   ],
   imports: [
     BrowserModule,

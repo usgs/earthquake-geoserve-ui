@@ -6,7 +6,7 @@ import * as L from 'leaflet';
 
 import { CoordinatesService } from '../coordinates.service';
 import { Coordinates } from '../coordinates';
-import { LocationDialogComponent } from '../location-dialog/location-dialog.component';
+import { CoordinateInputComponent } from '../coordinate-input/coordinate-input.component';
 
 
 @Component({
@@ -117,13 +117,19 @@ export class LocationMapComponent implements OnInit {
     this.zoom = coordinates.zoom;
   }
 
-  onMapReady(map: L.Map) {
+  onMapReady (map: L.Map) {
     // create custom location control
     let LocationControl = L.Control.extend({
         options: {
           position: 'topleft'
         },
-        onAdd: function(map) {
+
+        initialize: function (options) {
+          this._dialog = options.dialog;
+          this._component = options.component;
+        },
+
+        onAdd: function (map) {
           let container;
 
           container = L.DomUtil.create('div', 'leaflet-bar leaflet-control ' +
@@ -131,35 +137,27 @@ export class LocationMapComponent implements OnInit {
           container.innerHTML = '<a class="material-icons">location_searching' +
               '</a>';
 
-          // container.onclick = (() => {
-          //   this.openDialog();
-          // });
+          // open dialog when custom control is clicked
+          container.onclick = (() => {
+            if (this._dialog && this._component) {
+              this._dialog.open(this._component, {
+                height: '400px',
+                width: '600px'
+              });
+            }
+          });
 
           return container;
         },
 
-        onRemove: function(map) {
-            // Nothing to do here
+        onRemove: function (map) {
+          // Nothing to do here
         }
     });
 
-    map.addControl(new LocationControl());
+    map.addControl(new LocationControl({
+      dialog: this.dialog,
+      component: CoordinateInputComponent
+    }));
   }
-
-  openDialog() {
-    let dialogRef = this.dialog.open(LocationDialogComponent, {
-      height: '400px',
-      width: '600px'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
-  }
-
-  onMapClick(event) {
-    this.openDialog();
-    console.log(event.target);
-  }
-
 }
