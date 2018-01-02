@@ -34,6 +34,7 @@ import { NoDataComponent } from './no-data/no-data.component';
 import { OffshoreRegionComponent } from './offshore-region/offshore-region.component';
 import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tectonic-summary-region.component';
 import { LocationDialogComponent } from './location-dialog/location-dialog.component';
+import { GeolocateInputComponent } from './geolocate-input/geolocate-input.component';
 
 
 
@@ -59,7 +60,8 @@ import { LocationDialogComponent } from './location-dialog/location-dialog.compo
     NoDataComponent,
     OffshoreRegionComponent,
     TectonicSummaryRegionComponent,
-    LocationDialogComponent
+    LocationDialogComponent,
+    GeolocateInputComponent
   ],
   entryComponents: [
     CoordinateInputComponent,
