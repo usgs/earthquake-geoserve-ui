@@ -5,6 +5,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { MatButtonModule, MatSidenavModule, MatListModule, MatInputModule } from '@angular/material';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
@@ -75,6 +76,7 @@ import { GeolocateInputComponent } from './geolocate-input/geolocate-input.compo
     MatButtonModule,
     MatDialogModule,
     MatExpansionModule,
+    MatProgressSpinnerModule,
     MatSidenavModule,
     MatListModule,
     MatInputModule
@@ -84,6 +86,7 @@ import { GeolocateInputComponent } from './geolocate-input/geolocate-input.compo
     MatButtonModule,
     MatDialogModule,
     MatExpansionModule,
+    MatProgressSpinnerModule,
     MatInputModule,
     MatListModule,
     MatSidenavModule

@@ -54,7 +54,13 @@ export class CoordinatesService {
    * @params longitude {String}
    *
    */
-  public computeFromCoordinates (latitude: string, longitude: string) {
+  public computeFromCoordinates (location: Coordinates) {
+    let latitude,
+        longitude;
+
+    latitude = location.latitude.toString();
+    longitude = location.longitude.toString();
+
     if (typeof latitude !== 'string' || typeof longitude !== 'string') {
       return this.NOT_COMPUTED;
     }
@@ -91,6 +97,27 @@ export class CoordinatesService {
 
 
   /**
+   * Compute Confidence given a accuracy in meters.
+   * used by GeoLocate.
+   * @params accuracy {number} indicates the accuracy in meters at 95%
+   *         confidence.
+   */
+  public computeFromGeolocate (accuracy) {
+    if (accuracy > 100000) {
+      return this.LOW_CONFIDENCE;
+    } else if (accuracy > 10000) {
+      return this.BELOW_AVERAGE_CONFIDENCE;
+    } else if (accuracy > 1000) {
+      return this.AVERAGE_CONFIDENCE;
+    } else if (accuracy > 100) {
+      return this.ABOVE_AVERAGE_CONFIDENCE;
+    } else {
+      return this.HIGH_CONFIDENCE;
+    }
+  }
+
+
+  /**
    * Compute zoom level given a confidence.
    * @params confidence {number} indicates the confidence level
    */
@@ -115,20 +142,113 @@ export class CoordinatesService {
    * @param {string} latitude  [description]
    * @param {string} longitude [description]
    */
-  public setCoordinates (latitude: string, longitude: string, method: string) {
+  public setCoordinates (location: any) {
     let confidence,
         zoom;
 
-    confidence = this.computeFromCoordinates(latitude, longitude);
+    confidence = this.computeConfidence(location);
     zoom = this.computeZoomFromConfidence(confidence);
 
     this._coordinates.next({
       confidence: confidence,
-      latitude: +latitude,
-      longitude: +longitude,
+      latitude: +location.latitude,
+      longitude: +location.longitude,
       zoom: zoom,
-      method: method
+      method: location.method
     });
+  }
+
+  public computeConfidence (location: Coordinates) {
+    let confidence,
+        method;
+
+    method = location.method;
+
+    if (method === 'coordinate') {
+      confidence = this.computeFromCoordinates(location);
+    } else if (method === 'geocode') {
+      confidence = this.computeFromGeocode(location);
+    } else if (method === 'geolocate') {
+      confidence = this.computeFromGeolocate(location);
+    } else if (method === 'point') {
+      confidence = this.computeFromPoint(location);
+    }
+
+    return confidence;
+  }
+
+
+
+  /**
+   * Compute Confidence given a zoom level.
+   * @params zoom {number} indicates the zoom level of the map.
+   */
+  public computeFromPoint (location: Coordinates) {
+    let zoom;
+
+    zoom = location.zoom;
+
+    if (zoom > 16) {
+      return this.HIGH_CONFIDENCE;
+    } else if (zoom > 12) {
+      return this.ABOVE_AVERAGE_CONFIDENCE;
+    } else if (zoom > 8) {
+      return this.AVERAGE_CONFIDENCE;
+    } else if (zoom > 4) {
+      return this.BELOW_AVERAGE_CONFIDENCE;
+    } else {
+      return this.LOW_CONFIDENCE;
+    }
+  }
+
+
+  /**
+   * Compute Confidence given a geocode result location with an extent.
+   *
+   * @params geocodeLocation {object}
+   *      an esri response via the ArcGIS REST API
+   *
+   * @see https://developers.arcgis.com/en/features/geocoding/
+   */
+  public computeFromGeocode (geocodeLocation: any) {
+    var confidence,
+        extent,
+        max;
+
+    extent = geocodeLocation.extent;
+
+    // find the largest dimension of the extent
+    if (extent) {
+      max = Math.max(Math.abs(extent.xmax - extent.xmin),
+          Math.abs(extent.ymax - extent.ymin));
+
+      // calculate confidence based on the location's extent
+      if (max < 0.001) {
+        confidence = this.HIGH_CONFIDENCE;
+      } else if (max < 0.01) {
+        confidence = this.ABOVE_AVERAGE_CONFIDENCE;
+      } else if (max < 0.1) {
+        confidence = this.AVERAGE_CONFIDENCE;
+      } else if (max < 1) {
+        confidence = this.BELOW_AVERAGE_CONFIDENCE;
+      } else if (max < 10) {
+        confidence = this.LOW_CONFIDENCE;
+      } else if (max >= 10) {
+        confidence = this.NO_CONFIDENCE;
+      }
+    }
+
+    if (!(confidence === this.HIGH_CONFIDENCE ||
+        confidence === this.ABOVE_AVERAGE_CONFIDENCE ||
+        confidence === this.AVERAGE_CONFIDENCE ||
+        confidence === this.BELOW_AVERAGE_CONFIDENCE ||
+        confidence === this.LOW_CONFIDENCE ||
+        confidence === this.NO_CONFIDENCE)) {
+      // confidence did not match any value, bail
+      confidence = this.NOT_COMPUTED;
+    }
+
+    return confidence;
   }
 
 }

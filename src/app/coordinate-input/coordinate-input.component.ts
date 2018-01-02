@@ -22,7 +22,11 @@ export class CoordinateInputComponent implements OnInit {
   }
 
   handleClick (latitude: string, longitude: string) {
-    this.coordinatesService.setCoordinates(latitude, longitude, 'coordinate');
+    this.coordinatesService.setCoordinates({
+      latitude: latitude,
+      longitude: longitude,
+      method: 'coordinate'
+    });
     this.placesService.getPlaces(latitude, longitude);
     this.regionsService.getRegions(latitude, longitude);
     // Use injected reference to close dialog
