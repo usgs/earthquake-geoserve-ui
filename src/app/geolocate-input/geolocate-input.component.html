@@ -1,4 +1,10 @@
-<p>
-  Use the button below to find your location on the map.
-</p>
-<button mat-raised-button (click)="doGeolocate()">Find Me</button>
+<div *ngIf="show">
+  <p>
+    Use the button below to find your location on the map.
+  </p>
+  <button mat-raised-button (click)="doGeolocate()">Find Me</button>
+</div>
+
+<div *ngIf="!show" class="center-spinner">
+  <app-progress-spinner></app-progress-spinner>
+</div>

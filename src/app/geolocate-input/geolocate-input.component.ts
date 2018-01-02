@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 
 import { CoordinatesService } from '../coordinates.service';
@@ -9,6 +9,7 @@ import { CoordinatesService } from '../coordinates.service';
   styleUrls: ['./geolocate-input.component.css']
 })
 export class GeolocateInputComponent implements OnInit {
+  @Input() show: boolean;
 
   constructor(
     private coordinatesService: CoordinatesService,
@@ -17,12 +18,14 @@ export class GeolocateInputComponent implements OnInit {
 
   ngOnInit() {
     this.geolocateSuccess = this.geolocateSuccess.bind(this);
+    this.show = true;
   }
 
   doGeolocate (): void {
     let geolocation;
 
     geolocation = navigator.geolocation;
+    this.show = false;
 
     if (geolocation) {
       geolocation.getCurrentPosition(this.geolocateSuccess,
@@ -42,14 +45,11 @@ export class GeolocateInputComponent implements OnInit {
     latitude = position.coords.latitude;
     longitude = position.coords.longitude;
 
-    console.log(this);
-    console.log(position);
-
     this.coordinatesService.setCoordinates({
       latitude: latitude,
       longitude: longitude,
-      method: 'geolocate'
-    );
+      method: "geolocate"
+    });
     this.dialogRef.close();
   }
 
