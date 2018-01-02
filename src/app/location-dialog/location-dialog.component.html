@@ -1,3 +1,55 @@
+
+<h1 mat-dialog-title>Choose a Location</h1>
 <p>
-  location-dialog works!
+  Use one of the methods below to add a location to the map.
 </p>
+
+<mat-dialog-content>
+  <mat-accordion>
+    <!-- TODO, Geolocate control -->
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Find Current Location
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>TODO</p>
+    </mat-expansion-panel>
+
+    <!-- TODO, Geocode control-->
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Search for an Address
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>TODO</p>
+    </mat-expansion-panel>
+
+    <!-- Coordinate Control -->
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Enter Coordinates
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-coordinate-input></app-coordinate-input>
+    </mat-expansion-panel>
+
+    <!-- TODO, Pin Control-->
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Drop Pin
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>TODO</p>
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button (click)="dialogRef.close()">
+    Cancel
+  </button>
+</mat-dialog-actions>

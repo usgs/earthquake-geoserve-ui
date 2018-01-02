@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-location-dialog',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LocationDialogComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private dialogRef: MatDialogRef<LocationDialogComponent>
+  ) { }
 
   ngOnInit() {
   }

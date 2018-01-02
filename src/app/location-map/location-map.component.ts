@@ -6,7 +6,7 @@ import * as L from 'leaflet';
 
 import { CoordinatesService } from '../coordinates.service';
 import { Coordinates } from '../coordinates';
-import { CoordinateInputComponent } from '../coordinate-input/coordinate-input.component';
+import { LocationDialogComponent } from '../location-dialog/location-dialog.component';
 
 
 @Component({
@@ -140,10 +140,7 @@ export class LocationMapComponent implements OnInit {
           // open dialog when custom control is clicked
           container.onclick = (() => {
             if (this._dialog && this._component) {
-              this._dialog.open(this._component, {
-                height: '400px',
-                width: '600px'
-              });
+              this._dialog.open(this._component);
             }
           });
 
@@ -157,7 +154,7 @@ export class LocationMapComponent implements OnInit {
 
     map.addControl(new LocationControl({
       dialog: this.dialog,
-      component: CoordinateInputComponent
+      component: LocationDialogComponent
     }));
   }
 }
