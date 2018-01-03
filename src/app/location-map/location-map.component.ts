@@ -1,13 +1,12 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+//our root app component
+import { Component, OnInit, ViewEncapsulation } from '@angular/core'
 import { MatDialog } from '@angular/material';
 
-import { icon, latLng, Layer, marker, polyline, tileLayer } from 'leaflet';
 import * as L from 'leaflet';
 
 import { CoordinatesService } from '../coordinates.service';
 import { Coordinates } from '../coordinates';
 import { LocationDialogComponent } from '../location-dialog/location-dialog.component';
-
 
 @Component({
   selector: 'app-location-map',
@@ -15,124 +14,85 @@ import { LocationDialogComponent } from '../location-dialog/location-dialog.comp
   styleUrls: ['./location-map.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class LocationMapComponent implements OnInit {
-  @Input() leaflet: any;
-  @Input() leafletBaseLayers: any;
-  @Input() leafletCenter: any;
-  @Input() leafletZoom: any;
+export class LocationMapComponent implements OnInit{
+  map: any;
+  marker: any;
 
-  // Define our base layers so we can reference them multiple times
-  LAYER_STREET =
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 18,
-      attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, ' +
-        'Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, ' +
-        'Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the ' +
-        'GIS User Community'
-    });
-
-  LAYER_SATELLITE =
-    L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/' +
-      'World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-      maxZoom: 18,
-      attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, ' +
-        'USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the ' +
-        'GIS User Community'
-    });
-
-  LAYER_TERRAIN =
-    L.tileLayer('https://services.arcgisonline.com/arcgis/rest/services/' +
-      'NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
-      maxZoom: 18,
-      attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, ' +
-        'Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, ' +
-        'Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the ' +
-        'GIS User Community'
-    });
-
-  // Leaflet options
-  baseLayers = {
-    'Esri Terrain Map': this.LAYER_TERRAIN,
-    'Open Street Map': this.LAYER_STREET,
-    'Esri Satellite Map': this.LAYER_SATELLITE
-  };
-  center = [ 38, -95 ];
-  map: L.Map;
-  marker = new L.Marker(
-    [0,0],
-    {
-      draggable: true,
-      icon: icon({
-        iconSize: [ 25, 41 ],
-        iconAnchor: [ 13, 41 ],
-        iconUrl: 'leaflet/marker-icon.png',
-        shadowUrl: 'leaflet/marker-shadow.png'
-      })
-    }
-  );
-  zoom = 4;
-
-  constructor (
+  constructor(
     private coordinatesService: CoordinatesService,
     public dialog: MatDialog
   ) {}
-
-  ngOnInit() {
-    // subscribe to coordinate changes
-    this.coordinatesService.coordinates.subscribe((coordinates) => {
-      if (coordinates) {
-        this.moveMarker(coordinates);
-        this.moveMap(coordinates);
-      }
-    });
-    this.marker.on('dragend', this.onDragEnd, this);
-  }
 
   ngOnDestroy() {
     this.marker.off('dragend', this.onDragEnd, this);
   }
 
-  moveMap (coordinates: Coordinates): void {
-    // center the map on the provided coordinates
-    this.center = [ coordinates.latitude, coordinates.longitude ];
-    // zoom the map to the appropriate level
-    this.zoom = coordinates.zoom;
-  }
+  ngOnInit(){
+    let baseMaps,
+        LocationControl,
+        satellite,
+        street,
+        terrain;
 
-  moveMarker (coordinates: Coordinates): void {
-    let latLng,
-        marker;
-
-    // Update the position of the marker
-    latLng = L.latLng(coordinates.latitude, coordinates.longitude);
-    this.marker.setLatLng(latLng);
-
-    // if there is no marker on the map, add marker
-    if (!this.map.hasLayer(this.marker)) {
-      this.map.addLayer(this.marker);
-    }
-  }
-
-  /**
-   * update location on coordinates service
-   */
-  onDragEnd () {
-    let coordinates;
-
-    coordinates = this.marker.getLatLng();
-
-    this.coordinatesService.setCoordinates({
-      latitude: coordinates.lat,
-      longitude: coordinates.lng,
-      method: 'point',
-      zoom: this.map.getZoom()
+    // Create map (center on US)
+    this.map = L.map('map', {
+      center: [ 38, -95 ],
+      zoom: 4
     });
-  };
 
-  onMapReady (map: L.Map) {
-    let LocationControl;
+    // Street Map
+    street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 16,
+      attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, ' +
+        'Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, ' +
+        'Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the ' +
+        'GIS User Community'
+    });
 
-    // create custom location control
+    // Satellite Map
+    satellite = L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/' +
+      'World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 16,
+      attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, ' +
+        'USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the ' +
+        'GIS User Community'
+    });
+
+    // Terrain Map
+    terrain = L.tileLayer('https://services.arcgisonline.com/arcgis/rest/services/' +
+      'NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 16,
+      attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, ' +
+        'Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, ' +
+        'Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the ' +
+        'GIS User Community'
+    }).addTo(this.map);
+
+    // Group baselayers
+    baseMaps = {
+      'Satellite': satellite,
+      'Street': street,
+      'Terrain': terrain
+    };
+
+    // Add layers to map
+    L.control.layers(baseMaps).addTo(this.map);
+
+    // Create location marker
+    this.marker = new L.Marker(
+      [0,0],
+      {
+        draggable: true,
+        icon: L.icon({
+          iconSize: [ 25, 41 ],
+          iconAnchor: [ 13, 41 ],
+          iconUrl: 'leaflet/marker-icon.png',
+          shadowUrl: 'leaflet/marker-shadow.png'
+        })
+      }
+    );
+
+    // Create location control to open dialog
     LocationControl = L.Control.extend({
         options: {
           position: 'topleft'
@@ -166,11 +126,61 @@ export class LocationMapComponent implements OnInit {
         }
     });
 
-    // store reference to map
-    this.map = map;
+    // Add Location Control to map
     this.map.addControl(new LocationControl({
       dialog: this.dialog,
       component: LocationDialogComponent
     }));
+
+    // subscribe to location changes
+    this.coordinatesService.coordinates.subscribe((coordinates) => {
+      if (coordinates) {
+        this.moveMarker(coordinates);
+        this.moveMap(coordinates);
+      }
+    });
+
+    // bind to dragend on map marker
+    this.marker.on('dragend', this.onDragEnd, this);
   }
+
+  moveMap (coordinates: Coordinates): void {
+    // pan/zoom the provided location
+    this.map.setView(
+        new L.LatLng(coordinates.latitude, coordinates.longitude ),
+        coordinates.zoom
+      );
+  }
+
+  moveMarker (coordinates: Coordinates): void {
+    let latLng,
+        marker;
+
+    // Update the position of the marker
+    latLng = L.latLng(coordinates.latitude, coordinates.longitude);
+    this.marker.setLatLng(latLng);
+
+    // if there is no marker on the map, add marker
+    if (!this.map.hasLayer(this.marker)) {
+      this.map.addLayer(this.marker);
+    }
+  }
+
+  /**
+   * update location on coordinates service
+   */
+  onDragEnd () {
+    let coordinates;
+
+    coordinates = this.marker.getLatLng();
+
+    this.coordinatesService.setCoordinates({
+      latitude: coordinates.lat,
+      longitude: coordinates.lng,
+      method: 'point',
+      zoom: this.map.getZoom()
+    });
+  };
+
+
 }

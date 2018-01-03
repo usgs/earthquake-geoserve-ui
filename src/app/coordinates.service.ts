@@ -54,7 +54,7 @@ export class CoordinatesService {
    * @params longitude {String}
    *
    */
-  public computeFromCoordinates (location: Coordinates) {
+  public computeFromCoordinates (location: Coordinates): number {
     let latitude,
         longitude;
 
@@ -102,7 +102,7 @@ export class CoordinatesService {
    * @params accuracy {number} indicates the accuracy in meters at 95%
    *         confidence.
    */
-  public computeFromGeolocate (accuracy) {
+  public computeFromGeolocate (accuracy): number {
     if (accuracy > 100000) {
       return this.LOW_CONFIDENCE;
     } else if (accuracy > 10000) {
@@ -121,7 +121,7 @@ export class CoordinatesService {
    * Compute zoom level given a confidence.
    * @params confidence {number} indicates the confidence level
    */
-  public computeZoomFromConfidence (confidence: number) {
+  public computeZoomFromConfidence (confidence: number): number {
     if (confidence === this.HIGH_CONFIDENCE) {
       return 16;
     } else if (confidence === this.ABOVE_AVERAGE_CONFIDENCE) {
@@ -142,7 +142,7 @@ export class CoordinatesService {
    * @param {string} latitude  [description]
    * @param {string} longitude [description]
    */
-  public setCoordinates (location: any) {
+  public setCoordinates (location: any): void {
     let confidence,
         zoom;
 
@@ -156,14 +156,14 @@ export class CoordinatesService {
 
     this._coordinates.next({
       confidence: confidence,
-      latitude: +location.latitude,
-      longitude: +location.longitude,
+      latitude: this.roundLocation(+location.latitude, confidence),
+      longitude: this.roundLocation(+location.longitude, confidence),
       zoom: zoom,
       method: location.method
     });
   }
 
-  public computeConfidence (location: Coordinates) {
+  public computeConfidence (location: Coordinates): number {
     let confidence,
         method;
 
@@ -188,7 +188,7 @@ export class CoordinatesService {
    * Compute Confidence given a zoom level.
    * @params zoom {number} indicates the zoom level of the map.
    */
-  public computeFromPoint (location: Coordinates) {
+  public computeFromPoint (location: Coordinates): number {
     let zoom;
 
     zoom = location.zoom;
@@ -215,7 +215,7 @@ export class CoordinatesService {
    *
    * @see https://developers.arcgis.com/en/features/geocoding/
    */
-  public computeFromGeocode (geocodeLocation: any) {
+  public computeFromGeocode (geocodeLocation: any): number {
     var confidence,
         extent,
         max;
@@ -254,6 +254,29 @@ export class CoordinatesService {
     }
 
     return confidence;
+  }
+
+
+  /**
+   * returns rounded value based on confidence value.
+   *
+   * @param  {string | number} value
+   *           value to be rounded
+   * @param  {number} confidence
+   *           confidence value
+   * @return {number} rounded value
+   *
+   */
+  public roundLocation (value, confidence): number {
+    var rounded,
+        decimals = confidence;
+
+    if (confidence === this.NOT_COMPUTED) {
+      decimals = 0;
+    }
+
+    rounded = parseFloat(value).toFixed(decimals);
+    return parseFloat(rounded);
   }
 
 }
