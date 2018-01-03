@@ -147,7 +147,12 @@ export class CoordinatesService {
         zoom;
 
     confidence = this.computeConfidence(location);
-    zoom = this.computeZoomFromConfidence(confidence);
+
+    if (location.zoom && location.method === 'point') {
+      zoom = location.zoom;
+    } else {
+      zoom = this.computeZoomFromConfidence(confidence);
+    }
 
     this._coordinates.next({
       confidence: confidence,
