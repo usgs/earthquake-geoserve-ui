@@ -1,7 +1,7 @@
 <mat-form-field>
-  <input matInput placeholder="latitude" value="35" #latitude />
+  <input matInput placeholder="latitude" value="{{ (coordinatesService.coordinates | async)?.latitude }}" #latitude />
 </mat-form-field>
 <mat-form-field>
-  <input matInput placeholder="longitude" value="-105" #longitude />
+  <input matInput placeholder="longitude" value="{{ (coordinatesService.coordinates | async)?.longitude }}" #longitude />
 </mat-form-field>
 <button mat-raised-button (click)="handleClick(latitude.value, longitude.value)">Search</button>
