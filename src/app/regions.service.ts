@@ -99,7 +99,7 @@ export class RegionsService {
 
   private handleError<T> (action: string, result?: T) {
     return(error: any): Observable<T> => {
-      console.error(error);
+      console.error('RegionsService::handleError::' + action + '(' + error.message + ')');
       return of(result as T);
     };
   }

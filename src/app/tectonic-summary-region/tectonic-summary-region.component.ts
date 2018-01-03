@@ -9,7 +9,7 @@ import { RegionsService } from '../regions.service';
 })
 export class TectonicSummaryRegionComponent implements OnInit {
 
-  constructor(private regionsService: RegionsService) { }
+  constructor(public readonly regionsService: RegionsService) { }
 
   ngOnInit() {
   }
