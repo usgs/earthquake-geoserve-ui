@@ -9,7 +9,7 @@ import { CoordinatesService } from '../coordinates.service';
   styleUrls: ['./geolocate-input.component.css']
 })
 export class GeolocateInputComponent implements OnInit {
-  @Input() show: boolean;
+  @Input() showProgressBar: boolean;
 
   constructor(
     private coordinatesService: CoordinatesService,
@@ -18,14 +18,14 @@ export class GeolocateInputComponent implements OnInit {
 
   ngOnInit() {
     this.geolocateSuccess = this.geolocateSuccess.bind(this);
-    this.show = true;
+    this.showProgressBar = false;
   }
 
   doGeolocate (): void {
     let geolocation;
 
     geolocation = navigator.geolocation;
-    this.show = false;
+    this.showProgressBar = true;
 
     if (geolocation) {
       geolocation.getCurrentPosition(this.geolocateSuccess,

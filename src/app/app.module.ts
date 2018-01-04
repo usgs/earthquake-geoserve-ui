@@ -5,7 +5,8 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { MatButtonModule, MatSidenavModule, MatListModule, MatInputModule } from '@angular/material';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
@@ -36,7 +37,6 @@ import { OffshoreRegionComponent } from './offshore-region/offshore-region.compo
 import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tectonic-summary-region.component';
 import { LocationDialogComponent } from './location-dialog/location-dialog.component';
 import { GeolocateInputComponent } from './geolocate-input/geolocate-input.component';
-import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.component';
 
 
 
@@ -63,8 +63,7 @@ import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.co
     OffshoreRegionComponent,
     TectonicSummaryRegionComponent,
     LocationDialogComponent,
-    GeolocateInputComponent,
-    ProgressSpinnerComponent
+    GeolocateInputComponent
   ],
   entryComponents: [
     CoordinateInputComponent,
@@ -78,20 +77,22 @@ import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.co
     MatButtonModule,
     MatDialogModule,
     MatExpansionModule,
-    MatProgressSpinnerModule,
+    MatProgressBarModule,
     MatSidenavModule,
     MatListModule,
-    MatInputModule
+    MatInputModule,
+    MatIconModule
   ],
   exports: [
     HttpClientModule,
     MatButtonModule,
     MatDialogModule,
     MatExpansionModule,
-    MatProgressSpinnerModule,
+    MatProgressBarModule,
     MatInputModule,
     MatListModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatIconModule
   ],
   providers: [
     CoordinatesService,

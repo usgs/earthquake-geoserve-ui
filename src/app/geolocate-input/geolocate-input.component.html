@@ -1,10 +1,21 @@
-<div *ngIf="show">
-  <p>
-    Use the button below to find your location on the map.
-  </p>
-  <button mat-raised-button (click)="doGeolocate()">Find Me</button>
+
+  <!-- Content -->
+<div *ngIf="showProgressBar else search" class="center-spinner">
+  <mat-progress-bar
+    color="primary"
+    mode="indeterminate">
+  </mat-progress-bar>
 </div>
 
-<div *ngIf="!show" class="center-spinner">
-  <app-progress-spinner></app-progress-spinner>
-</div>
+<ng-template #search>
+  <!-- Content -->
+  <div *ngIf="!showProgressBar">
+    <p>
+      Use the button below to find your location on the map.
+    </p>
+  </div>
+    <!-- Footer -->
+  <mat-action-row>
+    <button mat-button color="primary" (click)="doGeolocate()">Find Current Location</button>
+  </mat-action-row>
+</ng-template>
