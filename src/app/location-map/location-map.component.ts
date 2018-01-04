@@ -1,5 +1,4 @@
-//our root app component
-import { Component, OnInit, ViewEncapsulation } from '@angular/core'
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import * as L from 'leaflet';
@@ -14,7 +13,7 @@ import { LocationDialogComponent } from '../location-dialog/location-dialog.comp
   styleUrls: ['./location-map.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class LocationMapComponent implements OnInit{
+export class LocationMapComponent implements OnDestroy, OnInit {
   map: L.Map;
   marker: L.Marker;
 
@@ -27,7 +26,7 @@ export class LocationMapComponent implements OnInit{
     this.marker.off('dragend', this.onDragEnd, this);
   }
 
-  ngOnInit(){
+  ngOnInit() {
     let baseMaps,
         LocationControl,
         satellite,
@@ -80,7 +79,7 @@ export class LocationMapComponent implements OnInit{
 
     // Create location marker
     this.marker = new L.Marker(
-      [0,0],
+      [ 0, 0 ],
       {
         draggable: true,
         icon: L.icon({
@@ -153,8 +152,7 @@ export class LocationMapComponent implements OnInit{
   }
 
   moveMarker (coordinates: Coordinates): void {
-    let latLng,
-        marker;
+    let latLng;
 
     // Update the position of the marker
     latLng = L.latLng(coordinates.latitude, coordinates.longitude);
@@ -180,7 +178,7 @@ export class LocationMapComponent implements OnInit{
       method: 'point',
       zoom: this.map.getZoom()
     });
-  };
+  }
 
 
 }

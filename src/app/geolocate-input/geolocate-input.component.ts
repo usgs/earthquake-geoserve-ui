@@ -48,7 +48,7 @@ export class GeolocateInputComponent implements OnInit {
     this.coordinatesService.setCoordinates({
       latitude: latitude,
       longitude: longitude,
-      method: "geolocate"
+      method: 'geolocate'
     });
     this.dialogRef.close();
   }

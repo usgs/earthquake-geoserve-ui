@@ -228,7 +228,7 @@ export class CoordinatesService {
    * @see https://developers.arcgis.com/en/features/geocoding/
    */
   public computeFromGeocode (geocodeLocation: any): number {
-    var confidence,
+    let confidence,
         extent,
         max;
 
@@ -280,7 +280,7 @@ export class CoordinatesService {
    *
    */
   public roundLocation (value, confidence): number {
-    var rounded,
+    let rounded,
         decimals = confidence;
 
     if (confidence === this.NOT_COMPUTED) {
