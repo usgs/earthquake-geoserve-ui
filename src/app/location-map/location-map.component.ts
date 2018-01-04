@@ -15,8 +15,8 @@ import { LocationDialogComponent } from '../location-dialog/location-dialog.comp
   encapsulation: ViewEncapsulation.None
 })
 export class LocationMapComponent implements OnInit{
-  map: any;
-  marker: any;
+  map: L.Map;
+  marker: L.Marker;
 
   constructor(
     private coordinatesService: CoordinatesService,
