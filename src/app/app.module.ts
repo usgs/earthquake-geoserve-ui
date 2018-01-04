@@ -9,8 +9,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-
 import { CoordinatesService } from './coordinates.service';
 import { PlacesService } from './places.service';
 import { RegionsService } from './regions.service';
@@ -73,7 +71,6 @@ import { GeolocateInputComponent } from './geolocate-input/geolocate-input.compo
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    LeafletModule.forRoot(),
     MatButtonModule,
     MatDialogModule,
     MatExpansionModule,
