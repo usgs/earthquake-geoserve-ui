@@ -92,6 +92,9 @@ export class LocationMapComponent implements OnInit{
       }
     );
 
+    // bind to dragend on map marker
+    this.marker.on('dragend', this.onDragEnd, this);
+
     // Create location control to open dialog
     LocationControl = L.Control.extend({
         options: {
@@ -139,9 +142,6 @@ export class LocationMapComponent implements OnInit{
         this.moveMap(coordinates);
       }
     });
-
-    // bind to dragend on map marker
-    this.marker.on('dragend', this.onDragEnd, this);
   }
 
   moveMap (coordinates: Coordinates): void {

@@ -6,6 +6,8 @@ import { catchError, tap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { Coordinates } from './coordinates';
+import { PlacesService } from './places.service';
+import { RegionsService } from './regions.service';
 
 
 @Injectable()
@@ -15,7 +17,10 @@ export class CoordinatesService {
   public readonly coordinates: Observable<Coordinates> = this._coordinates.asObservable();
 
 
-  constructor() { }
+  constructor(
+    private placesService: PlacesService,
+    private regionsService: RegionsService
+  ) {}
 
   // ----------------------------------------------------------------------
   // Public Static Variables
@@ -144,9 +149,13 @@ export class CoordinatesService {
    */
   public setCoordinates (location: any): void {
     let confidence,
+        latitude,
+        longitude,
         zoom;
 
     confidence = this.computeConfidence(location);
+    latitude = +location.latitude;
+    longitude = +location.longitude;
 
     if (location.zoom && location.method === 'point') {
       zoom = location.zoom;
@@ -156,11 +165,14 @@ export class CoordinatesService {
 
     this._coordinates.next({
       confidence: confidence,
-      latitude: this.roundLocation(+location.latitude, confidence),
-      longitude: this.roundLocation(+location.longitude, confidence),
+      latitude: this.roundLocation(latitude, confidence),
+      longitude: this.roundLocation(longitude, confidence),
       zoom: zoom,
       method: location.method
     });
+
+    this.placesService.getPlaces(latitude, longitude);
+    this.regionsService.getRegions(latitude, longitude);
   }
 
   public computeConfidence (location: Coordinates): number {
