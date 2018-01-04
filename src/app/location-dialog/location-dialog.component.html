@@ -14,7 +14,7 @@
           Find Current Location
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <app-geolocate-input display></app-geolocate-input>
+      <app-geolocate-input></app-geolocate-input>
     </mat-expansion-panel>
 
     <!-- TODO, Geocode control panel -->
@@ -43,7 +43,11 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-raised-button (click)="dialogRef.close()">
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="dialogRef.close()"
+  >
     Close
   </button>
 </mat-dialog-actions>
