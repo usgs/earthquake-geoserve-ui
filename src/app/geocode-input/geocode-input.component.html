@@ -1,0 +1,19 @@
+<div *ngIf="showProgressBar; else search" class="center-spinner">
+  <mat-progress-bar
+    color="primary"
+    mode="indeterminate">
+  </mat-progress-bar>
+</div>
+
+<ng-template #search>
+  <mat-form-field>
+    <input matInput
+        #address
+        placeholder="Address" />
+  </mat-form-field>
+  <button mat-raised-button
+      color="primary"
+      (click)="doGeocode(address.value)">
+    Find Current Location
+  </button>
+</ng-template>
