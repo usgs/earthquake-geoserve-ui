@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import * as L from 'leaflet';
 import { LocationMapComponent } from './location-map.component';
+
+import { CoordinatesService } from '../coordinates.service';
 
 describe('LocationMapComponent', () => {
   let component: LocationMapComponent;
@@ -8,7 +11,13 @@ describe('LocationMapComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LocationMapComponent ]
+      declarations: [
+        LocationMapComponent,
+        L
+      ],
+      providers: [
+        CoordinatesService
+      ]
     })
     .compileComponents();
   }));

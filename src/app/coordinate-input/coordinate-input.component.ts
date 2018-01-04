@@ -1,8 +1,7 @@
 import { Component, OnInit} from '@angular/core';
+import { MatDialogRef } from '@angular/material';
 
-import { PlacesService } from '../places.service';
-import { RegionsService } from '../regions.service';
-
+import { CoordinatesService } from '../coordinates.service';
 
 @Component({
   selector: 'app-coordinate-input',
@@ -11,15 +10,21 @@ import { RegionsService } from '../regions.service';
 })
 export class CoordinateInputComponent implements OnInit {
   constructor (
-    private placesService: PlacesService,
-    private regionsService: RegionsService
+    private coordinatesService: CoordinatesService,
+    private dialogRef: MatDialogRef<CoordinateInputComponent>
   ) { }
 
   ngOnInit () {
   }
 
   handleClick (latitude: string, longitude: string) {
-    this.placesService.getPlaces(latitude, longitude);
-    this.regionsService.getRegions(latitude, longitude);
+    // set location
+    this.coordinatesService.setCoordinates({
+      latitude: latitude,
+      longitude: longitude,
+      method: 'coordinate'
+    });
+    // Use injected reference to close dialog
+    this.dialogRef.close();
   }
 }

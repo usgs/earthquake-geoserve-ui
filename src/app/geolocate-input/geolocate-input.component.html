@@ -1,0 +1,22 @@
+
+  <!-- Content -->
+<div *ngIf="showProgressBar else search" class="center-spinner">
+  <mat-progress-bar
+    color="primary"
+    mode="indeterminate">
+  </mat-progress-bar>
+</div>
+
+<ng-template #search>
+  <!-- Content -->
+  <div *ngIf="!showProgressBar">
+    <p>
+      Use the button below to find your location on the map.
+    </p>
+  </div>
+  <button mat-raised-button
+      color="primary"
+      (click)="doGeolocate()">
+    Find Current Location
+  </button>
+</ng-template>

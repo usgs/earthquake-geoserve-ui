@@ -2,10 +2,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
-
 import { MatButtonModule, MatSidenavModule, MatListModule, MatInputModule } from '@angular/material';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { CoordinatesService } from './coordinates.service';
 import { PlacesService } from './places.service';
 import { RegionsService } from './regions.service';
 
@@ -29,6 +33,8 @@ import { NeicResponseRegionComponent } from './neic-response-region/neic-respons
 import { NoDataComponent } from './no-data/no-data.component';
 import { OffshoreRegionComponent } from './offshore-region/offshore-region.component';
 import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tectonic-summary-region.component';
+import { LocationDialogComponent } from './location-dialog/location-dialog.component';
+import { GeolocateInputComponent } from './geolocate-input/geolocate-input.component';
 
 
 
@@ -53,27 +59,40 @@ import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tecton
     NeicResponseRegionComponent,
     NoDataComponent,
     OffshoreRegionComponent,
-    TectonicSummaryRegionComponent
+    TectonicSummaryRegionComponent,
+    LocationDialogComponent,
+    GeolocateInputComponent
   ],
   entryComponents: [
-    GeoserveComponent
+    CoordinateInputComponent,
+    GeoserveComponent,
+    LocationDialogComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     MatButtonModule,
+    MatDialogModule,
+    MatExpansionModule,
+    MatProgressBarModule,
     MatSidenavModule,
     MatListModule,
-    MatInputModule
+    MatInputModule,
+    MatIconModule
   ],
   exports: [
     HttpClientModule,
     MatButtonModule,
-    MatSidenavModule,
+    MatDialogModule,
+    MatExpansionModule,
+    MatProgressBarModule,
+    MatInputModule,
     MatListModule,
-    MatInputModule
+    MatSidenavModule,
+    MatIconModule
   ],
   providers: [
+    CoordinatesService,
     PlacesService,
     RegionsService,
     MediaMatcher
