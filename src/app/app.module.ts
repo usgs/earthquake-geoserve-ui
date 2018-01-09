@@ -5,6 +5,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { MatButtonModule, MatSidenavModule, MatListModule, MatInputModule } from '@angular/material';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -77,6 +78,7 @@ import { GeocodeInputComponent } from './geocode-input/geocode-input.component';
     MatButtonModule,
     MatDialogModule,
     MatExpansionModule,
+    MatFormFieldModule,
     MatProgressBarModule,
     MatSidenavModule,
     MatListModule,
@@ -88,6 +90,7 @@ import { GeocodeInputComponent } from './geocode-input/geocode-input.component';
     MatButtonModule,
     MatDialogModule,
     MatExpansionModule,
+    MatFormFieldModule,
     MatProgressBarModule,
     MatInputModule,
     MatListModule,
