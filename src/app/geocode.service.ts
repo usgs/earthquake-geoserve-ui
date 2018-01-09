@@ -26,6 +26,7 @@ export class GeocodeService {
 
   empty (): void {
     this._location.next(null);
+    this._error.next(null);
   }
 
   getLocation (address: string): void {
@@ -44,7 +45,6 @@ export class GeocodeService {
     this.http.get<any>(url).pipe(
       catchError(this.handleError('getLocation', { locations: null }))
     ).subscribe((response) => {
-      console.log('geocode.getLocation', response);
       if (response.locations.length !== 0) {
         this._location.next(response.locations[0]);
       } else {

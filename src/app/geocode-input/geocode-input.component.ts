@@ -24,13 +24,10 @@ export class GeocodeInputComponent implements OnInit, OnDestroy {
 
     // subscribe to geocode changes
     this.service = this.geocodeService.location.subscribe((location) => {
-      console.log('subscribe');
-      console.log('location', location);
       if (location) {
-        this.setLocation(location);
+        this.setCoordinates(location);
         this.geocodeService.empty();
       } else {
-        console.log('subscribe, else');
         this.showProgressBar = false;
       }
     });
@@ -40,7 +37,7 @@ export class GeocodeInputComponent implements OnInit, OnDestroy {
     this.service.unsubscribe();
   }
 
-  private setLocation (location: any): void {
+  private setCoordinates (location: any): void {
     let confidence,
         zoom;
 
