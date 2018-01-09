@@ -6,14 +6,22 @@
 </div>
 
 <ng-template #search>
-  <mat-form-field>
+  <mat-form-field class="full-width">
     <input matInput
         #address
-        placeholder="Address" />
+        placeholder="Address"
+        value="{{ (coordinatesService.coordinates | async)?.name }}"/>
   </mat-form-field>
   <button mat-raised-button
       color="primary"
       (click)="doGeocode(address.value)">
     Find Current Location
   </button>
+
+  <div *ngIf="geocodeService.error | async; let text">
+    <p color="warn">
+      {{ text }}
+    </p>
+  </div>
+
 </ng-template>

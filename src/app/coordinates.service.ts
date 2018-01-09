@@ -59,13 +59,7 @@ export class CoordinatesService {
    * @params longitude {String}
    *
    */
-  public computeFromCoordinates (location: Coordinates): number {
-    let latitude,
-        longitude;
-
-    latitude = location.latitude.toString();
-    longitude = location.longitude.toString();
-
+  public computeFromCoordinates (latitude: string, longitude: string): number {
     if (typeof latitude !== 'string' || typeof longitude !== 'string') {
       return this.NOT_COMPUTED;
     }
@@ -150,61 +144,31 @@ export class CoordinatesService {
   public setCoordinates (location: any): void {
     let confidence,
         latitude,
-        longitude,
-        zoom;
+        longitude;
 
-    confidence = this.computeConfidence(location);
+    confidence = location.confidence;
     latitude = +location.latitude;
     longitude = +location.longitude;
-
-    if (location.zoom && location.method === 'point') {
-      zoom = location.zoom;
-    } else {
-      zoom = this.computeZoomFromConfidence(confidence);
-    }
 
     this._coordinates.next({
       confidence: confidence,
       latitude: this.roundLocation(latitude, confidence),
       longitude: this.roundLocation(longitude, confidence),
-      zoom: zoom,
-      method: location.method
+      zoom: location.zoom,
+      method: location.method,
+      name: location.name
     });
 
     this.placesService.getPlaces(latitude, longitude);
     this.regionsService.getRegions(latitude, longitude);
   }
 
-  public computeConfidence (location: Coordinates): number {
-    let confidence,
-        method;
-
-    method = location.method;
-
-    if (method === 'coordinate') {
-      confidence = this.computeFromCoordinates(location);
-    } else if (method === 'geocode') {
-      confidence = this.computeFromGeocode(location);
-    } else if (method === 'geolocate') {
-      confidence = this.computeFromGeolocate(location);
-    } else if (method === 'point') {
-      confidence = this.computeFromPoint(location);
-    }
-
-    return confidence;
-  }
-
-
 
   /**
    * Compute Confidence given a zoom level.
    * @params zoom {number} indicates the zoom level of the map.
    */
-  public computeFromPoint (location: Coordinates): number {
-    let zoom;
-
-    zoom = location.zoom;
-
+  public computeFromPoint (zoom: number): number {
     if (zoom > 16) {
       return this.HIGH_CONFIDENCE;
     } else if (zoom > 12) {

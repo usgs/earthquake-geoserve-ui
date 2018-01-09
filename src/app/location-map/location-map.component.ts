@@ -168,15 +168,26 @@ export class LocationMapComponent implements OnDestroy, OnInit {
    * update location on coordinates service
    */
   onDragEnd () {
-    let coordinates;
+    let confidence,
+        coordinates,
+        zoom;
 
+    // grab coordinates off map marker
     coordinates = this.marker.getLatLng();
 
+    // get zoom level from map
+    zoom = this.map.getZoom();
+
+    // get confidence from zoom
+    confidence = this.coordinatesService.computeFromPoint(zoom);
+
+
     this.coordinatesService.setCoordinates({
-      latitude: coordinates.lat,
-      longitude: coordinates.lng,
+      confidence: confidence,
+      latitude: +coordinates.lat,
+      longitude: +coordinates.lng,
       method: 'point',
-      zoom: this.map.getZoom()
+      zoom: zoom
     });
   }
 

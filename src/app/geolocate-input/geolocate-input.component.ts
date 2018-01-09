@@ -38,17 +38,22 @@ export class GeolocateInputComponent implements OnInit {
     }
   }
 
-  geolocateSuccess (position): void {
-    let latitude,
-        longitude;
+  geolocateSuccess (position: any): void {
+    let confidence,
+        zoom;
 
-    latitude = position.coords.latitude;
-    longitude = position.coords.longitude;
+    // get confidence
+    confidence = this.coordinatesService.computeFromGeolocate(position);
+
+    // get zoom
+    zoom = this.coordinatesService.computeZoomFromConfidence(confidence);
 
     this.coordinatesService.setCoordinates({
-      latitude: latitude,
-      longitude: longitude,
-      method: 'geolocate'
+      confidence: confidence,
+      latitude: +position.coords.latitude,
+      longitude: +position.coords.longitude,
+      method: 'geolocate',
+      zoom: zoom
     });
     this.dialogRef.close();
   }

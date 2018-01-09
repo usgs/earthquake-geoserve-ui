@@ -18,12 +18,25 @@ export class CoordinateInputComponent implements OnInit {
   }
 
   handleClick (latitude: string, longitude: string) {
+    let confidence,
+        zoom;
+
+    // compute confidence
+    confidence = this.coordinatesService.computeFromCoordinates(
+        latitude, longitude);
+
+    // compute zoom
+    zoom = this.coordinatesService.computeZoomFromConfidence(confidence);
+
     // set location
     this.coordinatesService.setCoordinates({
-      latitude: latitude,
-      longitude: longitude,
-      method: 'coordinate'
+      confidence: confidence,
+      latitude: +latitude,
+      longitude: +longitude,
+      method: 'coordinate',
+      zoom: zoom
     });
+
     // Use injected reference to close dialog
     this.dialogRef.close();
   }

@@ -10,6 +10,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CoordinatesService } from './coordinates.service';
+import { GeocodeService } from './geocode.service';
 import { PlacesService } from './places.service';
 import { RegionsService } from './regions.service';
 
@@ -95,6 +96,7 @@ import { GeocodeInputComponent } from './geocode-input/geocode-input.component';
   ],
   providers: [
     CoordinatesService,
+    GeocodeService,
     PlacesService,
     RegionsService,
     MediaMatcher
