@@ -1,7 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 
+import { CoordinatesService } from '../coordinates.service';
 import { PlacesService } from '../places.service';
+import { RegionsService } from '../regions.service';
 
 import { LocationOutputComponent } from './location-output.component';
 
@@ -15,7 +17,9 @@ describe('LocationOutputComponent', () => {
       providers: [
         HttpClient,
         HttpHandler,
-        PlacesService
+        CoordinatesService,
+        PlacesService,
+        RegionsService
       ]
     })
     .compileComponents();

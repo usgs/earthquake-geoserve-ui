@@ -6,8 +6,6 @@ import { of } from 'rxjs/observable/of';
 import { catchError, tap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import { Coordinates } from './coordinates';
-
 
 @Injectable()
 export class RegionsService {
@@ -45,7 +43,6 @@ export class RegionsService {
   empty (): void {
     this._adminRegions.next(null);
     this._authoritative.next(null);
-    this._coordinates.next(null);
     this._neicCatalog.next(null);
     this._neicResponse.next(null);
     this._offshoreRegions.next(null);
@@ -54,12 +51,6 @@ export class RegionsService {
 
   getRegions (latitude: string, longitude: string): void {
     const url = this.buildUrl(latitude, longitude);
-
-    // set coordinates
-    this._coordinates.next({
-      latitude: latitude,
-      longitude: longitude
-    });
 
     this.http.get<any>(url).pipe(
       catchError(this.handleError('getRegions', {}))

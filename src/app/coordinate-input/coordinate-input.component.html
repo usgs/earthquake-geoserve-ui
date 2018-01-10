@@ -1,11 +1,17 @@
-<fieldset>
-  <label>
-    latitude
-    <input type="number" value="35" #latitude />
-  </label>
-  <label>
-    longitude
-    <input type="number" value="-105" #longitude />
-  </label>
-  <button (click)="handleClick(latitude.value, longitude.value)">Search</button>
-</fieldset>
+<mat-form-field>
+  <input matInput
+    #latitude
+    placeholder="latitude"
+    value="{{ (coordinatesService.coordinates | async)?.latitude }}" />
+</mat-form-field>
+<mat-form-field>
+  <input matInput
+      #longitude
+      placeholder="longitude"
+      value="{{ (coordinatesService.coordinates | async)?.longitude }}" />
+</mat-form-field>
+<button mat-raised-button
+    color="primary"
+    (click)="handleClick(latitude.value, longitude.value)">
+  Search
+</button>

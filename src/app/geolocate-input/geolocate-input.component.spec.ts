@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
-import { MatDialogRef, MatFormFieldModule, MatInputModule } from '@angular/material';
+import { MatDialogRef, MatFormFieldModule, MatInputModule, MatProgressBarModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { CoordinateInputComponent } from './coordinate-input.component';
 
-import { Coordinates } from '../coordinates';
 import { CoordinatesService } from '../coordinates.service';
 
+import { GeolocateInputComponent } from './geolocate-input.component';
 
-describe('CoordinateInputComponent', () => {
-  let component: CoordinateInputComponent;
-  let fixture: ComponentFixture<CoordinateInputComponent>;
+
+describe('GeolocateInputComponent', () => {
+  let component: GeolocateInputComponent;
+  let fixture: ComponentFixture<GeolocateInputComponent>;
   let setCoordinatesSpy;
-  let computeFromCoordinatesSpy;
+  let computeFromGeolocateSpy;
   let computeZoomFromConfidenceSpy;
   let dialog;
   let dialogSpy;
@@ -32,7 +32,7 @@ describe('CoordinateInputComponent', () => {
       setCoordinates: (location: any) => {
         console.log('stubbified!');
       },
-      computeFromCoordinates: (latitude: string, longitude: string) => {
+      computeFromGeolocate: (accuracy: number) => {
         console.log('stubbified!');
       },
       computeZoomFromConfidence: (confidence: number) => {
@@ -48,13 +48,14 @@ describe('CoordinateInputComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [
-        CoordinateInputComponent
+        GeolocateInputComponent
       ],
       imports: [
         BrowserAnimationsModule,
         HttpClientModule,
         MatFormFieldModule,
-        MatInputModule
+        MatInputModule,
+        MatProgressBarModule
       ],
       providers: [
         {provide: CoordinatesService, useValue: coordinatesServiceStub},
@@ -65,40 +66,22 @@ describe('CoordinateInputComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CoordinateInputComponent);
+    fixture = TestBed.createComponent(GeolocateInputComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
+
+    // stub coordinates.service
     coordinatesService = fixture.debugElement.injector.get(CoordinatesService);
     setCoordinatesSpy = spyOn(coordinatesService, 'setCoordinates');
-    computeFromCoordinatesSpy = spyOn(coordinatesService, 'computeFromCoordinates').and.returnValue(coordinates.confidence);
+    computeFromGeolocateSpy = spyOn(coordinatesService, 'computeFromGeolocate').and.returnValue(coordinates.confidence);
     computeZoomFromConfidenceSpy = spyOn(coordinatesService, 'computeZoomFromConfidence').and.returnValue(coordinates.zoom);
+
+    // stub dialog
     dialog = fixture.debugElement.injector.get(MatDialogRef);
     dialogSpy = spyOn(dialog, 'close');
-
-    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('handleClick', () => {
-    it('should handle click', () => {
-      let latitude,
-          longitude;
-
-      // convert to string
-      latitude = coordinates.latitude.toString();
-      longitude = coordinates.longitude.toString();
-
-      // call handleClick
-      component.handleClick(latitude, longitude);
-
-      // expects
-      expect(coordinatesService.setCoordinates).toHaveBeenCalled();
-      expect(coordinatesService.setCoordinates).toHaveBeenCalledWith(coordinates);
-      expect(coordinatesService.computeFromCoordinates).toHaveBeenCalledWith(latitude, longitude);
-      expect(coordinatesService.computeZoomFromConfidence).toHaveBeenCalledWith(coordinates.confidence);
-      expect(dialog.close).toHaveBeenCalled();
-    });
   });
 });
