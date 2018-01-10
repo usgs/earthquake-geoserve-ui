@@ -2,12 +2,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { MatButtonModule, MatSidenavModule, MatListModule, MatInputModule } from '@angular/material';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
+import {
+  MatButtonModule,
+  MatDialogModule,
+  MatExpansionModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatProgressBarModule,
+  MatSidenavModule
+} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CoordinatesService } from './coordinates.service';
@@ -79,11 +84,11 @@ import { GeocodeInputComponent } from './geocode-input/geocode-input.component';
     MatDialogModule,
     MatExpansionModule,
     MatFormFieldModule,
-    MatProgressBarModule,
-    MatSidenavModule,
-    MatListModule,
+    MatIconModule,
     MatInputModule,
-    MatIconModule
+    MatListModule,
+    MatProgressBarModule,
+    MatSidenavModule
   ],
   exports: [
     HttpClientModule,
@@ -91,11 +96,11 @@ import { GeocodeInputComponent } from './geocode-input/geocode-input.component';
     MatDialogModule,
     MatExpansionModule,
     MatFormFieldModule,
-    MatProgressBarModule,
+    MatIconModule,
     MatInputModule,
     MatListModule,
-    MatSidenavModule,
-    MatIconModule
+    MatProgressBarModule,
+    MatSidenavModule
   ],
   providers: [
     CoordinatesService,

@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialog } from '@angular/material';
 
-import * as L from 'leaflet';
 import { LocationMapComponent } from './location-map.component';
 
 import { CoordinatesService } from '../coordinates.service';
@@ -10,13 +10,30 @@ describe('LocationMapComponent', () => {
   let fixture: ComponentFixture<LocationMapComponent>;
 
   beforeEach(async(() => {
+    const coordinatesServiceStub = {
+      computeFromPoint: (geocodeLocation: any) => {
+        console.log('stubbified!');
+      },
+      coordinates: {
+        subscribe: () => {
+          console.log('stubbified!');
+        }
+      }
+    };
+
+    const dialogStub = {
+      open: () => {
+        console.log('stubbified!');
+      }
+    };
+
     TestBed.configureTestingModule({
       declarations: [
-        LocationMapComponent,
-        L
+        LocationMapComponent
       ],
       providers: [
-        CoordinatesService
+        {provide: CoordinatesService, useValue: coordinatesServiceStub},
+        {provide: MatDialog, useValue: dialogStub},
       ]
     })
     .compileComponents();

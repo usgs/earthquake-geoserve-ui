@@ -101,7 +101,7 @@ export class CoordinatesService {
    * @params accuracy {number} indicates the accuracy in meters at 95%
    *         confidence.
    */
-  public computeFromGeolocate (accuracy): number {
+  public computeFromGeolocate (accuracy: number): number {
     if (accuracy > 100000) {
       return this.LOW_CONFIDENCE;
     } else if (accuracy > 10000) {

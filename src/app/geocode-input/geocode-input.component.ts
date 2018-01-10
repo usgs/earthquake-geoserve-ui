@@ -37,7 +37,15 @@ export class GeocodeInputComponent implements OnInit, OnDestroy {
     this.service.unsubscribe();
   }
 
-  private setCoordinates (location: any): void {
+  doGeocode (address: string): void {
+    // get lat/lng from geocode service
+    this.geocodeService.getLocation(address);
+
+    // show progress barr
+    this.showProgressBar = true;
+  }
+
+  setCoordinates (location: any): void {
     let confidence,
         zoom;
 
@@ -60,13 +68,5 @@ export class GeocodeInputComponent implements OnInit, OnDestroy {
     // close dialog and stop progress spinner
     this.showProgressBar = false;
     this.dialogRef.close();
-  }
-
-  private doGeocode (address: string): void {
-    // get lat/lng from geocode service
-    this.geocodeService.getLocation(address);
-
-    // show progress barr
-    this.showProgressBar = true;
   }
 }

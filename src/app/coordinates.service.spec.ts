@@ -1,11 +1,21 @@
 import { TestBed, inject } from '@angular/core/testing';
+import { HttpClientModule } from '@angular/common/http';
 
 import { CoordinatesService } from './coordinates.service';
+import { PlacesService } from './places.service';
+import { RegionsService } from './regions.service';
 
 describe('CoordinatesService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [CoordinatesService]
+      providers: [
+        CoordinatesService,
+        PlacesService,
+        RegionsService
+      ],
+      imports: [
+        HttpClientModule
+      ]
     });
   });
 

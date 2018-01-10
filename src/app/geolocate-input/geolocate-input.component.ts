@@ -38,6 +38,10 @@ export class GeolocateInputComponent implements OnInit {
     }
   }
 
+  geolocateError (error): void {
+    console.log(error);
+  }
+
   geolocateSuccess (position: any): void {
     let confidence,
         zoom;
@@ -57,9 +61,4 @@ export class GeolocateInputComponent implements OnInit {
     });
     this.dialogRef.close();
   }
-
-  geolocateError (error): void {
-    console.log(error);
-  }
-
 }

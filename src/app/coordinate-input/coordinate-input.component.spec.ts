@@ -1,36 +1,47 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
+import { MatDialogRef, MatFormFieldModule, MatInputModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CoordinateInputComponent } from './coordinate-input.component';
 
+import { Coordinates } from '../coordinates';
 import { CoordinatesService } from '../coordinates.service';
-import { PlacesService } from '../places.service';
-import { RegionsService } from '../regions.service';
+
 
 describe('CoordinateInputComponent', () => {
   let component: CoordinateInputComponent;
   let fixture: ComponentFixture<CoordinateInputComponent>;
   let setCoordinatesSpy;
-  let getPlacesSpy;
-  let getRegionSpy;
+  let computeFromCoordinatesSpy;
+  let computeZoomFromConfidenceSpy;
+  let dialog;
+  let dialogSpy;
   let coordinatesService;
-  let placesService;
-  let regionsService;
+
+  const coordinates = {
+    confidence: 1,
+    latitude: 35,
+    longitude: -105,
+    method: 'coordinate',
+    zoom: 16
+  };
 
   beforeEach(async(() => {
     const coordinatesServiceStub = {
-      setCoordinates: (latitude: string, longitude: string, method: string) => {
+      setCoordinates: (location: any) => {
         console.log('stubbified!');
-      }
-    };
-    const placesServiceStub = {
-      getPlaces: (latitude: string, longitude: string) => {
+      },
+      computeFromCoordinates: (latitude: string, longitude: string) => {
+        console.log('stubbified!');
+      },
+      computeZoomFromConfidence: (confidence: number) => {
         console.log('stubbified!');
       }
     };
 
-    const regionsServiceStub = {
-      getRegions: (latitude: string, longitude: string) => {
+    const dialogStub = {
+      close: () => {
         console.log('stubbified!');
       }
     };
@@ -40,12 +51,14 @@ describe('CoordinateInputComponent', () => {
         CoordinateInputComponent
       ],
       imports: [
-        HttpClientModule
+        BrowserAnimationsModule,
+        HttpClientModule,
+        MatFormFieldModule,
+        MatInputModule
       ],
       providers: [
         {provide: CoordinatesService, useValue: coordinatesServiceStub},
-        {provide: PlacesService, useValue: placesServiceStub},
-        {provide: RegionsService, useValue: regionsServiceStub}
+        {provide: MatDialogRef, useValue: dialogStub}
       ]
     })
     .compileComponents();
@@ -56,10 +69,10 @@ describe('CoordinateInputComponent', () => {
     component = fixture.componentInstance;
     coordinatesService = fixture.debugElement.injector.get(CoordinatesService);
     setCoordinatesSpy = spyOn(coordinatesService, 'setCoordinates');
-    placesService = fixture.debugElement.injector.get(PlacesService);
-    getPlacesSpy = spyOn(placesService, 'getPlaces');
-    regionsService = fixture.debugElement.injector.get(RegionsService);
-    getRegionSpy = spyOn(regionsService, 'getRegions');
+    computeFromCoordinatesSpy = spyOn(coordinatesService, 'computeFromCoordinates').and.returnValue(coordinates.confidence);
+    computeZoomFromConfidenceSpy = spyOn(coordinatesService, 'computeZoomFromConfidence').and.returnValue(coordinates.zoom);
+    dialog = fixture.debugElement.injector.get(MatDialogRef);
+    dialogSpy = spyOn(dialog, 'close');
 
     fixture.detectChanges();
   });
@@ -70,13 +83,22 @@ describe('CoordinateInputComponent', () => {
 
   describe('handleClick', () => {
     it('should handle click', () => {
-      component.handleClick('latitude', 'longitude');
+      let latitude,
+          longitude;
+
+      // convert to string
+      latitude = coordinates.latitude.toString();
+      longitude = coordinates.longitude.toString();
+
+      // call handleClick
+      component.handleClick(latitude, longitude);
+
+      // expects
       expect(coordinatesService.setCoordinates).toHaveBeenCalled();
-      expect(coordinatesService.setCoordinates).toHaveBeenCalledWith('latitude', 'longitude', 'coordinate');
-      expect(placesService.getPlaces).toHaveBeenCalled();
-      expect(placesService.getPlaces).toHaveBeenCalledWith('latitude', 'longitude');
-      expect(regionsService.getRegions).toHaveBeenCalled();
-      expect(regionsService.getRegions).toHaveBeenCalledWith('latitude', 'longitude');
+      expect(coordinatesService.setCoordinates).toHaveBeenCalledWith(coordinates);
+      expect(coordinatesService.computeFromCoordinates).toHaveBeenCalledWith(latitude, longitude);
+      expect(coordinatesService.computeZoomFromConfidence).toHaveBeenCalledWith(coordinates.confidence);
+      expect(dialog.close).toHaveBeenCalled();
     });
   });
 });
