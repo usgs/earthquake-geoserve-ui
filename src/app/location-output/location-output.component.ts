@@ -9,7 +9,7 @@ import { CoordinatesService } from '../coordinates.service';
 })
 export class LocationOutputComponent implements OnInit {
 
-  constructor (private coordinatesService: CoordinatesService) {}
+  constructor (public coordinatesService: CoordinatesService) {}
 
   ngOnInit() {
   }
