@@ -23,21 +23,41 @@ export class LocationMapComponent implements OnDestroy, OnInit {
   ) {}
 
   ngOnDestroy() {
-    this.marker.off('dragend', this.onDragEnd, this);
+    // unbind dragend event
+    this.destroyMarker();
   }
 
   ngOnInit() {
+    // create leaflet map
+    this.createMap();
+
+    // create leaflet marker, do not add to map
+    this.createMarker();
+
+    // Add baselayers to map
+    this.addBaselayers();
+
+    // Add location control to map
+    this.addLocationControl();
+
+    // subscribe to location changes
+    this.coordinatesService.coordinates.subscribe((coordinates) => {
+      if (coordinates) {
+        this.moveMarker(coordinates);
+        this.moveMap(coordinates);
+      }
+    });
+  }
+
+  /**
+   * Adds the street, satellite, and terrain baselayers to the map
+   *
+   */
+  addBaselayers (): void {
     let baseMaps,
-        LocationControl,
         satellite,
         street,
         terrain;
-
-    // Create map (center on US)
-    this.map = L.map('map', {
-      center: [ 38, -95 ],
-      zoom: 4
-    });
 
     // Street Map
     street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -76,7 +96,71 @@ export class LocationMapComponent implements OnDestroy, OnInit {
 
     // Add layers to map
     L.control.layers(baseMaps).addTo(this.map);
+  }
 
+  /**
+   * Creates a location control that opens a material dialog with
+   * the LocationDialogComponent as its content.
+   *
+   */
+  addLocationControl (): void {
+    let control;
+
+    control = L.DomUtil.create('div', 'leaflet-bar leaflet-control ' +
+        'leaflet-location-control');
+    control.innerHTML = '<a class="material-icons">location_searching' +
+        '</a>';
+
+    // open dialog when custom control is clicked
+    control.onclick = (() => {
+      if (this.dialog && LocationDialogComponent) {
+        this.dialog.open(LocationDialogComponent);
+      }
+    });
+
+    // Create location control to open dialog
+    const LocationControl = L.Control.extend({
+        options: {
+          position: 'topleft'
+        },
+
+        initialize: function (options) {
+          this._control = options.control;
+        },
+
+        onAdd: function (map) {
+          return this._control;
+        },
+
+        onRemove: function (map) {
+          // Nothing to do here
+        }
+    });
+
+    // Add Location Control to map
+    this.map.addControl(new LocationControl({
+      control: control
+    }));
+  }
+
+  /**
+   * Creates a leaflet map
+   *
+   */
+  createMap (): void {
+    // Create map (center on US)
+    this.map = L.map('map', {
+      center: [ 38, -95 ],
+      zoom: 4
+    });
+  }
+
+  /**
+   * Creates a marker that will be used to mark the current location
+   * on the map.
+   *
+   */
+  createMarker(): void {
     // Create location marker
     this.marker = new L.Marker(
       [ 0, 0 ],
@@ -93,56 +177,23 @@ export class LocationMapComponent implements OnDestroy, OnInit {
 
     // bind to dragend on map marker
     this.marker.on('dragend', this.onDragEnd, this);
-
-    // Create location control to open dialog
-    LocationControl = L.Control.extend({
-        options: {
-          position: 'topleft'
-        },
-
-        initialize: function (options) {
-          this._dialog = options.dialog;
-          this._component = options.component;
-        },
-
-        onAdd: function (map) {
-          let container;
-
-          container = L.DomUtil.create('div', 'leaflet-bar leaflet-control ' +
-              'leaflet-location-control');
-          container.innerHTML = '<a class="material-icons">location_searching' +
-              '</a>';
-
-          // open dialog when custom control is clicked
-          container.onclick = (() => {
-            if (this._dialog && this._component) {
-              this._dialog.open(this._component);
-            }
-          });
-
-          return container;
-        },
-
-        onRemove: function (map) {
-          // Nothing to do here
-        }
-    });
-
-    // Add Location Control to map
-    this.map.addControl(new LocationControl({
-      dialog: this.dialog,
-      component: LocationDialogComponent
-    }));
-
-    // subscribe to location changes
-    this.coordinatesService.coordinates.subscribe((coordinates) => {
-      if (coordinates) {
-        this.moveMarker(coordinates);
-        this.moveMap(coordinates);
-      }
-    });
   }
 
+  /**
+   * Unbinds the "dragend" event from the marker on the map
+   *
+   */
+  destroyMarker(): void {
+    this.marker.off('dragend', this.onDragEnd, this);
+  }
+
+  /**
+   * Zoom/centers the map on the provided location
+   *
+   * @param {Coordinates} coordinates
+   *        A coordinate object that contains a lat/lng & zoom level
+   *
+   */
   moveMap (coordinates: Coordinates): void {
     // pan/zoom the provided location
     this.map.setView(
@@ -151,6 +202,14 @@ export class LocationMapComponent implements OnDestroy, OnInit {
       );
   }
 
+  /**
+   * Update the marker's location on the map. This method will also
+   * add the marker to the map if it has not been added.
+   *
+   * @param {Coordinates} coordinates
+   *        A coordinate object that contains a lat/lng to plot
+   *
+   */
   moveMarker (coordinates: Coordinates): void {
     let latLng;
 
@@ -165,7 +224,9 @@ export class LocationMapComponent implements OnDestroy, OnInit {
   }
 
   /**
-   * update location on coordinates service
+   * Triggered by the dragend event on the marker. This method updates
+   * the coordinate service with the marker's new location.
+   *
    */
   onDragEnd () {
     let confidence,
@@ -190,6 +251,5 @@ export class LocationMapComponent implements OnDestroy, OnInit {
       zoom: zoom
     });
   }
-
 
 }
