@@ -155,7 +155,7 @@ describe('GeocodeInputComponent', () => {
 
       // coordinates set
       expect(coordinatesService.setCoordinates).toHaveBeenCalled();
-      expect(coordinatesService.setCoordinates).toHaveBeenCalledWith(coordinates);
+      expect(coordinatesService.setCoordinates.calls.mostRecent().args).toEqual([coordinates]);
 
       // dialog close
       expect(dialog.close).toHaveBeenCalled();
