@@ -4,7 +4,7 @@ node {
   // Used for consistency between other variables
   def APP_NAME = 'earthquake-geoserve-ui'
   // Base group from where general images may be pulled
-  def DEVOPS_REGISTRY = "${REGISTRY_HOST}/devops/containers"
+  def DEVOPS_REGISTRY = "${GITLAB_INNERSOURCE_REGISTRY}/devops/containers"
   // Flag to capture exceptions and mark build as failure
   def FAILURE = null
   // Set by "checkout" step below
@@ -19,7 +19,7 @@ node {
   def BUILDER_IMAGE = "${DEVOPS_REGISTRY}/node:8"
 
   // Name of image to deploy (push) to registry
-  def DEPLOY_IMAGE = "${REGISTRY_HOST}/ghsc/hazdev/earthquake-geoserve/ui"
+  def DEPLOY_IMAGE = "${GITLAB_INNERSOURCE_REGISTRY}/ghsc/hazdev/earthquake-geoserve/ui"
 
   // Run application locally for testing security vulnerabilities
   def LOCAL_CONTAINER = "${APP_NAME}-${BUILD_ID}-PENTEST"
@@ -128,7 +128,7 @@ node {
     }
 
     stage('Build Image') {
-      // Install all dependencies so
+      // Install all dependencies
       docker.image(BUILDER_IMAGE).inside() {
         withEnv([
           'npm_config_cache=/tmp/npm-cache',
@@ -139,7 +139,7 @@ node {
             npm config set package-lock false
 
             npm install --no-save
-            npm run build -- --prod --progress false
+            npm run build -- --prod --progress false --base-href /geoserve/
           """
         }
       }
@@ -290,7 +290,7 @@ node {
       // Re-tag candidate image as actual image name and push actual image to
       // repository
       docker.withRegistry(
-        "https://${REGISTRY_HOST}",
+        "https://${GITLAB_INNERSOURCE_REGISTRY}",
         'gitlab-innersource-admin'
       ) {
         ansiColor('xterm') {
