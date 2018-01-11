@@ -22,11 +22,12 @@ describe('GeocodeInputComponent', () => {
   let geocodeService;
 
   const coordinates = {
-    confidence: 1,
-    latitude: 35,
-    longitude: -105,
-    method: 'coordinate',
-    zoom: 16
+    confidence: 3,
+    latitude: 39.756650000000036,
+    longitude: -105.22494999999998,
+    method: 'geocode',
+    name: 'Golden, Colorado',
+    zoom: 9
   };
 
   beforeEach(async(() => {
@@ -104,4 +105,64 @@ describe('GeocodeInputComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('doGeocode', () => {
+    it('should call getLocation', () => {
+      let address;
+
+      address = 'test';
+
+      // call handleClick
+      component.doGeocode(address);
+
+      // expects
+      expect(geocodeService.getLocation).toHaveBeenCalled();
+      expect(geocodeService.getLocation).toHaveBeenCalledWith(address);
+      expect(component.showProgressBar).toEqual(true);
+    });
+  });
+
+  describe('setCoordinates', () => {
+    it('should set the correct coordinates', () => {
+      let geocodeLocation;
+
+      geocodeLocation = {
+        extent: {
+          xmax: -105.18494999999997,
+          xmin: -105.26494999999998,
+          ymax: 39.796650000000035,
+          ymin: 39.71665000000004
+        },
+        feature: {
+          geometry: {
+            x: -105.22494999999998,
+            y: 39.756650000000036
+          }
+        },
+        name: 'Golden, Colorado'
+      };
+
+      // call handleClick
+      component.setCoordinates(geocodeLocation);
+
+      // confidence computed from extents
+      expect(coordinatesService.computeFromGeocode).toHaveBeenCalled();
+      expect(coordinatesService.computeFromGeocode).toHaveBeenCalledWith(geocodeLocation);
+
+      // zoom calculated from confidence
+      expect(coordinatesService.computeZoomFromConfidence).toHaveBeenCalled();
+      expect(coordinatesService.computeZoomFromConfidence).toHaveBeenCalledWith(coordinates.confidence);
+
+      // coordinates set
+      expect(coordinatesService.setCoordinates).toHaveBeenCalled();
+      expect(coordinatesService.setCoordinates).toHaveBeenCalledWith(coordinates);
+
+      // dialog close
+      expect(dialog.close).toHaveBeenCalled();
+
+      // progress bar off
+      expect(component.showProgressBar).toEqual(false);
+    });
+  });
+
 });
