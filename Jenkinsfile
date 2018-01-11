@@ -134,24 +134,30 @@ node {
           'npm_config_cache=/tmp/npm-cache',
           'HOME=/tmp'
         ]) {
-          sh """
-            source /etc/profile.d/nvm.sh > /dev/null 2>&1
-            npm config set package-lock false
 
-            npm install --no-save
-            npm run build -- --prod --progress false --base-href /geoserve/
-          """
+          ansiColor('xterm') {
+            sh """
+              source /etc/profile.d/nvm.sh > /dev/null 2>&1
+              npm config set package-lock false
+
+              npm install --no-save
+              npm run build -- --prod --progress false --base-href /geoserve/
+            """
+          }
         }
       }
 
       // Build candidate image for later penetration testing
-      sh """
-        docker pull ${BASE_IMAGE}
-        docker build \
-          --build-arg BASE_IMAGE=${BASE_IMAGE} \
-          -t ${LOCAL_IMAGE} \
-          .
-      """
+
+      ansiColor('xterm') {
+        sh """
+          docker pull ${BASE_IMAGE}
+          docker build \
+            --build-arg BASE_IMAGE=${BASE_IMAGE} \
+            -t ${LOCAL_IMAGE} \
+            .
+        """
+      }
     }
 
     stage('Unit Tests') {
