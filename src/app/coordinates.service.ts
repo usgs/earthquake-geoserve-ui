@@ -156,7 +156,7 @@ export class CoordinatesService {
       longitude: this.roundLocation(longitude, confidence),
       zoom: location.zoom,
       method: location.method,
-      name: location.name
+      place: location.name
     });
 
     this.placesService.getPlaces(latitude, longitude);

@@ -10,8 +10,8 @@ import { CoordinatesService } from '../coordinates.service';
 })
 export class CoordinateInputComponent implements OnInit {
   constructor (
-    private coordinatesService: CoordinatesService,
-    private dialogRef: MatDialogRef<CoordinateInputComponent>
+    public coordinatesService: CoordinatesService,
+    public dialogRef: MatDialogRef<CoordinateInputComponent>
   ) { }
 
   ngOnInit () {

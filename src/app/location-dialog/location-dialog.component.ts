@@ -9,7 +9,7 @@ import { MatDialogRef } from '@angular/material';
 export class LocationDialogComponent implements OnInit {
 
   constructor(
-    private dialogRef: MatDialogRef<LocationDialogComponent>
+    public dialogRef: MatDialogRef<LocationDialogComponent>
   ) { }
 
   ngOnInit() {
