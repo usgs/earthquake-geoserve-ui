@@ -19,6 +19,7 @@ describe('GeolocateInputComponent', () => {
   let dialogSpy;
   let coordinatesService;
 
+
   const coordinates = {
     confidence: 1,
     latitude: 35,
@@ -83,5 +84,107 @@ describe('GeolocateInputComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('doGeolocate', () => {
+    it('should call getLocation', () => {
+      let getLocationSpy;
+
+      getLocationSpy = spyOn(component, 'getLocation');
+
+      component.doGeolocate();
+
+      expect(getLocationSpy).toHaveBeenCalled();
+    });
+
+    it('getCurrentPosition should be called with geolocateSuccess and geolocateError',
+        () => {
+      let getLocationStub,
+          getCurrentPositionSpy;
+
+      getCurrentPositionSpy = jasmine.createSpy('test');
+
+      getLocationStub = spyOn(component, 'getLocation').and.returnValue({
+        getCurrentPosition: getCurrentPositionSpy
+      });
+
+      component.doGeolocate();
+
+      expect(getCurrentPositionSpy).toHaveBeenCalled();
+      expect(getCurrentPositionSpy).toHaveBeenCalledWith(
+          component.geolocateSuccess, component.geolocateError);
+
+    });
+
+    it('should call geolocateError', () => {
+      let getLocationStub,
+          geolocateErrorSpy;
+
+      getLocationStub = spyOn(component, 'getLocation').and.returnValue(null);
+      geolocateErrorSpy = spyOn(component, 'geolocateError');
+
+      component.doGeolocate();
+
+      expect(geolocateErrorSpy).toHaveBeenCalled();
+    });
+
+    it('should set showProgressBar to false', () => {
+      component.doGeolocate();
+      expect(component.showProgressBar).toEqual(true);
+    });
+
+    it('should set showError to false', () => {
+      component.doGeolocate();
+      expect(component.showError).toEqual(false);
+    });
+  });
+
+  describe('geolocateError', () => {
+    const error = {message: 'error'};
+
+    it('should set error message', () => {
+      component.geolocateError(error);
+      expect(component.errorMessage).toEqual('error');
+    });
+
+    it('should set showProgressBar to false', () => {
+      component.geolocateError(error);
+      expect(component.showProgressBar).toEqual(false);
+    });
+
+    it('should set ShowError to true', () => {
+      component.geolocateError(error);
+      expect(component.showError).toEqual(true);
+    });
+  });
+
+  describe('geolocateSuccess', () => {
+    let position;
+
+    position = {
+      coords: {
+        accuracy: 3222,
+        latitude: 39.755,
+        longitude: -105.221
+      }
+    };
+
+    it('calls computeFromGeolocate', () => {
+      component.geolocateSuccess(position);
+
+      expect(computeFromGeolocateSpy).toHaveBeenCalled();
+    });
+
+    it('calls computeZoomFromConfidence', () => {
+      component.geolocateSuccess(position);
+
+      expect(computeZoomFromConfidenceSpy).toHaveBeenCalled();
+    });
+
+    it('calls setCoordinates', () => {
+      component.geolocateSuccess(position);
+
+      expect(setCoordinatesSpy).toHaveBeenCalled();
+    });
   });
 });

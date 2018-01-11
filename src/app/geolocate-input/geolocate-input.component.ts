@@ -9,7 +9,11 @@ import { CoordinatesService } from '../coordinates.service';
   styleUrls: ['./geolocate-input.component.css']
 })
 export class GeolocateInputComponent implements OnInit {
-  @Input() showProgressBar: boolean;
+  public errorMessage: string;
+  public geolocation: any;
+  public showError: boolean;
+  public showProgressBar: boolean;
+
 
   constructor(
     private coordinatesService: CoordinatesService,
@@ -19,16 +23,17 @@ export class GeolocateInputComponent implements OnInit {
   ngOnInit() {
     this.geolocateSuccess = this.geolocateSuccess.bind(this);
     this.showProgressBar = false;
+    this.showError = false;
   }
 
+
   doGeolocate (): void {
-    let geolocation;
-
-    geolocation = navigator.geolocation;
+    this.geolocation = this.getLocation();
     this.showProgressBar = true;
+    this.showError = false;
 
-    if (geolocation) {
-      geolocation.getCurrentPosition(this.geolocateSuccess,
+    if (this.geolocation) {
+      this.geolocation.getCurrentPosition(this.geolocateSuccess,
         this.geolocateError);
     } else {
       this.geolocateError({
@@ -38,8 +43,10 @@ export class GeolocateInputComponent implements OnInit {
     }
   }
 
-  geolocateError (error): void {
-    console.log(error);
+  geolocateError (error: any): void {
+    this.errorMessage = error.message;
+    this.showProgressBar = false;
+    this.showError = true;
   }
 
   geolocateSuccess (position: any): void {
@@ -60,5 +67,9 @@ export class GeolocateInputComponent implements OnInit {
       zoom: zoom
     });
     this.dialogRef.close();
+  }
+
+  getLocation (): any {
+    return navigator.geolocation;
   }
 }
