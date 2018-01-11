@@ -242,7 +242,6 @@ export class LocationMapComponent implements OnDestroy, OnInit {
     // get confidence from zoom
     confidence = this.coordinatesService.computeFromPoint(zoom);
 
-
     this.coordinatesService.setCoordinates({
       confidence: confidence,
       latitude: +coordinates.lat,
