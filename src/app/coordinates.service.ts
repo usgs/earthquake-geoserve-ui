@@ -96,94 +96,6 @@ export class CoordinatesService {
 
 
   /**
-   * Compute Confidence given a accuracy in meters.
-   * used by GeoLocate.
-   * @params accuracy {number} indicates the accuracy in meters at 95%
-   *         confidence.
-   */
-  public computeFromGeolocate (accuracy: number): number {
-    if (accuracy > 100000) {
-      return this.LOW_CONFIDENCE;
-    } else if (accuracy > 10000) {
-      return this.BELOW_AVERAGE_CONFIDENCE;
-    } else if (accuracy > 1000) {
-      return this.AVERAGE_CONFIDENCE;
-    } else if (accuracy > 100) {
-      return this.ABOVE_AVERAGE_CONFIDENCE;
-    } else {
-      return this.HIGH_CONFIDENCE;
-    }
-  }
-
-
-  /**
-   * Compute zoom level given a confidence.
-   * @params confidence {number} indicates the confidence level
-   */
-  public computeZoomFromConfidence (confidence: number): number {
-    if (confidence === this.HIGH_CONFIDENCE) {
-      return 16;
-    } else if (confidence === this.ABOVE_AVERAGE_CONFIDENCE) {
-      return 13;
-    } else if (confidence === this.AVERAGE_CONFIDENCE) {
-      return 9;
-    } else if (confidence === this.BELOW_AVERAGE_CONFIDENCE) {
-      return 5;
-    } else if (confidence === this.LOW_CONFIDENCE) {
-      return 1;
-    } else {
-      return 1;
-    }
-  }
-
-  /**
-   * Set the coordinate observable.next value
-   * @param {string} latitude  [description]
-   * @param {string} longitude [description]
-   */
-  public setCoordinates (location: any): void {
-    let confidence,
-        latitude,
-        longitude;
-
-    confidence = location.confidence;
-    latitude = +location.latitude;
-    longitude = +location.longitude;
-
-    this._coordinates.next({
-      confidence: confidence,
-      latitude: this.roundLocation(latitude, confidence),
-      longitude: this.roundLocation(longitude, confidence),
-      zoom: location.zoom,
-      method: location.method,
-      place: location.name
-    });
-
-    this.placesService.getPlaces(latitude, longitude);
-    this.regionsService.getRegions(latitude, longitude);
-  }
-
-
-  /**
-   * Compute Confidence given a zoom level.
-   * @params zoom {number} indicates the zoom level of the map.
-   */
-  public computeFromPoint (zoom: number): number {
-    if (zoom > 16) {
-      return this.HIGH_CONFIDENCE;
-    } else if (zoom > 12) {
-      return this.ABOVE_AVERAGE_CONFIDENCE;
-    } else if (zoom > 8) {
-      return this.AVERAGE_CONFIDENCE;
-    } else if (zoom > 4) {
-      return this.BELOW_AVERAGE_CONFIDENCE;
-    } else {
-      return this.LOW_CONFIDENCE;
-    }
-  }
-
-
-  /**
    * Compute Confidence given a geocode result location with an extent.
    *
    * @params geocodeLocation {object}
@@ -234,6 +146,67 @@ export class CoordinatesService {
 
 
   /**
+   * Compute Confidence given a accuracy in meters.
+   * used by GeoLocate.
+   * @params accuracy {number} indicates the accuracy in meters at 95%
+   *         confidence.
+   */
+  public computeFromGeolocate (accuracy: number): number {
+    if (accuracy > 100000) {
+      return this.LOW_CONFIDENCE;
+    } else if (accuracy > 10000) {
+      return this.BELOW_AVERAGE_CONFIDENCE;
+    } else if (accuracy > 1000) {
+      return this.AVERAGE_CONFIDENCE;
+    } else if (accuracy > 100) {
+      return this.ABOVE_AVERAGE_CONFIDENCE;
+    } else {
+      return this.HIGH_CONFIDENCE;
+    }
+  }
+
+
+  /**
+   * Compute Confidence given a zoom level.
+   * @params zoom {number} indicates the zoom level of the map.
+   */
+  public computeFromPoint (zoom: number): number {
+    if (zoom > 16) {
+      return this.HIGH_CONFIDENCE;
+    } else if (zoom > 12) {
+      return this.ABOVE_AVERAGE_CONFIDENCE;
+    } else if (zoom > 8) {
+      return this.AVERAGE_CONFIDENCE;
+    } else if (zoom > 4) {
+      return this.BELOW_AVERAGE_CONFIDENCE;
+    } else {
+      return this.LOW_CONFIDENCE;
+    }
+  }
+
+
+  /**
+   * Compute zoom level given a confidence.
+   * @params confidence {number} indicates the confidence level
+   */
+  public computeZoomFromConfidence (confidence: number): number {
+    if (confidence === this.HIGH_CONFIDENCE) {
+      return 16;
+    } else if (confidence === this.ABOVE_AVERAGE_CONFIDENCE) {
+      return 13;
+    } else if (confidence === this.AVERAGE_CONFIDENCE) {
+      return 9;
+    } else if (confidence === this.BELOW_AVERAGE_CONFIDENCE) {
+      return 5;
+    } else if (confidence === this.LOW_CONFIDENCE) {
+      return 1;
+    } else {
+      return 1;
+    }
+  }
+
+
+  /**
    * returns rounded value based on confidence value.
    *
    * @param  {string | number} value
@@ -253,6 +226,33 @@ export class CoordinatesService {
 
     rounded = parseFloat(value).toFixed(decimals);
     return parseFloat(rounded);
+  }
+
+  /**
+   * Set the coordinate observable.next value
+   * @param {string} latitude  [description]
+   * @param {string} longitude [description]
+   */
+  public setCoordinates (location: any): void {
+    let confidence,
+        latitude,
+        longitude;
+
+    confidence = location.confidence;
+    latitude = +location.latitude;
+    longitude = +location.longitude;
+
+    this._coordinates.next({
+      confidence: confidence,
+      latitude: this.roundLocation(latitude, confidence),
+      longitude: this.roundLocation(longitude, confidence),
+      zoom: location.zoom,
+      method: location.method,
+      place: location.name
+    });
+
+    this.placesService.getPlaces(latitude, longitude);
+    this.regionsService.getRegions(latitude, longitude);
   }
 
 }
