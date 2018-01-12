@@ -71,16 +71,41 @@ describe('GeocodeService', () => {
     });
   });
 
-  // describe('getLocation', () => {
-  //   it('calls checkLocation', () => {
-  //     let checkLocationSpy
+  describe('getLocation', () => {
+    it('calls http get', () => {
+      let locationJSON,
+          request;
 
-  //     checkLocationSpy = spyOn(geocodeService, 'checkLocation');
+      locationJSON = {
+        locations: [
+          {
+            name: 'Golden, Colorado'
+          }
+        ]
+      };
 
-  //     geocodeService.getLocation('Colorado');
-  //     expect(checkLocationSpy).toHaveBeenCalledWith('Colorado');
-  //   });
-  // });
+      geocodeService.getLocation('Golden, Colorado');
+
+      request = httpClient.expectOne(geocodeService.API_URL +
+          '?f=json&text=Golden, Colorado');
+
+      expect(request.request.method).toBe('GET');
+      request.flush(locationJSON);
+
+      geocodeService.location.subscribe((result) => {
+        expect(result.name).toEqual(locationJSON.locations[0].name);
+      });
+    });
+
+    // it('calls checkLocation', () => {
+    //   let checkLocationSpy
+
+    //   checkLocationSpy = spyOn(geocodeService, 'checkLocation');
+
+    //   geocodeService.getLocation('Colorado');
+    //   expect(checkLocationSpy).toHaveBeenCalledWith('Colorado');
+    // });
+  });
 
   describe('handleError', () => {
     it('handles errors', () => {
