@@ -54,8 +54,7 @@ export class GeocodeService {
     this.http.get<any>(url).pipe(
       catchError(this.handleError('getLocation', { locations: null }))
     ).subscribe((response) => {
-      console.log(response);
-      if (response.locations.length !== 0) {
+      if (response.locations && response.locations.length !== 0) {
         this._location.next(response.locations[0]);
       } else {
         this._error.next('No results. Please search again.');

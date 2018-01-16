@@ -66,7 +66,7 @@ describe('GeocodeService', () => {
 
       geocodeService.empty();
 
-      expect(spy).toHaveBeenCalled()
+      expect(spy).toHaveBeenCalled();
       expect(spy).toHaveBeenCalledWith(null);
     });
   });
@@ -97,14 +97,32 @@ describe('GeocodeService', () => {
       });
     });
 
-    // it('calls checkLocation', () => {
-    //   let checkLocationSpy
+    it('calls checkLocation', () => {
+      let checkLocationSpy,
+          request;
 
-    //   checkLocationSpy = spyOn(geocodeService, 'checkLocation');
+      checkLocationSpy = spyOn(geocodeService, 'checkLocation');
+      geocodeService.getLocation('Golden, Colorado');
 
-    //   geocodeService.getLocation('Colorado');
-    //   expect(checkLocationSpy).toHaveBeenCalledWith('Colorado');
-    // });
+      request = httpClient.expectOne(geocodeService.API_URL +
+          '?f=json&text=Golden, Colorado');
+
+
+      expect(checkLocationSpy).toHaveBeenCalledWith('Golden, Colorado');
+    });
+
+    it('handles error', () => {
+      geocodeService.getLocation('Golden, Colorado');
+
+      const request = httpClient.expectOne(geocodeService.API_URL +
+          '?f=json&text=Golden, Colorado');
+
+      request.error(new ErrorEvent('You may safely ignore this error.'));
+
+      geocodeService.location.subscribe((result) => {
+        expect(result).toBeNull();
+      });
+    });
   });
 
   describe('handleError', () => {
