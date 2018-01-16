@@ -62,7 +62,7 @@ export class GeocodeInputComponent implements OnInit, OnDestroy {
       longitude: +location.feature.geometry.x,
       method: 'geocode',
       zoom: zoom,
-      place: location.name
+      name: location.name
     });
 
     // close dialog and stop progress spinner

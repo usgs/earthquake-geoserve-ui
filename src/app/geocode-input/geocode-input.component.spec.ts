@@ -26,7 +26,7 @@ describe('GeocodeInputComponent', () => {
     latitude: 39.756650000000036,
     longitude: -105.22494999999998,
     method: 'geocode',
-    place: 'Golden, Colorado',
+    name: 'Golden, Colorado',
     zoom: 9
   };
 
