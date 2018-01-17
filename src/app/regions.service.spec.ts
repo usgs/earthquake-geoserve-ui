@@ -46,6 +46,9 @@ describe('RegionsService', () => {
 
   describe('getRegions', () => {
     it('calls http get', () => {
+      let latitude,
+          longitude;
+
       const regionsJson = {
         admin: {
           features: [
@@ -54,10 +57,12 @@ describe('RegionsService', () => {
         }
       };
 
-      regionsService.getRegions('latitude', 'longitude');
+      latitude = 0;
+      longitude = 0;
+      regionsService.getRegions(latitude, longitude);
 
       const request = httpClient.expectOne(regionsService.API_URL +
-        '?latitude=latitude&longitude=longitude');
+        `?latitude=${latitude}&longitude=${longitude}`);
 
       expect(request.request.method).toBe('GET');
       request.flush(regionsJson);
@@ -68,16 +73,54 @@ describe('RegionsService', () => {
     });
 
     it('handles errors', () => {
-      regionsService.getRegions('latitude', 'longitude');
+      let latitude,
+          longitude;
+
+      latitude = 0;
+      longitude = 0;
+      regionsService.getRegions(latitude, longitude);
 
       const request = httpClient.expectOne(regionsService.API_URL +
-        '?latitude=latitude&longitude=longitude');
+        `?latitude=${latitude}&longitude=${longitude}`);
 
       request.error(new ErrorEvent('You may safely ignore this error.'));
 
       regionsService.adminRegions.subscribe((result) => {
         expect(result).toBe(null);
       });
+    });
+  });
+
+  describe('buildUrl', () => {
+    it('returns a url', () => {
+      let url;
+
+      const lat = 0;
+      const lng = 0;
+
+      url = regionsService.buildUrl(lat, lng);
+
+      expect(url.indexOf(`latitude=${lat}`)).not.toEqual(-1);
+      expect(url.indexOf(`longitude=${lng}`)).not.toEqual(-1);
+    });
+    it('normalizes longitude in the url', () => {
+      let lng,
+          url;
+
+      const lat = 0;
+      lng = 720;
+
+      url = regionsService.buildUrl(lat, lng);
+
+      expect(url.indexOf(`latitude=${lat}`)).not.toEqual(-1);
+      expect(url.indexOf(`longitude=0`)).not.toEqual(-1);
+
+      lng = -720;
+
+      url = regionsService.buildUrl(lat, lng);
+
+      expect(url.indexOf(`latitude=${lat}`)).not.toEqual(-1);
+      expect(url.indexOf(`longitude=0`)).not.toEqual(-1);
     });
   });
 });

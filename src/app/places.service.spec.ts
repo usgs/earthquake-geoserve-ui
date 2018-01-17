@@ -47,6 +47,9 @@ describe('PlacesService', () => {
 
   describe('getPlaces', () => {
     it('calls http get', () => {
+      let latitude,
+          longitude;
+
       const placesJson = {
         event: {
           features: [
@@ -56,10 +59,12 @@ describe('PlacesService', () => {
         }
       };
 
-      placesService.getPlaces('latitude', 'longitude');
+      latitude = 0;
+      longitude = 0;
+      placesService.getPlaces(latitude, longitude);
 
       const request = httpClient.expectOne(placesService.API_URL +
-        '?latitude=latitude&longitude=longitude&type=event');
+        `?latitude=${latitude}&longitude=${longitude}&type=event`);
 
       expect(request.request.method).toBe('GET');
       request.flush(placesJson);
@@ -70,16 +75,55 @@ describe('PlacesService', () => {
     });
 
     it('handles errors', () => {
-      placesService.getPlaces('latitude', 'longitude');
+      let latitude,
+          longitude;
+
+      latitude = 0;
+      longitude = 0;
+      placesService.getPlaces(latitude, longitude);
 
       const request = httpClient.expectOne(placesService.API_URL +
-        '?latitude=latitude&longitude=longitude&type=event');
+        `?latitude=${latitude}&longitude=${longitude}&type=event`);
 
       request.error(new ErrorEvent('You may safely ignore this error.'));
 
       placesService.places.subscribe((result) => {
         expect(result.length).toBe(0);
       });
+    });
+  });
+
+
+  describe('buildUrl', () => {
+    it('returns a url', () => {
+      let url;
+
+      const lat = 0;
+      const lng = 0;
+
+      url = placesService.buildUrl(lat, lng);
+
+      expect(url.indexOf(`latitude=${lat}`)).not.toEqual(-1);
+      expect(url.indexOf(`longitude=${lng}`)).not.toEqual(-1);
+    });
+    it('normalizes longitude in the url', () => {
+      let lng,
+          url;
+
+      const lat = 0;
+      lng = 720;
+
+      url = placesService.buildUrl(lat, lng);
+
+      expect(url.indexOf(`latitude=${lat}`)).not.toEqual(-1);
+      expect(url.indexOf(`longitude=0`)).not.toEqual(-1);
+
+      lng = -720;
+
+      url = placesService.buildUrl(lat, lng);
+
+      expect(url.indexOf(`latitude=${lat}`)).not.toEqual(-1);
+      expect(url.indexOf(`longitude=0`)).not.toEqual(-1);
     });
   });
 });

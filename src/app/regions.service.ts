@@ -49,7 +49,7 @@ export class RegionsService {
     this._tectonic.next(null);
   }
 
-  getRegions (latitude: string, longitude: string): void {
+  getRegions (latitude: number, longitude: number): void {
     const url = this.buildUrl(latitude, longitude);
 
     this.http.get<any>(url).pipe(
@@ -95,7 +95,15 @@ export class RegionsService {
     };
   }
 
-  private buildUrl (latitude: string, longitude: string): string {
+  buildUrl (latitude: number, longitude: number): string {
+    // normalize longitude for search
+    while (longitude <= -180) {
+      longitude += 360;
+    }
+    while (longitude > 180) {
+      longitude -= 360;
+    }
+
     return this.API_URL + '?' +
       `latitude=${latitude}` +
       `&longitude=${longitude}`;

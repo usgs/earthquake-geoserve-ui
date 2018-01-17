@@ -23,7 +23,7 @@ export class PlacesService {
     this._places.next(null);
   }
 
-  getPlaces (latitude: string, longitude: string): void {
+  getPlaces (latitude: number, longitude: number): void {
     const url = this.buildUrl(latitude, longitude);
 
     this.http.get<any>(url).pipe(
@@ -41,7 +41,15 @@ export class PlacesService {
     };
   }
 
-  private buildUrl (latitude: string, longitude: string): string {
+  buildUrl (latitude: number, longitude: number): string {
+    // normalize longitude for search
+    while (longitude <= -180) {
+      longitude += 360;
+    }
+    while (longitude > 180) {
+      longitude -= 360;
+    }
+
     return this.API_URL + '?' +
       `latitude=${latitude}` +
       `&longitude=${longitude}` +
