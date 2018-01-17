@@ -7,11 +7,13 @@ import { LocationMapComponent } from './location-map.component';
 
 import { Coordinates } from '../coordinates';
 import { CoordinatesService } from '../coordinates.service';
+import { MenuService } from '../menu.service';
 
 describe('LocationMapComponent', () => {
   let component: LocationMapComponent;
   let fixture: ComponentFixture<LocationMapComponent>;
   let coordinatesService;
+  let menuService;
 
   const coordinates: Coordinates = {
     confidence: 1,
@@ -43,6 +45,14 @@ describe('LocationMapComponent', () => {
       }
     };
 
+    const menuServiceStub = {
+      open: {
+        subscribe: () => {
+          console.log('stubbified!');
+        }
+      }
+    };
+
     TestBed.configureTestingModule({
       declarations: [
         LocationMapComponent
@@ -50,6 +60,7 @@ describe('LocationMapComponent', () => {
       providers: [
         {provide: CoordinatesService, useValue: coordinatesServiceStub},
         {provide: MatDialog, useValue: dialogStub},
+        {provide: MenuService, useValue: menuServiceStub}
       ]
     })
     .compileComponents();
@@ -60,6 +71,7 @@ describe('LocationMapComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     coordinatesService = fixture.debugElement.injector.get(CoordinatesService);
+    menuService = fixture.debugElement.injector.get(MenuService);
   });
 
   it('should create', () => {
@@ -101,7 +113,6 @@ describe('LocationMapComponent', () => {
       expect(component.map).not.toBeNull();
     });
   });
-
 
   describe('createMarker', () => {
     it('should create a marker', () => {
@@ -202,5 +213,23 @@ describe('LocationMapComponent', () => {
     });
   });
 
+  describe('subscribeToServices', () => {
+    it('should subscribe to the coordinates service', () => {
+      let coordinatesServiceSpy;
+
+      coordinatesServiceSpy = spyOn(coordinatesService.coordinates, 'subscribe');
+      component.subscribeToServices();
+
+      expect(coordinatesServiceSpy).toHaveBeenCalled();
+    });
+    it('should subscribe to the menu service', () => {
+      let menuServiceSpy;
+
+      menuServiceSpy = spyOn(menuService.open, 'subscribe');
+      component.subscribeToServices();
+
+      expect(menuServiceSpy).toHaveBeenCalled();
+    });
+  });
 
 });

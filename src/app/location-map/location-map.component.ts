@@ -4,6 +4,8 @@ import { MatDialog } from '@angular/material';
 import * as L from 'leaflet';
 
 import { CoordinatesService } from '../coordinates.service';
+import { MenuService } from '../menu.service';
+
 import { Coordinates } from '../coordinates';
 import { LocationDialogComponent } from '../location-dialog/location-dialog.component';
 
@@ -16,15 +18,21 @@ import { LocationDialogComponent } from '../location-dialog/location-dialog.comp
 export class LocationMapComponent implements OnDestroy, OnInit {
   map: L.Map;
   marker: L.Marker;
+  coordinatesObservable;
+  menuObservable;
 
   constructor(
     private coordinatesService: CoordinatesService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private menuService: MenuService
   ) {}
 
   ngOnDestroy() {
     // unbind dragend event
     this.destroyMarker();
+
+    // unsubscribe to services
+    this.unsubscribeFromServices();
   }
 
   ngOnInit() {
@@ -40,13 +48,8 @@ export class LocationMapComponent implements OnDestroy, OnInit {
     // Add location control to map
     this.addLocationControl();
 
-    // subscribe to location changes
-    this.coordinatesService.coordinates.subscribe((coordinates) => {
-      if (coordinates) {
-        this.moveMarker(coordinates);
-        this.moveMap(coordinates);
-      }
-    });
+    // subscribe to location changes and menu toggling
+    this.subscribeToServices();
   }
 
   /**
@@ -251,4 +254,23 @@ export class LocationMapComponent implements OnDestroy, OnInit {
     });
   }
 
+  subscribeToServices (): void {
+    this.coordinatesObservable =
+        this.coordinatesService.coordinates.subscribe((coordinates) => {
+          if (coordinates) {
+            this.moveMarker(coordinates);
+            this.moveMap(coordinates);
+          }
+        });
+
+    this.menuObservable =
+        this.menuService.open.subscribe(() => {
+          this.map.invalidateSize();
+        });
+  }
+
+  unsubscribeFromServices (): void {
+    this.coordinatesObservable.unsubscribe();
+    this.menuObservable.unsubscribe();
+  }
 }
