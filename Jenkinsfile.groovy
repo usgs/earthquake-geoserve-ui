@@ -293,7 +293,7 @@ node {
       // repository
       docker.withRegistry(
         "https://${GITLAB_INNERSOURCE_REGISTRY}",
-        'gitlab-innersource-admin'
+        'innersource-hazdev-cicd'
       ) {
         ansiColor('xterm') {
           sh """
@@ -313,7 +313,7 @@ node {
       echo 'TODO :: Call deploy pipeline'
     }
   } catch (e) {
-    mail to: 'emartinez@usgs.gov',
+    mail to: 'gs-haz_dev_team_group@usgs.gov',
       from: 'noreply@jenkins',
       subject: 'Jenkins: earthquake-design-ui',
       body: "Project build (${BUILD_TAG}) failed '${e}'"
