@@ -253,10 +253,6 @@ node {
       ansiColor('xterm') {
         sh """
           PENTEST_IP='application'
-          #PENTEST_IP=`docker inspect \
-          #  -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' \
-          #  ${LOCAL_CONTAINER} \
-          #`
 
           docker exec ${OWASP_CONTAINER} \
             zap-cli -v -p ${ZAP_API_PORT} spider \
