@@ -71,8 +71,10 @@ export class LocationMapComponent implements OnDestroy, OnInit {
 
     this.overlaysService.overlays.subscribe((layers) => {
       // add overlays
-      for (let name in layers) {
-        this.layerControl.addOverlay(layers[name], name);
+      for (const name in layers) {
+        if (layers.hasOwnProperty(name)) {
+          this.layerControl.addOverlay(layers[name], name);
+        }
       }
     });
   }

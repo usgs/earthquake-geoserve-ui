@@ -66,11 +66,9 @@ export class OverlaysService {
   }
 
   /**
-   * build an array of regions layers, 
+   * build an array of regions layers
    */
   buildRegionLayers(overlays: any[]): void {
-    let layer;
-
     overlays.forEach((overlay) => {
       this.regionOverlays[overlay.title] = this.buildRegionLayer(overlay);
     });
@@ -81,7 +79,7 @@ export class OverlaysService {
   buildRegionLayer(overlay: any): void {
     const http = this.http;
 
-    let RegionsLayer = L.GeoJSON.extend({
+    const RegionsLayer = L.GeoJSON.extend({
       // Not sure how to make angular call super class initialize,
       // so cheat and set defaults this way
       '_loaded': false,
@@ -113,7 +111,7 @@ export class OverlaysService {
             return this.handleError('loadData', null);
           })
         ).subscribe((data) => {
-          if data == null {
+          if (data === null) {
             // let user try again
             this._loaded = false;
             return;
