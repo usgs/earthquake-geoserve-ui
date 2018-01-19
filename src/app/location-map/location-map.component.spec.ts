@@ -11,7 +11,6 @@ import { CoordinatesService } from '../coordinates.service';
 import { MenuService } from '../menu.service';
 import { OverlaysService } from '../overlays.service';
 
-
 describe('LocationMapComponent', () => {
   let component: LocationMapComponent;
   let fixture: ComponentFixture<LocationMapComponent>;
