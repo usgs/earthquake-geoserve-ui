@@ -100,8 +100,8 @@ export class OverlaysService {
 
       onAdd: function (map) {
         L.GeoJSON.prototype.onAdd.call(this, map);
+        // fetch data once
         if (!this._loaded) {
-          // fetch data once
           this._loaded = true;
           this._loadData();
         }
