@@ -77,6 +77,7 @@ export class OverlaysService {
   }
 
   buildRegionLayer(overlay: any): void {
+    const color = this.COLORS[this.COLORS_INDEX++ % this.COLORS.length];
     const http = this.http;
 
     const RegionsLayer = L.GeoJSON.extend({
@@ -85,12 +86,15 @@ export class OverlaysService {
       '_loaded': false,
       '_type': overlay.name,
       '_url': this.LAYERS_URL,
-      'style': {
-            'color': this.COLORS[this.COLORS_INDEX++ % this.COLORS.length],
-            'fillOpacity': 0.4,
-            'opacity': 1,
-            'weight': 2,
-            'clickable': false
+      // set styles on the layer
+      options: {
+        style: {
+          'color': color,
+          'fillOpacity': 0.4,
+          'opacity': 1,
+          'weight': 2,
+          'clickable': false
+        }
       },
 
       onAdd: function (map) {
