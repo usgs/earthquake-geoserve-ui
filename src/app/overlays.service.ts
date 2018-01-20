@@ -87,8 +87,8 @@ export class OverlaysService {
       '_type': overlay.name,
       '_url': this.LAYERS_URL,
       // set styles on the layer
-      options: {
-        style: {
+      'options': {
+        'style': {
           'color': color,
           'fillOpacity': 0.4,
           'opacity': 1,
@@ -98,6 +98,7 @@ export class OverlaysService {
       },
 
       onAdd: function (map) {
+        L.GeoJSON.prototype.onAdd.call(this, map);
         if (!this._loaded) {
           // fetch data once
           this._loaded = true;
