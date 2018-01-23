@@ -173,16 +173,21 @@ node {
 
         // Run linting, unit tests, and end-to-end tests
         docker.image(BUILDER_IMAGE).inside () {
-          ansiColor('xterm') {
-            sh """
-              source /etc/profile.d/nvm.sh > /dev/null 2>&1
-              npm config set package-lock false
+          withEnv([
+            'npm_config_cache=/tmp/npm-cache',
+            'HOME=/tmp'
+          ]) {
+            ansiColor('xterm') {
+              sh """
+                source /etc/profile.d/nvm.sh > /dev/null 2>&1
+                npm config set package-lock false
 
-              npm install
-              npm run lint
-              npm run test -- --single-run --code-coverage --progress false
-              npm run e2e -- --progress false
-            """
+                npm install
+                npm run lint
+                npm run test -- --single-run --code-coverage --progress false
+                npm run e2e -- --progress false
+              """
+            }
           }
         }
 
