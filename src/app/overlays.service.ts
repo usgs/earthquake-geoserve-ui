@@ -79,6 +79,7 @@ export class OverlaysService {
   buildRegionLayer(overlay: any): void {
     const color = this.COLORS[this.COLORS_INDEX++ % this.COLORS.length];
     const http = this.http;
+    const errorHandler = this.handleError;
 
     const RegionsLayer = L.GeoJSON.extend({
       // Not sure how to make angular call super class initialize,
@@ -112,9 +113,7 @@ export class OverlaysService {
         url = this._url + '?type=' + this._type;
 
         http.get(url).pipe(
-          catchError(() => {
-            return this.handleError('loadData', null);
-          })
+          catchError(errorHandler('loadData', null))
         ).subscribe((data) => {
           if (data === null) {
             // let user try again
