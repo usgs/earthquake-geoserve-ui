@@ -8,9 +8,11 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import * as L from 'leaflet';
 
+import { environment } from '../environments/environment';
+
 @Injectable()
 export class OverlaysService {
-  public readonly LAYERS_URL = 'https://earthquake.usgs.gov/ws/geoserve/layers.json';
+  public readonly LAYERS_URL = environment.apiUrl + 'layers.json';
   private readonly COLORS = [
     '#1f78b4', // teal
     '#ffff99', // yellow

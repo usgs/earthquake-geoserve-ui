@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, tap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
+import { environment } from '../environments/environment';
+
 
 @Injectable()
 export class PlacesService {
 
-  public readonly API_URL = 'https://earthquake.usgs.gov/ws/geoserve/places.json';
+  public readonly PLACES_URL = environment.apiUrl + 'places.json';
 
   private _places: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public readonly places: Observable<any> = this._places.asObservable();

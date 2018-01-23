@@ -63,8 +63,8 @@ describe('PlacesService', () => {
       longitude = 0;
       placesService.getPlaces(latitude, longitude);
 
-      const request = httpClient.expectOne(placesService.API_URL +
-        `?latitude=${latitude}&longitude=${longitude}&type=event`);
+      const request = httpClient.expectOne(placesService.PLACES_URL +
+        '?latitude=latitude&longitude=longitude&type=event');
 
       expect(request.request.method).toBe('GET');
       request.flush(placesJson);
@@ -82,8 +82,8 @@ describe('PlacesService', () => {
       longitude = 0;
       placesService.getPlaces(latitude, longitude);
 
-      const request = httpClient.expectOne(placesService.API_URL +
-        `?latitude=${latitude}&longitude=${longitude}&type=event`);
+      const request = httpClient.expectOne(placesService.PLACES_URL +
+        '?latitude=latitude&longitude=longitude&type=event');
 
       request.error(new ErrorEvent('You may safely ignore this error.'));
 

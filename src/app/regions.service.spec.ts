@@ -61,8 +61,8 @@ describe('RegionsService', () => {
       longitude = 0;
       regionsService.getRegions(latitude, longitude);
 
-      const request = httpClient.expectOne(regionsService.API_URL +
-        `?latitude=${latitude}&longitude=${longitude}`);
+      const request = httpClient.expectOne(regionsService.REGIONS_URL +
+        '?latitude=latitude&longitude=longitude');
 
       expect(request.request.method).toBe('GET');
       request.flush(regionsJson);
@@ -80,8 +80,8 @@ describe('RegionsService', () => {
       longitude = 0;
       regionsService.getRegions(latitude, longitude);
 
-      const request = httpClient.expectOne(regionsService.API_URL +
-        `?latitude=${latitude}&longitude=${longitude}`);
+      const request = httpClient.expectOne(regionsService.REGIONS_URL +
+        '?latitude=latitude&longitude=longitude');
 
       request.error(new ErrorEvent('You may safely ignore this error.'));
 
