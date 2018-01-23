@@ -170,3 +170,74 @@ mark {
   .four-of-five  { width: calc(100%*4/5); }
 
 }
+
+
+.alert {
+  background-color: #ccc;
+  margin: 1em 0;
+  overflow: hidden;
+  padding: calc(1em * 3/2) calc(1em * 2);
+  position: relative;
+}
+
+.alert > :first-child {
+  margin-top: 0;
+}
+
+.alert > :last-child {
+  margin-bottom: 0;
+}
+
+.error:before,
+.info:before,
+.success:before,
+.warning:before {
+  content: '';
+  font-family: 'Material Icons';
+  font-size: 4.5em;
+  left: -0.2em;
+  line-height: 1;
+  opacity: 0.075;
+  position: absolute;
+  top: -0.2em;
+}
+
+.error {
+  background-color: #F9DEDE;
+}
+
+.error:before {
+  content: '\0e15c';
+}
+
+
+.info {
+  background-color: #E8F5FA;
+}
+
+.info:before {
+  content: '\0e88e';
+}
+
+
+.success {
+  background-color: #E5FCDE;
+}
+
+.success:before {
+  content: '\0e86c';
+}
+
+
+.warning {
+  background-color: #FDF7DC;
+}
+
+.warning:before {
+  content: '\0e002';
+}
+
+
+.no-icon:before {
+  content: '';
+}
