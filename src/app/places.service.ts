@@ -51,7 +51,7 @@ export class PlacesService {
       longitude -= 360;
     }
 
-    return this.API_URL + '?' +
+    return this.PLACES_URL + '?' +
       `latitude=${latitude}` +
       `&longitude=${longitude}` +
       '&type=event';

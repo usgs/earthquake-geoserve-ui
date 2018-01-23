@@ -39,6 +39,7 @@ export class RegionsService {
       this._tectonic.asObservable();
 
 
+
   constructor (private http: HttpClient) {}
 
   empty (): void {
@@ -105,7 +106,7 @@ export class RegionsService {
       longitude -= 360;
     }
 
-    return this.API_URL + '?' +
+    return this.REGIONS_URL + '?' +
       `latitude=${latitude}` +
       `&longitude=${longitude}`;
   }
