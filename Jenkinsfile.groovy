@@ -266,7 +266,7 @@ node {
         reportFiles: 'owasp-zap-report.html',
         reportName: 'OWASP ZAP Report'
       ])
-    }]
+    }
 
     stage('Security') {
       parallel SECURITY_CHECKS
