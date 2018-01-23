@@ -175,6 +175,9 @@ node {
         docker.image(BUILDER_IMAGE).inside () {
           ansiColor('xterm') {
             sh """
+              source /etc/profile.d/nvm.sh > /dev/null 2>&1
+              npm config set package-lock false
+
               npm install
               npm run lint
               npm run test -- --single-run --code-coverage --progress false
