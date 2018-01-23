@@ -133,6 +133,7 @@ node {
     }
 
     stage('Scan Dependencies') {
+
     //   docker.image(BUILDER_IMAGE).inside() {
     //     // Create dependencies
     //     withEnv([
@@ -196,7 +197,7 @@ node {
           reportName: 'Dependency Vulnerabilities'
         ])
       }
-    }
+    // }
 
     // Execute parallel tasks in parallel
     // parallel PARALLEL_TASKS
