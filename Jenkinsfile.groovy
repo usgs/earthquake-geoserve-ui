@@ -34,7 +34,7 @@ node {
   def TESTER_IMAGE = "${DEVOPS_REGISTRY}/library/trion/ng-cli-e2e"
 
   // Queue up tasks that can be run in parallel
-  def PARALLEL_TASKS = [:]
+  def SECURITY_CHECKS = [:]
 
   try {
     stage('Update') {
