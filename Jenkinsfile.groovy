@@ -32,7 +32,7 @@ node {
 
   // Used to run linting, unit tests, coverage, and e2e within this container
   def TESTER_CONTAINER = "${APP_NAME}-${BUILD_ID}-TESTER"
-  def TESTER_IMAGE = "${DEVOPS_REGISTRY}/library/trion/ng-cli-e2e"
+  def TESTER_IMAGE = "${DEVOPS_REGISTRY}/library/trion/ng-cli-e2e:1.5.5"
 
   // Queue up tasks that can be run in parallel
   def PARALLEL_TASKS = [:]
