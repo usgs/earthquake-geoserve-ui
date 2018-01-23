@@ -175,6 +175,7 @@ node {
         docker.image(TESTER_IMAGE).inside () {
           ansiColor('xterm') {
             sh """
+              npm install
               ng lint
               ng test --single-run --code-coverage --progress false
               ng e2e --progress false
