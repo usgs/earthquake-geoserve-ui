@@ -5,6 +5,8 @@ import { MediaMatcher } from '@angular/cdk/layout';
 
 import { HazdevTemplateComponent } from './hazdev-template.component';
 
+import { MenuService } from '../menu.service';
+
 describe('HazdevTemplateComponent', () => {
   let component: HazdevTemplateComponent;
   let fixture: ComponentFixture<HazdevTemplateComponent>;
@@ -35,7 +37,8 @@ describe('HazdevTemplateComponent', () => {
         NO_ERRORS_SCHEMA
       ],
       providers: [
-        {provide: MediaMatcher, useValue: mediaMatcherStub}
+        {provide: MediaMatcher, useValue: mediaMatcherStub},
+        MenuService
       ]
     })
     .compileComponents();

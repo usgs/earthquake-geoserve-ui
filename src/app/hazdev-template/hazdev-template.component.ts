@@ -1,5 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, OnDestroy, Input } from '@angular/core';
-import {MediaMatcher} from '@angular/cdk/layout';
+import { MediaMatcher } from '@angular/cdk/layout';
+
+import { MenuService } from '../menu.service';
 
 @Component({
   selector: 'app-hazdev-template',
@@ -9,7 +11,6 @@ import {MediaMatcher} from '@angular/cdk/layout';
 export class HazdevTemplateComponent implements OnInit, OnDestroy {
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
-
   public href = '';
 
   @Input() TITLE: string;
@@ -41,7 +42,11 @@ export class HazdevTemplateComponent implements OnInit, OnDestroy {
   @Input() SITE_SITENAV: any[];
   @Input() SITE_URL = 'http://localhost.localdomain';
 
-  constructor (changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
+  constructor (
+    changeDetectorRef: ChangeDetectorRef,
+    media: MediaMatcher,
+    public menuService: MenuService
+  ) {
     this.mobileQuery = media.matchMedia('(max-width: 768px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
@@ -56,5 +61,10 @@ export class HazdevTemplateComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+  }
+
+  onSideNavChange(event: any): void {
+    // pass true or false indicating the state of the menu
+    this.menuService.setState(event);
   }
 }

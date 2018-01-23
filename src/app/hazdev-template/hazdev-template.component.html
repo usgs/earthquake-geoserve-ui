@@ -24,6 +24,7 @@
       class="site-footer"
       [mode]="mobileQuery.matches ? 'over' : 'side'"
       [opened]="!mobileQuery.matches"
+      (openedChange)="onSideNavChange($event)"
   >
     <app-hazdev-template-navigation
         [NAVIGATION]="NAVIGATION"

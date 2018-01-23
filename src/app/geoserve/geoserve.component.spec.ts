@@ -1,14 +1,30 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockComponent } from 'ng2-mock-component';
+import { MatDialog} from '@angular/material';
 
 import { GeoserveComponent } from './geoserve.component';
+
+import { CoordinatesService } from '../coordinates.service';
 
 
 describe('GeoserveComponent', () => {
   let component: GeoserveComponent;
   let fixture: ComponentFixture<GeoserveComponent>;
+  let coordinatesService;
 
   beforeEach(async(() => {
+    const coordinatesServiceStub = {
+      setCoordinates: (location: any) => {
+        console.log('stubbified!');
+      }
+    };
+
+    const dialogStub = {
+      open: () => {
+        console.log('stubbified!');
+      }
+    };
+
     TestBed.configureTestingModule({
       declarations: [
         GeoserveComponent,
@@ -23,7 +39,11 @@ describe('GeoserveComponent', () => {
         MockComponent({selector: 'app-neic-response-region'}),
         MockComponent({selector: 'app-offshore-region'}),
         MockComponent({selector: 'app-tectonic-summary-region'})
-      ]
+      ],
+      providers: [
+        {provide: CoordinatesService, useValue: coordinatesServiceStub},
+        {provide: MatDialog, useValue: dialogStub}
+      ],
     })
     .compileComponents();
   }));
@@ -32,6 +52,9 @@ describe('GeoserveComponent', () => {
     fixture = TestBed.createComponent(GeoserveComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    // stub coordinates.service
+    coordinatesService = fixture.debugElement.injector.get(CoordinatesService);
   });
 
   it('should create', () => {

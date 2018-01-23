@@ -3,6 +3,6 @@ export interface Coordinates {
   latitude: number;
   longitude: number;
   method: string; // geocode, geolocate, pin, lat/lng
-  place: string; // geolocate
+  name: string; // geolocate
   zoom: number; // based on confidence
 }

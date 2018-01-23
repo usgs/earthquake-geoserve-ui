@@ -19,6 +19,7 @@ import { CoordinatesService } from './coordinates.service';
 import { GeocodeService } from './geocode.service';
 import { PlacesService } from './places.service';
 import { RegionsService } from './regions.service';
+import { MenuService } from './menu.service';
 
 import { AdminRegionComponent } from './admin-region/admin-region.component';
 import { AppComponent } from './app.component';
@@ -107,7 +108,8 @@ import { GeocodeInputComponent } from './geocode-input/geocode-input.component';
     GeocodeService,
     PlacesService,
     RegionsService,
-    MediaMatcher
+    MediaMatcher,
+    MenuService
   ],
   bootstrap: [AppComponent]
 })

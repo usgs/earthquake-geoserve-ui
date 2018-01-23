@@ -36,7 +36,7 @@ describe('CoordinatesService', () => {
     latitude: 35,
     longitude: -105,
     method: 'point',
-    place: '',
+    name: '',
     zoom: 16
   };
 
