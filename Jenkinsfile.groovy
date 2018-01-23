@@ -63,149 +63,143 @@ node {
       }
     }
 
-    // PARALLEL_TASKS['Scan Dependencies'] = {
-    //   stage('Scan Dependencies') {
-    //     docker.image(BUILDER_IMAGE).inside() {
-    //       // Create dependencies
-    //       withEnv([
-    //         'npm_config_cache=/tmp/npm-cache',
-    //         'HOME=/tmp'
-    //       ]) {
-    //         ansiColor('xterm') {
-    //           sh """
-    //             source /etc/profile.d/nvm.sh > /dev/null 2>&1
-    //             npm config set package-lock false
+    stage('Build Image') {
+      // Install all dependencies
+      docker.image(BUILDER_IMAGE).inside() {
+        withEnv([
+          'npm_config_cache=/tmp/npm-cache',
+          'HOME=/tmp'
+        ]) {
 
-    //             # Using --production installs prod but not dev dependencies
-    //             npm install --production
-    //           """
-    //         }
-    //       }
+          ansiColor('xterm') {
+            sh """
+              source /etc/profile.d/nvm.sh > /dev/null 2>&1
+              npm config set package-lock false
 
-    //       // Analyze dependencies
-    //       ansiColor('xterm') {
-    //         dependencyCheckAnalyzer(
-    //           datadir: '',
-    //           hintsFile: '',
-    //           includeCsvReports: false,
-    //           includeHtmlReports: true,
-    //           includeJsonReports: false,
-    //           includeVulnReports: true,
-    //           isAutoupdateDisabled: false,
-    //           outdir: 'dependency-check-data',
-    //           scanpath: 'node_modules',
-    //           skipOnScmChange: false,
-    //           skipOnUpstreamChange: false,
-    //           suppressionFile: '',
-    //           zipExtensions: ''
-    //         )
-    //       }
-
-    //       // Publish results
-    //       dependencyCheckPublisher(
-    //         canComputeNew: false,
-    //         defaultEncoding: '',
-    //         healthy: '',
-    //         pattern: '**/dependency-check-report.xml',
-    //         unHealthy: ''
-    //       )
-
-    //       publishHTML (target: [
-    //         allowMissing: true,
-    //         alwaysLinkToLastBuild: true,
-    //         keepAll: true,
-    //         reportDir: 'dependency-check-data',
-    //         reportFiles: 'dependency-check-report.html',
-    //         reportName: 'Dependency Analysis'
-    //       ])
-
-    //       publishHTML (target: [
-    //         allowMissing: true,
-    //         alwaysLinkToLastBuild: true,
-    //         keepAll: true,
-    //         reportDir: 'dependency-check-data',
-    //         reportFiles: 'dependency-check-vulnerability.html',
-    //         reportName: 'Dependency Vulnerabilities'
-    //       ])
-    //     }
-    //   }
-    // }
-
-    // PARALLEL_TASKS['Build Image'] = {
-      stage('Build Image') {
-        // Install all dependencies
-        docker.image(BUILDER_IMAGE).inside() {
-          withEnv([
-            'npm_config_cache=/tmp/npm-cache',
-            'HOME=/tmp'
-          ]) {
-
-            ansiColor('xterm') {
-              sh """
-                source /etc/profile.d/nvm.sh > /dev/null 2>&1
-                npm config set package-lock false
-
-                npm install --no-save
-                npm run build -- --prod --progress false --base-href /geoserve/
-              """
-            }
+              npm install --no-save
+              npm run build -- --prod --progress false --base-href /geoserve/
+            """
           }
         }
+      }
 
-        // Build candidate image for later penetration testing
-        ansiColor('xterm') {
-          sh """
-            docker pull ${BASE_IMAGE}
-            docker build \
-              --build-arg BASE_IMAGE=${BASE_IMAGE} \
-              -t ${LOCAL_IMAGE} \
-              .
-          """
+      // Build candidate image for later penetration testing
+      ansiColor('xterm') {
+        sh """
+          docker pull ${BASE_IMAGE}
+          docker build \
+            --build-arg BASE_IMAGE=${BASE_IMAGE} \
+            -t ${LOCAL_IMAGE} \
+            .
+        """
+      }
+    }
+
+    stage('Unit Tests') {
+      // Note that running angular tests destroys the "dist" folder that was
+      // originally created in Install stage. This is not needed later, so
+      // okay, but just be aware ...
+
+      // Run linting, unit tests, and end-to-end tests
+      docker.image(BUILDER_IMAGE).inside () {
+        withEnv([
+          'npm_config_cache=/tmp/npm-cache',
+          'HOME=/tmp'
+        ]) {
+          ansiColor('xterm') {
+            sh """
+              source /etc/profile.d/nvm.sh > /dev/null 2>&1
+              npm config set package-lock false
+
+              npm install
+              npm run lint
+              npm run test -- --single-run --code-coverage --progress false
+              npm run e2e -- --progress false
+            """
+          }
         }
       }
-    // }
 
-    // PARALLEL_TASKS['Unit Tests'] = {
-    //   stage('Unit Tests') {
-    //     // Note that running angular tests destroys the "dist" folder that was
-    //     // originally created in Install stage. This is not needed later, so
-    //     // okay, but just be aware ...
+      // Publish results
+      cobertura(
+        autoUpdateHealth: false,
+        autoUpdateStability: false,
+        coberturaReportFile: '**/cobertura-coverage.xml',
+        conditionalCoverageTargets: '70, 0, 0',
+        failUnhealthy: false,
+        failUnstable: false,
+        lineCoverageTargets: '80, 0, 0',
+        maxNumberOfBuilds: 0,
+        methodCoverageTargets: '80, 0, 0',
+        onlyStable: false,
+        sourceEncoding: 'ASCII',
+        zoomCoverageChart: false
+      )
+    }
 
-    //     // Run linting, unit tests, and end-to-end tests
-    //     docker.image(BUILDER_IMAGE).inside () {
-    //       withEnv([
-    //         'npm_config_cache=/tmp/npm-cache',
-    //         'HOME=/tmp'
-    //       ]) {
-    //         ansiColor('xterm') {
-    //           sh """
-    //             source /etc/profile.d/nvm.sh > /dev/null 2>&1
-    //             npm config set package-lock false
+    // stage('Scan Dependencies') {
+    //   docker.image(BUILDER_IMAGE).inside() {
+    //     // Create dependencies
+    //     withEnv([
+    //       'npm_config_cache=/tmp/npm-cache',
+    //       'HOME=/tmp'
+    //     ]) {
+    //       ansiColor('xterm') {
+    //         sh """
+    //           source /etc/profile.d/nvm.sh > /dev/null 2>&1
+    //           npm config set package-lock false
 
-    //             npm install
-    //             npm run lint
-    //             npm run test -- --single-run --code-coverage --progress false
-    //             npm run e2e -- --progress false
-    //           """
-    //         }
+    //           # Using --production installs prod but not dev dependencies
+    //           npm install --production
+    //         """
     //       }
+    //     }
+
+    //     // Analyze dependencies
+    //     ansiColor('xterm') {
+    //       dependencyCheckAnalyzer(
+    //         datadir: '',
+    //         hintsFile: '',
+    //         includeCsvReports: false,
+    //         includeHtmlReports: true,
+    //         includeJsonReports: false,
+    //         includeVulnReports: true,
+    //         isAutoupdateDisabled: false,
+    //         outdir: 'dependency-check-data',
+    //         scanpath: 'node_modules',
+    //         skipOnScmChange: false,
+    //         skipOnUpstreamChange: false,
+    //         suppressionFile: '',
+    //         zipExtensions: ''
+    //       )
     //     }
 
     //     // Publish results
-    //     cobertura(
-    //       autoUpdateHealth: false,
-    //       autoUpdateStability: false,
-    //       coberturaReportFile: '**/cobertura-coverage.xml',
-    //       conditionalCoverageTargets: '70, 0, 0',
-    //       failUnhealthy: false,
-    //       failUnstable: false,
-    //       lineCoverageTargets: '80, 0, 0',
-    //       maxNumberOfBuilds: 0,
-    //       methodCoverageTargets: '80, 0, 0',
-    //       onlyStable: false,
-    //       sourceEncoding: 'ASCII',
-    //       zoomCoverageChart: false
+    //     dependencyCheckPublisher(
+    //       canComputeNew: false,
+    //       defaultEncoding: '',
+    //       healthy: '',
+    //       pattern: '**/dependency-check-report.xml',
+    //       unHealthy: ''
     //     )
+
+    //     publishHTML (target: [
+    //       allowMissing: true,
+    //       alwaysLinkToLastBuild: true,
+    //       keepAll: true,
+    //       reportDir: 'dependency-check-data',
+    //       reportFiles: 'dependency-check-report.html',
+    //       reportName: 'Dependency Analysis'
+    //     ])
+
+    //     publishHTML (target: [
+    //       allowMissing: true,
+    //       alwaysLinkToLastBuild: true,
+    //       keepAll: true,
+    //       reportDir: 'dependency-check-data',
+    //       reportFiles: 'dependency-check-vulnerability.html',
+    //       reportName: 'Dependency Vulnerabilities'
+    //     ])
     //   }
     // }
 
