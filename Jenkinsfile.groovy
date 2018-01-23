@@ -176,9 +176,9 @@ node {
           ansiColor('xterm') {
             sh """
               npm install
-              ng lint
-              ng test --single-run --code-coverage --progress false
-              ng e2e --progress false
+              npm run lint
+              npm run test -- --single-run --code-coverage --progress false
+              npm run e2e -- --progress false
             """
           }
         }
