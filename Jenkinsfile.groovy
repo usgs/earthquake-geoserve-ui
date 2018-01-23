@@ -172,7 +172,7 @@ node {
         // okay, but just be aware ...
 
         // Run linting, unit tests, and end-to-end tests
-        docker.image(TESTER_IMAGE).inside () {
+        docker.image(BUILDER_IMAGE).inside () {
           ansiColor('xterm') {
             sh """
               npm install
