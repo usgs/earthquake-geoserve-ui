@@ -118,7 +118,11 @@ node {
             // """
             sh """
               ng lint
+            """
+            sh """
               ng test --single-run --code-coverage --progress false
+            """
+            sh """
               ng e2e --progress false
             """
           }
