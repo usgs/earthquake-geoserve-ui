@@ -31,7 +31,6 @@ node {
 
 
   // Used to run linting, unit tests, coverage, and e2e within this container
-  def TESTER_CONTAINER = "${APP_NAME}-${BUILD_ID}-TESTER"
   def TESTER_IMAGE = "${DEVOPS_REGISTRY}/library/trion/ng-cli-e2e"
 
   // Queue up tasks that can be run in parallel
@@ -320,21 +319,22 @@ node {
   } finally {
     stage('Cleanup') {
       sh """
-        set +e
+        set +e;
 
         # Cleaning up any leftover containers...
         docker container rm --force \
           ${BUILDER_CONTAINER} \
           ${OWASP_CONTAINER} \
           ${LOCAL_CONTAINER} \
-          ${TESTER_CONTAINER}
+        ;
 
         # Cleaning up any leftover images...
         docker image rm --force \
           ${DEPLOY_IMAGE} \
-          ${LOCAL_IMAGE}
+          ${LOCAL_IMAGE} \
+        ;
 
-        exit 0
+        exit 0;
       """
 
       if (FAILURE) {
