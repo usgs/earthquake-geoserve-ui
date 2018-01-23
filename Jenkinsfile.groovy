@@ -102,10 +102,6 @@ node {
 
       // Run linting, unit tests, and end-to-end tests
       docker.image(TESTER_IMAGE).inside () {
-        // withEnv([
-        //   'npm_config_cache=/tmp/npm-cache',
-        //   'HOME=/tmp'
-        // ]) {
           ansiColor('xterm') {
             sh """
               ng lint
@@ -117,7 +113,6 @@ node {
               ng e2e --progress false
             """
           }
-        // }
       }
 
       // Publish results
@@ -137,7 +132,7 @@ node {
       )
     }
 
-    // stage('Scan Dependencies') {
+    stage('Scan Dependencies') {
     //   docker.image(BUILDER_IMAGE).inside() {
     //     // Create dependencies
     //     withEnv([
@@ -155,53 +150,53 @@ node {
     //       }
     //     }
 
-    //     // Analyze dependencies
-    //     ansiColor('xterm') {
-    //       dependencyCheckAnalyzer(
-    //         datadir: '',
-    //         hintsFile: '',
-    //         includeCsvReports: false,
-    //         includeHtmlReports: true,
-    //         includeJsonReports: false,
-    //         includeVulnReports: true,
-    //         isAutoupdateDisabled: false,
-    //         outdir: 'dependency-check-data',
-    //         scanpath: 'node_modules',
-    //         skipOnScmChange: false,
-    //         skipOnUpstreamChange: false,
-    //         suppressionFile: '',
-    //         zipExtensions: ''
-    //       )
-    //     }
+        // Analyze dependencies
+        ansiColor('xterm') {
+          dependencyCheckAnalyzer(
+            datadir: '',
+            hintsFile: '',
+            includeCsvReports: false,
+            includeHtmlReports: true,
+            includeJsonReports: false,
+            includeVulnReports: true,
+            isAutoupdateDisabled: false,
+            outdir: 'dependency-check-data',
+            scanpath: 'node_modules',
+            skipOnScmChange: false,
+            skipOnUpstreamChange: false,
+            suppressionFile: '',
+            zipExtensions: ''
+          )
+        }
 
-    //     // Publish results
-    //     dependencyCheckPublisher(
-    //       canComputeNew: false,
-    //       defaultEncoding: '',
-    //       healthy: '',
-    //       pattern: '**/dependency-check-report.xml',
-    //       unHealthy: ''
-    //     )
+        // Publish results
+        dependencyCheckPublisher(
+          canComputeNew: false,
+          defaultEncoding: '',
+          healthy: '',
+          pattern: '**/dependency-check-report.xml',
+          unHealthy: ''
+        )
 
-    //     publishHTML (target: [
-    //       allowMissing: true,
-    //       alwaysLinkToLastBuild: true,
-    //       keepAll: true,
-    //       reportDir: 'dependency-check-data',
-    //       reportFiles: 'dependency-check-report.html',
-    //       reportName: 'Dependency Analysis'
-    //     ])
+        publishHTML (target: [
+          allowMissing: true,
+          alwaysLinkToLastBuild: true,
+          keepAll: true,
+          reportDir: 'dependency-check-data',
+          reportFiles: 'dependency-check-report.html',
+          reportName: 'Dependency Analysis'
+        ])
 
-    //     publishHTML (target: [
-    //       allowMissing: true,
-    //       alwaysLinkToLastBuild: true,
-    //       keepAll: true,
-    //       reportDir: 'dependency-check-data',
-    //       reportFiles: 'dependency-check-vulnerability.html',
-    //       reportName: 'Dependency Vulnerabilities'
-    //     ])
-    //   }
-    // }
+        publishHTML (target: [
+          allowMissing: true,
+          alwaysLinkToLastBuild: true,
+          keepAll: true,
+          reportDir: 'dependency-check-data',
+          reportFiles: 'dependency-check-vulnerability.html',
+          reportName: 'Dependency Vulnerabilities'
+        ])
+      }
+    }
 
     // Execute parallel tasks in parallel
     // parallel PARALLEL_TASKS
