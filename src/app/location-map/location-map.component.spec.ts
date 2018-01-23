@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientModule } from '@angular/common/http';
 import { MatDialog } from '@angular/material';
 
 import * as L from 'leaflet';
@@ -8,6 +9,8 @@ import { LocationMapComponent } from './location-map.component';
 import { Coordinates } from '../coordinates';
 import { CoordinatesService } from '../coordinates.service';
 import { MenuService } from '../menu.service';
+import { OverlaysService } from '../overlays.service';
+
 
 describe('LocationMapComponent', () => {
   let component: LocationMapComponent;
@@ -53,17 +56,32 @@ describe('LocationMapComponent', () => {
       }
     };
 
+    const overlaysServiceStub = {
+      getOverlays: () => {
+        console.log('stubbified!');
+      },
+      overlays: {
+        subscribe: () => {
+          console.log('stubbified!');
+        }
+      }
+    };
+
     TestBed.configureTestingModule({
       declarations: [
         LocationMapComponent
       ],
+      imports: [
+        HttpClientModule,
+      ],
       providers: [
         {provide: CoordinatesService, useValue: coordinatesServiceStub},
         {provide: MatDialog, useValue: dialogStub},
-        {provide: MenuService, useValue: menuServiceStub}
+        {provide: MenuService, useValue: menuServiceStub},
+        {provide: OverlaysService, useValue: overlaysServiceStub}
       ]
-    })
-    .compileComponents();
+    }).compileComponents();
+
   }));
 
   beforeEach(() => {

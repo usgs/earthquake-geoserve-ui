@@ -5,6 +5,7 @@ import * as L from 'leaflet';
 
 import { CoordinatesService } from '../coordinates.service';
 import { MenuService } from '../menu.service';
+import { OverlaysService } from '../overlays.service';
 
 import { Coordinates } from '../coordinates';
 import { LocationDialogComponent } from '../location-dialog/location-dialog.component';
@@ -16,15 +17,21 @@ import { LocationDialogComponent } from '../location-dialog/location-dialog.comp
   encapsulation: ViewEncapsulation.None
 })
 export class LocationMapComponent implements OnDestroy, OnInit {
+  baseLayers: L.LayerGroup;
+  layerControl: L.Control.Layers;
   map: L.Map;
   marker: L.Marker;
+  overlays: L.LayerGroup;
+
   coordinatesObservable;
   menuObservable;
+
 
   constructor(
     private coordinatesService: CoordinatesService,
     public dialog: MatDialog,
-    private menuService: MenuService
+    private menuService: MenuService,
+    private overlaysService: OverlaysService
   ) {}
 
   ngOnDestroy() {
@@ -45,11 +52,35 @@ export class LocationMapComponent implements OnDestroy, OnInit {
     // Add baselayers to map
     this.addBaselayers();
 
+    // Get region overlays
+    this.getOverlays();
+
     // Add location control to map
     this.addLocationControl();
 
     // subscribe to location changes and menu toggling
     this.subscribeToServices();
+
+    // subscribe to location changes
+    this.coordinatesService.coordinates.subscribe((coordinates) => {
+      if (coordinates) {
+        this.moveMarker(coordinates);
+        this.moveMap(coordinates);
+      }
+    });
+
+    this.overlaysService.overlays.subscribe((layers) => {
+      // add overlays
+      for (const name in layers) {
+        if (layers.hasOwnProperty(name)) {
+          this.layerControl.addOverlay(layers[name], name);
+        }
+      }
+    });
+  }
+
+  getOverlays (): void {
+     this.overlaysService.getOverlays();
   }
 
   /**
@@ -97,8 +128,8 @@ export class LocationMapComponent implements OnDestroy, OnInit {
       'Terrain': terrain
     };
 
-    // Add layers to map
-    L.control.layers(baseMaps).addTo(this.map);
+    // Add layer control to map
+    this.layerControl = L.control.layers(baseMaps).addTo(this.map);
   }
 
   /**

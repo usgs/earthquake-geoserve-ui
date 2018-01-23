@@ -44,6 +44,7 @@ import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tecton
 import { LocationDialogComponent } from './location-dialog/location-dialog.component';
 import { GeolocateInputComponent } from './geolocate-input/geolocate-input.component';
 import { GeocodeInputComponent } from './geocode-input/geocode-input.component';
+import { OverlaysService } from './overlays.service';
 
 
 
@@ -109,7 +110,8 @@ import { GeocodeInputComponent } from './geocode-input/geocode-input.component';
     PlacesService,
     RegionsService,
     MediaMatcher,
-    MenuService
+    MenuService,
+    OverlaysService
   ],
   bootstrap: [AppComponent]
 })
