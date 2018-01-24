@@ -7,6 +7,8 @@ node {
   def DEVOPS_REGISTRY = "${GITLAB_INNERSOURCE_REGISTRY}/devops/containers"
   // Flag to capture exceptions and mark build as failure
   def FAILURE = null
+  // What version to tag built image as
+  def IMAGE_VERSION = null
   // Set by "checkout" step below
   def SCM_VARS = [:]
 
@@ -37,16 +39,11 @@ node {
   def SECURITY_CHECKS = [:]
 
   try {
-    stage('Update') {
+    stage('Initialize') {
       // Start from scratch
       cleanWs()
 
-      // Sets ...
-      //   SCM_VARS.GIT_BRANCH (e.g. origin/master)
-      //   SCM_VARS.GIT_COMMIT
-      //   SCM_VARS.GIT_PREVIOUS_COMMIT
-      //   SCM_VARS.GIT_PREVIOUS_SUCCESSFUL_COMMIT
-      //   SCM_VARS.GIT_URL
+      // Clone latest source
       SCM_VARS = checkout scm
 
       if (GIT_BRANCH != '') {
@@ -59,6 +56,13 @@ node {
           returnStdout: true,
           script: "git rev-parse HEAD"
         )
+      }
+
+      // Determine image tag to use
+      if (SCM_VARS.GIT_BRANCH != 'origin/master') {
+        IMAGE_VERSION = SCM_VARS.GIT_BRANCH.split('/').last().replace(' ', '_')
+      } else {
+        IMAGE_VERSION = 'latest'
       }
     }
 
@@ -272,13 +276,6 @@ node {
     }
 
     stage('Publish Image') {
-      def IMAGE_VERSION = 'latest'
-
-      // Determine image tag to use
-      if (SCM_VARS.GIT_BRANCH != 'origin/master') {
-        IMAGE_VERSION = SCM_VARS.GIT_BRANCH.split('/').last().replace(' ', '_')
-      }
-
       // Re-tag candidate image as actual image name and push actual image to
       // repository
       docker.withRegistry(
