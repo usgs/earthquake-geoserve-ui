@@ -79,6 +79,12 @@ node {
               source /etc/profile.d/nvm.sh > /dev/null 2>&1
               npm config set package-lock false
 
+              # First install only production modules so we can save them
+              # for a later CVE scan
+              npm install --only=production --no-save
+              cp -r node_modules prod_dependencies
+
+              # Now install everything else so the build works as expected
               npm install --no-save
               npm run build -- --prod --progress false --base-href /geoserve/
             """
@@ -147,7 +153,7 @@ node {
           includeVulnReports: true,
           isAutoupdateDisabled: false,
           outdir: 'dependency-check-data',
-          scanpath: 'node_modules',
+          scanpath: 'prod_dependencies',
           skipOnScmChange: false,
           skipOnUpstreamChange: false,
           suppressionFile: '',
