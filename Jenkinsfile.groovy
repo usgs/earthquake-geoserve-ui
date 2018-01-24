@@ -49,7 +49,7 @@ node {
 
       if (GIT_BRANCH != '') {
         // Check out the specified branch
-        sh "git checkout --detach ${GIT_BRANCH}"
+        sh "git checkout --detach origin/${GIT_BRANCH}"
 
         // Update relevant SCM_VARS
         SCM_VARS.GIT_BRANCH = GIT_BRANCH
