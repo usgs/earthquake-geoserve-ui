@@ -83,6 +83,7 @@ node {
               # for a later CVE scan
               npm install --only=production --no-save
               cp -r node_modules prod_dependencies
+              rm -rf prod_dependencies/@angular
 
               # Now install everything else so the build works as expected
               npm install --no-save
