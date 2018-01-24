@@ -93,7 +93,8 @@ node {
               npm run build -- --prod --progress false --base-href /geoserve/
             """
 
-            writeJSON file: 'dist/metadata.json', json: info, pretty: 4
+            writeJSON file: 'dist/metadata.json', pretty: 4,
+              json: groovy.json.JsonOutput.toJson(info)
           }
         }
       }
