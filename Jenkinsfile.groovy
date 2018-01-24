@@ -76,6 +76,9 @@ node {
       info.commit = SCM_VARS.GIT_COMMIT
       info.image = IMAGE_VERSION
 
+      // Convert from Map --> JSON
+      info = readJSON text: groovy.json.JsonOutput.toJson(info)
+
       // Install all dependencies
       docker.image(BUILDER_IMAGE).inside() {
         withEnv([
@@ -93,8 +96,7 @@ node {
               npm run build -- --prod --progress false --base-href /geoserve/
             """
 
-            writeJSON file: 'dist/metadata.json', pretty: 4,
-              json: groovy.json.JsonOutput.toJson(info)
+            writeJSON file: 'dist/metadata.json', pretty: 4, json: info
           }
         }
       }
