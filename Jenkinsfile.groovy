@@ -68,6 +68,14 @@ node {
     }
 
     stage('Build Image') {
+      def info = [:]
+      def pkgInfo = readJSON file: 'package.json'
+
+      info.version = pkgInfo.version
+      info.branch = SCM_VARS.GIT_BRANCH
+      info.commit = SCM_VARS.GIT_COMMIT
+      info.image = IMAGE_VERSION
+
       // Install all dependencies
       docker.image(BUILDER_IMAGE).inside() {
         withEnv([
@@ -84,6 +92,8 @@ node {
               npm install --no-save
               npm run build -- --prod --progress false --base-href /geoserve/
             """
+
+            writeJSON file: 'dist/metadata.json', json: info, pretty: 4
           }
         }
       }
