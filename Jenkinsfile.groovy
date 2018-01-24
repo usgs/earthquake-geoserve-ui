@@ -151,7 +151,7 @@ node {
           scanpath: "${WORKSPACE}",
           skipOnScmChange: false,
           skipOnUpstreamChange: false,
-          suppressionFile: '',
+          suppressionFile: 'suppression.xml',
           zipExtensions: ''
         )
       }

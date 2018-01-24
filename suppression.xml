@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="">
+  <suppress>
+    <notes>
+      Jasmine is not a production dependency
+    </notes>
+    <sha1>a603b125b86ce6d250a26bd10116fae2029b28d9</sha1>
+    <cpe>cpe:/a:nodejs:node.js:2.9.1</cpe>
+  </suppress>
+  <suppress>
+    <notes>
+      Jasmine is not a production dependency
+    </notes>
+    <sha1>0741fed7e217d21cbcb5ec426082aaef1f3087c3</sha1>
+    <cpe>cpe:/a:nodejs:node.js:2.6.3</cpe>
+  </suppress>
+</suppressions>
