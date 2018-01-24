@@ -6,11 +6,13 @@ import { of } from 'rxjs/observable/of';
 import { catchError, tap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
+import { environment } from '../environments/environment';
+
 
 @Injectable()
 export class RegionsService {
 
-  public API_URL = 'https://earthquake.usgs.gov/ws/geoserve/regions.json';
+  public REGIONS_URL = environment.apiUrl + 'regions.json';
 
   private _adminRegions: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private _authoritative: BehaviorSubject<any> = new BehaviorSubject<any>(null);
@@ -104,7 +106,7 @@ export class RegionsService {
       longitude -= 360;
     }
 
-    return this.API_URL + '?' +
+    return this.REGIONS_URL + '?' +
       `latitude=${latitude}` +
       `&longitude=${longitude}`;
   }
