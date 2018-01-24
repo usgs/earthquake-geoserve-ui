@@ -309,7 +309,7 @@ node {
   } catch (e) {
     mail to: 'gs-haz_dev_team_group@usgs.gov',
       from: 'noreply@jenkins',
-      subject: 'Jenkins: earthquake-design-ui',
+      subject: 'Jenkins: earthquake-geoserve-ui',
       body: "Project build (${BUILD_TAG}) failed '${e}'"
 
     FAILURE = e
