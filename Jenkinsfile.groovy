@@ -30,6 +30,7 @@ node {
   // Runs zap.sh as daemon and used to execute zap-cli calls within
   def OWASP_CONTAINER = "${APP_NAME}-${BUILD_ID}-OWASP"
   def OWASP_IMAGE = "${DEVOPS_REGISTRY}/library/owasp/zap2docker-stable"
+  def OWASP_REPORT_DIR = "${WORKSPACE}/owasp-data"
 
 
   // Used to run linting, unit tests, coverage, and e2e within this container
@@ -186,8 +187,6 @@ node {
 
     SECURITY_CHECKS['Penetration Tests'] = {
       def ZAP_API_PORT = '8090'
-      def OWASP_REPORT_DIR = "${WORKSPACE}/owasp-data"
-
 
       // Ensure report output directory exists
       sh """
