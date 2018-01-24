@@ -40,8 +40,8 @@ node {
 
   try {
     stage('Initialize') {
-      // Start from scratch
-      cleanWs()
+      // Clean up old reports
+      sh "rm -rf ${OWASP_REPORT_DIR}"
 
       // Clone latest source
       SCM_VARS = checkout scm
