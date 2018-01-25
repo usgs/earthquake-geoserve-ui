@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://dev-earthquake.cr.usgs.gov/ws/geoserve/'
+  apiUrl: 'https://earthquake.usgs.gov/ws/geoserve/'
 };

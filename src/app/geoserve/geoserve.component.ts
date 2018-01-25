@@ -15,7 +15,7 @@ export class GeoserveComponent implements OnInit {
   public control;
 
   constructor (
-    private coordinatesService: CoordinatesService,
+    public coordinatesService: CoordinatesService,
     public dialog: MatDialog
   ) { }
 
