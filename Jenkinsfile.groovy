@@ -7,6 +7,8 @@ node {
   def DEVOPS_REGISTRY = "${GITLAB_INNERSOURCE_REGISTRY}/devops/containers"
   // Flag to capture exceptions and mark build as failure
   def FAILURE = null
+  // What version to tag built image as
+  def IMAGE_VERSION = null
   // Set by "checkout" step below
   def SCM_VARS = [:]
 
@@ -28,27 +30,23 @@ node {
   // Runs zap.sh as daemon and used to execute zap-cli calls within
   def OWASP_CONTAINER = "${APP_NAME}-${BUILD_ID}-OWASP"
   def OWASP_IMAGE = "${DEVOPS_REGISTRY}/library/owasp/zap2docker-stable"
+  def OWASP_REPORT_DIR = "${WORKSPACE}/owasp-data"
 
 
   // Used to run linting, unit tests, coverage, and e2e within this container
-  def TESTER_CONTAINER = "${APP_NAME}-${BUILD_ID}-TESTER"
   def TESTER_IMAGE = "${DEVOPS_REGISTRY}/library/trion/ng-cli-e2e"
 
   // Queue up tasks that can be run in parallel
-  def PARALLEL_TASKS = [:]
+  def SECURITY_CHECKS = [:]
 
   try {
-    stage('Update') {
-      // Start from scratch
-      cleanWs()
+    stage('Initialize') {
+      // Clean up old reports
+      sh "rm -rf ${OWASP_REPORT_DIR}"
 
-      // Sets ...
-      //   SCM_VARS.GIT_BRANCH (e.g. origin/master)
-      //   SCM_VARS.GIT_COMMIT
-      //   SCM_VARS.GIT_PREVIOUS_COMMIT
-      //   SCM_VARS.GIT_PREVIOUS_SUCCESSFUL_COMMIT
-      //   SCM_VARS.GIT_URL
+      // Clone latest source
       SCM_VARS = checkout scm
+      sh "git fetch --tags origin"
 
       if (GIT_BRANCH != '') {
         // Check out the specified branch
@@ -61,153 +59,148 @@ node {
           script: "git rev-parse HEAD"
         )
       }
+
+      // Determine image tag to use
+      if (SCM_VARS.GIT_BRANCH != 'origin/master') {
+        IMAGE_VERSION = SCM_VARS.GIT_BRANCH.split('/').last().replace(' ', '_')
+      } else {
+        IMAGE_VERSION = 'latest'
+      }
     }
 
-    PARALLEL_TASKS['Scan Dependencies'] = {
-      stage('Scan Dependencies') {
-        docker.image(BUILDER_IMAGE).inside() {
-          // Create dependencies
-          withEnv([
-            'npm_config_cache=/tmp/npm-cache',
-            'HOME=/tmp'
-          ]) {
-            ansiColor('xterm') {
-              sh """
-                source /etc/profile.d/nvm.sh > /dev/null 2>&1
-                npm config set package-lock false
+    stage('Build Image') {
+      def info = [:]
+      def pkgInfo = readJSON file: 'package.json'
 
-                # Using --production installs prod but not dev dependencies
-                npm install --production
-              """
-            }
-          }
+      info.version = pkgInfo.version
+      info.branch = SCM_VARS.GIT_BRANCH
+      info.commit = SCM_VARS.GIT_COMMIT
+      info.image = IMAGE_VERSION
 
-          // Analyze dependencies
+      // Convert from Map --> JSON
+      info = readJSON text: groovy.json.JsonOutput.toJson(info)
+
+      // Install all dependencies
+      docker.image(BUILDER_IMAGE).inside() {
+        withEnv([
+          'npm_config_cache=/tmp/npm-cache',
+          'HOME=/tmp'
+        ]) {
+
           ansiColor('xterm') {
-            dependencyCheckAnalyzer(
-              datadir: '',
-              hintsFile: '',
-              includeCsvReports: false,
-              includeHtmlReports: true,
-              includeJsonReports: false,
-              includeVulnReports: true,
-              isAutoupdateDisabled: false,
-              outdir: 'dependency-check-data',
-              scanpath: 'node_modules',
-              skipOnScmChange: false,
-              skipOnUpstreamChange: false,
-              suppressionFile: '',
-              zipExtensions: ''
-            )
+            sh """
+              source /etc/profile.d/nvm.sh > /dev/null 2>&1
+              npm config set package-lock false
+
+              # Now install everything else so the build works as expected
+              npm install --no-save
+              npm run build -- --prod --progress false --base-href /geoserve/
+            """
+
+            writeJSON file: 'dist/metadata.json', pretty: 4, json: info
           }
-
-          // Publish results
-          dependencyCheckPublisher(
-            canComputeNew: false,
-            defaultEncoding: '',
-            healthy: '',
-            pattern: '**/dependency-check-report.xml',
-            unHealthy: ''
-          )
-
-          publishHTML (target: [
-            allowMissing: true,
-            alwaysLinkToLastBuild: true,
-            keepAll: true,
-            reportDir: 'dependency-check-data',
-            reportFiles: 'dependency-check-report.html',
-            reportName: 'Dependency Analysis'
-          ])
-
-          publishHTML (target: [
-            allowMissing: true,
-            alwaysLinkToLastBuild: true,
-            keepAll: true,
-            reportDir: 'dependency-check-data',
-            reportFiles: 'dependency-check-vulnerability.html',
-            reportName: 'Dependency Vulnerabilities'
-          ])
         }
+      }
+
+      // Build candidate image for later penetration testing
+      ansiColor('xterm') {
+        sh """
+          docker pull ${BASE_IMAGE}
+          docker build \
+            --build-arg BASE_IMAGE=${BASE_IMAGE} \
+            -t ${LOCAL_IMAGE} \
+            .
+        """
       }
     }
 
-    PARALLEL_TASKS['Build Image'] = {
-      stage('Build Image') {
-        // Install all dependencies
-        docker.image(BUILDER_IMAGE).inside() {
-          withEnv([
-            'npm_config_cache=/tmp/npm-cache',
-            'HOME=/tmp'
-          ]) {
+    stage('Unit Tests') {
+      // Note that running angular tests destroys the "dist" folder that was
+      // originally created in Install stage. This is not needed later, so
+      // okay, but just be aware ...
 
-            ansiColor('xterm') {
-              sh """
-                source /etc/profile.d/nvm.sh > /dev/null 2>&1
-                npm config set package-lock false
-
-                npm install --no-save
-                npm run build -- --prod --progress false --base-href /geoserve/
-              """
-            }
-          }
-        }
-
-        // Build candidate image for later penetration testing
-        ansiColor('xterm') {
-          sh """
-            docker pull ${BASE_IMAGE}
-            docker build \
-              --build-arg BASE_IMAGE=${BASE_IMAGE} \
-              -t ${LOCAL_IMAGE} \
-              .
-          """
-        }
-      }
-    }
-
-    PARALLEL_TASKS['Unit Tests'] = {
-      stage('Unit Tests') {
-        // Note that running angular tests destroys the "dist" folder that was
-        // originally created in Install stage. This is not needed later, so
-        // okay, but just be aware ...
-
-        // Run linting, unit tests, and end-to-end tests
-        docker.image(TESTER_IMAGE).inside () {
+      // Run linting, unit tests, and end-to-end tests
+      docker.image(TESTER_IMAGE).inside () {
           ansiColor('xterm') {
             sh """
               ng lint
+            """
+            sh """
               ng test --single-run --code-coverage --progress false
+            """
+            sh """
               ng e2e --progress false
             """
           }
-        }
-
-        // Publish results
-        cobertura(
-          autoUpdateHealth: false,
-          autoUpdateStability: false,
-          coberturaReportFile: '**/cobertura-coverage.xml',
-          conditionalCoverageTargets: '70, 0, 0',
-          failUnhealthy: false,
-          failUnstable: false,
-          lineCoverageTargets: '80, 0, 0',
-          maxNumberOfBuilds: 0,
-          methodCoverageTargets: '80, 0, 0',
-          onlyStable: false,
-          sourceEncoding: 'ASCII',
-          zoomCoverageChart: false
-        )
       }
+
+      // Publish results
+      cobertura(
+        autoUpdateHealth: false,
+        autoUpdateStability: false,
+        coberturaReportFile: '**/cobertura-coverage.xml',
+        conditionalCoverageTargets: '70, 0, 0',
+        failUnhealthy: false,
+        failUnstable: false,
+        lineCoverageTargets: '80, 0, 0',
+        maxNumberOfBuilds: 0,
+        methodCoverageTargets: '80, 0, 0',
+        onlyStable: false,
+        sourceEncoding: 'ASCII',
+        zoomCoverageChart: false
+      )
     }
 
-    // Execute parallel tasks in parallel
-    parallel PARALLEL_TASKS
+    SECURITY_CHECKS['Scan Dependencies'] = {
+      // Analyze dependencies
+      ansiColor('xterm') {
+        dependencyCheckAnalyzer(
+          datadir: '',
+          hintsFile: '',
+          includeCsvReports: false,
+          includeHtmlReports: true,
+          includeJsonReports: false,
+          includeVulnReports: true,
+          isAutoupdateDisabled: false,
+          outdir: 'dependency-check-data',
+          scanpath: "${WORKSPACE}",
+          skipOnScmChange: false,
+          skipOnUpstreamChange: false,
+          suppressionFile: 'suppression.xml',
+          zipExtensions: ''
+        )
+      }
 
+      // Publish results
+      dependencyCheckPublisher(
+        canComputeNew: false,
+        defaultEncoding: '',
+        healthy: '',
+        pattern: '**/dependency-check-report.xml',
+        unHealthy: ''
+      )
 
-    stage('Penetration Tests') {
+      publishHTML (target: [
+        allowMissing: true,
+        alwaysLinkToLastBuild: true,
+        keepAll: true,
+        reportDir: 'dependency-check-data',
+        reportFiles: 'dependency-check-report.html',
+        reportName: 'Dependency Analysis'
+      ])
+
+      publishHTML (target: [
+        allowMissing: true,
+        alwaysLinkToLastBuild: true,
+        keepAll: true,
+        reportDir: 'dependency-check-data',
+        reportFiles: 'dependency-check-vulnerability.html',
+        reportName: 'Dependency Vulnerabilities'
+      ])
+    }
+
+    SECURITY_CHECKS['Penetration Tests'] = {
       def ZAP_API_PORT = '8090'
-      def OWASP_REPORT_DIR = "${WORKSPACE}/owasp-data"
-
 
       // Ensure report output directory exists
       sh """
@@ -292,14 +285,11 @@ node {
       ])
     }
 
+    stage('Security') {
+      parallel SECURITY_CHECKS
+    }
+
     stage('Publish Image') {
-      def IMAGE_VERSION = 'latest'
-
-      // Determine image tag to use
-      if (SCM_VARS.GIT_BRANCH != 'origin/master') {
-        IMAGE_VERSION = SCM_VARS.GIT_BRANCH.split('/').last().replace(' ', '_')
-      }
-
       // Re-tag candidate image as actual image name and push actual image to
       // repository
       docker.withRegistry(
@@ -333,28 +323,29 @@ node {
   } catch (e) {
     mail to: 'gs-haz_dev_team_group@usgs.gov',
       from: 'noreply@jenkins',
-      subject: 'Jenkins: earthquake-design-ui',
+      subject: 'Jenkins: earthquake-geoserve-ui',
       body: "Project build (${BUILD_TAG}) failed '${e}'"
 
     FAILURE = e
   } finally {
     stage('Cleanup') {
       sh """
-        set +e
+        set +e;
 
         # Cleaning up any leftover containers...
         docker container rm --force \
           ${BUILDER_CONTAINER} \
           ${OWASP_CONTAINER} \
           ${LOCAL_CONTAINER} \
-          ${TESTER_CONTAINER}
+        ;
 
         # Cleaning up any leftover images...
         docker image rm --force \
           ${DEPLOY_IMAGE} \
-          ${LOCAL_IMAGE}
+          ${LOCAL_IMAGE} \
+        ;
 
-        exit 0
+        exit 0;
       """
 
       if (FAILURE) {
