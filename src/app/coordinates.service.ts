@@ -239,13 +239,13 @@ export class CoordinatesService {
         longitude;
 
     confidence = location.confidence;
-    latitude = +location.latitude;
-    longitude = +location.longitude;
+    latitude = this.roundLocation(+location.latitude, confidence);
+    longitude = this.roundLocation(+location.longitude, confidence);
 
     this._coordinates.next({
       confidence: confidence,
-      latitude: this.roundLocation(latitude, confidence),
-      longitude: this.roundLocation(longitude, confidence),
+      latitude: latitude,
+      longitude: longitude,
       zoom: location.zoom,
       method: location.method,
       name: location.name
