@@ -1,11 +1,12 @@
-<mat-nav-list *ngIf="NAVIGATION">
+<mat-nav-list *ngIf="NAVIGATION" class="site-sectionnav">
   <ng-container *ngFor="let item of NAVIGATION">
     <ng-container *ngIf="item.header">
-      <mat-divider></mat-divider>
-      <h3 mat-list-item matSubheader>
-        <a  href="{{ item.header.href }}">{{ item.header.display }}</a>
-      </h3>
-      <a *ngFor="let link of item.links" mat-list-item href="{{ link.href }}">{{ link.display }}</a>
+      <section>
+        <header>
+          <a mat-list-item href="{{ item.header.href }}">{{ item.header.display }}</a>
+        </header>
+        <a *ngFor="let link of item.links" mat-list-item href="{{ link.href }}">{{ link.display }}</a>
+      </section>
     </ng-container>
     <a *ngIf="item.href" mat-list-item href="{{ item.href }}">{{ item.display }}</a>
   </ng-container>

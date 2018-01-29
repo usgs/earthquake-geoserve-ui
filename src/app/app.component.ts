@@ -9,15 +9,15 @@ export class AppComponent {
   TITLE = 'Geoserve';
 
   NAVIGATION = [
-    {'href': '/ws/geoserve/index.php', 'display': 'Geoserve'},
     {
-      header: {href: '/ws/geoserve/services.php', display: 'Geoserve Documentation'},
+      header: {href: '/ws/geoserve/services.php', display: 'Geoserve Web Services'},
       links: [
         {href: '/ws/geoserve/places.php', display: 'Places Service'},
         {href: '/ws/geoserve/regions.php', display: 'Regions Service'},
         {href: '/ws/geoserve/layers.php', display: 'Layers Service'}
       ]
-    }
+    },
+    {'href': '/', 'display': 'Interactive Interface'}
   ];
 
   SITE_SITENAV = [
