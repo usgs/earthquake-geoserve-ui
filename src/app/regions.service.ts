@@ -8,6 +8,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { environment } from '../environments/environment';
 
+import { CoordinatesService } from './coordinates.service';
 
 @Injectable()
 export class RegionsService {
@@ -39,8 +40,16 @@ export class RegionsService {
       this._tectonic.asObservable();
 
 
-
-  constructor (private http: HttpClient) {}
+  constructor (
+    private coordinatesService: CoordinatesService,
+    private http: HttpClient
+  ) {
+    // subscribe to coordinates service
+    this.coordinatesService.coordinates.subscribe((coordinates) => {
+      // make request to regions service when coordinates update
+      this.getRegions(coordinates.latitude, coordinates.longitude);
+    });
+  }
 
   empty (): void {
     this._adminRegions.next(null);

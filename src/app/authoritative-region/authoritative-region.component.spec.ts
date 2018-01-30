@@ -22,7 +22,7 @@ describe('AuthoritativeRegionComponent', () => {
       providers: [
         HttpClient,
         HttpHandler,
-        RegionsService
+        {provide: RegionsService, useValue: {}}
       ]
     })
     .compileComponents();

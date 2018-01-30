@@ -22,7 +22,7 @@ describe('NeicResponseRegionComponent', () => {
       providers: [
         HttpClient,
         HttpHandler,
-        RegionsService
+        {provide: RegionsService, useValue: {}}
       ]
     })
     .compileComponents();

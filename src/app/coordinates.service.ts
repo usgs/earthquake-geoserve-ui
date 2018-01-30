@@ -6,8 +6,6 @@ import { catchError, tap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { Coordinates } from './coordinates';
-import { PlacesService } from './places.service';
-import { RegionsService } from './regions.service';
 
 
 @Injectable()
@@ -17,10 +15,7 @@ export class CoordinatesService {
   public readonly coordinates: Observable<Coordinates> = this._coordinates.asObservable();
 
 
-  constructor(
-    private placesService: PlacesService,
-    private regionsService: RegionsService
-  ) {}
+  constructor() {}
 
   // ----------------------------------------------------------------------
   // Public Static Variables
@@ -250,9 +245,6 @@ export class CoordinatesService {
       method: location.method,
       name: location.name
     });
-
-    this.placesService.getPlaces(latitude, longitude);
-    this.regionsService.getRegions(latitude, longitude);
   }
 
 }
