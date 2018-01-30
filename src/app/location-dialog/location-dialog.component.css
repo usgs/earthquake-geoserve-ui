@@ -12,3 +12,7 @@
   color: #666;
   margin: 0 1em 0 0;
 }
+
+.location-controls mat-panel-title {
+  align-items: center;
+}
