@@ -12,7 +12,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 export class GeocodeService {
   // Documentation:
   // https://developers.arcgis.com/rest/geocode/api-reference/geocoding-geocode-addresses.htm
-  public readonly API_URL = 'http://geocode.arcgis.com/arcgis/rest/services/' +
+  public readonly API_URL = 'https://geocode.arcgis.com/arcgis/rest/services/' +
       'World/GeocodeServer/find';
 
   private _location: BehaviorSubject<any> = new BehaviorSubject<any>(null);
