@@ -21,7 +21,7 @@ describe('NearbyPlacesComponent', () => {
       providers: [
         HttpClient,
         HttpHandler,
-        PlacesService
+        {provide: PlacesService, useValue: {}}
       ]
     })
     .compileComponents();

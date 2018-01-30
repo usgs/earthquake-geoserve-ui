@@ -22,7 +22,7 @@ describe('NeicCatalogRegionComponent', () => {
       providers: [
         HttpClient,
         HttpHandler,
-        RegionsService
+        {provide: RegionsService, useValue: {}}
       ]
     })
     .compileComponents();

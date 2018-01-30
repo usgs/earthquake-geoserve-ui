@@ -1,6 +1,7 @@
 import { TestBed, getTestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
+import { CoordinatesService } from './coordinates.service';
 import { RegionsService } from './regions.service';
 
 describe('RegionsService', () => {
@@ -9,12 +10,21 @@ describe('RegionsService', () => {
       regionsService: RegionsService;
 
   beforeEach(() => {
+    const coordinatesServiceStub = {
+      coordinates: {
+        subscribe: () => {
+          console.log('stubbified!');
+        }
+      }
+    };
+
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule
       ],
       providers: [
-        RegionsService
+        RegionsService,
+        {provide: CoordinatesService, useValue: coordinatesServiceStub}
       ]
     });
 

@@ -2,14 +2,10 @@ import { TestBed, getTestBed, inject } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
 
 import { CoordinatesService } from './coordinates.service';
-import { PlacesService } from './places.service';
-import { RegionsService } from './regions.service';
 
 describe('CoordinatesService', () => {
   let injector: TestBed,
-      coordinatesService,
-      placesService,
-      regionsService;
+      coordinatesService;
 
   const GeocodeObjectFull = {
     'name': 'Denver, Colorado, United States',
@@ -95,26 +91,13 @@ describe('CoordinatesService', () => {
   };
 
   beforeEach(() => {
-    const placesServiceStub = {
-      getPlaces: (location: any) => {
-        console.log('stubbified!');
-      }
-    };
-
-    const regionsServiceStub = {
-      getRegions: (location: any) => {
-        console.log('stubbified!');
-      }
-    };
 
     TestBed.configureTestingModule({
       imports: [
         HttpClientModule
       ],
       providers: [
-        CoordinatesService,
-        {provide: PlacesService, useValue: placesServiceStub},
-        {provide: RegionsService, useValue: regionsServiceStub},
+        CoordinatesService
       ]
     });
   });
@@ -122,8 +105,6 @@ describe('CoordinatesService', () => {
   beforeEach(() => {
     injector = getTestBed();
     coordinatesService = injector.get(CoordinatesService);
-    placesService = injector.get(PlacesService);
-    regionsService = injector.get(RegionsService);
   });
 
   it('should be created', () => {
@@ -343,29 +324,6 @@ describe('CoordinatesService', () => {
   });
 
   describe('setCoordinates', () => {
-    it('calls places service getPlaces()', () => {
-      let placesServiceSpy;
-
-      placesServiceSpy = spyOn(placesService, 'getPlaces');
-      coordinatesService.setCoordinates(CoordinateObject);
-
-      expect(placesServiceSpy).toHaveBeenCalled();
-      expect(placesServiceSpy).toHaveBeenCalledWith(CoordinateObject.latitude,
-          CoordinateObject.longitude);
-
-    });
-    it('calls regions service getRegions()', () => {
-      let regionsServiceSpy;
-
-      regionsServiceSpy = spyOn(regionsService, 'getRegions');
-      coordinatesService.setCoordinates(CoordinateObject);
-
-      expect(regionsServiceSpy).toHaveBeenCalled();
-      expect(regionsServiceSpy).toHaveBeenCalledWith(CoordinateObject.latitude,
-          CoordinateObject.longitude);
-
-    });
-
     it('rounds the latitude and longitude values', () => {
       let roundLocationSpy;
 

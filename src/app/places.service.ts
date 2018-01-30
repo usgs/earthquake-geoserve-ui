@@ -8,6 +8,8 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { environment } from '../environments/environment';
 
+import { CoordinatesService } from './coordinates.service';
+
 
 @Injectable()
 export class PlacesService {
@@ -18,7 +20,16 @@ export class PlacesService {
   public readonly places: Observable<any> = this._places.asObservable();
 
 
-  constructor (private http: HttpClient) {}
+  constructor (
+    private coordinatesService: CoordinatesService,
+    private http: HttpClient
+  ) {
+    // subscribe to coordinates service
+    this.coordinatesService.coordinates.subscribe((coordinates) => {
+      // make request to places service when coordinates update
+      this.getPlaces(coordinates.latitude, coordinates.longitude);
+    });
+  }
 
   empty (): void {
     this._places.next(null);
