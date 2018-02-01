@@ -1,0 +1,51 @@
+[
+  {
+    "name": "earthquake-geoserve-ui",
+    "repositoryURL": "https://github.com/usgs/earthquake-geoserve-ui",
+    "description": "User interface from Geoserve web service data.",
+    "permissions": {
+      "licenses": [
+        {
+          "name": "Public Domain, CC0-1.0",
+          "URL": "https://github.com/usgs/earthquake-geoserve-ui/blob/master/LICENSE.md"
+        },
+        {
+          "name": "MIT License",
+          "URL": "https://github.com/usgs/earthquake-geoserve-ui/blob/master/LICENSE.md"
+        }
+      ],
+      "usageType": {
+        "openSource": "Open Source"
+      }
+    },
+    "laborHours": null,
+    "tags": [
+      "USGS",
+      "United States Geological Survey",
+      "Earthquake",
+      "Geoserve",
+      "Geoserve UI",
+      "Geoserve User Interface",
+      "Regions",
+      "Authoritative Region",
+      "Flinn Engdahl Region",
+      "FE Region",
+      "NEIC Catalog",
+      "NEIC Response",
+      "Tectonic Summary"
+    ],
+    "contact": {
+      "email": "gs-haz_dev_team_group@usgs.gov"
+    },
+    "version": "0.0.0",
+    "homepageURL": "https://github.com/usgs/earthquake-geoserve-ui",
+    "downloadURL": "https://github.com/usgs/earthquake-geoserve-ui/archive/master.zip",
+    "disclaimerURL": "https://github.com/usgs/earthquake-geoserve-ui/blob/master/LICENSE.md",
+    "vcs": "git",
+    "date": {
+      "created": "",
+      "lastModified": "",
+      "metadatalastUpdated": ""
+    }
+  }
+]
