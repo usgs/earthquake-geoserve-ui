@@ -1,7 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 
+import { environment } from '../../environments/environment';
 import { MenuService } from '../menu.service';
+
 
 @Component({
   selector: 'app-hazdev-template',
@@ -40,7 +42,7 @@ export class HazdevTemplateComponent implements OnInit, OnDestroy {
   @Input() NAVIGATION: any[];
   @Input() SITE_COMMONNAV: any[];
   @Input() SITE_SITENAV: any[];
-  @Input() SITE_URL = 'http://localhost.localdomain';
+  @Input() SITE_URL = environment.siteUrl;
 
   constructor (
     changeDetectorRef: ChangeDetectorRef,
