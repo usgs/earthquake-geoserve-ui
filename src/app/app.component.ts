@@ -10,7 +10,7 @@ export class AppComponent {
 
   NAVIGATION = [
     {
-      header: {href: '/ws/geoserve/services.php', display: 'Geoserve Web Services'},
+      header: {href: '/ws/geoserve/index.php', display: 'Geoserve Web Services'},
       links: [
         {href: '/ws/geoserve/places.php', display: 'Places Service'},
         {href: '/ws/geoserve/regions.php', display: 'Regions Service'},
