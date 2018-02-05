@@ -4,3 +4,7 @@ button {
   display: block;
 }
 
+button {
+  margin: 1em 0 0;
+}
+
