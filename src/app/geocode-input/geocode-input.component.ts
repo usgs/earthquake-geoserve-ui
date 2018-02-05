@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, Input } from '@angular/core';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 
 import { GeocodeService } from '../geocode.service';
@@ -10,13 +11,15 @@ import { CoordinatesService } from '../coordinates.service';
   styleUrls: ['./geocode-input.component.css']
 })
 export class GeocodeInputComponent implements OnInit, OnDestroy {
+  addressForm: FormGroup;
   showProgressBar: boolean;
   service: any;
 
   constructor(
     private coordinatesService: CoordinatesService,
     private geocodeService: GeocodeService,
-    private dialogRef: MatDialogRef<GeocodeInputComponent>
+    private dialogRef: MatDialogRef<GeocodeInputComponent>,
+    public fb: FormBuilder
   ) { }
 
   ngOnInit() {
@@ -31,13 +34,23 @@ export class GeocodeInputComponent implements OnInit, OnDestroy {
         this.showProgressBar = false;
       }
     });
+
+    this.addressForm = this.fb.group({
+      'address': ['', Validators.required]
+    });
   }
 
   ngOnDestroy() {
     this.service.unsubscribe();
   }
 
-  doGeocode (address: string): void {
+  doGeocode (value: any): void {
+    const address = value.address;
+
+    if (this.addressForm.invalid) {
+      return;
+    }
+
     // get lat/lng from geocode service
     this.geocodeService.getLocation(address);
 
