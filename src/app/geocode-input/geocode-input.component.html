@@ -6,20 +6,23 @@
 </div>
 
 <ng-template #search>
-  <form (submit)="$event.preventDefault(); doGeocode(address.value)">
+  <form [formGroup]="addressForm"
+      (submit)="$event.preventDefault(); doGeocode(addressForm.value)">
     <mat-form-field class="full-width">
       <input matInput
-          #address
-          placeholder="Address"/>
+          placeholder="Address"
+          [formControl]="addressForm.controls['address']" />
+      <mat-error *ngIf="!addressForm.controls['address'].valid">
+        address required.
+      </mat-error>
     </mat-form-field>
     <button mat-raised-button color="primary">
       Search
     </button>
   </form>
   <div *ngIf="geocodeService.error | async; let text">
-    <p color="warn">
+    <p class="alert warning">
       {{ text }}
     </p>
   </div>
-
 </ng-template>

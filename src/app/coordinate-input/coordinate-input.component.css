@@ -5,6 +5,9 @@ button {
 }
 
 button {
-  margin: 1em 0 0;
+  transition: margin 0.5s ease;
 }
 
+.ng-invalid.ng-touched button {
+  margin: 1em 0 0;
+}
