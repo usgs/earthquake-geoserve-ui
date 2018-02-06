@@ -25,6 +25,7 @@ export class LocationMapComponent implements OnDestroy, OnInit {
 
   coordinatesObservable;
   menuObservable;
+  overlaysObservable;
 
 
   constructor(
@@ -60,23 +61,6 @@ export class LocationMapComponent implements OnDestroy, OnInit {
 
     // subscribe to location changes and menu toggling
     this.subscribeToServices();
-
-    // subscribe to location changes
-    this.coordinatesService.coordinates.subscribe((coordinates) => {
-      if (coordinates) {
-        this.moveMarker(coordinates);
-        this.moveMap(coordinates);
-      }
-    });
-
-    this.overlaysService.overlays.subscribe((layers) => {
-      // add overlays
-      for (const name in layers) {
-        if (layers.hasOwnProperty(name)) {
-          this.layerControl.addOverlay(layers[name], name);
-        }
-      }
-    });
   }
 
   getOverlays (): void {
@@ -298,10 +282,21 @@ export class LocationMapComponent implements OnDestroy, OnInit {
         this.menuService.open.subscribe(() => {
           this.map.invalidateSize();
         });
+
+    this.overlaysObservable =
+        this.overlaysService.overlays.subscribe((layers) => {
+          // add overlays
+          for (const name in layers) {
+            if (layers.hasOwnProperty(name)) {
+              this.layerControl.addOverlay(layers[name], name);
+            }
+          }
+        });
   }
 
   unsubscribeFromServices (): void {
     this.coordinatesObservable.unsubscribe();
     this.menuObservable.unsubscribe();
+    this.overlaysObservable.unsubscribe();
   }
 }
