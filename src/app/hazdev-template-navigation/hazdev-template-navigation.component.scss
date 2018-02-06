@@ -1,5 +1,11 @@
+/* Import theming functions */
+@import '~@angular/material/theming';
+/* Import your custom theme */
+@import 'src/theme.scss';
+
 .hazdev-navigation-sitenav {
   background-color: #3d5e80;
+  background-color: mat-color($earthquake-app-primary);
   margin: 1em 0;
   padding: 0;
 }
