@@ -1,5 +1,5 @@
 import { Component, OnInit} from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators, FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 
 import { CoordinatesService } from '../coordinates.service';
