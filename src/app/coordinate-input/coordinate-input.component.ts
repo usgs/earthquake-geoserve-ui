@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 
@@ -9,7 +9,7 @@ import { CoordinatesService } from '../coordinates.service';
   templateUrl: './coordinate-input.component.html',
   styleUrls: ['./coordinate-input.component.css']
 })
-export class CoordinateInputComponent implements OnInit {
+export class CoordinateInputComponent implements OnDestroy, OnInit {
   coordinatesForm: FormGroup;
   coordinatesObservable;
 
