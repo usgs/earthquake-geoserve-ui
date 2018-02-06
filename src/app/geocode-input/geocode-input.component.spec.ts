@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormGroup, FormBuilder, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialogRef, MatFormFieldModule, MatInputModule, MatProgressBarModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -69,7 +70,9 @@ describe('GeocodeInputComponent', () => {
         HttpClientModule,
         MatFormFieldModule,
         MatInputModule,
-        MatProgressBarModule
+        MatProgressBarModule,
+        FormsModule,
+        ReactiveFormsModule
       ],
       providers: [
         {provide: CoordinatesService, useValue: coordinatesServiceStub},
@@ -84,6 +87,7 @@ describe('GeocodeInputComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GeocodeInputComponent);
     component = fixture.componentInstance;
+    component.ngOnInit();
 
     // stub coordinates.service
     coordinatesService = fixture.debugElement.injector.get(CoordinatesService);
@@ -108,12 +112,23 @@ describe('GeocodeInputComponent', () => {
 
   describe('doGeocode', () => {
     it('should call getLocation', () => {
-      let address;
+      let address,
+          addressControl;
 
       address = 'test';
+      addressControl = component.addressForm.controls['address'];
+
+      // check for 'invalid' form state
+      expect(addressControl.valid).toBeFalsy();
+
+      // update form state to be valid
+      addressControl.setValue(address);
+
+      // check for 'valid' form state
+      expect(addressControl.valid).toBeTruthy();
 
       // call handleSubmit
-      component.doGeocode(address);
+      component.doGeocode(component.addressForm.value);
 
       // expects
       expect(geocodeService.getLocation).toHaveBeenCalled();
