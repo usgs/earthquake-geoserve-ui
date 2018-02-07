@@ -1,3 +1,4 @@
+/* Import theming functions */
 @import '~@angular/material/theming';
 
 /*
@@ -11,6 +12,7 @@
 */
 @include mat-core();
 
+
 /*
 
  Define the palettes for your theme using the Material Design palettes
@@ -18,7 +20,7 @@
  optionally specify a default, lighter, and darker hue.
 
  */
-$earthquake-app-primary: mat-palette($mat-light-blue, 900, 700);
+$earthquake-app-primary: mat-palette($mat-blue-grey, 800, 700, 900);
 $earthquake-app-accent:  mat-palette($mat-pink, A200, A100, A400);
 
 /*The warn palette is optional (defaults to red). */
@@ -35,3 +37,13 @@ $earthquake-app-theme: mat-light-theme($earthquake-app-primary, $earthquake-app-
 
 */
 @include angular-material-theme($earthquake-app-theme);
+
+
+
+/*
+
+ Site Configuration
+
+ */
+$earthquake-header-background: mat-color($earthquake-app-primary, lighter);
+$earthquake-header-banner-img: url('/assets/banner.png');

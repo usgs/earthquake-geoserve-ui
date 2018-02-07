@@ -1,5 +1,3 @@
-/* Import theming functions */
-@import '~@angular/material/theming';
 /* Import your custom theme */
 @import 'src/theme.scss';
 
@@ -10,7 +8,7 @@
   padding: 0;
 }
 
-.hazdev-navigation-sitenav > a {
+.hazdev-navigation-sitenav > a.mat-list-item {
   border-bottom: 1px solid rgba(0,0,0,.1);
   border-left: 1px solid hsla(0,0%,100%,.1);
   border-right: 1px solid hsla(0,0%,100%,.1);
@@ -21,6 +19,10 @@
   text-decoration: none;
   text-shadow: 0 0 2px #000;
   transition: background .25s ease-out;
+}
+
+.hazdev-navigation-sitenav > a.mat-list-item > .mat-list-item-content {
+  color: #fff;
 }
 
 .site-sectionnav > section {
