@@ -1,4 +1,4 @@
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import './theme.scss';
 
 /* You can add global styles to this file, and also import other style files */
 * {
@@ -92,6 +92,11 @@ mark {
   background-color: #ffa;
   padding: 2px 4px;
 }
+
+.mat-button-wrapper {
+  font-weight: 400;
+}
+
 
 /* Grid */
 

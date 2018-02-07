@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormGroup, FormBuilder, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialogRef, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -37,6 +38,11 @@ describe('CoordinateInputComponent', () => {
       },
       computeZoomFromConfidence: (confidence: number) => {
         console.log('stubbified!');
+      },
+      coordinates: {
+        subscribe: () => {
+          console.log('stubbified!');
+        }
       }
     };
 
@@ -53,8 +59,10 @@ describe('CoordinateInputComponent', () => {
       imports: [
         BrowserAnimationsModule,
         HttpClientModule,
+        FormsModule,
         MatFormFieldModule,
-        MatInputModule
+        MatInputModule,
+        ReactiveFormsModule
       ],
       providers: [
         {provide: CoordinatesService, useValue: coordinatesServiceStub},
@@ -67,10 +75,15 @@ describe('CoordinateInputComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CoordinateInputComponent);
     component = fixture.componentInstance;
+    component.ngOnInit();
+
+    // stub services
     coordinatesService = fixture.debugElement.injector.get(CoordinatesService);
     setCoordinatesSpy = spyOn(coordinatesService, 'setCoordinates');
-    computeFromCoordinatesSpy = spyOn(coordinatesService, 'computeFromCoordinates').and.returnValue(coordinates.confidence);
-    computeZoomFromConfidenceSpy = spyOn(coordinatesService, 'computeZoomFromConfidence').and.returnValue(coordinates.zoom);
+    computeFromCoordinatesSpy = spyOn(coordinatesService,
+        'computeFromCoordinates').and.returnValue(coordinates.confidence);
+    computeZoomFromConfidenceSpy = spyOn(coordinatesService,
+        'computeZoomFromConfidence').and.returnValue(coordinates.zoom);
     dialog = fixture.debugElement.injector.get(MatDialogRef);
     dialogSpy = spyOn(dialog, 'close');
 
@@ -83,21 +96,37 @@ describe('CoordinateInputComponent', () => {
 
   describe('handleSubmit', () => {
     it('should handle click', () => {
-      let latitude,
-          longitude;
+      let latitudeControl,
+          longitudeControl;
 
-      // convert to string
-      latitude = coordinates.latitude.toString();
-      longitude = coordinates.longitude.toString();
+      latitudeControl = component.coordinatesForm.controls['latitude'];
+      longitudeControl = component.coordinatesForm.controls['longitude'];
+
+      // check state of form and input controls, should all be invalid
+      expect(latitudeControl.valid).toBeFalsy();
+      expect(longitudeControl.valid).toBeFalsy();
+      expect(component.coordinatesForm.valid).toBeFalsy();
+
+      // put the from into a valid state
+      latitudeControl.setValue(coordinates.latitude);
+      longitudeControl.setValue(coordinates.longitude);
+
+      // check valid state
+      expect(latitudeControl.valid).toBeTruthy();
+      expect(longitudeControl.valid).toBeTruthy();
+      expect(component.coordinatesForm.valid).toBeTruthy();
 
       // call handleSubmit
-      component.handleSubmit(latitude, longitude);
+      component.handleSubmit(coordinates);
 
       // expects
       expect(coordinatesService.setCoordinates).toHaveBeenCalled();
-      expect(coordinatesService.setCoordinates).toHaveBeenCalledWith(coordinates);
-      expect(coordinatesService.computeFromCoordinates).toHaveBeenCalledWith(latitude, longitude);
-      expect(coordinatesService.computeZoomFromConfidence).toHaveBeenCalledWith(coordinates.confidence);
+      expect(coordinatesService.setCoordinates).toHaveBeenCalledWith(
+          coordinates);
+      expect(coordinatesService.computeFromCoordinates).toHaveBeenCalledWith(
+          coordinates.latitude, coordinates.longitude);
+      expect(coordinatesService.computeZoomFromConfidence).toHaveBeenCalledWith(
+          coordinates.confidence);
       expect(dialog.close).toHaveBeenCalled();
     });
   });

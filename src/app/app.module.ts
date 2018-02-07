@@ -14,6 +14,7 @@ import {
   MatSidenavModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CoordinatesService } from './coordinates.service';
 import { GeocodeService } from './geocode.service';
@@ -45,7 +46,6 @@ import { LocationDialogComponent } from './location-dialog/location-dialog.compo
 import { GeolocateInputComponent } from './geolocate-input/geolocate-input.component';
 import { GeocodeInputComponent } from './geocode-input/geocode-input.component';
 import { OverlaysService } from './overlays.service';
-
 
 
 @NgModule({
@@ -90,7 +90,9 @@ import { OverlaysService } from './overlays.service';
     MatInputModule,
     MatListModule,
     MatProgressBarModule,
-    MatSidenavModule
+    MatSidenavModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     HttpClientModule,
