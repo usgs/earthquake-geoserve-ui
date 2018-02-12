@@ -10,12 +10,12 @@
       "assets": [
         {
           "glob": "**/*",
-          "input": "app/hazdev-template-header/assets",
+          "input": "app/hazdev-template/hazdev-template-header/assets",
           "output": "assets/"
         },
         {
           "glob": "**/*",
-          "input": "app/hazdev-template-page/assets",
+          "input": "app/hazdev-template/hazdev-template-page/assets",
           "output": "assets/"
         },
         {
@@ -34,8 +34,8 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.scss",
-        "theme.scss",
+        "app/hazdev-template/styles.scss",
+        "app/hazdev-template/theme.scss",
         "../node_modules/leaflet/dist/leaflet.css"
       ],
       "scripts": [],

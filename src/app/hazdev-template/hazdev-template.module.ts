@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MediaMatcher } from '@angular/cdk/layout';
 import {
   MatButtonModule,
   MatDialogModule,
@@ -9,12 +10,14 @@ import {
   MatSidenavModule
 } from '@angular/material';
 
-
 import { HazdevTemplateComponent } from './hazdev-template/hazdev-template.component';
 import { HazdevTemplateFooterComponent } from './hazdev-template-footer/hazdev-template-footer.component';
 import { HazdevTemplateHeaderComponent } from './hazdev-template-header/hazdev-template-header.component';
 import { HazdevTemplateNavigationComponent } from './hazdev-template-navigation/hazdev-template-navigation.component';
 import { HazdevTemplatePageComponent } from './hazdev-template-page/hazdev-template-page.component';
+
+import { MenuService } from '../menu.service';
+
 
 @NgModule({
   declarations: [
@@ -32,6 +35,10 @@ import { HazdevTemplatePageComponent } from './hazdev-template-page/hazdev-templ
     MatInputModule,
     MatListModule,
     MatSidenavModule
+  ],
+  providers: [
+    MediaMatcher,
+    MenuService
   ],
   exports: [
     HazdevTemplateComponent
