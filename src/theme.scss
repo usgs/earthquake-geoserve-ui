@@ -84,10 +84,12 @@ $earthquake-app-theme: mat-light-theme($earthquake-app-primary, $earthquake-app-
  Site Configuration
 
  */
-$earthquake-header-background: mat-color($earthquake-app-primary, darker);
-$earthquake-header-banner-img: none;
+
 
 /*
+$earthquake-header-background: mat-color($earthquake-app-primary, darker);
+$earthquake-header-banner-img: none;
+*/
+
 $earthquake-header-background: #000000;
 $earthquake-header-banner-img: url('/assets/banner.png');
-*/

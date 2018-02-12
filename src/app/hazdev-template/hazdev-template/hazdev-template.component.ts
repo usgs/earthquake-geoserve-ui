@@ -1,8 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 
-import { environment } from '../../environments/environment';
-import { MenuService } from '../menu.service';
+import { environment } from '../../../environments/environment';
+import { MenuService } from '../../menu.service';
 
 
 @Component({
