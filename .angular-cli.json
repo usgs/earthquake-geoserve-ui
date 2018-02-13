@@ -34,8 +34,6 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "app/hazdev-template/styles.scss",
-        "app/hazdev-template/theme.scss",
         "../node_modules/leaflet/dist/leaflet.css"
       ],
       "scripts": [],
