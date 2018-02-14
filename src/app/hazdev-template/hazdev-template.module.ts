@@ -17,6 +17,8 @@ import { HazdevTemplateNavigationComponent } from './hazdev-template-navigation/
 import { HazdevTemplatePageComponent } from './hazdev-template-page/hazdev-template-page.component';
 
 import { MenuService } from '../menu.service';
+import { NavItemComponent } from './nav-item/nav-item.component';
+import { NavGroupComponent } from './nav-group/nav-group.component';
 
 
 @NgModule({
@@ -25,7 +27,9 @@ import { MenuService } from '../menu.service';
     HazdevTemplateFooterComponent,
     HazdevTemplateHeaderComponent,
     HazdevTemplateNavigationComponent,
-    HazdevTemplatePageComponent
+    HazdevTemplatePageComponent,
+    NavItemComponent,
+    NavGroupComponent
   ],
   imports: [
     CommonModule,
@@ -41,7 +45,9 @@ import { MenuService } from '../menu.service';
     MenuService
   ],
   exports: [
-    HazdevTemplateComponent
+    HazdevTemplateComponent,
+    NavItemComponent,
+    NavGroupComponent
   ]
 })
 export class HazdevTemplateModule { }
