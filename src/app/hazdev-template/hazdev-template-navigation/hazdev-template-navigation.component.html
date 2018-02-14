@@ -1,3 +1,10 @@
+<!-- Free form navigation section -->
+<ng-content
+    class="site-sectionnav"
+    select="[templateNavigation]"
+>
+</ng-content>
+
 <mat-nav-list *ngIf="NAVIGATION" class="site-sectionnav">
   <ng-container *ngFor="let item of NAVIGATION">
     <ng-container *ngIf="item.header">
