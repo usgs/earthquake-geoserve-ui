@@ -3,8 +3,8 @@ hazdev-template-nav-item > .mat-list-item > .mat-list-item-content {
   font-size: 0.88em;
 }
 
-hazdev-template-nav-group > section > header > hazdev-template-nav-item > .mat-list-item > .mat-list-item-content,
-mat-nav-list > nav > hazdev-template-nav-item > .mat-list-item > .mat-list-item-content {
+header > hazdev-template-nav-item > .mat-list-item > .mat-list-item-content,
+nav > hazdev-template-nav-item > .mat-list-item > .mat-list-item-content {
  color: #333;
  font-size: 1em;
 }
