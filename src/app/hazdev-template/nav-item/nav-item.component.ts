@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'hazdev-template-nav-item',
+  selector: 'app-hazdev-template-nav-item',
   templateUrl: './nav-item.component.html',
   styleUrls: ['./nav-item.component.css']
 })

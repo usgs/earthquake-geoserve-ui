@@ -4,21 +4,21 @@
 <!-- Navigation from NAVIGATION  -->
 <mat-nav-list *ngIf="NAVIGATION" class="site-sectionnav">
   <ng-container *ngFor="let item of NAVIGATION">
-    <hazdev-template-nav-group
+    <app-hazdev-template-nav-group
         *ngIf="item.header"
         [href]="item.header.href"
         [title]="item.header.display">
-      <hazdev-template-nav-item
+      <app-hazdev-template-nav-item
           *ngFor="let link of item.links"
           [href]="link.href"
           [title]="link.display">
-      </hazdev-template-nav-item>
-    </hazdev-template-nav-group>
-    <hazdev-template-nav-item
+      </app-hazdev-template-nav-item>
+    </app-hazdev-template-nav-group>
+    <app-hazdev-template-nav-item
         *ngIf="item.href"
         [href]="item.href"
         [title]="item.display">
-    </hazdev-template-nav-item>
+    </app-hazdev-template-nav-item>
   </ng-container>
 </mat-nav-list>
 
@@ -27,11 +27,11 @@
     *ngIf="SITE_SITENAV"
     class="hazdev-navigation-sitenav"
     aria-label="Site Navigation">
-  <hazdev-template-nav-item
+  <app-hazdev-template-nav-item
       *ngFor="let item of SITE_SITENAV"
       [href]="item.href"
       [title]="item.display">
-  </hazdev-template-nav-item>
+  </app-hazdev-template-nav-item>
 </mat-nav-list>
 
 <form class="site-search" role="search" action="//search.usa.gov/search" method="get" accept-charset="UTF-8">

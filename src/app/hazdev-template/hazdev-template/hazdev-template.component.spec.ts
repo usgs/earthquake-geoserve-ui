@@ -5,7 +5,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
 
 import { HazdevTemplateComponent } from './hazdev-template.component';
 
-import { MenuService } from '../menu.service';
+import { MenuService } from '../../menu.service';
 
 describe('HazdevTemplateComponent', () => {
   let component: HazdevTemplateComponent;

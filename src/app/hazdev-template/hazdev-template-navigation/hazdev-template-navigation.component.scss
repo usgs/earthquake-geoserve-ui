@@ -7,7 +7,7 @@
  ***********************************/
 
 /* group nav item styles */
-section.hazdev-template-nav-section > hazdev-template-nav-item > a.mat-list-item {
+section.hazdev-template-nav-section > app-hazdev-template-nav-item > a.mat-list-item {
   color: #666;
   font-size: 0.88em;
 }
@@ -18,8 +18,8 @@ section.hazdev-template-nav-section > hazdev-template-nav-item > a.mat-list-item
 }
 
 /* navigation border between sections and non-group nav items */
-hazdev-template-nav-group + hazdev-template-nav-item,
-.site-sectionnav > hazdev-template-nav-item + hazdev-template-nav-item {
+app-hazdev-template-nav-group + app-hazdev-template-nav-item,
+.site-sectionnav > app-hazdev-template-nav-item + app-hazdev-template-nav-item {
   display: block;
   border-top: 1px solid #ddd;
 }
@@ -36,7 +36,7 @@ mat-nav-list.hazdev-navigation-sitenav {
   padding: 0;
 }
 
-.hazdev-navigation-sitenav > hazdev-template-nav-item > a.mat-list-item {
+.hazdev-navigation-sitenav > app-hazdev-template-nav-item > a.mat-list-item {
   border-bottom: 1px solid rgba(0,0,0,.1);
   border-left: 1px solid hsla(0,0%,100%,.1);
   border-right: 1px solid hsla(0,0%,100%,.1);

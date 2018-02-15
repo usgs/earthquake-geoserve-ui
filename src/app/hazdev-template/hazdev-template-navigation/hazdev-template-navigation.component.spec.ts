@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { MockComponent } from 'ng2-mock-component';
 
 import { HazdevTemplateNavigationComponent } from './hazdev-template-navigation.component';
@@ -16,7 +17,10 @@ describe('HazdevTemplateNavigationComponent', () => {
         MockComponent({selector: 'mat-divider'}),
         MockComponent({selector: 'mat-form-field'}),
         MockComponent({selector: 'mat-nav-list'})
-       ]
+      ],
+      schemas: [
+        NO_ERRORS_SCHEMA
+      ]
     })
     .compileComponents();
   }));
