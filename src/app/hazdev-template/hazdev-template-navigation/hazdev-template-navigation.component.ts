@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-hazdev-template-navigation',
   templateUrl: './hazdev-template-navigation.component.html',
-  styleUrls: ['./hazdev-template-navigation.component.scss']
+  styleUrls: ['./hazdev-template-navigation.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class HazdevTemplateNavigationComponent implements OnInit {
   @Input() NAVIGATION: any[];

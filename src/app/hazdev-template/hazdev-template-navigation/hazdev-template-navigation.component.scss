@@ -29,7 +29,7 @@
   margin: 0.5em 0;
 }
 
-.site-sectionnav > section > a {
+.site-sectionnav > section > a.mat-list-item {
   color: #666;
   font-size: .88em;
 }
@@ -39,11 +39,12 @@
   border-top: 1px solid #ddd;
 }
 
-form {
+form.site-search {
   margin: 1em 0 0;
   padding: 0 1em;
+
+ > button {
+    margin: 0 0 1em;
+  }
 }
 
-button {
-  margin: 0 0 1em;
-}
