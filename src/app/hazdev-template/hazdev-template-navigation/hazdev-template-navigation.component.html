@@ -4,25 +4,34 @@
 <!-- Navigation from NAVIGATION  -->
 <mat-nav-list *ngIf="NAVIGATION" class="site-sectionnav">
   <ng-container *ngFor="let item of NAVIGATION">
-    <ng-container *ngIf="item.header">
-      <section>
-        <header>
-          <a mat-list-item href="{{ item.header.href }}">{{ item.header.display }}</a>
-        </header>
-        <a *ngFor="let link of item.links" mat-list-item href="{{ link.href }}">{{ link.display }}</a>
-      </section>
-    </ng-container>
-    <a *ngIf="item.href" mat-list-item href="{{ item.href }}">{{ item.display }}</a>
+    <hazdev-template-nav-group
+        *ngIf="item.header"
+        [href]="item.header.href"
+        [title]="item.header.display">
+      <hazdev-template-nav-item
+          *ngFor="let link of item.links"
+          [href]="link.href"
+          [title]="link.display">
+      </hazdev-template-nav-item>
+    </hazdev-template-nav-group>
+    <hazdev-template-nav-item
+        *ngIf="item.href"
+        [href]="item.href"
+        [title]="item.display">
+    </hazdev-template-nav-item>
   </ng-container>
 </mat-nav-list>
 
-<mat-nav-list *ngIf="SITE_SITENAV"
+<!-- Navigation from SITE_SITENAV  -->
+<mat-nav-list
+    *ngIf="SITE_SITENAV"
     class="hazdev-navigation-sitenav"
-    aria-label="Site Navigation"
->
-  <a *ngFor="let item of SITE_SITENAV" mat-list-item href="{{ item.href }}">
-    {{ item.display }}
-  </a>
+    aria-label="Site Navigation">
+  <hazdev-template-nav-item
+      *ngFor="let item of SITE_SITENAV"
+      [href]="item.href"
+      [title]="item.display">
+  </hazdev-template-nav-item>
 </mat-nav-list>
 
 <form class="site-search" role="search" action="//search.usa.gov/search" method="get" accept-charset="UTF-8">
@@ -32,5 +41,5 @@
   <mat-form-field>
     <input matInput id="query" name="query" type="search" placeholder="Search..." title="Search"/>
   </mat-form-field>
-    <button type="submit" mat-raised-button>Search</button>
+  <button type="submit" mat-raised-button>Search</button>
 </form>

@@ -1,5 +1,8 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 
+import { NavItemComponent } from '../nav-item/nav-item.component';
+import { NavGroupComponent } from '../nav-group/nav-group.component';
+
 @Component({
   selector: 'app-hazdev-template-navigation',
   templateUrl: './hazdev-template-navigation.component.html',

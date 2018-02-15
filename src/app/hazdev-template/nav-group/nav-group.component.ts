@@ -1,10 +1,9 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'hazdev-template-nav-group',
   templateUrl: './nav-group.component.html',
-  styleUrls: ['./nav-group.component.css'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./nav-group.component.css']
 })
 export class NavGroupComponent implements OnInit {
   @Input() href: string;
