@@ -1,34 +1,35 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 
-import { PlacesService } from '../places.service';
+import { RegionsService } from '../../regions.service';
 
-import { NearbyPlaceComponent } from '../nearby-place/nearby-place.component';
-import { NearbyPlacesComponent } from './nearby-places.component';
+import { AdminRegionComponent } from './admin-region.component';
+import { ListItemComponent } from '../list-item/list-item.component';
 import { NoDataComponent } from '../no-data/no-data.component';
 
-describe('NearbyPlacesComponent', () => {
-  let component: NearbyPlacesComponent;
-  let fixture: ComponentFixture<NearbyPlacesComponent>;
+
+describe('AdminRegionComponent', () => {
+  let component: AdminRegionComponent;
+  let fixture: ComponentFixture<AdminRegionComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        NearbyPlaceComponent,
-        NearbyPlacesComponent,
+        AdminRegionComponent,
+        ListItemComponent,
         NoDataComponent
       ],
       providers: [
         HttpClient,
         HttpHandler,
-        {provide: PlacesService, useValue: {}}
+        {provide: RegionsService, useValue: {}}
       ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NearbyPlacesComponent);
+    fixture = TestBed.createComponent(AdminRegionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

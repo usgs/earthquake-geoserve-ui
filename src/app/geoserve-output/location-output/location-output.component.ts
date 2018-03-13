@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { CoordinatesService } from '../coordinates.service';
+import { CoordinatesService } from '../../coordinates.service';
 
 @Component({
   selector: 'app-location-output',

@@ -1,21 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 
-import { RegionsService } from '../regions.service';
+import { RegionsService } from '../../regions.service';
 
-import { AdminRegionComponent } from './admin-region.component';
+import { AuthoritativeRegionComponent } from './authoritative-region.component';
 import { ListItemComponent } from '../list-item/list-item.component';
 import { NoDataComponent } from '../no-data/no-data.component';
 
 
-describe('AdminRegionComponent', () => {
-  let component: AdminRegionComponent;
-  let fixture: ComponentFixture<AdminRegionComponent>;
+describe('AuthoritativeRegionComponent', () => {
+  let component: AuthoritativeRegionComponent;
+  let fixture: ComponentFixture<AuthoritativeRegionComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AdminRegionComponent,
+        AuthoritativeRegionComponent,
         ListItemComponent,
         NoDataComponent
       ],
@@ -29,7 +29,7 @@ describe('AdminRegionComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AdminRegionComponent);
+    fixture = TestBed.createComponent(AuthoritativeRegionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
 
 import * as L from 'leaflet';
 
-import { CoordinatesService } from '../coordinates.service';
-import { LocationDialogComponent } from '../location-dialog/location-dialog.component';
 
 @Component({
   selector: 'app-geoserve',
@@ -12,19 +9,10 @@ import { LocationDialogComponent } from '../location-dialog/location-dialog.comp
   styleUrls: ['./geoserve.component.css']
 })
 export class GeoserveComponent implements OnInit {
-  public control;
 
-  constructor (
-    public coordinatesService: CoordinatesService,
-    public dialog: MatDialog
-  ) { }
+  constructor () { }
 
   ngOnInit() {
   }
 
-  onClick(): void {
-    if (this.dialog && LocationDialogComponent) {
-      this.dialog.open(LocationDialogComponent);
-    }
-  }
 }

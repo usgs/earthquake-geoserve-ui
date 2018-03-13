@@ -1,49 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockComponent } from 'ng2-mock-component';
-import { MatDialog} from '@angular/material';
 
 import { GeoserveComponent } from './geoserve.component';
-
-import { CoordinatesService } from '../coordinates.service';
-
 
 describe('GeoserveComponent', () => {
   let component: GeoserveComponent;
   let fixture: ComponentFixture<GeoserveComponent>;
-  let coordinatesService;
 
   beforeEach(async(() => {
-    const coordinatesServiceStub = {
-      setCoordinates: (location: any) => {
-        console.log('stubbified!');
-      }
-    };
 
-    const dialogStub = {
-      open: () => {
-        console.log('stubbified!');
-      }
-    };
 
     TestBed.configureTestingModule({
       declarations: [
         GeoserveComponent,
 
-        MockComponent({selector: 'app-admin-region', inputs: ['region']}),
-        MockComponent({selector: 'app-authoritative-region'}),
-        MockComponent({selector: 'app-coordinate-input'}),
-        MockComponent({selector: 'app-location-map'}),
-        MockComponent({selector: 'app-location-output'}),
-        MockComponent({selector: 'app-nearby-places'}),
-        MockComponent({selector: 'app-neic-catalog-region'}),
-        MockComponent({selector: 'app-neic-response-region'}),
-        MockComponent({selector: 'app-offshore-region'}),
-        MockComponent({selector: 'app-tectonic-summary-region'})
-      ],
-      providers: [
-        {provide: CoordinatesService, useValue: coordinatesServiceStub},
-        {provide: MatDialog, useValue: dialogStub}
-      ],
+        MockComponent({selector: 'app-geoserve-output'}),
+        MockComponent({selector: 'app-location-map'})
+      ]
     })
     .compileComponents();
   }));
@@ -52,9 +25,6 @@ describe('GeoserveComponent', () => {
     fixture = TestBed.createComponent(GeoserveComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
-    // stub coordinates.service
-    coordinatesService = fixture.debugElement.injector.get(CoordinatesService);
   });
 
   it('should create', () => {

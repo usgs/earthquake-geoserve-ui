@@ -1,19 +1,23 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 
-import { NoDataComponent } from '../no-data/no-data.component';
-import { TectonicSummaryRegionComponent } from './tectonic-summary-region.component';
-import { RegionsService } from '../regions.service';
+import { RegionsService } from '../../regions.service';
 
-describe('TectonicSummaryRegionComponent', () => {
-  let component: TectonicSummaryRegionComponent;
-  let fixture: ComponentFixture<TectonicSummaryRegionComponent>;
+import { ListItemComponent } from '../list-item/list-item.component';
+import { NeicResponseRegionComponent } from './neic-response-region.component';
+import { NoDataComponent } from '../no-data/no-data.component';
+
+
+describe('NeicResponseRegionComponent', () => {
+  let component: NeicResponseRegionComponent;
+  let fixture: ComponentFixture<NeicResponseRegionComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        NoDataComponent,
-        TectonicSummaryRegionComponent
+        ListItemComponent,
+        NeicResponseRegionComponent,
+        NoDataComponent
       ],
       providers: [
         HttpClient,
@@ -25,7 +29,7 @@ describe('TectonicSummaryRegionComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TectonicSummaryRegionComponent);
+    fixture = TestBed.createComponent(NeicResponseRegionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
