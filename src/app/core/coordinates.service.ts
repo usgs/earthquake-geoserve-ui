@@ -235,7 +235,12 @@ export class CoordinatesService {
         latitude,
         longitude;
 
-    confidence = this.computeFromCoordinates(location.latitude, location.longitude);
+    if (location.confidence) {
+      confidence = location.confidence;
+    } else {
+      confidence = this.computeFromCoordinates(location.latitude, location.longitude);
+    }
+    
     latitude = this.roundLocation(+location.latitude, confidence);
     longitude = this.roundLocation(+location.longitude, confidence);
 

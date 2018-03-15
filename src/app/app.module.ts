@@ -19,9 +19,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from './core/core.module';
 import { GeoserveOutputModule } from './geoserve-output/geoserve-output.module';
 
-import { GeocodeService } from './geocode.service';
-import { MenuService } from './menu.service';
-
 import { AppComponent } from './app.component';
 import { CoordinateInputComponent } from './coordinate-input/coordinate-input.component';
 import { GeoserveComponent } from './geoserve/geoserve.component';
@@ -34,7 +31,6 @@ import { LocationDialogComponent } from './location-dialog/location-dialog.compo
 import { LocationMapComponent } from './location-map/location-map.component';
 import { GeolocateInputComponent } from './geolocate-input/geolocate-input.component';
 import { GeocodeInputComponent } from './geocode-input/geocode-input.component';
-import { OverlaysService } from './overlays.service';
 
 
 @NgModule({
@@ -88,10 +84,7 @@ import { OverlaysService } from './overlays.service';
     MatSidenavModule
   ],
   providers: [
-    GeocodeService,
-    MediaMatcher,
-    MenuService,
-    OverlaysService
+    MediaMatcher
   ],
   bootstrap: [AppComponent]
 })

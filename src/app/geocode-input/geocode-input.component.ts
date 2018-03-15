@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 
-import { GeocodeService } from '../geocode.service';
+import { GeocodeService } from '../core/geocode.service';
 import { CoordinatesService } from '../core/coordinates.service';
 
 @Component({

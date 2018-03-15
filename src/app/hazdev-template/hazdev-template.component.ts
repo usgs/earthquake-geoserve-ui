@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit, OnDestroy, Input } from '@angular
 import { MediaMatcher } from '@angular/cdk/layout';
 
 import { environment } from '../../environments/environment';
-import { MenuService } from '../menu.service';
+import { MenuService } from '../core/menu.service';
 
 
 @Component({

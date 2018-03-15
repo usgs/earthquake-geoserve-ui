@@ -1,11 +1,11 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnChanges, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import * as L from 'leaflet';
 
 import { CoordinatesService } from '../core/coordinates.service';
-import { MenuService } from '../menu.service';
-import { OverlaysService } from '../overlays.service';
+import { MenuService } from '../core/menu.service';
+import { OverlaysService } from '../core/overlays.service';
 
 import { Coordinates } from '../core/coordinates';
 import { LocationDialogComponent } from '../location-dialog/location-dialog.component';
@@ -16,7 +16,7 @@ import { LocationDialogComponent } from '../location-dialog/location-dialog.comp
   styleUrls: ['./location-map.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class LocationMapComponent implements OnDestroy, OnInit {
+export class LocationMapComponent implements OnChanges, OnDestroy, OnInit {
   baseLayers: L.LayerGroup;
   layerControl: L.Control.Layers;
   map: L.Map;
@@ -77,6 +77,10 @@ export class LocationMapComponent implements OnDestroy, OnInit {
         }
       }
     });
+  }
+
+  ngOnChanges () {
+    console.log('ngOnChanges');
   }
 
   getOverlays (): void {
