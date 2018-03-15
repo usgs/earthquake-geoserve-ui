@@ -51,6 +51,8 @@ export class GeolocateInputComponent implements OnInit {
 
   geolocateSuccess (position: any): void {
     let confidence,
+        latitude,
+        longitude,
         zoom;
 
     // get confidence
@@ -59,10 +61,15 @@ export class GeolocateInputComponent implements OnInit {
     // get zoom
     zoom = this.coordinatesService.computeZoomFromConfidence(confidence);
 
+    // round latitude and longitude values based on confidence
+    latitude = this.coordinatesService.roundLocation(+position.coords.latitude, confidence);
+    longitude = this.coordinatesService.roundLocation(+position.coords.longitude, confidence);
+
+
     this.coordinatesService.setCoordinates({
       confidence: confidence,
-      latitude: +position.coords.latitude,
-      longitude: +position.coords.longitude,
+      latitude: latitude,
+      longitude: longitude,
       method: 'geolocate',
       zoom: zoom
     });

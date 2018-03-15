@@ -231,26 +231,14 @@ export class CoordinatesService {
    * @params {string} longitude [description]
    */
   public setCoordinates (location: any): void {
-    let confidence,
-        latitude,
-        longitude;
-
-    if (location.confidence) {
-      confidence = location.confidence;
-    } else {
-      confidence = this.computeFromCoordinates(location.latitude, location.longitude);
-    }
-    
-    latitude = this.roundLocation(+location.latitude, confidence);
-    longitude = this.roundLocation(+location.longitude, confidence);
-
+    // set values that exist in the location object
     this._coordinates.next({
-      confidence: confidence,
-      latitude: latitude,
-      longitude: longitude,
-      zoom: location.zoom,
-      method: location.method,
-      name: location.name
+      confidence: location.confidence ? location.confidence : null,
+      latitude: location.latitude ? location.latitude : null,
+      longitude: location.longitude ? location.longitude : null,
+      zoom: location.zoom ? location.zoom : null,
+      method: location.method ? location.method : null,
+      name: location.name ? location.name : null
     });
   }
 

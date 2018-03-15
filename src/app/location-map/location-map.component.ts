@@ -265,10 +265,9 @@ export class LocationMapComponent implements OnDestroy, OnInit {
   onDragEnd () {
     let confidence,
         coordinates,
+        latitude,
+        longitude,
         zoom;
-
-    // grab coordinates off map marker
-    coordinates = this.marker.getLatLng();
 
     // get zoom level from map
     zoom = this.map.getZoom();
@@ -276,10 +275,17 @@ export class LocationMapComponent implements OnDestroy, OnInit {
     // get confidence from zoom
     confidence = this.coordinatesService.computeFromPoint(zoom);
 
+    // grab coordinates off map marker
+    coordinates = this.marker.getLatLng();
+
+    // round latitude and longitude values based on confidence
+    latitude = this.coordinatesService.roundLocation(+coordinates.lat, confidence);
+    longitude = this.coordinatesService.roundLocation(+coordinates.lng, confidence);
+
     this.coordinatesService.setCoordinates({
       confidence: confidence,
-      latitude: +coordinates.lat,
-      longitude: +coordinates.lng,
+      latitude: latitude,
+      longitude: longitude,
       method: 'point',
       zoom: zoom
     });

@@ -60,6 +60,8 @@ export class GeocodeInputComponent implements OnInit, OnDestroy {
 
   setCoordinates (location: any): void {
     let confidence,
+        latitude,
+        longitude,
         zoom;
 
     // compute confidence
@@ -68,11 +70,16 @@ export class GeocodeInputComponent implements OnInit, OnDestroy {
     // compute zoom
     zoom = this.coordinatesService.computeZoomFromConfidence(confidence);
 
+    // round latitude and longitude values based on confidence
+    latitude = this.coordinatesService.roundLocation(+location.feature.geometry.y, confidence);
+    longitude = this.coordinatesService.roundLocation(+location.feature.geometry.x, confidence);
+
+
     // set coordinates
     this.coordinatesService.setCoordinates({
       confidence: confidence,
-      latitude: +location.feature.geometry.y,
-      longitude: +location.feature.geometry.x,
+      latitude: latitude,
+      longitude: longitude,
       method: 'geocode',
       zoom: zoom,
       name: location.name
