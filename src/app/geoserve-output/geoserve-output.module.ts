@@ -1,5 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {
+  MatButtonModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule
+} from '@angular/material';
 
 import { AdminRegionComponent } from './admin-region/admin-region.component';
 import { AuthoritativeRegionComponent } from './authoritative-region/authoritative-region.component';
@@ -14,9 +20,14 @@ import { NoDataComponent } from './no-data/no-data.component';
 import { OffshoreRegionComponent } from './offshore-region/offshore-region.component';
 import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tectonic-summary-region.component';
 
+
+
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    MatButtonModule,
+    MatIconModule,
+    MatListModule
   ],
   declarations: [
     AdminRegionComponent,
