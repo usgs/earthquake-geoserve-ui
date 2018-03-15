@@ -8,7 +8,6 @@
   </button>
 </app-hazdev-template-header>
 
-
 <mat-sidenav-container>
   <mat-sidenav-content>
     <app-hazdev-template-page
@@ -30,7 +29,10 @@
         [NAVIGATION]="NAVIGATION"
         [SITE_SITENAV]="SITE_SITENAV"
         [SITE_URL]="SITE_URL"
-    ></app-hazdev-template-navigation>
+    >
+      <!-- Custom Section Navigation -->
+      <ng-content select="[templateSideNavigation]" templateSideNavigation></ng-content>
+    </app-hazdev-template-navigation>
   </mat-sidenav>
 </mat-sidenav-container>
 

@@ -21,6 +21,18 @@ tool.
 $ ng build --prod
 ```
 
+### NPM Publish Geoserve Components
+
+Build/Publish the npm distributable from the Angular source using the `ng` command line
+tool.
+```
+$ ng run npm-publish
+```
+Then the distributable tar file can be installed in your project using `npm install`.
+```
+$ npm install <path>/<to>/<application>/npm-dist/earthquake-geoserve-ui-<version>.tgz
+```
+
 ### Container Image
 
 A `Dockerfile` is provided to build the image. This Dockerfile accepts a

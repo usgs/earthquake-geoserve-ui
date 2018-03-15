@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
-import * as L from 'leaflet';
-
 import { CoordinatesService } from '../coordinates.service';
 import { LocationDialogComponent } from '../location-dialog/location-dialog.component';
 

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+import { HazdevTemplateComponent } from './hazdev-template/hazdev-template/hazdev-template.component';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
