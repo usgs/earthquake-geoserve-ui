@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { MatDialogRef } from '@angular/material';
 
 import { GeocodeService } from '../geocode.service';
-import { CoordinatesService } from '../coordinates.service';
+import { CoordinatesService } from '../core/coordinates.service';
 
 @Component({
   selector: 'app-geocode-input',

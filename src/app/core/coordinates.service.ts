@@ -204,11 +204,12 @@ export class CoordinatesService {
   /**
    * returns rounded value based on confidence value.
    *
-   * @param  {string | number} value
+   * @params  {string | number} value
    *           value to be rounded
-   * @param  {number} confidence
+   * @params  {number} confidence
    *           confidence value
-   * @return {number} rounded value
+   *
+   * return rounded value
    *
    */
   public roundLocation (value, confidence): number {
@@ -225,15 +226,16 @@ export class CoordinatesService {
 
   /**
    * Set the coordinate observable.next value
-   * @param {string} latitude  [description]
-   * @param {string} longitude [description]
+   *
+   * @params {string} latitude  [description]
+   * @params {string} longitude [description]
    */
   public setCoordinates (location: any): void {
     let confidence,
         latitude,
         longitude;
 
-    confidence = location.confidence;
+    confidence = this.computeFromCoordinates(location.latitude, location.longitude);
     latitude = this.roundLocation(+location.latitude, confidence);
     longitude = this.roundLocation(+location.longitude, confidence);
 

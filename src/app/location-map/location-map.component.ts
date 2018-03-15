@@ -3,11 +3,11 @@ import { MatDialog } from '@angular/material';
 
 import * as L from 'leaflet';
 
-import { CoordinatesService } from '../coordinates.service';
+import { CoordinatesService } from '../core/coordinates.service';
 import { MenuService } from '../menu.service';
 import { OverlaysService } from '../overlays.service';
 
-import { Coordinates } from '../coordinates';
+import { Coordinates } from '../core/coordinates';
 import { LocationDialogComponent } from '../location-dialog/location-dialog.component';
 
 @Component({

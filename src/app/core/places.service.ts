@@ -6,7 +6,7 @@ import { of } from 'rxjs/observable/of';
 import { catchError, tap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import { environment } from '../environments/environment';
+import { environment } from '../../environments/environment';
 
 import { CoordinatesService } from './coordinates.service';
 
@@ -27,7 +27,9 @@ export class PlacesService {
     // subscribe to coordinates service
     this.coordinatesService.coordinates.subscribe((coordinates) => {
       // make request to places service when coordinates update
-      this.getPlaces(coordinates.latitude, coordinates.longitude);
+      if (coordinates) {
+        this.getPlaces(coordinates.latitude, coordinates.longitude);
+      }
     });
   }
 

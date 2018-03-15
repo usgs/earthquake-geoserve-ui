@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 
-import { CoordinatesService } from '../coordinates.service';
+import { CoordinatesService } from '../core/coordinates.service';
 
 @Component({
   selector: 'app-geolocate-input',

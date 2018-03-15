@@ -16,12 +16,10 @@ import {
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { CoreModule } from './core/core.module';
 import { GeoserveOutputModule } from './geoserve-output/geoserve-output.module';
 
-import { CoordinatesService } from './coordinates.service';
 import { GeocodeService } from './geocode.service';
-import { PlacesService } from './places.service';
-import { RegionsService } from './regions.service';
 import { MenuService } from './menu.service';
 
 import { AppComponent } from './app.component';
@@ -62,6 +60,7 @@ import { OverlaysService } from './overlays.service';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    CoreModule.forRoot(),
     FormsModule,
     GeoserveOutputModule,
     MatButtonModule,
@@ -89,10 +88,7 @@ import { OverlaysService } from './overlays.service';
     MatSidenavModule
   ],
   providers: [
-    CoordinatesService,
     GeocodeService,
-    PlacesService,
-    RegionsService,
     MediaMatcher,
     MenuService,
     OverlaysService

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 
-import { CoordinatesService } from '../coordinates.service';
+import { CoordinatesService } from '../core/coordinates.service';
 
 @Component({
   selector: 'app-coordinate-input',

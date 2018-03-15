@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { RegionsService } from '../../regions.service';
+import { RegionsService } from '../../core/regions.service';
 
 @Component({
   selector: 'app-tectonic-summary-region',

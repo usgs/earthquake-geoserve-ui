@@ -14,10 +14,6 @@ import { NoDataComponent } from './no-data/no-data.component';
 import { OffshoreRegionComponent } from './offshore-region/offshore-region.component';
 import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tectonic-summary-region.component';
 
-import { CoordinatesService } from '../coordinates.service';
-import { PlacesService } from '../places.service';
-import { RegionsService } from '../regions.service';
-
 @NgModule({
   imports: [
     CommonModule
@@ -40,6 +36,7 @@ import { RegionsService } from '../regions.service';
     AdminRegionComponent,
     AuthoritativeRegionComponent,
     GeoserveOutputComponent,
+    ListItemComponent,
     LocationOutputComponent,
     NearbyPlaceComponent,
     NearbyPlacesComponent,
@@ -48,11 +45,6 @@ import { RegionsService } from '../regions.service';
     NoDataComponent,
     OffshoreRegionComponent,
     TectonicSummaryRegionComponent
-    ],
-    providers: [
-      CoordinatesService,
-      PlacesService,
-      RegionsService
-   ]
+  ]
 })
 export class GeoserveOutputModule { }
