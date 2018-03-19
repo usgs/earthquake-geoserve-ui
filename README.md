@@ -6,48 +6,106 @@ User interface from Geoserve web service data.
 [![Coverage](https://api.codacy.com/project/badge/Coverage/bc4483e5ad814d5f857d493827e1bf63)](https://www.codacy.com/app/usgs/earthquake-geoserve-ui?utm_source=github.com&utm_medium=referral&utm_content=usgs/earthquake-geoserve-ui&utm_campaign=Badge_Coverage)
 
 
-Building
---------
+## Getting Started:
 
-This project is intended to be deployed as a Docker container. Building in this
-sense requires first buidling distributables from the Angular source code, and
-then loading those distributables into an image for distribution.
+How to preview the project in your browser:
 
-### Angular Build
+1. Install NPM dependencies
+    ```
+    npm install
+    ```
 
-Build the distributables from the Angular source using the `ng` command line
+1. Preview in a browser
+    ```
+    ng serve -o
+    ```
+    The application should open (flag -o) in your browser.
+
+
+## Building
+
+This project is intended to be deployed as an NPM package. Building in this
+sense requires packaging the application from the Angular source code, and
+then publishing that package to npm [earthquake-geoserve-ui](https://www.npmjs.com/package/earthquake-geoserve-ui).
+
+
+### NPM Publish Geoserve Components
+
+Build/Publish the npm distributable from the Angular source using the `ng` command line
 tool.
+
 ```
-$ ng build --prod
+$ npm run package
 ```
 
-### Container Image
+The tar file in `dist-npm` folder should be tagged and pushed to npm to facilitate widespread consumption:
 
-A `Dockerfile` is provided to build the image. This Dockerfile accepts a
-`--build-arg BASE_IMAGE=SOME_IMAGE` as a command line switch to specify a
-custom image. By default it uses the NGINX latest image from the Docker library.
 ```
-$ cd PROJECT_ROOT
-$ docker build --build-arg BASE_IMAGE=SOME_BASE_IMAGE -t IMAGE_TAG .
+npm publish dist-npm --tag <version>
 ```
-> Note: The following variables from the previous snippet should be replaced
->       with values relevant to the intended build.
-- `PROJECT_ROOT`
-  The directory containing the project source.
-- `SOME_IMAGE`
-  The name of the base image to build from.
-- `IMAGE_TAG`
-  The name of the tag to create.
 
-For example:
-```
-$ cd ~/earthquake-geoserve-ui
-$ docker build --build-arg BASE_IMAGE=nginx:latest -t local/earthquake-geoserve-ui:latest .
-```
-> Note: In this specific example, the specified `BASE_IMAGE` is the same as
->       what would be used by default and could thus be ommitted. It is
->       included here only to illustrate the example.
+The `ng run package` runs a script that bundles the npm package into a tar file that is fully distributable. The tar file can be imported by running a local npm install or referencing the tagged npm distributable above:
 
+```
+$ npm install earthquake-geoserve-ui@<version>
+```
+
+
+## Using the Geoserve components
+
+Follow these steps to use any of the geoserve components in your application (selectors listed below). 
+
+1. Install the earthquake-geoserve-ui project
+    ```
+    npm install earthquake-geoserve-ui
+    ```
+1. Import the `GeoserveOutputModule` and `CoreModule` from the `earthquake-geoserve-ui`
+    ```
+    /** app.module.ts */
+
+    import { GeoserveOutputModule } from 'earthquake-geoserve-ui';
+    import { CoreModule as GeoserveCoreModule } from 'earthquake-geoserve-ui';
+    ...
+    imports: [
+        GeoserveCoreModule.forRoot(),
+        GeoserveOutputModule
+    ]
+    ```
+1. Add the geoserve components to your component template
+    ```
+    /* some.component.html */
+
+    <app-admin-region></app-admin-region>
+    <app-nearby-places></app-nearby-places>
+    <app-tectonic-summary-region></app-tectonic-summary-region>
+    ```
+1. Then, from the component typescript file import the `CoordinatesService` and use the `setCoordinates()` method to set the coordinate location for the geoserve components. The geoserve components are subscribed to coordinate changes and will trigger a region/place changed when the coordinates are updated.
+    ```
+    /* some.component.ts */
+
+    import { CoordinatesService } from 'earthquake-geoserve-ui';
+    ...
+    constructor(
+        public coordinatesService: CoordinatesService
+    ) { }
+    ...
+    this.coordinatesService.setCoordinates({
+        longitude: 35,
+        latitude: -105
+    });
+    ```
+
+### Geoserve Component Selectors
+
+The `GeoserveOutputModule` contains the following  geoserve component selectors:
+
+* app-admin-region
+* app-authoritative-region
+* app-nearby-places
+* app-neic-catalog-region
+* app-neic-response-region
+* app-offshore-region
+* app-tectonic-summary-region
 
 General Angular Information
 ---------------------------
