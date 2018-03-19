@@ -6,10 +6,10 @@ import * as L from 'leaflet';
 
 import { LocationMapComponent } from './location-map.component';
 
-import { Coordinates } from '../coordinates';
-import { CoordinatesService } from '../coordinates.service';
-import { MenuService } from '../menu.service';
-import { OverlaysService } from '../overlays.service';
+import { Coordinates } from '../core/coordinates';
+import { CoordinatesService } from '../core/coordinates.service';
+import { MenuService } from '../core/menu.service';
+import { OverlaysService } from '../core/overlays.service';
 
 describe('LocationMapComponent', () => {
   let component: LocationMapComponent;
@@ -17,10 +17,12 @@ describe('LocationMapComponent', () => {
   let coordinatesService;
   let menuService;
 
+  const point = 35;
+
   const coordinates: Coordinates = {
     confidence: 1,
-    latitude: 35,
-    longitude: -105,
+    latitude: point,
+    longitude: point,
     method: 'point',
     name: '',
     zoom: 16
@@ -37,6 +39,9 @@ describe('LocationMapComponent', () => {
         }
       },
       setCoordinates: (location: any) => {
+        console.log('stubbified!');
+      },
+      roundLocation: (value: number, confidence: number) => {
         console.log('stubbified!');
       }
     };
@@ -198,6 +203,7 @@ describe('LocationMapComponent', () => {
           marker,
           mapSpy,
           markerSpy,
+          roundLocationSpy,
           setCoordinatesSpy;
 
       // set lat/lng object and marker
@@ -210,6 +216,7 @@ describe('LocationMapComponent', () => {
       markerSpy = spyOn(component.marker, 'getLatLng').and.returnValue(latLng);
       mapSpy = spyOn(component.map, 'getZoom').and.returnValue(coordinates.zoom);
       setCoordinatesSpy = spyOn(coordinatesService, 'setCoordinates');
+      roundLocationSpy = spyOn(coordinatesService, 'roundLocation').and.returnValue(point);
 
       // call onDragEnd
       component.onDragEnd();

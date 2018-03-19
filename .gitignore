@@ -4,6 +4,8 @@
 /dist
 /tmp
 /out-tsc
+/dist-npm
+.ng_pkg_build
 
 # dependencies
 /node_modules

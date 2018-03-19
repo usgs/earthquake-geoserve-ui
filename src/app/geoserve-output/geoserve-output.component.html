@@ -1,0 +1,19 @@
+<div *ngIf="coordinatesService.coordinates | async; else noCoordinates">
+  <app-location-output></app-location-output>
+  <app-admin-region></app-admin-region>
+  <app-authoritative-region></app-authoritative-region>
+  <app-nearby-places></app-nearby-places>
+  <app-neic-catalog-region></app-neic-catalog-region>
+  <app-neic-response-region></app-neic-response-region>
+  <app-offshore-region></app-offshore-region>
+  <app-tectonic-summary-region></app-tectonic-summary-region>
+</div>
+
+<ng-template #noCoordinates>
+  <p class="alert info">
+    To select a location, click the
+    <button mat-raised-button class="icon-button" (click)="onClick()">
+      <i class="material-icons">location_searching</i>
+    </button>on the map.
+  </p>
+</ng-template>

@@ -5,10 +5,9 @@ import { MockComponent } from 'ng2-mock-component';
 import { MatButtonModule, MatSidenavModule, MatListModule, MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { PlacesService } from './places.service';
-import { RegionsService } from './regions.service';
+import { PlacesService } from './core/places.service';
+import { RegionsService } from './core/regions.service';
 
-import { AdminRegionComponent } from './admin-region/admin-region.component';
 import { AppComponent } from './app.component';
 
 

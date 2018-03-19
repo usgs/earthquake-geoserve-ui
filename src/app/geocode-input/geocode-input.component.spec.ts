@@ -1,10 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormGroup, FormBuilder, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialogRef, MatFormFieldModule, MatInputModule, MatProgressBarModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { GeocodeService } from '../geocode.service';
-import { CoordinatesService } from '../coordinates.service';
+import { GeocodeService } from '../core/geocode.service';
+import { CoordinatesService } from '../core/coordinates.service';
 
 import { GeocodeInputComponent } from './geocode-input.component';
 
@@ -16,15 +17,18 @@ describe('GeocodeInputComponent', () => {
   let computeFromGeocodeSpy;
   let computeZoomFromConfidenceSpy;
   let getLocationSpy;
+  let roundLocationSpy;
   let dialog;
   let dialogSpy;
   let coordinatesService;
   let geocodeService;
 
+  const point = 35;
+
   const coordinates = {
     confidence: 3,
-    latitude: 39.756650000000036,
-    longitude: -105.22494999999998,
+    latitude: point,
+    longitude: point,
     method: 'geocode',
     name: 'Golden, Colorado',
     zoom: 9
@@ -39,6 +43,9 @@ describe('GeocodeInputComponent', () => {
         console.log('stubbified!');
       },
       computeZoomFromConfidence: (confidence: number) => {
+        console.log('stubbified!');
+      },
+      roundLocation: (value: number, confidence: number) => {
         console.log('stubbified!');
       }
     };
@@ -69,7 +76,9 @@ describe('GeocodeInputComponent', () => {
         HttpClientModule,
         MatFormFieldModule,
         MatInputModule,
-        MatProgressBarModule
+        MatProgressBarModule,
+        FormsModule,
+        ReactiveFormsModule
       ],
       providers: [
         {provide: CoordinatesService, useValue: coordinatesServiceStub},
@@ -84,12 +93,14 @@ describe('GeocodeInputComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GeocodeInputComponent);
     component = fixture.componentInstance;
+    component.ngOnInit();
 
     // stub coordinates.service
     coordinatesService = fixture.debugElement.injector.get(CoordinatesService);
     setCoordinatesSpy = spyOn(coordinatesService, 'setCoordinates');
     computeFromGeocodeSpy = spyOn(coordinatesService, 'computeFromGeocode').and.returnValue(coordinates.confidence);
     computeZoomFromConfidenceSpy = spyOn(coordinatesService, 'computeZoomFromConfidence').and.returnValue(coordinates.zoom);
+    roundLocationSpy = spyOn(coordinatesService, 'roundLocation').and.returnValue(point);
 
     // stub geocode.service
     geocodeService = fixture.debugElement.injector.get(GeocodeService);
@@ -108,12 +119,23 @@ describe('GeocodeInputComponent', () => {
 
   describe('doGeocode', () => {
     it('should call getLocation', () => {
-      let address;
+      let address,
+          addressControl;
 
       address = 'test';
+      addressControl = component.addressForm.controls['address'];
+
+      // check for 'invalid' form state
+      expect(addressControl.valid).toBeFalsy();
+
+      // update form state to be valid
+      addressControl.setValue(address);
+
+      // check for 'valid' form state
+      expect(addressControl.valid).toBeTruthy();
 
       // call handleSubmit
-      component.doGeocode(address);
+      component.doGeocode(component.addressForm.value);
 
       // expects
       expect(geocodeService.getLocation).toHaveBeenCalled();
@@ -144,6 +166,7 @@ describe('GeocodeInputComponent', () => {
 
       // call handleSubmit
       component.setCoordinates(geocodeLocation);
+
 
       // confidence computed from extents
       expect(coordinatesService.computeFromGeocode).toHaveBeenCalled();
