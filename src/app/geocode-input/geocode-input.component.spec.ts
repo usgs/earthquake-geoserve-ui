@@ -4,8 +4,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatDialogRef, MatFormFieldModule, MatInputModule, MatProgressBarModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { GeocodeService } from '../geocode.service';
-import { CoordinatesService } from '../coordinates.service';
+import { GeocodeService } from '../core/geocode.service';
+import { CoordinatesService } from '../core/coordinates.service';
 
 import { GeocodeInputComponent } from './geocode-input.component';
 
@@ -17,15 +17,18 @@ describe('GeocodeInputComponent', () => {
   let computeFromGeocodeSpy;
   let computeZoomFromConfidenceSpy;
   let getLocationSpy;
+  let roundLocationSpy;
   let dialog;
   let dialogSpy;
   let coordinatesService;
   let geocodeService;
 
+  const point = 35;
+
   const coordinates = {
     confidence: 3,
-    latitude: 39.756650000000036,
-    longitude: -105.22494999999998,
+    latitude: point,
+    longitude: point,
     method: 'geocode',
     name: 'Golden, Colorado',
     zoom: 9
@@ -40,6 +43,9 @@ describe('GeocodeInputComponent', () => {
         console.log('stubbified!');
       },
       computeZoomFromConfidence: (confidence: number) => {
+        console.log('stubbified!');
+      },
+      roundLocation: (value: number, confidence: number) => {
         console.log('stubbified!');
       }
     };
@@ -94,6 +100,7 @@ describe('GeocodeInputComponent', () => {
     setCoordinatesSpy = spyOn(coordinatesService, 'setCoordinates');
     computeFromGeocodeSpy = spyOn(coordinatesService, 'computeFromGeocode').and.returnValue(coordinates.confidence);
     computeZoomFromConfidenceSpy = spyOn(coordinatesService, 'computeZoomFromConfidence').and.returnValue(coordinates.zoom);
+    roundLocationSpy = spyOn(coordinatesService, 'roundLocation').and.returnValue(point);
 
     // stub geocode.service
     geocodeService = fixture.debugElement.injector.get(GeocodeService);
@@ -159,6 +166,7 @@ describe('GeocodeInputComponent', () => {
 
       // call handleSubmit
       component.setCoordinates(geocodeLocation);
+
 
       // confidence computed from extents
       expect(coordinatesService.computeFromGeocode).toHaveBeenCalled();

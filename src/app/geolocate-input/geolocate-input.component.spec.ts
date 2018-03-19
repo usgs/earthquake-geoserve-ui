@@ -4,7 +4,7 @@ import { MatDialogRef, MatFormFieldModule, MatInputModule, MatProgressBarModule 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
-import { CoordinatesService } from '../coordinates.service';
+import { CoordinatesService } from '../core/coordinates.service';
 
 import { GeolocateInputComponent } from './geolocate-input.component';
 
@@ -18,14 +18,18 @@ describe('GeolocateInputComponent', () => {
   let dialog;
   let dialogSpy;
   let coordinatesService;
+  let roundLocationSpy;
 
+
+  const point = 35;
 
   const coordinates = {
-    confidence: 1,
-    latitude: 35,
-    longitude: -105,
-    method: 'coordinate',
-    zoom: 16
+    confidence: 3,
+    latitude: point,
+    longitude: point,
+    method: 'geocode',
+    name: 'Golden, Colorado',
+    zoom: 9
   };
 
   beforeEach(async(() => {
@@ -37,6 +41,9 @@ describe('GeolocateInputComponent', () => {
         console.log('stubbified!');
       },
       computeZoomFromConfidence: (confidence: number) => {
+        console.log('stubbified!');
+      },
+      roundLocation: (value: number, confidence: number) => {
         console.log('stubbified!');
       }
     };
@@ -76,6 +83,7 @@ describe('GeolocateInputComponent', () => {
     setCoordinatesSpy = spyOn(coordinatesService, 'setCoordinates');
     computeFromGeolocateSpy = spyOn(coordinatesService, 'computeFromGeolocate').and.returnValue(coordinates.confidence);
     computeZoomFromConfidenceSpy = spyOn(coordinatesService, 'computeZoomFromConfidence').and.returnValue(coordinates.zoom);
+    roundLocationSpy = spyOn(coordinatesService, 'roundLocation').and.returnValue(point);
 
     // stub dialog
     dialog = fixture.debugElement.injector.get(MatDialogRef);

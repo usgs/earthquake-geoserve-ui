@@ -3,7 +3,7 @@ import { HttpClient, HttpHandler } from '@angular/common/http';
 
 import { NoDataComponent } from '../no-data/no-data.component';
 import { TectonicSummaryRegionComponent } from './tectonic-summary-region.component';
-import { RegionsService } from '../../regions.service';
+import { RegionsService } from '../../core/regions.service';
 
 describe('TectonicSummaryRegionComponent', () => {
   let component: TectonicSummaryRegionComponent;

@@ -324,13 +324,23 @@ describe('CoordinatesService', () => {
   });
 
   describe('setCoordinates', () => {
-    it('rounds the latitude and longitude values', () => {
-      let roundLocationSpy;
+    it('sets value on observable', () => {
+      const location = {
+        confidence: null,
+        latitude: 1,
+        longitude: 1,
+        zoom: null,
+        method: null,
+        name: null
+      };
+      const spy = jasmine.createSpy('subscriber spy');
+      const coordinates = coordinatesService.coordinates;
 
-      roundLocationSpy = spyOn(coordinatesService, 'roundLocation');
-      coordinatesService.setCoordinates(CoordinateObject);
+      coordinates.subscribe(spy);
+      coordinatesService.setCoordinates(location);
 
-      expect(roundLocationSpy.calls.count()).toEqual(2);
+      expect(spy).toHaveBeenCalled();
+      expect(spy).toHaveBeenCalledWith(location);
     });
   });
 

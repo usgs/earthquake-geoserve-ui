@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 
-import { CoordinatesService } from '../../coordinates.service';
-import { PlacesService } from '../../places.service';
-import { RegionsService } from '../../regions.service';
+import { CoordinatesService } from '../../core/coordinates.service';
+import { PlacesService } from '../../core/places.service';
+import { RegionsService } from '../../core/regions.service';
 
 import { LocationOutputComponent } from './location-output.component';
 
