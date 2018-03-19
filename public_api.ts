@@ -1,4 +1,5 @@
-export { CoreModule } from './src/app/core/core.module';
+import { CoreModule } from './src/app/core/core.module';
+export const GeoserveCoreModule = CoreModule;
 
 export { CoordinatesService } from './src/app/core/coordinates.service';
 export { PlacesService } from './src/app/core/places.service';

@@ -80,13 +80,12 @@ To use the component selectors you must import the correct modules and services 
     npm install earthquake-geoserve-ui
     ```
 
-1. Import the `GeoserveOutputModule` and `CoreModule` from the `earthquake-geoserve-ui`
+1. Import the `GeoserveOutputModule` and `GeoserveCoreModule` from the `earthquake-geoserve-ui`
 
     ```
     /** app.module.ts */
 
-    import { GeoserveOutputModule } from 'earthquake-geoserve-ui';
-    import { CoreModule as GeoserveCoreModule } from 'earthquake-geoserve-ui';
+    import { GeoserveCoreModule, GeoserveOutputModule } from 'earthquake-geoserve-ui';
     ...
     imports: [
         GeoserveCoreModule.forRoot(),
