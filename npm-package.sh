@@ -1,6 +1,5 @@
 #!/bin/bash -e
 
-ANGULAR_BUILD=dist
 NPM_BUILD=dist-npm
 
 ## compile for npm release
