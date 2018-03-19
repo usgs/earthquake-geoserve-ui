@@ -29,7 +29,7 @@ sense requires packaging the application from the Angular source code, and
 then publishing that package to npm [earthquake-geoserve-ui](https://www.npmjs.com/package/earthquake-geoserve-ui).
 
 
-### NPM Publish Geoserve Components
+### NPM Publish
 
 Build/Publish the npm distributable from the Angular source using the `ng` command line
 tool.
@@ -51,10 +51,24 @@ $ npm install earthquake-geoserve-ui@<version>
 ```
 
 
-## Using the Geoserve components
+## Using the Geoserve Components
 
-Follow these steps to use any of the geoserve components in your application (selectors listed below). 
+Follow these steps to use any of the geoserve components in your application (selectors listed below).
 
+### Geoserve Component Selectors
+
+The `GeoserveOutputModule` contains the following  geoserve component selectors:
+
+* app-admin-region
+* app-authoritative-region
+* app-nearby-places
+* app-neic-catalog-region
+* app-neic-response-region
+* app-offshore-region
+* app-tectonic-summary-region
+
+
+### Installing/Importing
 1. Install the earthquake-geoserve-ui project
     ```
     npm install earthquake-geoserve-ui
@@ -95,20 +109,7 @@ Follow these steps to use any of the geoserve components in your application (se
     });
     ```
 
-### Geoserve Component Selectors
-
-The `GeoserveOutputModule` contains the following  geoserve component selectors:
-
-* app-admin-region
-* app-authoritative-region
-* app-nearby-places
-* app-neic-catalog-region
-* app-neic-response-region
-* app-offshore-region
-* app-tectonic-summary-region
-
-General Angular Information
----------------------------
+## General Angular Information
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.5.
 
