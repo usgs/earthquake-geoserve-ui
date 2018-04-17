@@ -180,14 +180,14 @@ node {
         unHealthy: ''
       )
 
-      publishHTML (target: [
-        allowMissing: true,
-        alwaysLinkToLastBuild: true,
-        keepAll: true,
-        reportDir: 'dependency-check-data',
-        reportFiles: 'dependency-check-report.html',
-        reportName: 'Dependency Analysis'
-      ])
+      // publishHTML (target: [
+      //   allowMissing: true,
+      //   alwaysLinkToLastBuild: true,
+      //   keepAll: true,
+      //   reportDir: 'dependency-check-data',
+      //   reportFiles: 'dependency-check-report.html',
+      //   reportName: 'Dependency Analysis'
+      // ])
 
       publishHTML (target: [
         allowMissing: true,
