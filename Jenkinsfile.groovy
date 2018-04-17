@@ -172,22 +172,22 @@ node {
       }
 
       // Publish results
-      dependencyCheckPublisher(
-        canComputeNew: false,
-        defaultEncoding: '',
-        healthy: '',
-        pattern: '**/dependency-check-report.xml',
-        unHealthy: ''
-      )
+      // dependencyCheckPublisher(
+      //   canComputeNew: false,
+      //   defaultEncoding: '',
+      //   healthy: '',
+      //   pattern: '**/dependency-check-report.xml',
+      //   unHealthy: ''
+      // )
 
-      // publishHTML (target: [
-      //   allowMissing: true,
-      //   alwaysLinkToLastBuild: true,
-      //   keepAll: true,
-      //   reportDir: 'dependency-check-data',
-      //   reportFiles: 'dependency-check-report.html',
-      //   reportName: 'Dependency Analysis'
-      // ])
+      publishHTML (target: [
+        allowMissing: true,
+        alwaysLinkToLastBuild: true,
+        keepAll: true,
+        reportDir: 'dependency-check-data',
+        reportFiles: 'dependency-check-report.html',
+        reportName: 'Dependency Analysis'
+      ])
 
       publishHTML (target: [
         allowMissing: true,
