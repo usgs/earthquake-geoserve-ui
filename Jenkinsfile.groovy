@@ -4,7 +4,7 @@ node {
   // Used for consistency between other variables
   def APP_NAME = 'earthquake-geoserve-ui'
   // Base group from where general images may be pulled
-  def DEVOPS_REGISTRY = "${GITLAB_INNERSOURCE_REGISTRY}/devops/containers"
+  def DEVOPS_REGISTRY = "${GITLAB_INNERSOURCE_REGISTRY}/devops/images"
   // Flag to capture exceptions and mark build as failure
   def FAILURE = null
   // What version to tag built image as
@@ -14,11 +14,11 @@ node {
 
 
   // Name of image to use as basis when building LOCAL_IMAGE/DEPLOY_IMAGE
-  def BASE_IMAGE = "${DEVOPS_REGISTRY}/nginx:latest"
+  def BASE_IMAGE = "${DEVOPS_REGISTRY}/usgs/nginx:latest"
 
   // Used to install dependencies and build distributables
   def BUILDER_CONTAINER = "${APP_NAME}-${BUILD_ID}-BUILDER"
-  def BUILDER_IMAGE = "${DEVOPS_REGISTRY}/node:8"
+  def BUILDER_IMAGE = "${DEVOPS_REGISTRY}/usgs/node:8"
 
   // Name of image to deploy (push) to registry
   def DEPLOY_IMAGE = "${GITLAB_INNERSOURCE_REGISTRY}/ghsc/hazdev/earthquake-geoserve/ui"
@@ -29,12 +29,12 @@ node {
 
   // Runs zap.sh as daemon and used to execute zap-cli calls within
   def OWASP_CONTAINER = "${APP_NAME}-${BUILD_ID}-OWASP"
-  def OWASP_IMAGE = "${DEVOPS_REGISTRY}/library/owasp/zap2docker-stable"
+  def OWASP_IMAGE = "${DEVOPS_REGISTRY}/owasp/zap2docker-stable"
   def OWASP_REPORT_DIR = "${WORKSPACE}/owasp-data"
 
 
   // Used to run linting, unit tests, coverage, and e2e within this container
-  def TESTER_IMAGE = "${DEVOPS_REGISTRY}/library/trion/ng-cli-e2e"
+  def TESTER_IMAGE = "${DEVOPS_REGISTRY}/trion/ng-cli-e2e"
 
   // Queue up tasks that can be run in parallel
   def SECURITY_CHECKS = [:]
