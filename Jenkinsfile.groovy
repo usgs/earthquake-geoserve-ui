@@ -172,14 +172,6 @@ node {
       }
 
       // Publish results
-      dependencyCheckPublisher(
-        canComputeNew: false,
-        defaultEncoding: '',
-        healthy: '',
-        pattern: '**/dependency-check-report.xml',
-        unHealthy: ''
-      )
-
       publishHTML (target: [
         allowMissing: true,
         alwaysLinkToLastBuild: true,
