@@ -2,13 +2,18 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'geoserve-output',
-  templateUrl: './geoserve-output.component.html',
-  styleUrls: ['./geoserve-output.component.css']
+  template: `
+    <p>
+      geoserve-output works!
+    </p>
+  `,
+  styles: []
 })
 export class GeoserveOutputComponent implements OnInit {
 
-  constructor () { }
+  constructor() { }
 
   ngOnInit() {
   }
+
 }

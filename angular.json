@@ -150,46 +150,6 @@
         }
       }
     },
-    "geoserve-output": {
-      "root": "projects/geoserve-output",
-      "sourceRoot": "projects/geoserve-output/src",
-      "projectType": "library",
-      "prefix": "geoserve",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "tsConfig": "projects/geoserve-output/tsconfig.lib.json",
-            "project": "projects/geoserve-output/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "project": "projects/geoserve-output/ng-package.prod.json"
-            }
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/geoserve-output/src/test.ts",
-            "tsConfig": "projects/geoserve-output/tsconfig.spec.json",
-            "karmaConfig": "projects/geoserve-output/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/geoserve-output/tsconfig.lib.json",
-              "projects/geoserve-output/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
     "location-input": {
       "root": "projects/location-input",
       "sourceRoot": "projects/location-input/src",
@@ -222,6 +182,46 @@
             "tsConfig": [
               "projects/location-input/tsconfig.lib.json",
               "projects/location-input/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "geoserve-output": {
+      "root": "projects/geoserve-output",
+      "sourceRoot": "projects/geoserve-output/src",
+      "projectType": "library",
+      "prefix": "geoserve",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/geoserve-output/tsconfig.lib.json",
+            "project": "projects/geoserve-output/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/geoserve-output/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/geoserve-output/src/test.ts",
+            "tsConfig": "projects/geoserve-output/tsconfig.spec.json",
+            "karmaConfig": "projects/geoserve-output/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/geoserve-output/tsconfig.lib.json",
+              "projects/geoserve-output/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

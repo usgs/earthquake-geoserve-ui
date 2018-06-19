@@ -17,17 +17,17 @@
       "dom"
     ],
     "paths": {
-      "geoserve-output": [
-        "dist/geoserve-output"
-      ],
-      "geoserve-output/*": [
-        "dist/geoserve-output/*"
-      ],
       "location-input": [
         "../dist/location-input"
       ],
       "location-input/*": [
         "../dist/location-input/*"
+      ],
+      "geoserve-output": [
+        "dist/geoserve-output"
+      ],
+      "geoserve-output/*": [
+        "dist/geoserve-output/*"
       ]
     }
   }
