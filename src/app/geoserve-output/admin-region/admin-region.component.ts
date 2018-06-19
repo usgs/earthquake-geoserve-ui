@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Region } from '../../core/region';
-import { RegionsService } from '../../core/regions.service';
+import {
+  Region,
+  RegionsService
+} from 'location-input';
 
 @Component({
   selector: 'app-admin-region',

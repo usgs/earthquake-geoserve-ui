@@ -34,6 +34,9 @@ import { RegionsService } from './core/regions.service';
     MatIconModule,
     MatProgressBarModule
   ],
+  entryComponents: [
+    LocationDialogComponent
+  ],
   declarations: [
     CoordinateInputComponent,
     GeocodeInputComponent,

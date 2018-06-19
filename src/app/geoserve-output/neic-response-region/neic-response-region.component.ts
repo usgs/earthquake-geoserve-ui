@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { RegionsService } from '../../core/regions.service';
+import { RegionsService } from 'location-input';
 
 @Component({
   selector: 'app-neic-response-region',

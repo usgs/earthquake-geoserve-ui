@@ -27,7 +27,7 @@ import { HazdevTemplateHeaderComponent } from './hazdev-template-header/hazdev-t
 import { HazdevTemplateNavigationComponent } from './hazdev-template-navigation/hazdev-template-navigation.component';
 import { HazdevTemplatePageComponent } from './hazdev-template-page/hazdev-template-page.component';
 
-import { LocationInputModule } from '../../projects/location-input/src/lib/location-input.module';
+import { LocationInputModule } from 'location-input';
 
 @NgModule({
   declarations: [
@@ -62,16 +62,7 @@ import { LocationInputModule } from '../../projects/location-input/src/lib/locat
   ],
   exports: [
     GeoserveOutputModule,
-    HttpClientModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatExpansionModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatListModule,
-    MatProgressBarModule,
-    MatSidenavModule
+    HttpClientModule
   ],
   providers: [
     MediaMatcher

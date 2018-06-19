@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
-import { CoordinatesService } from '../core/coordinates.service';
-import { LocationDialogComponent } from '../location-dialog/location-dialog.component';
+import {
+  CoordinatesService,
+  LocationDialogComponent
+} from 'location-input';
 
 @Component({
   selector: 'app-geoserve-output',

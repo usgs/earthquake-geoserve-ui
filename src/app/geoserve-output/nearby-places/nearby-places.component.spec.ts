@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 
-import { PlacesService } from '../../core/places.service';
+import { PlacesService } from 'location-input;
 
 import { NearbyPlaceComponent } from '../nearby-place/nearby-place.component';
 import { NearbyPlacesComponent } from './nearby-places.component';

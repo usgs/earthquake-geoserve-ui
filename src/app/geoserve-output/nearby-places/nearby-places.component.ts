@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { PlacesService } from '../../core/places.service';
+import { PlacesService } from 'location-input';
 
 
 @Component({

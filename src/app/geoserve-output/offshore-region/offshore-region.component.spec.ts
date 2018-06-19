@@ -4,7 +4,7 @@ import { HttpClient, HttpHandler } from '@angular/common/http';
 import { ListItemComponent } from '../list-item/list-item.component';
 import { NoDataComponent } from '../no-data/no-data.component';
 import { OffshoreRegionComponent } from './offshore-region.component';
-import { RegionsService } from '../../core/regions.service';
+import { RegionsService } from 'location-input';
 
 describe('OffshoreRegionComponent', () => {
   let component: OffshoreRegionComponent;
