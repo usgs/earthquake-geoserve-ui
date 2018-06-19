@@ -1,0 +1,10 @@
+ol {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  clear: both;
+  margin-bottom: 0.5em;
+  overflow: hidden;
+}

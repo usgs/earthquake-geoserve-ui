@@ -20,38 +20,27 @@ import { CoreModule } from './core/core.module';
 import { GeoserveOutputModule } from './geoserve-output/geoserve-output.module';
 
 import { AppComponent } from './app.component';
-import { CoordinateInputComponent } from './coordinate-input/coordinate-input.component';
 import { GeoserveComponent } from './geoserve/geoserve.component';
 import { HazdevTemplateComponent } from './hazdev-template/hazdev-template.component';
 import { HazdevTemplateFooterComponent } from './hazdev-template-footer/hazdev-template-footer.component';
 import { HazdevTemplateHeaderComponent } from './hazdev-template-header/hazdev-template-header.component';
 import { HazdevTemplateNavigationComponent } from './hazdev-template-navigation/hazdev-template-navigation.component';
 import { HazdevTemplatePageComponent } from './hazdev-template-page/hazdev-template-page.component';
-import { LocationDialogComponent } from './location-dialog/location-dialog.component';
-import { LocationMapComponent } from './location-map/location-map.component';
-import { GeolocateInputComponent } from './geolocate-input/geolocate-input.component';
-import { GeocodeInputComponent } from './geocode-input/geocode-input.component';
 
+import { LocationInputModule } from '../../projects/location-input/src/lib/location-input.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CoordinateInputComponent,
     GeoserveComponent,
     HazdevTemplateComponent,
     HazdevTemplateFooterComponent,
     HazdevTemplateHeaderComponent,
     HazdevTemplateNavigationComponent,
-    HazdevTemplatePageComponent,
-    LocationDialogComponent,
-    LocationMapComponent,
-    GeolocateInputComponent,
-    GeocodeInputComponent
+    HazdevTemplatePageComponent
   ],
   entryComponents: [
-    CoordinateInputComponent,
-    GeoserveComponent,
-    LocationDialogComponent
+    GeoserveComponent
   ],
   imports: [
     BrowserModule,
@@ -59,6 +48,7 @@ import { GeocodeInputComponent } from './geocode-input/geocode-input.component';
     CoreModule.forRoot(),
     FormsModule,
     GeoserveOutputModule,
+    LocationInputModule.forRoot(),
     MatButtonModule,
     MatDialogModule,
     MatExpansionModule,

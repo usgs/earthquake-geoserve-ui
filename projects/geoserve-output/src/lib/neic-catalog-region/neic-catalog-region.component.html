@@ -1,0 +1,18 @@
+<!-- NEIC Catalog region was returned, display the region -->
+<h2>NEIC Catalog Region</h2>
+<div *ngIf="regionsService.neicCatalog | async; else noRegion;
+    let region "class="output-section">
+  <dl class="neic-catalog-region">
+    <app-list-item TITLE="Name" DATA="{{ region?.properties.name }}">
+    </app-list-item>
+    <app-list-item TITLE="Type" DATA="{{ region?.properties.type }}">
+    </app-list-item>
+    <app-list-item TITLE="Magnitude" DATA="{{ region?.properties.magnitude }}">
+    </app-list-item>
+  </dl>
+</div>
+
+<!-- No NEIC Catalog region was returned -->
+<ng-template #noRegion>
+  <app-no-data></app-no-data>
+</ng-template>

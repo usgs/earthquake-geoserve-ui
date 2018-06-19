@@ -1,0 +1,9 @@
+<div *ngIf="coordinatesService.coordinates | async; let coordinates" class="location-output">
+  <h2>Location</h2>
+  <p class="coordinates alert success">
+    (
+      {{ coordinates?.latitude }},
+      {{ coordinates?.longitude }}
+    )
+  </p>
+</div>
