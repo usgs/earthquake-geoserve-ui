@@ -28,6 +28,7 @@ import { LocationInputModule } from 'location-input';
     LocationInputModule,
     MatButtonModule,
     MatIconModule,
+    MatInputModule,
     MatListModule
   ],
   declarations: [

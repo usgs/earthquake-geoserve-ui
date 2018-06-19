@@ -6,9 +6,9 @@ import * as L from 'leaflet';
 
 import { LocationMapComponent } from './location-map.component';
 
-import { Coordinates } from '../core/coordinates';
-import { CoordinatesService } from '../core/coordinates.service';
-import { OverlaysService } from '../core/overlays.service';
+import { Coordinates } from '../coordinates';
+import { CoordinatesService } from '../coordinates.service';
+import { OverlaysService } from '../overlays.service';
 
 describe('LocationMapComponent', () => {
   let component: LocationMapComponent;

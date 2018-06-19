@@ -4,7 +4,7 @@ import { HttpClient} from '@angular/common/http';
 import { Observable ,  of ,  BehaviorSubject } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
-import { environment } from '../../environments/environment';
+import { environment } from '../environments/environment';
 
 import { CoordinatesService } from './coordinates.service';
 

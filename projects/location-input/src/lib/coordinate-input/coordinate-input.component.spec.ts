@@ -6,8 +6,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CoordinateInputComponent } from './coordinate-input.component';
 
-import { Coordinates } from '../core/coordinates';
-import { CoordinatesService } from '../core/coordinates.service';
+import { Coordinates } from '../coordinates';
+import { CoordinatesService } from '../coordinates.service';
 
 
 describe('CoordinateInputComponent', () => {

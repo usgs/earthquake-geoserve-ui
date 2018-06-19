@@ -1,12 +1,12 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnDestroy, AfterViewInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import * as L from 'leaflet';
 
-import { CoordinatesService } from '../core/coordinates.service';
-import { OverlaysService } from '../core/overlays.service';
+import { CoordinatesService } from '../coordinates.service';
+import { OverlaysService } from '../overlays.service';
 
-import { Coordinates } from '../core/coordinates';
+import { Coordinates } from '../coordinates';
 import { LocationDialogComponent } from '../location-dialog/location-dialog.component';
 
 @Component({
@@ -15,7 +15,7 @@ import { LocationDialogComponent } from '../location-dialog/location-dialog.comp
   styleUrls: ['./location-map.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class LocationMapComponent implements OnDestroy, OnInit {
+export class LocationMapComponent implements OnDestroy, AfterViewInit {
   baseLayers: L.LayerGroup;
   layerControl: L.Control.Layers;
   map: L.Map;
@@ -25,22 +25,27 @@ export class LocationMapComponent implements OnDestroy, OnInit {
   coordinatesObservable;
   menuObservable;
 
+  @ViewChild('mapWrapper')
+  mapWrapper: ElementRef;
 
   constructor(
-    private coordinatesService: CoordinatesService,
+    public coordinatesService: CoordinatesService,
     public dialog: MatDialog,
-    private overlaysService: OverlaysService
+    public overlaysService: OverlaysService
   ) {}
 
   ngOnDestroy() {
     // unbind dragend event
     this.destroyMarker();
 
+    // destroy map
+    this.destroyMap();
+
     // unsubscribe to services
     this.unsubscribeFromServices();
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     // create leaflet map
     this.createMap();
 
@@ -181,7 +186,7 @@ export class LocationMapComponent implements OnDestroy, OnInit {
    */
   createMap (): void {
     // Create map (center on US)
-    this.map = L.map('map', {
+    this.map = L.map(this.mapWrapper.nativeElement, {
       center: [ 38, -95 ],
       zoom: 4
     });
@@ -217,6 +222,15 @@ export class LocationMapComponent implements OnDestroy, OnInit {
    */
   destroyMarker(): void {
     this.marker.off('dragend', this.onDragEnd, this);
+  }
+
+  /**
+   * Destroys the map
+   *
+   */
+  destroyMap(): void {
+    this.map.remove();
+    this.map = null;
   }
 
   /**

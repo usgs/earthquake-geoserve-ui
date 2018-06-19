@@ -6,7 +6,8 @@ import {
   MatExpansionModule,
   MatFormFieldModule,
   MatIconModule,
-  MatProgressBarModule
+  MatProgressBarModule,
+  MatInputModule
 } from '@angular/material';
 
 import { LocationInputComponent } from './location-input.component';
@@ -17,11 +18,11 @@ import { LocationMapComponent } from './location-map/location-map.component';
 import { GeolocateInputComponent } from './geolocate-input/geolocate-input.component';
 import { GeocodeInputComponent } from './geocode-input/geocode-input.component';
 
-import { CoordinatesService } from './core/coordinates.service';
-import { GeocodeService } from './core/geocode.service';
-import { OverlaysService } from './core/overlays.service';
-import { PlacesService } from './core/places.service';
-import { RegionsService } from './core/regions.service';
+import { CoordinatesService } from './coordinates.service';
+import { GeocodeService } from './geocode.service';
+import { OverlaysService } from './overlays.service';
+import { PlacesService } from './places.service';
+import { RegionsService } from './regions.service';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { RegionsService } from './core/regions.service';
     MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
+    MatInputModule,
     MatProgressBarModule
   ],
   entryComponents: [

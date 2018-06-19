@@ -4,8 +4,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatDialogRef, MatFormFieldModule, MatInputModule, MatProgressBarModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { GeocodeService } from '../core/geocode.service';
-import { CoordinatesService } from '../core/coordinates.service';
+import { GeocodeService } from '../geocode.service';
+import { CoordinatesService } from '../coordinates.service';
 
 import { GeocodeInputComponent } from './geocode-input.component';
 

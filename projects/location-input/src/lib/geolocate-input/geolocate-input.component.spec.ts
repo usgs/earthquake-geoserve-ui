@@ -4,7 +4,7 @@ import { MatDialogRef, MatFormFieldModule, MatInputModule, MatProgressBarModule 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
-import { CoordinatesService } from '../core/coordinates.service';
+import { CoordinatesService } from '../coordinates.service';
 
 import { GeolocateInputComponent } from './geolocate-input.component';
 

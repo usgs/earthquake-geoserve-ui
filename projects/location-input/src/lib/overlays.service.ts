@@ -6,7 +6,7 @@ import { catchError, tap } from 'rxjs/operators';
 
 import * as L from 'leaflet';
 
-import { environment } from '../../environments/environment';
+import { environment } from '../environments/environment';
 
 @Injectable()
 export class OverlaysService {
