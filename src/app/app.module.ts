@@ -17,7 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CoreModule } from './core/core.module';
-import { GeoserveOutputModule } from './geoserve-output/geoserve-output.module';
+import { GeoserveOutputModule } from 'geoserve-output';
 
 import { AppComponent } from './app.component';
 import { GeoserveComponent } from './geoserve/geoserve.component';

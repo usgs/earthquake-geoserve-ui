@@ -24,10 +24,10 @@
         "../dist/location-input/*"
       ],
       "geoserve-output": [
-        "dist/geoserve-output"
+        "../dist/geoserve-output"
       ],
       "geoserve-output/*": [
-        "dist/geoserve-output/*"
+        "../dist/geoserve-output/*"
       ]
     }
   }

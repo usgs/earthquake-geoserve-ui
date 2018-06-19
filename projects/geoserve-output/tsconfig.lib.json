@@ -15,7 +15,15 @@
     "lib": [
       "dom",
       "es2015"
-    ]
+    ],
+    "paths": {
+      "location-input": [
+        "../../../dist/location-input"
+      ],
+      "location-input/*": [
+        "../../../dist/location-input/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "annotateForClosureCompiler": true,
