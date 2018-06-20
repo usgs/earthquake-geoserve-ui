@@ -7,7 +7,7 @@ import {
 } from 'location-input';
 
 @Component({
-  selector: 'app-geoserve-output',
+  selector: 'geoserve-output',
   templateUrl: './geoserve-output.component.html',
   styleUrls: ['./geoserve-output.component.css']
 })

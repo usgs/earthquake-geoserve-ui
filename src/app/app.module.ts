@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import {
@@ -16,9 +16,11 @@ import {
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { CoreModule } from './core/core.module';
-import { GeoserveOutputModule } from 'geoserve-output';
 
+import { GeoserveOutputModule } from 'geoserve-output';
+import { LocationInputModule } from 'location-input';
+
+import { CoreModule } from './core/core.module';
 import { AppComponent } from './app.component';
 import { GeoserveComponent } from './geoserve/geoserve.component';
 import { HazdevTemplateComponent } from './hazdev-template/hazdev-template.component';
@@ -27,7 +29,6 @@ import { HazdevTemplateHeaderComponent } from './hazdev-template-header/hazdev-t
 import { HazdevTemplateNavigationComponent } from './hazdev-template-navigation/hazdev-template-navigation.component';
 import { HazdevTemplatePageComponent } from './hazdev-template-page/hazdev-template-page.component';
 
-import { LocationInputModule } from 'location-input';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { LocationInputModule } from 'location-input';
     BrowserAnimationsModule,
     CoreModule.forRoot(),
     FormsModule,
-    GeoserveOutputModule,
+    GeoserveOutputModule.forRoot(),
+    HttpClientModule,
     LocationInputModule.forRoot(),
     MatButtonModule,
     MatDialogModule,
@@ -61,8 +63,6 @@ import { LocationInputModule } from 'location-input';
     ReactiveFormsModule
   ],
   exports: [
-    GeoserveOutputModule,
-    HttpClientModule
   ],
   providers: [
     MediaMatcher

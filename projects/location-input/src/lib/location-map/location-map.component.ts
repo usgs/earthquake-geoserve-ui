@@ -3,10 +3,8 @@ import { MatDialog } from '@angular/material';
 
 import * as L from 'leaflet';
 
-import { CoordinatesService } from '../coordinates.service';
-import { OverlaysService } from '../overlays.service';
-
 import { Coordinates } from '../coordinates';
+import { CoordinatesService } from '../coordinates.service';
 import { LocationDialogComponent } from '../location-dialog/location-dialog.component';
 
 @Component({
@@ -20,18 +18,15 @@ export class LocationMapComponent implements OnDestroy, AfterViewInit {
   layerControl: L.Control.Layers;
   map: L.Map;
   marker: L.Marker;
-  overlays: L.LayerGroup;
 
   coordinatesObservable;
-  menuObservable;
 
   @ViewChild('mapWrapper')
   mapWrapper: ElementRef;
 
   constructor(
     public coordinatesService: CoordinatesService,
-    public dialog: MatDialog,
-    public overlaysService: OverlaysService
+    public dialog: MatDialog
   ) {}
 
   ngOnDestroy() {
@@ -55,9 +50,6 @@ export class LocationMapComponent implements OnDestroy, AfterViewInit {
     // Add baselayers to map
     this.addBaselayers();
 
-    // Get region overlays
-    this.getOverlays();
-
     // Add location control to map
     this.addLocationControl();
 
@@ -71,19 +63,6 @@ export class LocationMapComponent implements OnDestroy, AfterViewInit {
         this.moveMap(coordinates);
       }
     });
-
-    this.overlaysService.overlays.subscribe((layers) => {
-      // add overlays
-      for (const name in layers) {
-        if (layers.hasOwnProperty(name)) {
-          this.layerControl.addOverlay(layers[name], name);
-        }
-      }
-    });
-  }
-
-  getOverlays (): void {
-     this.overlaysService.getOverlays();
   }
 
   /**
@@ -315,6 +294,5 @@ export class LocationMapComponent implements OnDestroy, AfterViewInit {
 
   unsubscribeFromServices (): void {
     this.coordinatesObservable.unsubscribe();
-    this.menuObservable.unsubscribe();
   }
 }

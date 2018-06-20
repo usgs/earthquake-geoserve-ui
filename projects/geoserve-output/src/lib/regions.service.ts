@@ -6,7 +6,7 @@ import { catchError, tap } from 'rxjs/operators';
 
 import { environment } from '../environments/environment';
 
-import { CoordinatesService } from './coordinates.service';
+import { CoordinatesService } from 'location-input';
 
 @Injectable()
 export class RegionsService {

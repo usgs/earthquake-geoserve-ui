@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 
-import { RegionsService } from 'location-input';
+import { RegionsService } from '../regions.service';
 
 import { ListItemComponent } from '../list-item/list-item.component';
 import { NeicCatalogRegionComponent } from './neic-catalog-region.component';

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   MatButtonModule,
@@ -21,6 +21,10 @@ import { OffshoreRegionComponent } from './offshore-region/offshore-region.compo
 import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tectonic-summary-region.component';
 
 import { LocationInputModule } from 'location-input';
+
+import { OverlaysService } from './overlays.service';
+import { PlacesService } from './places.service';
+import { RegionsService } from './regions.service';
 
 @NgModule({
   imports: [
@@ -60,4 +64,15 @@ import { LocationInputModule } from 'location-input';
     TectonicSummaryRegionComponent
   ]
 })
-export class GeoserveOutputModule { }
+export class GeoserveOutputModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: GeoserveOutputModule,
+      providers: [
+        OverlaysService,
+        PlacesService,
+        RegionsService
+      ]
+    };
+  }
+}

@@ -1,7 +1,7 @@
 import { TestBed, getTestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-import { CoordinatesService } from './coordinates.service';
+import { CoordinatesService } from 'location-input';
 import { PlacesService } from './places.service';
 
 describe('PlacesService', () => {

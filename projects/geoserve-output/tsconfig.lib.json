@@ -18,10 +18,10 @@
     ],
     "paths": {
       "location-input": [
-        "../../../dist/location-input"
+        "dist/location-input"
       ],
       "location-input/*": [
-        "../../../dist/location-input/*"
+        "dist/location-input/*"
       ]
     }
   },

@@ -20,9 +20,6 @@ import { GeocodeInputComponent } from './geocode-input/geocode-input.component';
 
 import { CoordinatesService } from './coordinates.service';
 import { GeocodeService } from './geocode.service';
-import { OverlaysService } from './overlays.service';
-import { PlacesService } from './places.service';
-import { RegionsService } from './regions.service';
 
 @NgModule({
   imports: [
@@ -64,10 +61,7 @@ export class LocationInputModule {
       ngModule: LocationInputModule,
       providers: [
         CoordinatesService,
-        GeocodeService,
-        OverlaysService,
-        PlacesService,
-        RegionsService
+        GeocodeService
       ]
     };
   }

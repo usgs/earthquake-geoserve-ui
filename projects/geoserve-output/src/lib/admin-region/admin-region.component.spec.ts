@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 
-import { RegionsService } from 'location-input';
+import { RegionsService } from '../regions.service';
 
 import { AdminRegionComponent } from './admin-region.component';
 import { ListItemComponent } from '../list-item/list-item.component';
