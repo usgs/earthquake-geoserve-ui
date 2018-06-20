@@ -334,7 +334,7 @@ describe('CoordinatesService', () => {
         name: null
       };
       const spy = jasmine.createSpy('subscriber spy');
-      const coordinates = coordinatesService.coordinates;
+      const coordinates = coordinatesService.coordinates$;
 
       coordinates.subscribe(spy);
       coordinatesService.setCoordinates(location);

@@ -229,7 +229,7 @@ describe('LocationMapComponent', () => {
     it('should subscribe to the coordinates service', () => {
       let coordinatesServiceSpy;
 
-      coordinatesServiceSpy = spyOn(coordinatesService.coordinates, 'subscribe');
+      coordinatesServiceSpy = spyOn(coordinatesService.coordinates$, 'subscribe');
       component.subscribeToServices();
 
       expect(coordinatesServiceSpy).toHaveBeenCalled();

@@ -23,7 +23,7 @@ export class PlacesService {
     private http: HttpClient
   ) {
     // subscribe to coordinates service
-    this.coordinatesService.coordinates.subscribe((coordinates) => {
+    this.coordinatesService.coordinates$.subscribe((coordinates) => {
       // make request to places service when coordinates update
       if (coordinates) {
         this.getPlaces(coordinates.latitude, coordinates.longitude);

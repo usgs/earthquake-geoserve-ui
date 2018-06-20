@@ -57,7 +57,7 @@ export class LocationMapComponent implements OnDestroy, AfterViewInit {
     this.subscribeToServices();
 
     // subscribe to location changes
-    this.coordinatesService.coordinates.subscribe((coordinates) => {
+    this.coordinatesService.coordinates$.subscribe((coordinates) => {
       if (coordinates) {
         this.moveMarker(coordinates);
         this.moveMap(coordinates);
@@ -284,7 +284,7 @@ export class LocationMapComponent implements OnDestroy, AfterViewInit {
 
   subscribeToServices (): void {
     this.coordinatesObservable =
-        this.coordinatesService.coordinates.subscribe((coordinates) => {
+        this.coordinatesService.coordinates$.subscribe((coordinates) => {
           if (coordinates) {
             this.moveMarker(coordinates);
             this.moveMap(coordinates);

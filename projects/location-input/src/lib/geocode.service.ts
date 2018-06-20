@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-
 import { Observable ,  of ,  BehaviorSubject } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
@@ -13,15 +12,11 @@ export class GeocodeService {
   public readonly API_URL = 'https://geocode.arcgis.com/arcgis/rest/services/' +
       'World/GeocodeServer/find';
 
-  private _location: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  private _error: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-
-  public readonly location: Observable<any> = this._location.asObservable();
-  public readonly error: Observable<any> = this._error.asObservable();
+  public location$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public error$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
 
   constructor (private http: HttpClient) {}
-
 
   buildUrl (address: string): string {
     return this.API_URL + '?' + `f=json` + `&text=${address}`;
@@ -31,16 +26,16 @@ export class GeocodeService {
     if (!address || address === '') {
       // timeout is necessary for some reason
       setTimeout(() => {
-        this._error.next('An address is required.');
-        this._location.next(null);
+        this.error$.next('An address is required.');
+        this.location$.next(null);
       }, 0);
       return;
     }
   }
 
   empty (): void {
-    this._location.next(null);
-    this._error.next(null);
+    this.location$.next(null);
+    this.error$.next(null);
   }
 
   getLocation (address: string): void {
@@ -53,10 +48,10 @@ export class GeocodeService {
       catchError(this.handleError('getLocation', { locations: null }))
     ).subscribe((response) => {
       if (response.locations && response.locations.length !== 0) {
-        this._location.next(response.locations[0]);
+        this.location$.next(response.locations[0]);
       } else {
-        this._error.next('No results. Please search again.');
-        this._location.next(null);
+        this.error$.next('No results. Please search again.');
+        this.location$.next(null);
       }
     });
   }

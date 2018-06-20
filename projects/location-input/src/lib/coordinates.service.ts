@@ -9,8 +9,7 @@ import { Coordinates } from './coordinates';
 @Injectable()
 export class CoordinatesService {
 
-  private _coordinates: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  public readonly coordinates: Observable<Coordinates> = this._coordinates.asObservable();
+  public coordinates$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
 
   constructor() {}
@@ -230,7 +229,7 @@ export class CoordinatesService {
    */
   public setCoordinates (location: any): void {
     // set values that exist in the location object
-    this._coordinates.next({
+    this.coordinates$.next({
       confidence: location.confidence ? location.confidence : null,
       latitude: location.latitude ? location.latitude : null,
       longitude: location.longitude ? location.longitude : null,

@@ -22,7 +22,7 @@
       Search
     </button>
   </form>
-  <div *ngIf="geocodeService.error | async; let text">
+  <div *ngIf="geocodeService.error$ | async; let text">
     <p class="alert warning">
       {{ text }}
     </p>

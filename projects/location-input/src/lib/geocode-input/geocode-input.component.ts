@@ -26,7 +26,7 @@ export class GeocodeInputComponent implements OnInit, OnDestroy {
     this.showProgressBar = false;
 
     // subscribe to geocode changes
-    this.service = this.geocodeService.location.subscribe((location) => {
+    this.service = this.geocodeService.location$.subscribe((location) => {
       if (location) {
         this.setCoordinates(location);
         this.geocodeService.empty();

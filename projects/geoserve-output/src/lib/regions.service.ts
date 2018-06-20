@@ -43,7 +43,7 @@ export class RegionsService {
     private http: HttpClient
   ) {
     // subscribe to coordinates service
-    this.coordinatesService.coordinates.subscribe((coordinates) => {
+    this.coordinatesService.coordinates$.subscribe((coordinates) => {
       // make request to regions service when coordinates update
       if (coordinates) {
         this.getRegions(coordinates.latitude, coordinates.longitude);

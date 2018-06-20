@@ -1,4 +1,4 @@
-<div *ngIf="coordinatesService.coordinates | async; else noCoordinates">
+<div *ngIf="coordinatesService.coordinates$ | async; else noCoordinates">
   <app-location-output></app-location-output>
   <app-admin-region></app-admin-region>
   <app-authoritative-region></app-authoritative-region>

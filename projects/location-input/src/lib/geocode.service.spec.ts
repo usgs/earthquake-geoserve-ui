@@ -51,15 +51,15 @@ describe('GeocodeService', () => {
     it('throws error if no address is given and sets location to null', () => {
       geocodeService.checkLocation('');
 
-      expect(geocodeService.error).not.toBe(null);
+      expect(geocodeService.error$).not.toBe(null);
     });
   });
 
   describe('empty', () => {
     it('notifies with null', () => {
       const spy = jasmine.createSpy('subscriber spy');
-      const location = geocodeService.location;
-      const error = geocodeService.error;
+      const location = geocodeService.location$;
+      const error = geocodeService.error$;
 
       location.subscribe(spy);
       error.subscribe(spy);
@@ -92,7 +92,7 @@ describe('GeocodeService', () => {
       expect(request.request.method).toBe('GET');
       request.flush(locationJSON);
 
-      geocodeService.location.subscribe((result) => {
+      geocodeService.location$.subscribe((result) => {
         expect(result.name).toEqual(locationJSON.locations[0].name);
       });
     });
@@ -119,7 +119,7 @@ describe('GeocodeService', () => {
 
       request.error(new ErrorEvent('You may safely ignore this error.'));
 
-      geocodeService.location.subscribe((result) => {
+      geocodeService.location$.subscribe((result) => {
         expect(result).toBeNull();
       });
     });
@@ -129,7 +129,7 @@ describe('GeocodeService', () => {
     it('handles errors', () => {
       geocodeService.handleError('^&*', null);
 
-      expect(geocodeService.error).not.toBe(null);
+      expect(geocodeService.error$).not.toBe(null);
     });
   });
 });

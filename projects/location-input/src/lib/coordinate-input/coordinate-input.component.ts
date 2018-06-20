@@ -24,7 +24,7 @@ export class CoordinateInputComponent implements OnDestroy, OnInit {
         longitude;
 
     this.coordinatesObservable =
-      this.coordinatesService.coordinates.subscribe((coordinates) => {
+      this.coordinatesService.coordinates$.subscribe((coordinates) => {
         latitude = (coordinates ? coordinates.latitude : '');
         longitude = (coordinates ? coordinates.longitude : '');
       });
