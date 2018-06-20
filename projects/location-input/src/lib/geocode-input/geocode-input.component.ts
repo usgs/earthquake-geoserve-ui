@@ -4,6 +4,7 @@ import { MatDialogRef } from '@angular/material';
 
 import { GeocodeService } from '../geocode.service';
 import { CoordinatesService } from '../coordinates.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'location-input-geocode',
@@ -13,7 +14,7 @@ import { CoordinatesService } from '../coordinates.service';
 export class GeocodeInputComponent implements OnInit, OnDestroy {
   addressForm: FormGroup;
   showProgressBar: boolean;
-  service: any;
+  subscription = new Subscription();
 
   constructor(
     public coordinatesService: CoordinatesService,
@@ -26,14 +27,16 @@ export class GeocodeInputComponent implements OnInit, OnDestroy {
     this.showProgressBar = false;
 
     // subscribe to geocode changes
-    this.service = this.geocodeService.location$.subscribe((location) => {
-      if (location) {
-        this.setCoordinates(location);
-        this.geocodeService.empty();
-      } else {
-        this.showProgressBar = false;
-      }
-    });
+    this.subscription.add(
+      this.geocodeService.location$.subscribe((location) => {
+        if (location) {
+          this.setCoordinates(location);
+          this.geocodeService.empty();
+        } else {
+          this.showProgressBar = false;
+        }
+      })
+    );
 
     this.addressForm = this.fb.group({
       'address': ['', Validators.required]
@@ -41,7 +44,7 @@ export class GeocodeInputComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.service.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   doGeocode (value: any): void {

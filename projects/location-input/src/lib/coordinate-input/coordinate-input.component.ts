@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, FormControl, Validators, FormsModule, ReactiveF
 import { MatDialogRef } from '@angular/material';
 
 import { CoordinatesService } from '../coordinates.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'location-input-coordinate',
@@ -11,7 +12,7 @@ import { CoordinatesService } from '../coordinates.service';
 })
 export class CoordinateInputComponent implements OnDestroy, OnInit {
   coordinatesForm: FormGroup;
-  coordinatesObservable;
+  subscription = new Subscription();
 
   constructor (
     public coordinatesService: CoordinatesService,
@@ -23,11 +24,12 @@ export class CoordinateInputComponent implements OnDestroy, OnInit {
     let latitude,
         longitude;
 
-    this.coordinatesObservable =
+    this.subscription.add(
       this.coordinatesService.coordinates$.subscribe((coordinates) => {
         latitude = (coordinates ? coordinates.latitude : '');
         longitude = (coordinates ? coordinates.longitude : '');
-      });
+      })
+    );
 
     this.coordinatesForm = this.fb.group({
       'latitude': [latitude, Validators.required],
@@ -36,7 +38,7 @@ export class CoordinateInputComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy () {
-    this.coordinatesObservable.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   handleSubmit (value: any) {

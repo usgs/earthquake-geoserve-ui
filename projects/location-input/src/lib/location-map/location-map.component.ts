@@ -6,6 +6,7 @@ import * as L from 'leaflet';
 import { Coordinates } from '../coordinates';
 import { CoordinatesService } from '../coordinates.service';
 import { LocationDialogComponent } from '../location-dialog/location-dialog.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'location-input-map',
@@ -18,8 +19,7 @@ export class LocationMapComponent implements OnDestroy, AfterViewInit {
   layerControl: L.Control.Layers;
   map: L.Map;
   marker: L.Marker;
-
-  coordinatesObservable;
+  subscription = new Subscription();
 
   @ViewChild('mapWrapper')
   mapWrapper: ElementRef;
@@ -55,14 +55,6 @@ export class LocationMapComponent implements OnDestroy, AfterViewInit {
 
     // subscribe to location changes and menu toggling
     this.subscribeToServices();
-
-    // subscribe to location changes
-    this.coordinatesService.coordinates$.subscribe((coordinates) => {
-      if (coordinates) {
-        this.moveMarker(coordinates);
-        this.moveMap(coordinates);
-      }
-    });
   }
 
   /**
@@ -283,16 +275,17 @@ export class LocationMapComponent implements OnDestroy, AfterViewInit {
   }
 
   subscribeToServices (): void {
-    this.coordinatesObservable =
-        this.coordinatesService.coordinates$.subscribe((coordinates) => {
-          if (coordinates) {
-            this.moveMarker(coordinates);
-            this.moveMap(coordinates);
-          }
-        });
+    this.subscription.add(
+      this.coordinatesService.coordinates$.subscribe((coordinates) => {
+        if (coordinates) {
+          this.moveMarker(coordinates);
+          this.moveMap(coordinates);
+        }
+      })
+    );
   }
 
   unsubscribeFromServices (): void {
-    this.coordinatesObservable.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }
