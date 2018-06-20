@@ -2,8 +2,6 @@
  * Public API Surface of location-input
  */
 
-export * from './lib/location-input.service';
-export * from './lib/location-input.component';
 export * from './lib/location-input.module';
 
 export * from './lib/coordinates';

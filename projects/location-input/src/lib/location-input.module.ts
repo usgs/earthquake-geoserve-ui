@@ -7,10 +7,9 @@ import {
   MatFormFieldModule,
   MatIconModule,
   MatProgressBarModule,
-  MatInputModule
+  MatInputModule,
+  MatButtonModule
 } from '@angular/material';
-
-import { LocationInputComponent } from './location-input.component';
 
 import { CoordinateInputComponent } from './coordinate-input/coordinate-input.component';
 import { LocationDialogComponent } from './location-dialog/location-dialog.component';
@@ -26,6 +25,7 @@ import { GeocodeService } from './geocode.service';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    MatButtonModule,
     MatDialogModule,
     MatExpansionModule,
     MatFormFieldModule,
@@ -41,7 +41,6 @@ import { GeocodeService } from './geocode.service';
     GeocodeInputComponent,
     GeolocateInputComponent,
     LocationDialogComponent,
-    LocationInputComponent,
     LocationMapComponent
   ],
   exports: [
@@ -49,7 +48,6 @@ import { GeocodeService } from './geocode.service';
     GeocodeInputComponent,
     GeolocateInputComponent,
     LocationDialogComponent,
-    LocationInputComponent,
     LocationMapComponent
   ],
   providers: [

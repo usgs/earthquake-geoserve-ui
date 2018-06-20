@@ -8,7 +8,7 @@ import { CoordinatesService } from '../coordinates.service';
 import { LocationDialogComponent } from '../location-dialog/location-dialog.component';
 
 @Component({
-  selector: 'lib-location-map',
+  selector: 'location-input-map',
   templateUrl: './location-map.component.html',
   styleUrls: ['./location-map.component.css'],
   encapsulation: ViewEncapsulation.None

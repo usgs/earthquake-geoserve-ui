@@ -6,7 +6,7 @@ import { GeocodeService } from '../geocode.service';
 import { CoordinatesService } from '../coordinates.service';
 
 @Component({
-  selector: 'app-geocode-input',
+  selector: 'location-input-geocode',
   templateUrl: './geocode-input.component.html',
   styleUrls: ['./geocode-input.component.css']
 })

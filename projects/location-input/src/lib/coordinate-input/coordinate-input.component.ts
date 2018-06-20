@@ -5,7 +5,7 @@ import { MatDialogRef } from '@angular/material';
 import { CoordinatesService } from '../coordinates.service';
 
 @Component({
-  selector: 'app-coordinate-input',
+  selector: 'location-input-coordinate',
   templateUrl: './coordinate-input.component.html',
   styleUrls: ['./coordinate-input.component.css']
 })

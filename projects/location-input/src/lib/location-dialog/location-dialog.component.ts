@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 
 @Component({
-  selector: 'app-location-dialog',
+  selector: 'location-input-dialog',
   templateUrl: './location-dialog.component.html',
   styleUrls: ['./location-dialog.component.css']
 })

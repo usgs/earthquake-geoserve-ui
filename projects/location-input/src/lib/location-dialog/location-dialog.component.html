@@ -1,4 +1,3 @@
-
 <h1 mat-dialog-title>Choose a Location</h1>
 <p>
   Use one of the methods below to add a location to the map.
@@ -6,6 +5,7 @@
 
 <mat-dialog-content>
   <mat-accordion class="location-controls">
+
     <!-- Geolocate control panel -->
     <mat-expansion-panel>
       <mat-expansion-panel-header>
@@ -14,7 +14,7 @@
           Find Current Location
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <app-geolocate-input></app-geolocate-input>
+      <location-input-geolocate></location-input-geolocate>
     </mat-expansion-panel>
 
     <!-- Geocode control panel -->
@@ -25,7 +25,7 @@
           Search for an Address
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <app-geocode-input></app-geocode-input>
+      <location-input-geocode></location-input-geocode>
     </mat-expansion-panel>
 
     <!-- Coordinate Control panel -->
@@ -36,7 +36,7 @@
           Enter Coordinates
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <app-coordinate-input></app-coordinate-input>
+      <location-input-coordinate></location-input-coordinate>
     </mat-expansion-panel>
 
   </mat-accordion>
