@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
 })
 export class GeoserveComponent implements AfterViewInit, OnDestroy {
 
-  @ViewChild('location-map')
+  @ViewChild(LocationMapComponent)
   locationInput: LocationMapComponent;
 
   subscription = new Subscription();
