@@ -1,5 +1,5 @@
 <h2>Administrative Region</h2>
-<div *ngIf="regionsService.adminRegions | async; else noAdminRegion;
+<div *ngIf="regionsService.adminRegions$ | async; else noAdminRegion;
     let adminRegions" class="output-section">
   <dl class="admin-region">
     <app-list-item TITLE="ISO" DATA="{{ adminRegions?.properties.iso }}">

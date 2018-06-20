@@ -44,7 +44,7 @@ describe('RegionsService', () => {
   describe('empty', () => {
     it('notifies with null', () => {
       const spy = jasmine.createSpy('subscriber spy');
-      const regions = regionsService.adminRegions;
+      const regions = regionsService.adminRegions$;
 
       regions.subscribe(spy);
       regionsService.empty();
@@ -77,7 +77,7 @@ describe('RegionsService', () => {
       expect(request.request.method).toBe('GET');
       request.flush(regionsJson);
 
-      regionsService.adminRegions.subscribe((result) => {
+      regionsService.adminRegions$.subscribe((result) => {
         expect(result).toEqual(regionsJson.admin.features[0]);
       });
     });
@@ -95,7 +95,7 @@ describe('RegionsService', () => {
 
       request.error(new ErrorEvent('You may safely ignore this error.'));
 
-      regionsService.adminRegions.subscribe((result) => {
+      regionsService.adminRegions$.subscribe((result) => {
         expect(result).toBe(null);
       });
     });

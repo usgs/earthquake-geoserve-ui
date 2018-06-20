@@ -1,6 +1,6 @@
 <!-- NEIC Response region was returned, display the region -->
 <h2>NEIC Response Region</h2>
-<div *ngIf="regionsService.neicResponse | async; else noRegion;
+<div *ngIf="regionsService.neicResponse$ | async; else noRegion;
     let region" class="output-section">
   <dl class="neic-response-region">
     <app-list-item TITLE="Name" DATA="{{ region?.properties.name }}">

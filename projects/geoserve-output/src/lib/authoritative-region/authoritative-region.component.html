@@ -1,5 +1,5 @@
 <h2>Authoritative Region</h2>
-<div *ngIf="regionsService.authoritative | async; else noRegion;
+<div *ngIf="regionsService.authoritative$ | async; else noRegion;
     let region" class="output-section">
   <dl>
     <app-list-item TITLE="Name" DATA="{{ region?.properties.name }}">

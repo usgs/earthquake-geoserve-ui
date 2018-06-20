@@ -13,29 +13,14 @@ export class RegionsService {
 
   public REGIONS_URL = environment.apiUrl + 'regions.json';
 
-  private _adminRegions: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  private _authoritative: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  private _coordinates: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  private _neicCatalog: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  private _neicResponse: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  private _tectonic: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  private _offshoreRegions: BehaviorSubject<any> =
+  public adminRegions$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public authoritative$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public coordinates$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public neicCatalog$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public neicResponse$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public tectonic$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public offshoreRegions$: BehaviorSubject<any> =
       new BehaviorSubject<any>(null);
-
-  public readonly adminRegions: Observable<any> =
-      this._adminRegions.asObservable();
-  public readonly authoritative: Observable<any> =
-      this._authoritative.asObservable();
-  public readonly coordinates: Observable<any> =
-      this._coordinates.asObservable();
-  public readonly neicCatalog: Observable<any> =
-      this._neicCatalog.asObservable();
-  public readonly neicResponse: Observable<any> =
-      this._neicResponse.asObservable();
-  public readonly offshoreRegions: Observable<any> =
-      this._offshoreRegions.asObservable();
-  public readonly tectonic: Observable<any> =
-      this._tectonic.asObservable();
 
 
   constructor (
@@ -52,12 +37,12 @@ export class RegionsService {
   }
 
   empty (): void {
-    this._adminRegions.next(null);
-    this._authoritative.next(null);
-    this._neicCatalog.next(null);
-    this._neicResponse.next(null);
-    this._offshoreRegions.next(null);
-    this._tectonic.next(null);
+    this.adminRegions$.next(null);
+    this.authoritative$.next(null);
+    this.neicCatalog$.next(null);
+    this.neicResponse$.next(null);
+    this.offshoreRegions$.next(null);
+    this.tectonic$.next(null);
   }
 
   getRegions (latitude: number, longitude: number): void {
@@ -67,34 +52,34 @@ export class RegionsService {
       catchError(this.handleError('getRegions', {}))
     ).subscribe((data) => {
       if (data.admin) {
-        this._adminRegions.next(data.admin.features[0]);
+        this.adminRegions$.next(data.admin.features[0]);
       } else {
-        this._adminRegions.next(null);
+        this.adminRegions$.next(null);
       }
       if (data.neiccatalog) {
-        this._neicCatalog.next(data.neiccatalog.features[0]);
+        this.neicCatalog$.next(data.neiccatalog.features[0]);
       } else {
-        this._neicCatalog.next(null);
+        this.neicCatalog$.next(null);
       }
       if (data.neicresponse) {
-        this._neicResponse.next(data.neicresponse.features[0]);
+        this.neicResponse$.next(data.neicresponse.features[0]);
       } else {
-        this._neicResponse.next(null);
+        this.neicResponse$.next(null);
       }
       if (data.tectonic) {
-        this._tectonic.next(data.tectonic.features[0]);
+        this.tectonic$.next(data.tectonic.features[0]);
       } else {
-        this._tectonic.next(null);
+        this.tectonic$.next(null);
       }
       if (data.offshore) {
-        this._offshoreRegions.next(data.offshore.features[0]);
+        this.offshoreRegions$.next(data.offshore.features[0]);
       } else {
-        this._offshoreRegions.next(null);
+        this.offshoreRegions$.next(null);
       }
       if (data.authoritative) {
-        this._authoritative.next(data.authoritative.features[0]);
+        this.authoritative$.next(data.authoritative.features[0]);
       } else {
-        this._authoritative.next(null);
+        this.authoritative$.next(null);
       }
     });
   }

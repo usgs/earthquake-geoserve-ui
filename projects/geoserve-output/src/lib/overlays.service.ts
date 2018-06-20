@@ -23,13 +23,12 @@ export class OverlaysService {
   private COLORS_INDEX = 0;
   regionOverlays = {};
 
-  private _overlays: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  public readonly overlays: Observable<any> = this._overlays.asObservable();
+  public overlays$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   constructor(private http: HttpClient) { }
 
   empty (): void {
-    this._overlays.next(null);
+    this.overlays$.next(null);
   }
 
   /**
@@ -73,7 +72,7 @@ export class OverlaysService {
       this.regionOverlays[overlay.title] = this.buildRegionLayer(overlay);
     });
 
-    this._overlays.next(this.regionOverlays);
+    this.overlays$.next(this.regionOverlays);
   }
 
   buildRegionLayer(overlay: any): void {

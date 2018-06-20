@@ -1,5 +1,5 @@
 <h2>Tectonic Summary</h2>
-<div *ngIf="regionsService.tectonic | async; else noTectonic; let tectonic"
+<div *ngIf="regionsService.tectonic$ | async; else noTectonic; let tectonic"
     class="tectonic-output">
   <div [innerHTML]="tectonic?.properties.summary">
   </div>

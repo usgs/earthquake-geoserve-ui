@@ -45,7 +45,7 @@ describe('PlacesService', () => {
 
     it('notifies with null', () => {
       const spy = jasmine.createSpy('subscriber spy');
-      const places = placesService.places;
+      const places = placesService.places$;
 
       places.subscribe(spy);
       placesService.empty();
@@ -73,13 +73,13 @@ describe('PlacesService', () => {
       longitude = 0;
       placesService.getPlaces(latitude, longitude);
 
-      const request = httpClient.expectOne(placesService.PLACES_URL +
+      const request = httpClient.expectOne(placesService.places$_URL +
         `?latitude=${latitude}&longitude=${longitude}&type=event`);
 
       expect(request.request.method).toBe('GET');
       request.flush(placesJson);
 
-      placesService.places.subscribe((result) => {
+      placesService.places$.subscribe((result) => {
         expect(result).toEqual(placesJson.event.features);
       });
     });
@@ -92,12 +92,12 @@ describe('PlacesService', () => {
       longitude = 0;
       placesService.getPlaces(latitude, longitude);
 
-      const request = httpClient.expectOne(placesService.PLACES_URL +
+      const request = httpClient.expectOne(placesService.places$_URL +
         `?latitude=${latitude}&longitude=${longitude}&type=event`);
 
       request.error(new ErrorEvent('You may safely ignore this error.'));
 
-      placesService.places.subscribe((result) => {
+      placesService.places$.subscribe((result) => {
         expect(result.length).toBe(0);
       });
     });

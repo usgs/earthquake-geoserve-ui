@@ -24,7 +24,7 @@ export class GeoserveComponent implements AfterViewInit, OnDestroy {
 
 
   ngAfterViewInit() {
-    this.subscription.add(this.overlaysService.overlays.subscribe((layers) => {
+    this.subscription.add(this.overlaysService.overlays$.subscribe((layers) => {
       this.addOverlays(layers);
     }));
 

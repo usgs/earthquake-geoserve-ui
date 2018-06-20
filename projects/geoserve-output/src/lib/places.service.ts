@@ -14,8 +14,7 @@ export class PlacesService {
 
   public readonly PLACES_URL = environment.apiUrl + 'places.json';
 
-  private _places: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  public readonly places: Observable<any> = this._places.asObservable();
+  public places$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
 
   constructor (
@@ -32,7 +31,7 @@ export class PlacesService {
   }
 
   empty (): void {
-    this._places.next(null);
+    this.places$.next(null);
   }
 
   getPlaces (latitude: number, longitude: number): void {
@@ -41,7 +40,7 @@ export class PlacesService {
     this.http.get<any>(url).pipe(
       catchError(this.handleError('getPlaces', {event: {features: []}}))
     ).subscribe((response) => {
-      this._places.next(response.event.features);
+      this.places$.next(response.event.features);
     });
   }
 
