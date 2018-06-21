@@ -9,8 +9,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "packagr": "ng-packagr -p ng-package.json",
-    "package": "./npm-package.sh"
+    "publish-location-input": "ng build location-input && cd dist/location-input && npm publish",
+    "publish-geoserve-output": "ng build geoserve-output && cd dist/geoserve-output && npm publish"
   },
   "private": false,
   "dependencies": {
