@@ -154,7 +154,7 @@
       "root": "projects/location-input",
       "sourceRoot": "projects/location-input/src",
       "projectType": "library",
-      "prefix": "lib",
+      "prefix": "hazdev",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
