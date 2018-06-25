@@ -8,7 +8,6 @@ import { LocationMapComponent } from './location-map.component';
 
 import { Coordinates } from '../coordinates';
 import { CoordinatesService } from '../coordinates.service';
-import { OverlaysService } from '../overlays.service';
 
 describe('LocationMapComponent', () => {
   let component: LocationMapComponent;
@@ -70,8 +69,7 @@ describe('LocationMapComponent', () => {
       ],
       providers: [
         {provide: CoordinatesService, useValue: coordinatesServiceStub},
-        {provide: MatDialog, useValue: dialogStub},
-        {provide: OverlaysService, useValue: overlaysServiceStub}
+        {provide: MatDialog, useValue: dialogStub}
       ]
     }).compileComponents();
 

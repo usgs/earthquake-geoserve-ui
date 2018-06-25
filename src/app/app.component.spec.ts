@@ -5,8 +5,10 @@ import { MockComponent } from 'ng2-mock-component';
 import { MatButtonModule, MatSidenavModule, MatListModule, MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { PlacesService } from './core/places.service';
-import { RegionsService } from './core/regions.service';
+import {
+  PlacesService,
+  RegionsService
+} from 'geoserve-output';
 
 import { AppComponent } from './app.component';
 

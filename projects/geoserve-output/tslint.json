@@ -5,12 +5,14 @@
             true,
             "attribute",
             "geoserve",
+            "geoserve-output",
             "camelCase"
         ],
         "component-selector": [
             true,
             "element",
             "geoserve",
+            "geoserve-output",
             "kebab-case"
         ]
     }
