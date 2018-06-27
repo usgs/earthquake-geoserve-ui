@@ -11,7 +11,7 @@ describe('RegionsService', () => {
 
   beforeEach(() => {
     const coordinatesServiceStub = {
-      coordinates: {
+      coordinates$: {
         subscribe: () => {
           console.log('stubbified!');
         }

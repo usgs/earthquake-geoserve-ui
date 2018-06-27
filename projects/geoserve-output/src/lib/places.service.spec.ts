@@ -11,7 +11,7 @@ describe('PlacesService', () => {
 
   beforeEach(() => {
     const coordinatesServiceStub = {
-      coordinates: {
+      coordinates$: {
         subscribe: () => {
           console.log('stubbified!');
         }
@@ -73,7 +73,7 @@ describe('PlacesService', () => {
       longitude = 0;
       placesService.getPlaces(latitude, longitude);
 
-      const request = httpClient.expectOne(placesService.places$_URL +
+      const request = httpClient.expectOne(placesService.PLACES_URL +
         `?latitude=${latitude}&longitude=${longitude}&type=event`);
 
       expect(request.request.method).toBe('GET');
@@ -92,7 +92,7 @@ describe('PlacesService', () => {
       longitude = 0;
       placesService.getPlaces(latitude, longitude);
 
-      const request = httpClient.expectOne(placesService.places$_URL +
+      const request = httpClient.expectOne(placesService.PLACES_URL +
         `?latitude=${latitude}&longitude=${longitude}&type=event`);
 
       request.error(new ErrorEvent('You may safely ignore this error.'));
