@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { RegionsService } from '../regions.service';
 
 @Component({
-  selector: 'app-tectonic-summary-region',
+  selector: 'geoserve-tectonic-summary-region',
   templateUrl: './tectonic-summary-region.component.html',
   styleUrls: ['./tectonic-summary-region.component.css']
 })

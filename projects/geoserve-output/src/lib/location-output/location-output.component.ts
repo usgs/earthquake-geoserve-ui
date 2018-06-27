@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CoordinatesService } from 'location-input';
 
 @Component({
-  selector: 'app-location-output',
+  selector: 'geoserve-location-output',
   templateUrl: './location-output.component.html',
   styleUrls: ['./location-output.component.css']
 })

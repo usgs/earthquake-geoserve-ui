@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-no-data',
+  selector: 'geoserve-no-data',
   templateUrl: './no-data.component.html',
   styleUrls: ['./no-data.component.css']
 })

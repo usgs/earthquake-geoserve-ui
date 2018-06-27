@@ -28,15 +28,15 @@ describe('GeoserveOutputComponent', () => {
       declarations: [
         GeoserveOutputComponent,
 
-        MockComponent({selector: 'app-admin-region', inputs: ['region']}),
-        MockComponent({selector: 'app-authoritative-region'}),
-        MockComponent({selector: 'app-coordinate-input'}),
-        MockComponent({selector: 'app-location-output'}),
-        MockComponent({selector: 'app-nearby-places'}),
-        MockComponent({selector: 'app-neic-catalog-region'}),
-        MockComponent({selector: 'app-neic-response-region'}),
-        MockComponent({selector: 'app-offshore-region'}),
-        MockComponent({selector: 'app-tectonic-summary-region'})
+        MockComponent({selector: 'geoserve-admin-region', inputs: ['region']}),
+        MockComponent({selector: 'geoserve-authoritative-region'}),
+        MockComponent({selector: 'geoserve-coordinate-input'}),
+        MockComponent({selector: 'geoserve-location-output'}),
+        MockComponent({selector: 'geoserve-nearby-places'}),
+        MockComponent({selector: 'geoserve-neic-catalog-region'}),
+        MockComponent({selector: 'geoserve-neic-response-region'}),
+        MockComponent({selector: 'geoserve-offshore-region'}),
+        MockComponent({selector: 'geoserve-tectonic-summary-region'})
       ],
       providers: [
         {provide: CoordinatesService, useValue: coordinatesServiceStub},

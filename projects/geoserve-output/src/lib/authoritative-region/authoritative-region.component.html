@@ -2,15 +2,15 @@
 <div *ngIf="regionsService.authoritative$ | async; else noRegion;
     let region" class="output-section">
   <dl>
-    <app-list-item TITLE="Name" DATA="{{ region?.properties.name }}">
-    </app-list-item>
-    <app-list-item TITLE="Network" DATA="{{ region?.properties.network }}">
-    </app-list-item>
-    <app-list-item TITLE="Type" DATA="{{ region?.properties.type }}">
-    </app-list-item>
+    <geoserve-list-item TITLE="Name" DATA="{{ region?.properties.name }}">
+    </geoserve-list-item>
+    <geoserve-list-item TITLE="Network" DATA="{{ region?.properties.network }}">
+    </geoserve-list-item>
+    <geoserve-list-item TITLE="Type" DATA="{{ region?.properties.type }}">
+    </geoserve-list-item>
   </dl>
 </div>
 
 <ng-template #noRegion>
-  <app-no-data></app-no-data>
+  <geoserve-no-data></geoserve-no-data>
 </ng-template>

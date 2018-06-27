@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { RegionsService } from '../regions.service';
 
 @Component({
-  selector: 'app-authoritative-region',
+  selector: 'geoserve-authoritative-region',
   templateUrl: './authoritative-region.component.html',
   styleUrls: ['./authoritative-region.component.css']
 })

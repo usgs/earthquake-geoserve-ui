@@ -1,12 +1,12 @@
 <div *ngIf="coordinatesService.coordinates$ | async; else noCoordinates">
-  <app-location-output></app-location-output>
-  <app-admin-region></app-admin-region>
-  <app-authoritative-region></app-authoritative-region>
-  <app-nearby-places></app-nearby-places>
-  <app-neic-catalog-region></app-neic-catalog-region>
-  <app-neic-response-region></app-neic-response-region>
-  <app-offshore-region></app-offshore-region>
-  <app-tectonic-summary-region></app-tectonic-summary-region>
+  <geoserve-location-output></geoserve-location-output>
+  <geoserve-admin-region></geoserve-admin-region>
+  <geoserve-authoritative-region></geoserve-authoritative-region>
+  <geoserve-nearby-places></geoserve-nearby-places>
+  <geoserve-neic-catalog-region></geoserve-neic-catalog-region>
+  <geoserve-neic-response-region></geoserve-neic-response-region>
+  <geoserve-offshore-region></geoserve-offshore-region>
+  <geoserve-tectonic-summary-region></geoserve-tectonic-summary-region>
 </div>
 
 <ng-template #noCoordinates>

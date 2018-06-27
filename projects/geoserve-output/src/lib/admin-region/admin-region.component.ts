@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { RegionsService } from '../regions.service';
 
 @Component({
-  selector: 'app-admin-region',
+  selector: 'geoserve-admin-region',
   templateUrl: './admin-region.component.html',
   styleUrls: ['./admin-region.component.css']
 })

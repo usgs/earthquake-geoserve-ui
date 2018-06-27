@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { RegionsService } from '../regions.service';
 
 @Component({
-  selector: 'app-neic-catalog-region',
+  selector: 'geoserve-neic-catalog-region',
   templateUrl: './neic-catalog-region.component.html',
   styleUrls: ['./neic-catalog-region.component.css']
 })

@@ -2,11 +2,11 @@
 <div *ngIf="placesService.places$ | async; else noNearbyPlaces">
   <ol>
     <li *ngFor="let place of placesService.places$ | async">
-      <app-nearby-place [place]="place"></app-nearby-place>
+      <geoserve-nearby-place [place]="place"></geoserve-nearby-place>
     </li>
   </ol>
 </div>
 
 <ng-template #noNearbyPlaces>
-  <app-no-data></app-no-data>
+  <geoserve-no-data></geoserve-no-data>
 </ng-template>

@@ -4,13 +4,13 @@
         "directive-selector": [
             true,
             "attribute",
-            ["app", "geoserve"],
+            "geoserve",
             "camelCase"
         ],
         "component-selector": [
             true,
             "element",
-            ["app", "geoserve"],
+            "geoserve",
             "kebab-case"
         ]
     }

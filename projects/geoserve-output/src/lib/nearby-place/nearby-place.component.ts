@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-nearby-place',
+  selector: 'geoserve-nearby-place',
   templateUrl: './nearby-place.component.html',
   styleUrls: ['./nearby-place.component.css']
 })

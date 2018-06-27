@@ -4,7 +4,7 @@ import { PlacesService } from '../places.service';
 
 
 @Component({
-  selector: 'app-nearby-places',
+  selector: 'geoserve-nearby-places',
   templateUrl: './nearby-places.component.html',
   styleUrls: ['./nearby-places.component.css']
 })
