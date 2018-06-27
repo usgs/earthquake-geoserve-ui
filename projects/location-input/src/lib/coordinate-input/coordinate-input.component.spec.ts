@@ -39,7 +39,7 @@ describe('CoordinateInputComponent', () => {
       computeZoomFromConfidence: (confidence: number) => {
         console.log('stubbified!');
       },
-      coordinates: {
+      coordinates$: {
         subscribe: () => {
           console.log('stubbified!');
         }

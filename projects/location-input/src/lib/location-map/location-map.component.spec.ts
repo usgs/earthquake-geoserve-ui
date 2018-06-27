@@ -30,7 +30,7 @@ describe('LocationMapComponent', () => {
       computeFromPoint: (geocodeLocation: any) => {
         console.log('stubbified!');
       },
-      coordinates: {
+      coordinates$: {
         subscribe: () => {
           console.log('stubbified!');
         }
@@ -46,17 +46,6 @@ describe('LocationMapComponent', () => {
     const dialogStub = {
       open: () => {
         console.log('stubbified!');
-      }
-    };
-
-    const overlaysServiceStub = {
-      getOverlays: () => {
-        console.log('stubbified!');
-      },
-      overlays: {
-        subscribe: () => {
-          console.log('stubbified!');
-        }
       }
     };
 

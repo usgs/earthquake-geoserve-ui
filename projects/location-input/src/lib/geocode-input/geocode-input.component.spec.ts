@@ -54,7 +54,7 @@ describe('GeocodeInputComponent', () => {
       getLocation: (address: string) => {
         console.log('stubbified!');
       },
-      location: {
+      location$: {
         subscribe: () => {
           console.log('stubbified!');
         }

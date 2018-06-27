@@ -26,9 +26,9 @@ describe('LocationDialogComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         LocationDialogComponent,
-        MockComponent({selector: 'app-coordinate-input'}),
-        MockComponent({selector: 'app-geocode-input'}),
-        MockComponent({selector: 'app-geolocate-input'})
+        MockComponent({selector: 'location-input-coordinate'}),
+        MockComponent({selector: 'location-input-geocode'}),
+        MockComponent({selector: 'location-input-geolocate'})
       ],
       imports: [
         BrowserAnimationsModule,
