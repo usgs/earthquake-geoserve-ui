@@ -5,9 +5,9 @@ input.
 
 ## Using the Location Input
 
-Install the hazdev-location-input
+Install the hazdev-ng-location-input
 ```
-npm install hazdev-location-input
+npm install hazdev-ng-location-input
 ```
 
 Add leaflet assets if you are using the LocationMapComponent
@@ -22,7 +22,7 @@ Add leaflet assets if you are using the LocationMapComponent
 
 Import the LocationInputModule to use the location input
 ```
-import { LocationInputModule } from 'hazdev-location-input';
+import { LocationInputModule } from 'hazdev-ng-location-input';
 …
 @NgModule({
   imports: [
@@ -40,7 +40,7 @@ Add the LocationMapComponent to your application
 
 Subscribe to the coordinates service to access the selected location
 ```
-import { Coordinates, CoordinatesService } from 'hazdev-location-input';
+import { Coordinates, CoordinatesService } from 'hazdev-ng-location-input';
 
 this.coordinatesService.coordinates$.subscribe((coordinates: Coordinates) => {
  console.log(coordinates);
