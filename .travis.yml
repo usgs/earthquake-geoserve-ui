@@ -23,9 +23,13 @@ install:
 
 script:
   - ng lint
-  - ng test --single-run --code-coverage
-  - ng e2e
+  - ng test earthquake-geoserve-ui --code-coverage
+  - ng test location-input --code-coverage
+  - ng test geoserve-output --code-coverage
   - ng build --prod --base-href /geoserve/
+  - ng build --prod location-input
+  - ng build --prod geoserve-output
+  - ng e2e
 
 after_success:
   - cat coverage/lcov.info | codacy-coverage --verbose
