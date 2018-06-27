@@ -121,17 +121,13 @@
       true,
       "attribute",
       "app",
-      "camelCase",
-      "geoserve-output",
-      "location-input"
+      "camelCase"
     ],
     "component-selector": [
       true,
       "element",
       "app",
-      "kebab-case",
-      "geoserve-output",
-      "location-input"
+      "kebab-case"
     ],
     "angular-whitespace": [true, "check-interpolation"],
     "no-output-on-prefix": true,

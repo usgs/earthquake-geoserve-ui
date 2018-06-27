@@ -4,15 +4,13 @@
         "directive-selector": [
             true,
             "attribute",
-            "geoserve",
-            "geoserve-output",
+            ["app", "geoserve"],
             "camelCase"
         ],
         "component-selector": [
             true,
             "element",
-            "geoserve",
-            "geoserve-output",
+            ["app", "geoserve"],
             "kebab-case"
         ]
     }

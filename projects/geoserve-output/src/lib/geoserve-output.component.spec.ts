@@ -52,7 +52,8 @@ describe('GeoserveOutputComponent', () => {
     fixture.detectChanges();
 
     // stub coordinates.service
-    coordinatesService = fixture.debugElement.injector.get(CoordinatesService);
+    coordinatesService = fixture.debugElement.injector
+        .get<CoordinatesService>(CoordinatesService);
   });
 
   it('should create', () => {

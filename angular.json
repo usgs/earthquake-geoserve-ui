@@ -154,7 +154,7 @@
       "root": "projects/location-input",
       "sourceRoot": "projects/location-input/src",
       "projectType": "library",
-      "prefix": "hazdev",
+      "prefix": "location-input",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
@@ -194,7 +194,7 @@
       "root": "projects/geoserve-output",
       "sourceRoot": "projects/geoserve-output/src",
       "projectType": "library",
-      "prefix": "geoserve",
+      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
