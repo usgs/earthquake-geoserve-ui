@@ -5,7 +5,15 @@
     "types": [
       "jasmine",
       "node"
-    ]
+    ],
+    "paths": {
+      "location-input": [
+        "dist/location-input"
+      ],
+      "location-input/*": [
+        "dist/location-input/*"
+      ]
+    }
   },
   "files": [
     "src/test.ts"
