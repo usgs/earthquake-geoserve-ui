@@ -26,9 +26,9 @@ script:
   - ng build --prod hazdev-ng-location-input
   - ng build --prod geoserve-output
   - ng build --prod --delete-output-path false --base-href /geoserve/
-  - ng test hazdev-ng-location-input --code-coverage
-  - ng test geoserve-output --code-coverage
-  - ng test earthquake-geoserve-ui --code-coverage
+  - ng test hazdev-ng-location-input --single-run --code-coverage
+  - ng test geoserve-output --single-run --code-coverage
+  - ng test earthquake-geoserve-ui --single-run --code-coverage
   - ng e2e
 
 after_success:
