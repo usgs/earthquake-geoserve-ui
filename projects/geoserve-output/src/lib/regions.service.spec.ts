@@ -1,7 +1,7 @@
 import { TestBed, getTestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-import { CoordinatesService } from 'location-input';
+import { CoordinatesService } from 'hazdev-ng-location-input';
 import { RegionsService } from './regions.service';
 
 describe('RegionsService', () => {

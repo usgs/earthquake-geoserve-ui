@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "publish-location-input": "ng build location-input && cd dist/location-input && npm publish",
+    "publish-hazdev-ng-location-input": "ng build hazdev-ng-location-input && cd dist/hazdev-ng-location-input && npm publish",
     "publish-geoserve-output": "ng build geoserve-output && cd dist/geoserve-output && npm publish"
   },
   "private": false,

@@ -20,7 +20,7 @@ import { NoDataComponent } from './no-data/no-data.component';
 import { OffshoreRegionComponent } from './offshore-region/offshore-region.component';
 import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tectonic-summary-region.component';
 
-import { LocationInputModule } from 'location-input';
+import { LocationInputModule } from 'hazdev-ng-location-input';
 
 import { OverlaysService } from './overlays.service';
 import { PlacesService } from './places.service';

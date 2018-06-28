@@ -17,11 +17,11 @@
       "dom"
     ],
     "paths": {
-      "location-input": [
-        "../dist/location-input"
+      "hazdev-ng-location-input": [
+        "../dist/hazdev-ng-location-input"
       ],
-      "location-input/*": [
-        "../dist/location-input/*"
+      "hazdev-ng-location-input/*": [
+        "../dist/hazdev-ng-location-input/*"
       ],
       "geoserve-output": [
         "../dist/geoserve-output"

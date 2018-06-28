@@ -1,5 +1,5 @@
 /*
- * Public API Surface of location-input
+ * Public API Surface of hazdev-ng-location-input
  */
 
 export * from './lib/location-input.module';

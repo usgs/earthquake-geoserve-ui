@@ -10,14 +10,14 @@ Install the hazdev-ng-location-input
 npm install hazdev-ng-location-input
 ```
 
-Add leaflet assets if you are using the LocationMapComponent
+Add leaflet assets if you are using the LocationMapComponent (npm install
+leaflet if you)
 ```
   {
     "glob": "**/*",
     "input": "node_modules/leaflet/dist/images",
     "output": "/leaflet"
   }
-
 ```
 
 Import the LocationInputModule to use the location input
@@ -38,7 +38,7 @@ Add the LocationMapComponent to your application
 ```
 
 
-Subscribe to the coordinates service to access the selected location
+Subscribe to the `CoordinatesService` to access the selected location
 ```
 import { Coordinates, CoordinatesService } from 'hazdev-ng-location-input';
 

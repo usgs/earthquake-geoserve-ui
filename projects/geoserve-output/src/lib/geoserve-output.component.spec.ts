@@ -4,7 +4,7 @@ import { MatDialog} from '@angular/material';
 
 import { GeoserveOutputComponent } from './geoserve-output.component';
 
-import { CoordinatesService } from 'location-input';
+import { CoordinatesService } from 'hazdev-ng-location-input';
 
 describe('GeoserveOutputComponent', () => {
   let component: GeoserveOutputComponent;

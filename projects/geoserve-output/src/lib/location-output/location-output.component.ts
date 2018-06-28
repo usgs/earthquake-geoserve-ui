@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { CoordinatesService } from 'location-input';
+import { CoordinatesService } from 'hazdev-ng-location-input';
 
 @Component({
   selector: 'geoserve-location-output',

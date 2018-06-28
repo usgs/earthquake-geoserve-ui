@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 
 import * as L from 'leaflet';
-import { LocationMapComponent } from 'location-input';
+import { LocationMapComponent } from 'hazdev-ng-location-input';
 import { OverlaysService } from 'geoserve-output';
 import { Subscription } from 'rxjs';
 

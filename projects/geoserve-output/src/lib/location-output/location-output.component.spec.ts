@@ -3,7 +3,7 @@ import { HttpClient, HttpHandler } from '@angular/common/http';
 
 import {
   CoordinatesService
-} from 'location-input';
+} from 'hazdev-ng-location-input';
 
 import { LocationOutputComponent } from './location-output.component';
 

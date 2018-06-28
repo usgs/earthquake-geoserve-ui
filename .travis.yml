@@ -23,12 +23,12 @@ install:
 
 script:
   - ng lint
-  - ng test earthquake-geoserve-ui --code-coverage
-  - ng test location-input --code-coverage
-  - ng test geoserve-output --code-coverage
-  - ng build --prod --base-href /geoserve/
-  - ng build --prod location-input
+  - ng build --prod hazdev-ng-location-input
   - ng build --prod geoserve-output
+  - ng build --prod --delete-output-path false --base-href /geoserve/
+  - ng test hazdev-ng-location-input --code-coverage
+  - ng test geoserve-output --code-coverage
+  - ng test earthquake-geoserve-ui --code-coverage
   - ng e2e
 
 after_success:

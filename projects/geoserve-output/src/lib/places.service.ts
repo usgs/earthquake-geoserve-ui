@@ -6,7 +6,7 @@ import { catchError, tap } from 'rxjs/operators';
 
 import { environment } from '../environments/environment';
 
-import { CoordinatesService } from 'location-input';
+import { CoordinatesService } from 'hazdev-ng-location-input';
 
 
 @Injectable()

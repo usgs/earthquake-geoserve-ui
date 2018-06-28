@@ -1,7 +1,6 @@
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "../../dist/location-input",
-  "deleteDestPath": false,
+  "dest": "../../dist/hazdev-ng-location-input",
   "lib": {
     "entryFile": "src/public_api.ts"
   }

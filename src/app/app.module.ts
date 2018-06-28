@@ -16,9 +16,8 @@ import {
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-
 import { GeoserveOutputModule } from 'geoserve-output';
-import { LocationInputModule } from 'location-input';
+import { LocationInputModule } from 'hazdev-ng-location-input';
 
 import { CoreModule } from './core/core.module';
 import { AppComponent } from './app.component';
