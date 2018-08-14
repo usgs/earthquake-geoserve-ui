@@ -23,10 +23,8 @@ install:
 
 script:
   - ng lint
-  - ng build --prod hazdev-ng-location-input
   - ng build --prod geoserve-output
   - ng build --prod --delete-output-path false --base-href /geoserve/
-  - ng test hazdev-ng-location-input --watch=false --code-coverage
   - ng test geoserve-output --watch=false --code-coverage
   - ng test earthquake-geoserve-ui --watch=false --code-coverage
   - ng e2e

@@ -114,13 +114,8 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "tsConfig": ["src/tsconfig.app.json", "src/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -140,52 +135,8 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
-    "hazdev-ng-location-input": {
-      "root": "projects/hazdev-ng-location-input",
-      "sourceRoot": "projects/hazdev-ng-location-input/src",
-      "projectType": "library",
-      "prefix": "location-input",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "tsConfig": "projects/hazdev-ng-location-input/tsconfig.lib.json",
-            "project": "projects/hazdev-ng-location-input/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "project": "projects/hazdev-ng-location-input/ng-package.prod.json"
-            }
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/hazdev-ng-location-input/src/test.ts",
-            "tsConfig": "projects/hazdev-ng-location-input/tsconfig.spec.json",
-            "karmaConfig": "projects/hazdev-ng-location-input/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/hazdev-ng-location-input/tsconfig.lib.json",
-              "projects/hazdev-ng-location-input/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "tsConfig": ["e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -223,9 +174,7 @@
               "projects/geoserve-output/tsconfig.lib.json",
               "projects/geoserve-output/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }

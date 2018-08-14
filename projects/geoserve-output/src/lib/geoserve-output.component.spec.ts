@@ -1,10 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialog } from '@angular/material';
+import { CoordinatesService } from 'hazdev-ng-location-view';
 import { MockComponent } from 'ng2-mock-component';
-import { MatDialog} from '@angular/material';
 
 import { GeoserveOutputComponent } from './geoserve-output.component';
-
-import { CoordinatesService } from 'hazdev-ng-location-input';
 
 describe('GeoserveOutputComponent', () => {
   let component: GeoserveOutputComponent;
@@ -28,22 +27,24 @@ describe('GeoserveOutputComponent', () => {
       declarations: [
         GeoserveOutputComponent,
 
-        MockComponent({selector: 'geoserve-admin-region', inputs: ['region']}),
-        MockComponent({selector: 'geoserve-authoritative-region'}),
-        MockComponent({selector: 'geoserve-coordinate-input'}),
-        MockComponent({selector: 'geoserve-location-output'}),
-        MockComponent({selector: 'geoserve-nearby-places'}),
-        MockComponent({selector: 'geoserve-neic-catalog-region'}),
-        MockComponent({selector: 'geoserve-neic-response-region'}),
-        MockComponent({selector: 'geoserve-offshore-region'}),
-        MockComponent({selector: 'geoserve-tectonic-summary-region'})
+        MockComponent({
+          selector: 'geoserve-admin-region',
+          inputs: ['region']
+        }),
+        MockComponent({ selector: 'geoserve-authoritative-region' }),
+        MockComponent({ selector: 'geoserve-coordinate-input' }),
+        MockComponent({ selector: 'geoserve-location-output' }),
+        MockComponent({ selector: 'geoserve-nearby-places' }),
+        MockComponent({ selector: 'geoserve-neic-catalog-region' }),
+        MockComponent({ selector: 'geoserve-neic-response-region' }),
+        MockComponent({ selector: 'geoserve-offshore-region' }),
+        MockComponent({ selector: 'geoserve-tectonic-summary-region' })
       ],
       providers: [
-        {provide: CoordinatesService, useValue: coordinatesServiceStub},
-        {provide: MatDialog, useValue: dialogStub}
-      ],
-    })
-    .compileComponents();
+        { provide: CoordinatesService, useValue: coordinatesServiceStub },
+        { provide: MatDialog, useValue: dialogStub }
+      ]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -52,8 +53,9 @@ describe('GeoserveOutputComponent', () => {
     fixture.detectChanges();
 
     // stub coordinates.service
-    coordinatesService = fixture.debugElement.injector
-        .get<CoordinatesService>(CoordinatesService);
+    coordinatesService = fixture.debugElement.injector.get<CoordinatesService>(
+      CoordinatesService
+    );
   });
 
   it('should create', () => {

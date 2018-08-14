@@ -2,24 +2,8 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/spec",
-    "types": [
-      "jasmine",
-      "node"
-    ],
-    "paths": {
-      "hazdev-ng-location-input": [
-        "dist/hazdev-ng-location-input"
-      ],
-      "hazdev-ng-location-input/*": [
-        "dist/hazdev-ng-location-input/*"
-      ]
-    }
+    "types": ["jasmine", "node"]
   },
-  "files": [
-    "src/test.ts"
-  ],
-  "include": [
-    "**/*.spec.ts",
-    "**/*.d.ts"
-  ]
+  "files": ["src/test.ts"],
+  "include": ["**/*.spec.ts", "**/*.d.ts"]
 }

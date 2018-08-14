@@ -1,7 +1,7 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { NgModule } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatButtonModule,
   MatDialogModule,
@@ -11,23 +11,21 @@ import {
   MatInputModule,
   MatListModule,
   MatProgressBarModule,
-  MatSidenavModule
+  MatSidenavModule,
 } from '@angular/material';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { GeoserveOutputModule } from 'geoserve-output';
-import { LocationInputModule } from 'hazdev-ng-location-input';
+import { LocationViewModule } from 'hazdev-ng-location-view';
 
-import { CoreModule } from './core/core.module';
 import { AppComponent } from './app.component';
+import { CoreModule } from './core/core.module';
 import { GeoserveComponent } from './geoserve/geoserve.component';
-import { HazdevTemplateComponent } from './hazdev-template/hazdev-template.component';
 import { HazdevTemplateFooterComponent } from './hazdev-template-footer/hazdev-template-footer.component';
 import { HazdevTemplateHeaderComponent } from './hazdev-template-header/hazdev-template-header.component';
 import { HazdevTemplateNavigationComponent } from './hazdev-template-navigation/hazdev-template-navigation.component';
 import { HazdevTemplatePageComponent } from './hazdev-template-page/hazdev-template-page.component';
-
+import { HazdevTemplateComponent } from './hazdev-template/hazdev-template.component';
 
 @NgModule({
   declarations: [
@@ -39,9 +37,7 @@ import { HazdevTemplatePageComponent } from './hazdev-template-page/hazdev-templ
     HazdevTemplateNavigationComponent,
     HazdevTemplatePageComponent
   ],
-  entryComponents: [
-    GeoserveComponent
-  ],
+  entryComponents: [GeoserveComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -49,7 +45,7 @@ import { HazdevTemplatePageComponent } from './hazdev-template-page/hazdev-templ
     FormsModule,
     GeoserveOutputModule.forRoot(),
     HttpClientModule,
-    LocationInputModule.forRoot(),
+    LocationViewModule.forRoot(),
     MatButtonModule,
     MatDialogModule,
     MatExpansionModule,
@@ -61,11 +57,8 @@ import { HazdevTemplatePageComponent } from './hazdev-template-page/hazdev-templ
     MatSidenavModule,
     ReactiveFormsModule
   ],
-  exports: [
-  ],
-  providers: [
-    MediaMatcher
-  ],
+  exports: [],
+  providers: [MediaMatcher],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

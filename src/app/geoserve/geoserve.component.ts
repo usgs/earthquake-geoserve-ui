@@ -1,10 +1,7 @@
-import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
-
-import * as L from 'leaflet';
-import { LocationMapComponent } from 'hazdev-ng-location-input';
+import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { OverlaysService } from 'geoserve-output';
+import { LocationMapComponent } from 'hazdev-ng-location-view';
 import { Subscription } from 'rxjs';
-
 
 @Component({
   selector: 'app-geoserve',
@@ -12,21 +9,19 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./geoserve.component.css']
 })
 export class GeoserveComponent implements AfterViewInit, OnDestroy {
-
   @ViewChild(LocationMapComponent)
   locationInput: LocationMapComponent;
 
   subscription = new Subscription();
 
-  constructor (
-    public overlaysService: OverlaysService
-  ) { }
-
+  constructor(public overlaysService: OverlaysService) {}
 
   ngAfterViewInit() {
-    this.subscription.add(this.overlaysService.overlays$.subscribe((layers) => {
-      this.addOverlays(layers);
-    }));
+    this.subscription.add(
+      this.overlaysService.overlays$.subscribe(layers => {
+        this.addOverlays(layers);
+      })
+    );
 
     // Get region overlays
     this.overlaysService.getOverlays();
@@ -41,7 +36,7 @@ export class GeoserveComponent implements AfterViewInit, OnDestroy {
    *
    * @param layers
    */
-  addOverlays (layers) {
+  addOverlays(layers) {
     const layerControl = this.locationInput.layerControl;
 
     // add overlays
@@ -51,5 +46,4 @@ export class GeoserveComponent implements AfterViewInit, OnDestroy {
       }
     }
   }
-
 }

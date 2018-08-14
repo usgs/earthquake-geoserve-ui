@@ -9,26 +9,11 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2017",
-      "dom"
-    ],
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2017", "dom"],
     "paths": {
-      "hazdev-ng-location-input": [
-        "../dist/hazdev-ng-location-input"
-      ],
-      "hazdev-ng-location-input/*": [
-        "../dist/hazdev-ng-location-input/*"
-      ],
-      "geoserve-output": [
-        "../dist/geoserve-output"
-      ],
-      "geoserve-output/*": [
-        "../dist/geoserve-output/*"
-      ]
+      "geoserve-output": ["../dist/geoserve-output"],
+      "geoserve-output/*": ["../dist/geoserve-output/*"]
     }
   }
 }

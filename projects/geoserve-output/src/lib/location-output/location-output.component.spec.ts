@@ -1,10 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClient, HttpHandler } from '@angular/common/http';
-
-import {
-  CoordinatesService
-} from 'hazdev-ng-location-input';
-
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { CoordinatesService } from 'hazdev-ng-location-view';
 import { LocationOutputComponent } from './location-output.component';
 
 describe('LocationOutputComponent', () => {
@@ -13,14 +9,9 @@ describe('LocationOutputComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LocationOutputComponent ],
-      providers: [
-        HttpClient,
-        HttpHandler,
-        CoordinatesService
-      ]
-    })
-    .compileComponents();
+      declarations: [LocationOutputComponent],
+      providers: [HttpClient, HttpHandler, CoordinatesService]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,11 +1,7 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  MatButtonModule,
-  MatIconModule,
-  MatInputModule,
-  MatListModule
-} from '@angular/material';
+import { ModuleWithProviders, NgModule } from '@angular/core';
+import { MatButtonModule, MatIconModule, MatInputModule, MatListModule } from '@angular/material';
+import { LocationViewModule } from 'hazdev-ng-location-view';
 
 import { AdminRegionComponent } from './admin-region/admin-region.component';
 import { AuthoritativeRegionComponent } from './authoritative-region/authoritative-region.component';
@@ -18,18 +14,15 @@ import { NeicCatalogRegionComponent } from './neic-catalog-region/neic-catalog-r
 import { NeicResponseRegionComponent } from './neic-response-region/neic-response-region.component';
 import { NoDataComponent } from './no-data/no-data.component';
 import { OffshoreRegionComponent } from './offshore-region/offshore-region.component';
-import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tectonic-summary-region.component';
-
-import { LocationInputModule } from 'hazdev-ng-location-input';
-
 import { OverlaysService } from './overlays.service';
 import { PlacesService } from './places.service';
 import { RegionsService } from './regions.service';
+import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tectonic-summary-region.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    LocationInputModule,
+    LocationViewModule,
     MatButtonModule,
     MatIconModule,
     MatInputModule,
@@ -68,11 +61,7 @@ export class GeoserveOutputModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: GeoserveOutputModule,
-      providers: [
-        OverlaysService,
-        PlacesService,
-        RegionsService
-      ]
+      providers: [OverlaysService, PlacesService, RegionsService]
     };
   }
 }
