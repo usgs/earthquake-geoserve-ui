@@ -17,35 +17,22 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GeoserveOutputModule } from 'geoserve-output';
 import { LocationViewModule } from 'hazdev-ng-location-view';
+import { HazdevTemplateModule } from 'hazdev-template';
 
 import { AppComponent } from './app.component';
-import { CoreModule } from './core/core.module';
 import { GeoserveComponent } from './geoserve/geoserve.component';
-import { HazdevTemplateFooterComponent } from './hazdev-template-footer/hazdev-template-footer.component';
-import { HazdevTemplateHeaderComponent } from './hazdev-template-header/hazdev-template-header.component';
-import { HazdevTemplateNavigationComponent } from './hazdev-template-navigation/hazdev-template-navigation.component';
-import { HazdevTemplatePageComponent } from './hazdev-template-page/hazdev-template-page.component';
-import { HazdevTemplateComponent } from './hazdev-template/hazdev-template.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    GeoserveComponent,
-    HazdevTemplateComponent,
-    HazdevTemplateFooterComponent,
-    HazdevTemplateHeaderComponent,
-    HazdevTemplateNavigationComponent,
-    HazdevTemplatePageComponent
-  ],
+  declarations: [AppComponent, GeoserveComponent],
   entryComponents: [GeoserveComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    CoreModule.forRoot(),
     FormsModule,
-    GeoserveOutputModule.forRoot(),
+    GeoserveOutputModule,
+    HazdevTemplateModule,
     HttpClientModule,
-    LocationViewModule.forRoot(),
+    LocationViewModule,
     MatButtonModule,
     MatDialogModule,
     MatExpansionModule,
