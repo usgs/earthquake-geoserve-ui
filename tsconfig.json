@@ -13,8 +13,8 @@
     "lib": ["es2017", "dom"],
     "paths": {
       "@angular/*": ["../node_modules/@angular/*"],
-      "geoserve-output": ["../dist/geoserve-output"],
-      "geoserve-output/*": ["../dist/geoserve-output/*"]
+      "hazdev-ng-geoserve-output": ["../dist/hazdev-ng-geoserve-output"],
+      "hazdev-ng-geoserve-output/*": ["../dist/hazdev-ng-geoserve-output/*"]
     }
   }
 }

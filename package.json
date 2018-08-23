@@ -5,11 +5,11 @@
   "scripts": {
     "ng": "ng",
     "start": "npm run build && ng serve -o",
-    "build": "ng build --prod geoserve-output",
+    "build": "ng build --prod hazdev-ng-geoserve-output",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "publish-geoserve-output": "npm run build && cd dist/geoserve-output && npm publish"
+    "publish": "npm run build && cd dist/hazdev-ng-geoserve-output && npm publish"
   },
   "private": false,
   "dependencies": {

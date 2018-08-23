@@ -121,38 +121,38 @@
         }
       }
     },
-    "geoserve-output": {
-      "root": "projects/geoserve-output",
-      "sourceRoot": "projects/geoserve-output/src",
+    "hazdev-ng-geoserve-output": {
+      "root": "projects/hazdev-ng-geoserve-output",
+      "sourceRoot": "projects/hazdev-ng-geoserve-output/src",
       "projectType": "library",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/geoserve-output/tsconfig.lib.json",
-            "project": "projects/geoserve-output/ng-package.json"
+            "tsConfig": "projects/hazdev-ng-geoserve-output/tsconfig.lib.json",
+            "project": "projects/hazdev-ng-geoserve-output/ng-package.json"
           },
           "configurations": {
             "production": {
-              "project": "projects/geoserve-output/ng-package.prod.json"
+              "project": "projects/hazdev-ng-geoserve-output/ng-package.prod.json"
             }
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/geoserve-output/src/test.ts",
-            "tsConfig": "projects/geoserve-output/tsconfig.spec.json",
-            "karmaConfig": "projects/geoserve-output/karma.conf.js"
+            "main": "projects/hazdev-ng-geoserve-output/src/test.ts",
+            "tsConfig": "projects/hazdev-ng-geoserve-output/tsconfig.spec.json",
+            "karmaConfig": "projects/hazdev-ng-geoserve-output/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/geoserve-output/tsconfig.lib.json",
-              "projects/geoserve-output/tsconfig.spec.json"
+              "projects/hazdev-ng-geoserve-output/tsconfig.lib.json",
+              "projects/hazdev-ng-geoserve-output/tsconfig.spec.json"
             ],
             "exclude": ["**/node_modules/**"]
           }

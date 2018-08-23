@@ -1,7 +1,6 @@
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "../../dist/geoserve-output",
-  "deleteDestPath": false,
+  "dest": "../../dist/hazdev-ng-geoserve-output",
   "lib": {
     "entryFile": "src/public_api.ts"
   }

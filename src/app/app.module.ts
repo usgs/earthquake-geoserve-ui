@@ -14,7 +14,7 @@ import {
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { GeoserveOutputModule } from 'geoserve-output';
+import { GeoserveOutputModule } from 'hazdev-ng-geoserve-output';
 import { LocationViewModule } from 'hazdev-ng-location-view';
 
 import { AppComponent } from './app.component';

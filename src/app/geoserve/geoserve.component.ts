@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { OverlaysService, PlacesService, RegionsService } from 'geoserve-output';
+import { OverlaysService, PlacesService, RegionsService } from 'hazdev-ng-geoserve-output';
 import { Coordinates, CoordinatesService, LocationDialogComponent } from 'hazdev-ng-location-view';
 import * as L from 'leaflet';
 import { Subscription } from 'rxjs';

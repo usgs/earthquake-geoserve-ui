@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { OverlaysService } from 'hazdev-ng-geoserve-output';
 import { MockComponent } from 'ng2-mock-component';
 
-import { OverlaysService } from 'geoserve-output';
 import { GeoserveComponent } from './geoserve.component';
 
 describe('GeoserveComponent', () => {
@@ -24,14 +24,11 @@ describe('GeoserveComponent', () => {
       declarations: [
         GeoserveComponent,
 
-        MockComponent({selector: 'geoserve-output'}),
-        MockComponent({selector: 'location-input-map'})
+        MockComponent({ selector: 'geoserve-output' }),
+        MockComponent({ selector: 'location-input-map' })
       ],
-      providers: [
-        { provide: OverlaysService, useValue: overlaysServiceStub }
-      ]
-    })
-    .compileComponents();
+      providers: [{ provide: OverlaysService, useValue: overlaysServiceStub }]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
