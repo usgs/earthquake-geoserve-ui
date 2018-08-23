@@ -1,19 +1,8 @@
-<div *ngIf="coordinatesService.coordinates$ | async; else noCoordinates">
-  <geoserve-location-output></geoserve-location-output>
-  <geoserve-admin-region></geoserve-admin-region>
-  <geoserve-authoritative-region></geoserve-authoritative-region>
-  <geoserve-nearby-places></geoserve-nearby-places>
-  <geoserve-neic-catalog-region></geoserve-neic-catalog-region>
-  <geoserve-neic-response-region></geoserve-neic-response-region>
-  <geoserve-offshore-region></geoserve-offshore-region>
-  <geoserve-tectonic-summary-region></geoserve-tectonic-summary-region>
-</div>
-
-<ng-template #noCoordinates>
-  <p class="alert info">
-    To select a location, click the
-    <button mat-raised-button class="icon-button" (click)="onClick()">
-      <i class="material-icons">location_searching</i>
-    </button>on the map.
-  </p>
-</ng-template>
+<geoserve-location-output></geoserve-location-output>
+<geoserve-admin-region></geoserve-admin-region>
+<geoserve-authoritative-region></geoserve-authoritative-region>
+<geoserve-nearby-places></geoserve-nearby-places>
+<geoserve-neic-catalog-region></geoserve-neic-catalog-region>
+<geoserve-neic-response-region></geoserve-neic-response-region>
+<geoserve-offshore-region></geoserve-offshore-region>
+<geoserve-tectonic-summary-region></geoserve-tectonic-summary-region>

@@ -4,12 +4,12 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "npm run build && ng serve -o",
+    "build": "ng build --prod geoserve-output",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "publish-geoserve-output": "ng build geoserve-output && cd dist/geoserve-output && npm publish"
+    "publish-geoserve-output": "npm run build && cd dist/geoserve-output && npm publish"
   },
   "private": false,
   "dependencies": {
@@ -25,8 +25,7 @@
     "@angular/platform-browser-dynamic": "6.0.5",
     "@angular/router": "6.0.5",
     "core-js": "^2.5.3",
-    "hazdev-ng-location-view": "file:../hazdev-location-view/dist/hazdev-ng-location-view",
-    "hazdev-template": "file:../hazdev-template/dist-npm/hazdev-template-3.0.0.tgz",
+    "hazdev-ng-location-view": "0.0.3",
     "leaflet": "^1.2.0",
     "rxjs": "^6.2.1",
     "zone.js": "^0.8.26"

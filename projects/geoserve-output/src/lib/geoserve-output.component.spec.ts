@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialog } from '@angular/material';
 import { CoordinatesService } from 'hazdev-ng-location-view';
 import { MockComponent } from 'ng2-mock-component';
 
@@ -28,8 +27,7 @@ describe('GeoserveOutputComponent', () => {
         GeoserveOutputComponent,
 
         MockComponent({
-          selector: 'geoserve-admin-region',
-          inputs: ['region']
+          selector: 'geoserve-admin-region'
         }),
         MockComponent({ selector: 'geoserve-authoritative-region' }),
         MockComponent({ selector: 'geoserve-coordinate-input' }),
@@ -41,8 +39,7 @@ describe('GeoserveOutputComponent', () => {
         MockComponent({ selector: 'geoserve-tectonic-summary-region' })
       ],
       providers: [
-        { provide: CoordinatesService, useValue: coordinatesServiceStub },
-        { provide: MatDialog, useValue: dialogStub }
+        { provide: CoordinatesService, useValue: coordinatesServiceStub }
       ]
     }).compileComponents();
   }));

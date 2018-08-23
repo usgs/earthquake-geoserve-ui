@@ -1,0 +1,9 @@
+.map {
+  height: 600px;
+}
+
+.icon-button {
+  margin: 0 0.5em;
+  min-width: 0;
+  padding: 0 0.5em;
+}

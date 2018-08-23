@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { OverlaysService } from 'geoserve-output';
+import { OverlaysService, PlacesService, RegionsService } from 'geoserve-output';
 import { Coordinates, CoordinatesService, LocationDialogComponent } from 'hazdev-ng-location-view';
 import * as L from 'leaflet';
 import { Subscription } from 'rxjs';
@@ -25,7 +25,9 @@ export class GeoserveComponent implements AfterViewInit, OnDestroy {
   constructor(
     public coordinatesService: CoordinatesService,
     public dialog: MatDialog,
-    public overlaysService: OverlaysService
+    public overlaysService: OverlaysService,
+    public placesService: PlacesService,
+    public regionsService: RegionsService
   ) {}
 
   ngAfterViewInit() {
@@ -210,6 +212,32 @@ export class GeoserveComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
+   * Pass the coordinates to the RegionsService
+   */
+  getPlaces(coordinates) {
+    if (
+      (coordinates.latitude || coordinates.latitude === 0) &&
+      (coordinates.longitude || coordinates.longitude === 0)
+    ) {
+      this.placesService.getPlaces(coordinates.latitude, coordinates.longitude);
+    }
+  }
+  /**
+   * Pass the coordinates to the PlacesService
+   */
+  getRegions(coordinates) {
+    if (
+      (coordinates.latitude || coordinates.latitude === 0) &&
+      (coordinates.longitude || coordinates.longitude === 0)
+    ) {
+      this.regionsService.getRegions(
+        coordinates.latitude,
+        coordinates.longitude
+      );
+    }
+  }
+
+  /**
    * Zoom/centers the map on the provided location
    *
    * @param coordinates
@@ -296,6 +324,8 @@ export class GeoserveComponent implements AfterViewInit, OnDestroy {
           this.coordinates = coordinates;
           this.moveMarker(coordinates);
           this.moveMap(coordinates);
+          this.getPlaces(coordinates);
+          this.getRegions(coordinates);
         }
       })
     );

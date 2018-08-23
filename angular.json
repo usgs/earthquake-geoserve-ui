@@ -19,11 +19,6 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "../node_modules/hazdev-template/src/assets",
-                "output": "./assets/"
-              },
-              {
-                "glob": "**/*",
                 "input": "node_modules/leaflet/dist/images",
                 "output": "/leaflet"
               },
@@ -86,16 +81,6 @@
               "node_modules/leaflet/dist/leaflet.css"
             ],
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "src/app/hazdev-template-header/assets",
-                "output": "/assets"
-              },
-              {
-                "glob": "**/*",
-                "input": "src/app/hazdev-template-page/assets",
-                "output": "/assets"
-              },
               {
                 "glob": "**/*",
                 "input": "node_modules/leaflet/dist/images",
