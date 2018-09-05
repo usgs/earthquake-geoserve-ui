@@ -1,31 +1,17 @@
-import { TestBed, getTestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { getTestBed, inject, TestBed } from '@angular/core/testing';
 
-import { CoordinatesService } from 'hazdev-ng-location-view';
 import { PlacesService } from './places.service';
 
 describe('PlacesService', () => {
   let httpClient: HttpTestingController,
-      injector: TestBed,
-      placesService: PlacesService;
+    injector: TestBed,
+    placesService: PlacesService;
 
   beforeEach(() => {
-    const coordinatesServiceStub = {
-      coordinates$: {
-        subscribe: () => {
-          console.log('stubbified!');
-        }
-      }
-    };
-
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule
-      ],
-      providers: [
-        PlacesService,
-        {provide: CoordinatesService, useValue: coordinatesServiceStub}
-      ]
+      imports: [HttpClientTestingModule],
+      providers: [PlacesService]
     });
 
     injector = getTestBed();
@@ -42,7 +28,6 @@ describe('PlacesService', () => {
   }));
 
   describe('empty', () => {
-
     it('notifies with null', () => {
       const spy = jasmine.createSpy('subscriber spy');
       const places = placesService.places$;
@@ -57,15 +42,11 @@ describe('PlacesService', () => {
 
   describe('getPlaces', () => {
     it('calls http get', () => {
-      let latitude,
-          longitude;
+      let latitude, longitude;
 
       const placesJson = {
         event: {
-          features: [
-            'feature 1',
-            'feature 2'
-          ]
+          features: ['feature 1', 'feature 2']
         }
       };
 
@@ -73,36 +54,38 @@ describe('PlacesService', () => {
       longitude = 0;
       placesService.getPlaces(latitude, longitude);
 
-      const request = httpClient.expectOne(placesService.PLACES_URL +
-        `?latitude=${latitude}&longitude=${longitude}&type=event`);
+      const request = httpClient.expectOne(
+        placesService.PLACES_URL +
+          `?latitude=${latitude}&longitude=${longitude}&type=event`
+      );
 
       expect(request.request.method).toBe('GET');
       request.flush(placesJson);
 
-      placesService.places$.subscribe((result) => {
+      placesService.places$.subscribe(result => {
         expect(result).toEqual(placesJson.event.features);
       });
     });
 
     it('handles errors', () => {
-      let latitude,
-          longitude;
+      let latitude, longitude;
 
       latitude = 0;
       longitude = 0;
       placesService.getPlaces(latitude, longitude);
 
-      const request = httpClient.expectOne(placesService.PLACES_URL +
-        `?latitude=${latitude}&longitude=${longitude}&type=event`);
+      const request = httpClient.expectOne(
+        placesService.PLACES_URL +
+          `?latitude=${latitude}&longitude=${longitude}&type=event`
+      );
 
       request.error(new ErrorEvent('You may safely ignore this error.'));
 
-      placesService.places$.subscribe((result) => {
+      placesService.places$.subscribe(result => {
         expect(result.length).toBe(0);
       });
     });
   });
-
 
   describe('buildUrl', () => {
     it('returns a url', () => {
@@ -117,8 +100,7 @@ describe('PlacesService', () => {
       expect(url.indexOf(`longitude=${lng}`)).not.toEqual(-1);
     });
     it('normalizes longitude in the url', () => {
-      let lng,
-          url;
+      let lng, url;
 
       const lat = 0;
       lng = 720;

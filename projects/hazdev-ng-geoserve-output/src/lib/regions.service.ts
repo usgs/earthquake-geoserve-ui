@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CoordinatesService } from 'hazdev-ng-location-view';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -12,7 +11,6 @@ export class RegionsService {
 
   public adminRegions$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public authoritative$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  public coordinates$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public neicCatalog$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public neicResponse$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public tectonic$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
@@ -21,17 +19,8 @@ export class RegionsService {
   );
 
   constructor(
-    private coordinatesService: CoordinatesService,
     private http: HttpClient
-  ) {
-    // subscribe to coordinates service
-    this.coordinatesService.coordinates$.subscribe(coordinates => {
-      // make request to regions service when coordinates update
-      if (coordinates) {
-        this.getRegions(coordinates.latitude, coordinates.longitude);
-      }
-    });
-  }
+  ) {}
 
   empty(): void {
     this.adminRegions$.next(null);

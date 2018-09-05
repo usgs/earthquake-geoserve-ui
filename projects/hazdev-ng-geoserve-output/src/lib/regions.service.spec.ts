@@ -1,31 +1,17 @@
-import { TestBed, getTestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { getTestBed, inject, TestBed } from '@angular/core/testing';
 
-import { CoordinatesService } from 'hazdev-ng-location-view';
 import { RegionsService } from './regions.service';
 
 describe('RegionsService', () => {
   let httpClient: HttpTestingController,
-      injector: TestBed,
-      regionsService: RegionsService;
+    injector: TestBed,
+    regionsService: RegionsService;
 
   beforeEach(() => {
-    const coordinatesServiceStub = {
-      coordinates$: {
-        subscribe: () => {
-          console.log('stubbified!');
-        }
-      }
-    };
-
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule
-      ],
-      providers: [
-        RegionsService,
-        {provide: CoordinatesService, useValue: coordinatesServiceStub}
-      ]
+      imports: [HttpClientTestingModule],
+      providers: [RegionsService]
     });
 
     injector = getTestBed();
@@ -37,9 +23,12 @@ describe('RegionsService', () => {
     httpClient.verify();
   });
 
-  it('should be created', inject([RegionsService], (service: RegionsService) => {
-    expect(service).toBeTruthy();
-  }));
+  it('should be created', inject(
+    [RegionsService],
+    (service: RegionsService) => {
+      expect(service).toBeTruthy();
+    }
+  ));
 
   describe('empty', () => {
     it('notifies with null', () => {
@@ -56,14 +45,11 @@ describe('RegionsService', () => {
 
   describe('getRegions', () => {
     it('calls http get', () => {
-      let latitude,
-          longitude;
+      let latitude, longitude;
 
       const regionsJson = {
         admin: {
-          features: [
-            'feature'
-          ]
+          features: ['feature']
         }
       };
 
@@ -71,31 +57,34 @@ describe('RegionsService', () => {
       longitude = 0;
       regionsService.getRegions(latitude, longitude);
 
-      const request = httpClient.expectOne(regionsService.REGIONS_URL +
-        `?latitude=${latitude}&longitude=${longitude}`);
+      const request = httpClient.expectOne(
+        regionsService.REGIONS_URL +
+          `?latitude=${latitude}&longitude=${longitude}`
+      );
 
       expect(request.request.method).toBe('GET');
       request.flush(regionsJson);
 
-      regionsService.adminRegions$.subscribe((result) => {
+      regionsService.adminRegions$.subscribe(result => {
         expect(result).toEqual(regionsJson.admin.features[0]);
       });
     });
 
     it('handles errors', () => {
-      let latitude,
-          longitude;
+      let latitude, longitude;
 
       latitude = 0;
       longitude = 0;
       regionsService.getRegions(latitude, longitude);
 
-      const request = httpClient.expectOne(regionsService.REGIONS_URL +
-        `?latitude=${latitude}&longitude=${longitude}`);
+      const request = httpClient.expectOne(
+        regionsService.REGIONS_URL +
+          `?latitude=${latitude}&longitude=${longitude}`
+      );
 
       request.error(new ErrorEvent('You may safely ignore this error.'));
 
-      regionsService.adminRegions$.subscribe((result) => {
+      regionsService.adminRegions$.subscribe(result => {
         expect(result).toBe(null);
       });
     });
@@ -114,8 +103,7 @@ describe('RegionsService', () => {
       expect(url.indexOf(`longitude=${lng}`)).not.toEqual(-1);
     });
     it('normalizes longitude in the url', () => {
-      let lng,
-          url;
+      let lng, url;
 
       const lat = 0;
       lng = 720;
