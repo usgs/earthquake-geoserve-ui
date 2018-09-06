@@ -140,12 +140,8 @@ export class GeoserveComponent implements AfterViewInit, OnDestroy {
         position: 'topleft'
       },
 
-      initialize: function(options) {
-        this._control = options.control;
-      },
-
       onAdd: function(map) {
-        return this._control;
+        return control;
       },
 
       onRemove: function(map) {
@@ -154,11 +150,7 @@ export class GeoserveComponent implements AfterViewInit, OnDestroy {
     });
 
     // Add Location Control to map
-    this.map.addControl(
-      new LocationControl({
-        control: control
-      })
-    );
+    this.map.addControl(new LocationControl());
   }
 
   /**
