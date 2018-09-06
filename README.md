@@ -61,13 +61,13 @@ Follow these steps to use any of the geoserve components in your application.
 
 The `GeoserveOutputModule` contains the following component selectors:
 
-* app-admin-region
-* app-authoritative-region
-* app-nearby-places
-* app-neic-catalog-region
-* app-neic-response-region
-* app-offshore-region
-* app-tectonic-summary-region
+* geoserve-admin-region
+* geoserve-authoritative-region
+* geoserve-nearby-places
+* geoserve-neic-catalog-region
+* geoserve-neic-response-region
+* geoserve-offshore-region
+* geoserve-tectonic-summary-region
 
 
 ### Installing & Importing
@@ -98,9 +98,9 @@ To use the component selectors you must import the correct modules and services 
     ```
     /* some.component.html */
 
-    <app-admin-region></app-admin-region>
-    <app-nearby-places></app-nearby-places>
-    <app-tectonic-summary-region></app-tectonic-summary-region>
+    <geoserve-admin-region></geoserve-admin-region>
+    <geoserve-nearby-places></geoserve-nearby-places>
+    <geoserve-tectonic-summary-region></geoserve-tectonic-summary-region>
     ```
 
 1. Import the `CoordinatesService` and use the `setCoordinates()` method to set the coordinate location for the geoserve components. The geoserve components are subscribed to coordinate changes and will trigger a region/place change when the coordinates are updated.

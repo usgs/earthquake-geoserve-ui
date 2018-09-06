@@ -1,11 +1,19 @@
-<app-location-map></app-location-map>
-<app-geoserve-output></app-geoserve-output>
+<p class="alert info">
+  To select a location, click the
+  <button mat-raised-button class="icon-button" (click)="openDialog()">
+    <i class="material-icons">location_searching</i>
+  </button>on the map.
+</p>
+
+<div #mapWrapper class="map" (mousemove)="$event.stopPropagation"></div>
+<geoserve-output></geoserve-output>
+
 <div>
   <h2>Issues</h2>
   <span>
-    Contributions are welcome from the community. Questions can be asked on
-    the <a href="https://github.com/usgs/earthquake-geoserve-ui/issues">
-    issues page</a>. Before creating a new issue, please take a moment to
-    search and make sure a similar issue does not already exist.
+    Contributions are welcome from the community. Questions can be asked on the
+    <a href="https://github.com/usgs/earthquake-geoserve-ui/issues">
+      issues page</a>. Before creating a new issue, please take a moment to search and make sure a similar issue does not
+    already exist.
   </span>
 </div>

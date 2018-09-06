@@ -1,28 +1,14 @@
-import { async, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { async, TestBed } from '@angular/core/testing';
 import { MockComponent } from 'ng2-mock-component';
 
-import { MatButtonModule, MatSidenavModule, MatListModule, MatInputModule } from '@angular/material';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { PlacesService } from './core/places.service';
-import { RegionsService } from './core/regions.service';
-
 import { AppComponent } from './app.component';
-
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AppComponent,
-
-        MockComponent({selector: 'app-hazdev-template'}),
-        MockComponent({selector: 'app-geoserve'})
-      ],
-      schemas: [
-        NO_ERRORS_SCHEMA
-      ]
+      declarations: [AppComponent, MockComponent({ selector: 'app-geoserve' })],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
   it('should create the app', async(() => {

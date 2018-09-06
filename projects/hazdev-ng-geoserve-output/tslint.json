@@ -1,0 +1,17 @@
+{
+    "extends": "../../tslint.json",
+    "rules": {
+        "directive-selector": [
+            true,
+            "attribute",
+            "geoserve",
+            "camelCase"
+        ],
+        "component-selector": [
+            true,
+            "element",
+            "geoserve",
+            "kebab-case"
+        ]
+    }
+}

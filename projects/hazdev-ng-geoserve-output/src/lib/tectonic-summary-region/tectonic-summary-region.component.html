@@ -1,0 +1,10 @@
+<h2>Tectonic Summary</h2>
+<div *ngIf="regionsService.tectonic$ | async; else noTectonic; let tectonic"
+    class="tectonic-output">
+  <div [innerHTML]="tectonic?.properties.summary">
+  </div>
+</div>
+
+<ng-template #noTectonic>
+  <geoserve-no-data></geoserve-no-data>
+</ng-template>

@@ -1,7 +1,6 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { MediaMatcher } from '@angular/cdk/layout';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatButtonModule,
   MatDialogModule,
@@ -11,54 +10,25 @@ import {
   MatInputModule,
   MatListModule,
   MatProgressBarModule,
-  MatSidenavModule
+  MatSidenavModule,
 } from '@angular/material';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { CoreModule } from './core/core.module';
-import { GeoserveOutputModule } from './geoserve-output/geoserve-output.module';
+import { GeoserveOutputModule } from 'hazdev-ng-geoserve-output';
+import { LocationViewModule } from 'hazdev-ng-location-view';
 
 import { AppComponent } from './app.component';
-import { CoordinateInputComponent } from './coordinate-input/coordinate-input.component';
 import { GeoserveComponent } from './geoserve/geoserve.component';
-import { HazdevTemplateComponent } from './hazdev-template/hazdev-template.component';
-import { HazdevTemplateFooterComponent } from './hazdev-template-footer/hazdev-template-footer.component';
-import { HazdevTemplateHeaderComponent } from './hazdev-template-header/hazdev-template-header.component';
-import { HazdevTemplateNavigationComponent } from './hazdev-template-navigation/hazdev-template-navigation.component';
-import { HazdevTemplatePageComponent } from './hazdev-template-page/hazdev-template-page.component';
-import { LocationDialogComponent } from './location-dialog/location-dialog.component';
-import { LocationMapComponent } from './location-map/location-map.component';
-import { GeolocateInputComponent } from './geolocate-input/geolocate-input.component';
-import { GeocodeInputComponent } from './geocode-input/geocode-input.component';
-
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    CoordinateInputComponent,
-    GeoserveComponent,
-    HazdevTemplateComponent,
-    HazdevTemplateFooterComponent,
-    HazdevTemplateHeaderComponent,
-    HazdevTemplateNavigationComponent,
-    HazdevTemplatePageComponent,
-    LocationDialogComponent,
-    LocationMapComponent,
-    GeolocateInputComponent,
-    GeocodeInputComponent
-  ],
-  entryComponents: [
-    CoordinateInputComponent,
-    GeoserveComponent,
-    LocationDialogComponent
-  ],
+  declarations: [AppComponent, GeoserveComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    CoreModule.forRoot(),
     FormsModule,
-    GeoserveOutputModule,
+    GeoserveOutputModule.forRoot(),
+    HttpClientModule,
+    LocationViewModule.forRoot(),
     MatButtonModule,
     MatDialogModule,
     MatExpansionModule,
@@ -70,22 +40,8 @@ import { GeocodeInputComponent } from './geocode-input/geocode-input.component';
     MatSidenavModule,
     ReactiveFormsModule
   ],
-  exports: [
-    GeoserveOutputModule,
-    HttpClientModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatExpansionModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatListModule,
-    MatProgressBarModule,
-    MatSidenavModule
-  ],
-  providers: [
-    MediaMatcher
-  ],
+  exports: [],
+  providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

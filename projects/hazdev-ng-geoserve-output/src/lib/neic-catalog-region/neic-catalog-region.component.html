@@ -1,0 +1,18 @@
+<!-- NEIC Catalog region was returned, display the region -->
+<h2>NEIC Catalog Region</h2>
+<div *ngIf="regionsService.neicCatalog$ | async; else noRegion;
+    let region "class="output-section">
+  <dl class="neic-catalog-region">
+    <geoserve-list-item TITLE="Name" DATA="{{ region?.properties.name }}">
+    </geoserve-list-item>
+    <geoserve-list-item TITLE="Type" DATA="{{ region?.properties.type }}">
+    </geoserve-list-item>
+    <geoserve-list-item TITLE="Magnitude" DATA="{{ region?.properties.magnitude }}">
+    </geoserve-list-item>
+  </dl>
+</div>
+
+<!-- No NEIC Catalog region was returned -->
+<ng-template #noRegion>
+  <geoserve-no-data></geoserve-no-data>
+</ng-template>
