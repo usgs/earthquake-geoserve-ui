@@ -129,7 +129,7 @@ node {
               ng test earthquake-geoserve-ui --watch=false --code-coverage --progress false --browsers ChromeHeadless
             """
             sh """
-              ng test hazdev-ng-geoserve-output --browsers ChromeHeadless
+              ng test hazdev-ng-geoserve-output --watch=false --browsers ChromeHeadless
             """
             sh """
               ng e2e --progress false
