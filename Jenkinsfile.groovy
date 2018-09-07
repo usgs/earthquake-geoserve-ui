@@ -121,7 +121,7 @@ node {
       docker.image(TESTER_IMAGE).inside () {
           ansiColor('xterm') {
             sh """
-              ng build --prod hazdev-ng-geoserve-output --prod
+              ng build --prod hazdev-ng-geoserve-output
             """
             sh """
               ng build --prod --delete-output-path false --base-href /geoserve/
