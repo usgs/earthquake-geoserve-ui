@@ -93,14 +93,9 @@ node {
               npm config set package-lock false
 
               # Now install everything else so the build works as expected
-              npm install -g @angular/cli
               npm install --no-save
-            """
-            sh """
-              ng build --prod hazdev-ng-geoserve-output
-            """
-            sh """
-              ng build --prod --delete-output-path false --base-href /geoserve/
+              npm run build
+              npm run buildApp
             """
             writeJSON file: 'dist/metadata.json', pretty: 4, json: info
           }
