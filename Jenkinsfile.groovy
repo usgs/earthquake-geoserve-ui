@@ -94,7 +94,8 @@ node {
 
               # Now install everything else so the build works as expected
               npm install --no-save
-              npm run build -- --prod --progress false --base-href /geoserve/
+              ng build --prod hazdev-ng-geoserve-output
+              ng build --prod --delete-output-path false --base-href /geoserve/
             """
 
             writeJSON file: 'dist/metadata.json', pretty: 4, json: info
