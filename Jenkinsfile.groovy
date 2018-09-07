@@ -126,7 +126,10 @@ node {
               ng lint
             """
             sh """
-              ng test --single-run --code-coverage --progress false
+              ng test earthquake-geoserve-ui --watch=false --code-coverage --progress false --browsers ChromeHeadless
+            """
+            sh """
+              ng test hazdev-ng-geoserve-output --browsers ChromeHeadless
             """
             sh """
               ng e2e --progress false
