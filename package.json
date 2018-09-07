@@ -6,6 +6,7 @@
     "ng": "ng",
     "start": "npm run build && ng serve -o",
     "build": "ng build --prod hazdev-ng-geoserve-output",
+    "buildApp": "ng build --prod --delete-output-path false --base-href /geoserve/",
     "test": "ng test --source-map=false hazdev-ng-geoserve-output",
     "lint": "ng lint",
     "e2e": "ng e2e",
