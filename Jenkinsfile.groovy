@@ -123,6 +123,9 @@ node {
       docker.image(TESTER_IMAGE).inside () {
           ansiColor('xterm') {
             sh """
+              npm run build
+            """
+            sh """
               ng lint
             """
             sh """
