@@ -95,6 +95,12 @@ node {
               # Now install everything else so the build works as expected
               npm install --no-save
             """
+            sh """
+              ng build --prod hazdev-ng-geoserve-output
+            """
+            sh """
+              ng build --prod --delete-output-path false --base-href /geoserve/
+            """
             writeJSON file: 'dist/metadata.json', pretty: 4, json: info
           }
         }
@@ -120,12 +126,6 @@ node {
       // Run linting, unit tests, and end-to-end tests
       docker.image(TESTER_IMAGE).inside () {
           ansiColor('xterm') {
-            sh """
-              ng build --prod hazdev-ng-geoserve-output
-            """
-            sh """
-              ng build --prod --delete-output-path false --base-href /geoserve/
-            """
             sh """
               ng lint
             """
