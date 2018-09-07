@@ -93,6 +93,7 @@ node {
               npm config set package-lock false
 
               # Now install everything else so the build works as expected
+              npm install -g @angular/cli
               npm install --no-save
             """
             sh """
