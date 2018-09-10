@@ -4,12 +4,15 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { environment } from '../environments/environment';
+import { Place } from './place';
+import { PlacesJson } from './places-json';
+import { Feature } from './feature';
 
 @Injectable()
 export class PlacesService {
   public readonly PLACES_URL = environment.apiUrl + 'places.json';
 
-  public places$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public places$ = new BehaviorSubject<Place[]>(null);
 
   constructor(private http: HttpClient) {}
 
@@ -21,12 +24,18 @@ export class PlacesService {
     const url = this.buildUrl(latitude, longitude);
 
     this.http
-      .get<any>(url)
-      .pipe(
-        catchError(this.handleError('getPlaces', { event: { features: [] } }))
-      )
-      .subscribe(response => {
-        this.places$.next(response.event.features);
+      .get<PlacesJson>(url)
+        .pipe(
+          catchError(this.handleError('getPlaces', { event: { features: [] } }))
+          )
+        .subscribe((response: PlacesJson) => {
+          const places = response.event.features.map(
+            (feature: Feature): Place => {
+              return feature.properties;
+            }
+          );
+
+          this.places$.next(places);
       });
   }
 
