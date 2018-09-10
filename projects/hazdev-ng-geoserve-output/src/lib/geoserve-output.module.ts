@@ -17,6 +17,7 @@ import { OverlaysService } from './overlays.service';
 import { PlacesService } from './places.service';
 import { RegionsService } from './regions.service';
 import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tectonic-summary-region.component';
+import { NearbyPlaceListComponent } from './nearby-place-list/nearby-place-list.component';
 
 @NgModule({
   imports: [
@@ -38,7 +39,8 @@ import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tecton
     NeicResponseRegionComponent,
     NoDataComponent,
     OffshoreRegionComponent,
-    TectonicSummaryRegionComponent
+    TectonicSummaryRegionComponent,
+    NearbyPlaceListComponent
   ],
   exports: [
     AdminRegionComponent,

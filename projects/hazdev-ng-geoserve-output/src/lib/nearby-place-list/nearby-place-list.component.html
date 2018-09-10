@@ -1,0 +1,12 @@
+<h2>Nearby Places</h2>
+<div *ngIf="places; else noNearbyPlaces">
+  <ol>
+    <li *ngFor="let place of places">
+      <geoserve-nearby-place [place]="place"></geoserve-nearby-place>
+    </li>
+  </ol>
+</div>
+
+<ng-template #noNearbyPlaces>
+  <geoserve-no-data></geoserve-no-data>
+</ng-template>

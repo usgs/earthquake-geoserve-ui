@@ -1,12 +1,3 @@
-<h2>Nearby Places</h2>
-<div *ngIf="placesService.places$ | async; else noNearbyPlaces">
-  <ol>
-    <li *ngFor="let place of placesService.places$ | async">
-      <geoserve-nearby-place [place]="place"></geoserve-nearby-place>
-    </li>
-  </ol>
-</div>
-
-<ng-template #noNearbyPlaces>
-  <geoserve-no-data></geoserve-no-data>
-</ng-template>
+<ng-container *ngIf="placesService.places$ | async as places">
+  <geoserve-nearby-place-list [places]="places"></geoserve-nearby-place-list>
+</ng-container>
