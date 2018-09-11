@@ -10,41 +10,10 @@ import { Feature } from './feature';
 
 @Injectable()
 export class PlacesService {
-  public readonly PLACES_URL = environment.apiUrl + 'places.json';
-
-  public places$ = new BehaviorSubject<Place[]>(null);
+  places$ = new BehaviorSubject<Place[]>(null);
+  readonly PLACES_URL = environment.apiUrl + 'places.json';
 
   constructor(private http: HttpClient) {}
-
-  empty(): void {
-    this.places$.next(null);
-  }
-
-  getPlaces(latitude: number, longitude: number): void {
-    const url = this.buildUrl(latitude, longitude);
-
-    this.http
-      .get<PlacesJson>(url)
-        .pipe(
-          catchError(this.handleError('getPlaces', { event: { features: [] } }))
-          )
-        .subscribe((response: PlacesJson) => {
-          const places = response.event.features.map(
-            (feature: Feature): Place => {
-              return feature.properties;
-            }
-          );
-
-          this.places$.next(places);
-      });
-  }
-
-  private handleError<T>(action: string, result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      return of(result as T);
-    };
-  }
 
   buildUrl(latitude: number, longitude: number): string {
     // normalize longitude for search
@@ -62,5 +31,35 @@ export class PlacesService {
       `&longitude=${longitude}` +
       '&type=event'
     );
+  }
+
+  empty(): void {
+    this.places$.next(null);
+  }
+
+  getPlaces(latitude: number, longitude: number): void {
+    const url = this.buildUrl(latitude, longitude);
+
+    this.http
+      .get<PlacesJson>(url)
+      .pipe(
+        catchError(this.handleError('getPlaces', { event: { features: [] } }))
+      )
+      .subscribe((response: PlacesJson) => {
+        const places = response.event.features.map(
+          (feature: Feature): Place => {
+            return feature.properties;
+          }
+        );
+
+        this.places$.next(places);
+      });
+  }
+
+  private handleError<T>(action: string, result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(error);
+      return of(result as T);
+    };
   }
 }

@@ -3,15 +3,14 @@ import { Place } from '../place';
 
 @Component({
   selector: 'geoserve-nearby-place-list',
-  templateUrl: './nearby-place-list.component.html',
-  styleUrls: ['./nearby-place-list.component.css']
+  styleUrls: ['./nearby-place-list.component.css'],
+  templateUrl: './nearby-place-list.component.html'
 })
 export class NearbyPlaceListComponent implements OnInit {
-  @Input() places: Place[];
+  @Input()
+  places: Place[];
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

@@ -8,9 +8,8 @@ describe('NearbyPlaceListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NearbyPlaceListComponent ]
-    })
-    .compileComponents();
+      declarations: [NearbyPlaceListComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
