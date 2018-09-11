@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { MatButtonModule, MatIconModule, MatInputModule, MatListModule } from '@angular/material';
+import {
+  MatButtonModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule
+} from '@angular/material';
 
 import { AdminRegionComponent } from './admin-region/admin-region.component';
 import { AuthoritativeRegionComponent } from './authoritative-region/authoritative-region.component';
