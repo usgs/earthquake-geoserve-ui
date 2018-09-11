@@ -8,6 +8,7 @@ import { GeoserveOutputComponent } from './geoserve-output.component';
 import { ListItemComponent } from './list-item/list-item.component';
 import { LocationOutputComponent } from './location-output/location-output.component';
 import { NearbyPlaceComponent } from './nearby-place/nearby-place.component';
+import { NearbyPlaceListComponent } from './nearby-place-list/nearby-place-list.component';
 import { NearbyPlacesComponent } from './nearby-places/nearby-places.component';
 import { NeicCatalogRegionComponent } from './neic-catalog-region/neic-catalog-region.component';
 import { NeicResponseRegionComponent } from './neic-response-region/neic-response-region.component';
@@ -17,7 +18,6 @@ import { OverlaysService } from './overlays.service';
 import { PlacesService } from './places.service';
 import { RegionsService } from './regions.service';
 import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tectonic-summary-region.component';
-import { NearbyPlaceListComponent } from './nearby-place-list/nearby-place-list.component';
 
 @NgModule({
   imports: [
@@ -34,13 +34,13 @@ import { NearbyPlaceListComponent } from './nearby-place-list/nearby-place-list.
     ListItemComponent,
     LocationOutputComponent,
     NearbyPlaceComponent,
+    NearbyPlaceListComponent,
     NearbyPlacesComponent,
     NeicCatalogRegionComponent,
     NeicResponseRegionComponent,
     NoDataComponent,
     OffshoreRegionComponent,
-    TectonicSummaryRegionComponent,
-    NearbyPlaceListComponent
+    TectonicSummaryRegionComponent
   ],
   exports: [
     AdminRegionComponent,
@@ -49,6 +49,7 @@ import { NearbyPlaceListComponent } from './nearby-place-list/nearby-place-list.
     ListItemComponent,
     LocationOutputComponent,
     NearbyPlaceComponent,
+    NearbyPlaceListComponent,
     NearbyPlacesComponent,
     NeicCatalogRegionComponent,
     NeicResponseRegionComponent,
