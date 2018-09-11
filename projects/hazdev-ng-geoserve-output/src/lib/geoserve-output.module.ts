@@ -25,13 +25,6 @@ import { RegionsService } from './regions.service';
 import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tectonic-summary-region.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatIconModule,
-    MatInputModule,
-    MatListModule
-  ],
   declarations: [
     AdminRegionComponent,
     AuthoritativeRegionComponent,
@@ -61,6 +54,13 @@ import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tecton
     NoDataComponent,
     OffshoreRegionComponent,
     TectonicSummaryRegionComponent
+  ],
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule
   ]
 })
 export class GeoserveOutputModule {
