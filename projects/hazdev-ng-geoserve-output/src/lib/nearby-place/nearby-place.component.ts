@@ -15,10 +15,13 @@ export class NearbyPlaceComponent implements OnInit {
   }
 
   getName(place: Place): string  {
-    return (place.name + ', '
-      + place.admin1_name + ', '
-      + place.country_name
-    );
+    const placeArr = [
+      place.name || '',
+      place.admin1_name || '',
+      place.country_name || ''
+    ].filter(str => !!str);
+
+    return placeArr.join(', ');
   }
 
   getDistance(place: Place): string {
@@ -32,7 +35,7 @@ export class NearbyPlaceComponent implements OnInit {
   }
 
   getPopulation(place: Place): string {
-    return 'Population: ' + place.population;
+    return 'Population: ' + (place.population || '-');
   }
 
   compassWinds(azimuth: string | number): string {
