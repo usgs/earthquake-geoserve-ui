@@ -1,7 +1,7 @@
 export interface Place {
   admin1_code: string;
   admin1_name: string;
-  azimuth: number;
+  azimuth: number | string;
   country_code: string;
   country_name: string;
   distance: number;
