@@ -1,4 +1,7 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
 import { getTestBed, inject, TestBed } from '@angular/core/testing';
 
 import { PlacesService } from './places.service';
@@ -46,7 +49,10 @@ describe('PlacesService', () => {
 
       const placesJson = {
         event: {
-          features: ['feature 1', 'feature 2']
+          features: [
+            { properties: { name: 'feature 1' } },
+            { properties: { name: 'feature 2' } }
+          ]
         }
       };
 
@@ -62,8 +68,11 @@ describe('PlacesService', () => {
       expect(request.request.method).toBe('GET');
       request.flush(placesJson);
 
-      placesService.places$.subscribe(result => {
-        expect(result).toEqual(placesJson.event.features);
+      placesService.places$.subscribe(places => {
+        console.log('Places: ' + places);
+        expect(places.length).toBe(2);
+        expect(places[0].name).toEqual('feature 1');
+        expect(places[1].name).toEqual('feature 2');
       });
     });
 
