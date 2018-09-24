@@ -1,7 +1,11 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
 import { getTestBed, inject, TestBed } from '@angular/core/testing';
 
 import { RegionsService } from './regions.service';
+import { environment } from '../environments/environment';
 
 describe('RegionsService', () => {
   let httpClient: HttpTestingController,
@@ -58,8 +62,8 @@ describe('RegionsService', () => {
       regionsService.getRegions(latitude, longitude);
 
       const request = httpClient.expectOne(
-        regionsService.REGIONS_URL +
-          `?latitude=${latitude}&longitude=${longitude}`
+        environment.apiUrl +
+          `regions.json?latitude=${latitude}&longitude=${longitude}`
       );
 
       expect(request.request.method).toBe('GET');
@@ -78,8 +82,8 @@ describe('RegionsService', () => {
       regionsService.getRegions(latitude, longitude);
 
       const request = httpClient.expectOne(
-        regionsService.REGIONS_URL +
-          `?latitude=${latitude}&longitude=${longitude}`
+        environment.apiUrl +
+          `regions.json?latitude=${latitude}&longitude=${longitude}`
       );
 
       request.error(new ErrorEvent('You may safely ignore this error.'));

@@ -5,8 +5,6 @@ import { catchError } from 'rxjs/operators';
 
 import { environment } from '../environments/environment';
 
-const REGIONS_URL = environment.apiUrl + 'regions.json';
-
 @Injectable()
 export class RegionsService {
   adminRegions$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
@@ -27,7 +25,10 @@ export class RegionsService {
       longitude -= 360;
     }
 
-    return REGIONS_URL + `?latitude=${latitude}&longitude=${longitude}`;
+    return (
+      environment.apiUrl +
+      `regions.json?latitude=${latitude}&longitude=${longitude}`
+    );
   }
 
   empty(): void {
