@@ -16,12 +16,6 @@ describe('GeoserveOutputComponent', () => {
       }
     };
 
-    const dialogStub = {
-      open: () => {
-        console.log('stubbified!');
-      }
-    };
-
     TestBed.configureTestingModule({
       declarations: [
         GeoserveOutputComponent,

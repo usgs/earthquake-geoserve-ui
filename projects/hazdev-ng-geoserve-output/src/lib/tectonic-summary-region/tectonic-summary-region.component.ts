@@ -1,17 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 import { RegionsService } from '../regions.service';
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
   selector: 'geoserve-tectonic-summary-region',
-  templateUrl: './tectonic-summary-region.component.html',
-  styleUrls: ['./tectonic-summary-region.component.css']
+  styleUrls: ['./tectonic-summary-region.component.scss'],
+  templateUrl: './tectonic-summary-region.component.html'
 })
-export class TectonicSummaryRegionComponent implements OnInit {
-
-  constructor(public readonly regionsService: RegionsService) { }
-
-  ngOnInit() {
-  }
-
+export class TectonicSummaryRegionComponent {
+  constructor(readonly regionsService: RegionsService) {}
 }

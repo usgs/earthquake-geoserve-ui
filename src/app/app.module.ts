@@ -10,7 +10,7 @@ import {
   MatInputModule,
   MatListModule,
   MatProgressBarModule,
-  MatSidenavModule,
+  MatSidenavModule
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -21,7 +21,9 @@ import { AppComponent } from './app.component';
 import { GeoserveComponent } from './geoserve/geoserve.component';
 
 @NgModule({
+  bootstrap: [AppComponent],
   declarations: [AppComponent, GeoserveComponent],
+  exports: [],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -40,8 +42,6 @@ import { GeoserveComponent } from './geoserve/geoserve.component';
     MatSidenavModule,
     ReactiveFormsModule
   ],
-  exports: [],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: []
 })
 export class AppModule {}

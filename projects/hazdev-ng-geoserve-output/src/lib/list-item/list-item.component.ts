@@ -1,17 +1,16 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'geoserve-list-item',
-  templateUrl: './list-item.component.html',
-  styleUrls: ['./list-item.component.css']
+  styleUrls: ['./list-item.component.css'],
+  templateUrl: './list-item.component.html'
 })
-export class ListItemComponent implements OnInit {
+export class ListItemComponent {
+  @Input()
+  DATA: any;
 
-  @Input() TITLE: any;
-  @Input() DATA: any;
-  constructor() { }
+  @Input()
+  TITLE: any;
 
-  ngOnInit() {
-  }
-
+  constructor() {}
 }

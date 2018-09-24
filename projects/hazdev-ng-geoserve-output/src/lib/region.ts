@@ -1,6 +1,6 @@
 export class Region {
-  id: number;
   geometry: object;
+  id: number;
   properties: object;
   type: string;
 }

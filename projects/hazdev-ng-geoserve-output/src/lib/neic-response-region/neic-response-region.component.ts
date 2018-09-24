@@ -1,17 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { RegionsService } from '../regions.service';
 
 @Component({
   selector: 'geoserve-neic-response-region',
-  templateUrl: './neic-response-region.component.html',
-  styleUrls: ['./neic-response-region.component.css']
+  styleUrls: ['./neic-response-region.component.css'],
+  templateUrl: './neic-response-region.component.html'
 })
-export class NeicResponseRegionComponent implements OnInit {
-
-  constructor(public readonly regionsService: RegionsService) { }
-
-  ngOnInit() {
-  }
-
+export class NeicResponseRegionComponent {
+  constructor(readonly regionsService: RegionsService) {}
 }
