@@ -5,22 +5,30 @@ import { catchError } from 'rxjs/operators';
 
 import { environment } from '../environments/environment';
 
+const REGIONS_URL = environment.apiUrl + 'regions.json';
+
 @Injectable()
 export class RegionsService {
-  public REGIONS_URL = environment.apiUrl + 'regions.json';
+  adminRegions$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  authoritative$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  neicCatalog$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  neicResponse$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  offshoreRegions$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  tectonic$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-  public adminRegions$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  public authoritative$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  public neicCatalog$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  public neicResponse$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  public tectonic$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  public offshoreRegions$: BehaviorSubject<any> = new BehaviorSubject<any>(
-    null
-  );
+  constructor(private http: HttpClient) {}
 
-  constructor(
-    private http: HttpClient
-  ) {}
+  buildUrl(latitude: number, longitude: number): string {
+    // normalize longitude for search
+    while (longitude <= -180) {
+      longitude += 360;
+    }
+    while (longitude > 180) {
+      longitude -= 360;
+    }
+
+    return REGIONS_URL + `?latitude=${latitude}&longitude=${longitude}`;
+  }
 
   empty(): void {
     this.adminRegions$.next(null);
@@ -78,22 +86,5 @@ export class RegionsService {
       );
       return of(result as T);
     };
-  }
-
-  buildUrl(latitude: number, longitude: number): string {
-    // normalize longitude for search
-    while (longitude <= -180) {
-      longitude += 360;
-    }
-    while (longitude > 180) {
-      longitude -= 360;
-    }
-
-    return (
-      this.REGIONS_URL +
-      '?' +
-      `latitude=${latitude}` +
-      `&longitude=${longitude}`
-    );
   }
 }

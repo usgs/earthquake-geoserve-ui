@@ -1,13 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CoordinatesService } from 'hazdev-ng-location-view';
 
 @Component({
   selector: 'geoserve-location-output',
-  templateUrl: './location-output.component.html',
-  styleUrls: ['./location-output.component.css']
+  styleUrls: ['./location-output.component.css'],
+  templateUrl: './location-output.component.html'
 })
-export class LocationOutputComponent implements OnInit {
+export class LocationOutputComponent {
   constructor(public coordinatesService: CoordinatesService) {}
-
-  ngOnInit() {}
 }

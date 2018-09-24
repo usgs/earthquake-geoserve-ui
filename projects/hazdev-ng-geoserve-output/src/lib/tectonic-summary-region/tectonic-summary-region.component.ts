@@ -9,5 +9,5 @@ import { RegionsService } from '../regions.service';
   templateUrl: './tectonic-summary-region.component.html'
 })
 export class TectonicSummaryRegionComponent {
-  constructor(public readonly regionsService: RegionsService) {}
+  constructor(readonly regionsService: RegionsService) {}
 }

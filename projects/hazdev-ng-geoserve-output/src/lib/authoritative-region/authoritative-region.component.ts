@@ -1,17 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { RegionsService } from '../regions.service';
 
 @Component({
   selector: 'geoserve-authoritative-region',
-  templateUrl: './authoritative-region.component.html',
-  styleUrls: ['./authoritative-region.component.css']
+  styleUrls: ['./authoritative-region.component.css'],
+  templateUrl: './authoritative-region.component.html'
 })
-export class AuthoritativeRegionComponent implements OnInit {
-
-  constructor(public readonly regionsService: RegionsService) { }
-
-  ngOnInit() {
-  }
-
+export class AuthoritativeRegionComponent {
+  constructor(readonly regionsService: RegionsService) {}
 }

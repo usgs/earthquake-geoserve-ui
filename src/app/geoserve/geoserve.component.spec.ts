@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material';
-import { OverlaysService, PlacesService, RegionsService } from 'hazdev-ng-geoserve-output';
+import {
+  OverlaysService,
+  PlacesService,
+  RegionsService
+} from 'hazdev-ng-geoserve-output';
 import { CoordinatesService } from 'hazdev-ng-location-view';
 import { MockComponent } from 'ng2-mock-component';
 
@@ -26,12 +30,6 @@ describe('GeoserveComponent', () => {
         subscribe: () => {
           console.log('stubbified!');
         }
-      }
-    };
-
-    const dialogStub = {
-      close: () => {
-        console.log('stubbified!');
       }
     };
 

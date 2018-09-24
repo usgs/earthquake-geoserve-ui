@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'geoserve-output',
-  templateUrl: './geoserve-output.component.html',
-  styleUrls: ['./geoserve-output.component.css']
+  styleUrls: ['./geoserve-output.component.css'],
+  templateUrl: './geoserve-output.component.html'
 })
 export class GeoserveOutputComponent {}

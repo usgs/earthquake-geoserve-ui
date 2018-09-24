@@ -1,17 +1,17 @@
 import { TestBed, getTestBed, inject } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
 
 import { OverlaysService } from './overlays.service';
 
 describe('OverlaysService', () => {
-  let httpClient: HttpTestingController,
-      injector: TestBed;
+  let httpClient: HttpTestingController, injector: TestBed;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule
-      ],
+      imports: [HttpClientTestingModule],
       providers: [OverlaysService]
     });
     injector = getTestBed();
@@ -22,7 +22,10 @@ describe('OverlaysService', () => {
     httpClient.verify();
   });
 
-  it('should be created', inject([OverlaysService], (service: OverlaysService) => {
-    expect(service).toBeTruthy();
-  }));
+  it('should be created', inject(
+    [OverlaysService],
+    (service: OverlaysService) => {
+      expect(service).toBeTruthy();
+    }
+  ));
 });

@@ -1,18 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { PlacesService } from '../places.service';
 
-
 @Component({
   selector: 'geoserve-nearby-places',
-  templateUrl: './nearby-places.component.html',
-  styleUrls: ['./nearby-places.component.css']
+  styleUrls: ['./nearby-places.component.css'],
+  templateUrl: './nearby-places.component.html'
 })
-export class NearbyPlacesComponent implements OnInit {
-
-  constructor (public readonly placesService: PlacesService) { }
-
-  ngOnInit () {
-  }
-
+export class NearbyPlacesComponent {
+  constructor(readonly placesService: PlacesService) {}
 }

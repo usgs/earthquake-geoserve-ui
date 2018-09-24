@@ -1,17 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { RegionsService } from '../regions.service';
 
 @Component({
   selector: 'geoserve-offshore-region',
-  templateUrl: './offshore-region.component.html',
-  styleUrls: ['./offshore-region.component.css']
+  styleUrls: ['./offshore-region.component.css'],
+  templateUrl: './offshore-region.component.html'
 })
-export class OffshoreRegionComponent implements OnInit {
-
-  constructor (public readonly regionsService: RegionsService) { }
-
-  ngOnInit() {
-  }
-
+export class OffshoreRegionComponent {
+  constructor(readonly regionsService: RegionsService) {}
 }

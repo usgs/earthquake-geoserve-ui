@@ -1,5 +1,5 @@
 export const environment = {
-  production: true,
   apiUrl: '/ws/geoserve/',
+  production: true,
   siteUrl: 'https://earthquake.usgs.gov'
 };

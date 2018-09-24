@@ -1,26 +1,40 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnDestroy,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { OverlaysService, PlacesService, RegionsService } from 'hazdev-ng-geoserve-output';
-import { Coordinates, CoordinatesService, LocationDialogComponent } from 'hazdev-ng-location-view';
+import {
+  OverlaysService,
+  PlacesService,
+  RegionsService
+} from 'hazdev-ng-geoserve-output';
+import {
+  Coordinates,
+  CoordinatesService,
+  LocationDialogComponent
+} from 'hazdev-ng-location-view';
 import * as L from 'leaflet';
 import { Subscription } from 'rxjs';
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
   selector: 'app-geoserve',
-  templateUrl: './geoserve.component.html',
   styleUrls: ['./geoserve.component.css'],
-  encapsulation: ViewEncapsulation.None
+  templateUrl: './geoserve.component.html'
 })
 export class GeoserveComponent implements AfterViewInit, OnDestroy {
   baseLayers: L.LayerGroup;
   coordinates: Coordinates;
   layerControl: L.Control.Layers;
   map: L.Map;
-  marker: L.Marker;
-  subscription = new Subscription();
-
   @ViewChild('mapWrapper')
   mapWrapper: ElementRef;
+  marker: L.Marker;
+  subscription = new Subscription();
 
   constructor(
     public coordinatesService: CoordinatesService,
@@ -30,36 +44,6 @@ export class GeoserveComponent implements AfterViewInit, OnDestroy {
     public regionsService: RegionsService
   ) {}
 
-  ngAfterViewInit() {
-    // create leaflet map
-    this.createMap();
-
-    // create leaflet marker, do not add to map
-    this.createMarker();
-
-    // Add baselayers to map
-    this.addBaselayers();
-
-    // Add location control to map
-    this.addLocationControl();
-
-    // subscribe to location changes and menu toggling
-    this.subscribeToServices();
-
-    // Get region overlays
-    this.overlaysService.getOverlays();
-  }
-
-  ngOnDestroy() {
-    // unbind dragend event
-    this.destroyMarker();
-
-    // destroy map
-    this.destroyMap();
-
-    // unsubscribe to services
-    this.unsubscribeFromServices();
-  }
   /**
    * Adds the street, satellite, and terrain baselayers to the map
    *
@@ -69,12 +53,12 @@ export class GeoserveComponent implements AfterViewInit, OnDestroy {
 
     // Street Map
     street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 16,
       attribution:
         'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, ' +
         'Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, ' +
         'Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the ' +
-        'GIS User Community'
+        'GIS User Community',
+      maxZoom: 16
     });
 
     // Satellite Map
@@ -82,11 +66,11 @@ export class GeoserveComponent implements AfterViewInit, OnDestroy {
       'https://services.arcgisonline.com/ArcGIS/rest/services/' +
         'World_Imagery/MapServer/tile/{z}/{y}/{x}',
       {
-        maxZoom: 16,
         attribution:
           'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, ' +
-          'USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the ' +
-          'GIS User Community'
+          'USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and ' +
+          'the GIS User Community',
+        maxZoom: 16
       }
     );
 
@@ -95,12 +79,12 @@ export class GeoserveComponent implements AfterViewInit, OnDestroy {
       'https://services.arcgisonline.com/arcgis/rest/services/' +
         'NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}',
       {
-        maxZoom: 16,
         attribution:
           'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, ' +
           'Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, ' +
-          'Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the ' +
-          'GIS User Community'
+          'Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and ' +
+          'the GIS User Community',
+        maxZoom: 16
       }
     ).addTo(this.map);
 
@@ -135,22 +119,35 @@ export class GeoserveComponent implements AfterViewInit, OnDestroy {
     };
 
     // Create location control to open dialog
-    const LocationControl = L.Control.extend({
-      options: {
-        position: 'topleft'
-      },
-
+    const locationControl = L.Control.extend({
       onAdd: function(map) {
         return control;
       },
 
       onRemove: function(map) {
         // Nothing to do here
+      },
+
+      options: {
+        position: 'topleft'
       }
     });
 
     // Add Location Control to map
-    this.map.addControl(new LocationControl());
+    this.map.addControl(new locationControl());
+  }
+
+  /**
+   * Add overlays to the map.
+   *
+   * @param layers
+   */
+  addOverlays(layers) {
+    for (const name in layers) {
+      if (layers.hasOwnProperty(name)) {
+        this.layerControl.addOverlay(layers[name], name);
+      }
+    }
   }
 
   /**
@@ -175,8 +172,8 @@ export class GeoserveComponent implements AfterViewInit, OnDestroy {
     this.marker = new L.Marker([0, 0], {
       draggable: true,
       icon: L.icon({
-        iconSize: [25, 41],
         iconAnchor: [13, 41],
+        iconSize: [25, 41],
         iconUrl: 'leaflet/marker-icon.png',
         shadowUrl: 'leaflet/marker-shadow.png'
       })
@@ -187,20 +184,20 @@ export class GeoserveComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Unbinds the "dragend" event from the marker on the map
-   *
-   */
-  destroyMarker(): void {
-    this.marker.off('dragend', this.onDragEnd, this);
-  }
-
-  /**
    * Destroys the map
    *
    */
   destroyMap(): void {
     this.map.remove();
     this.map = null;
+  }
+
+  /**
+   * Unbinds the "dragend" event from the marker on the map
+   *
+   */
+  destroyMarker(): void {
+    this.marker.off('dragend', this.onDragEnd, this);
   }
 
   /**
@@ -214,6 +211,7 @@ export class GeoserveComponent implements AfterViewInit, OnDestroy {
       this.placesService.getPlaces(coordinates.latitude, coordinates.longitude);
     }
   }
+
   /**
    * Pass the coordinates to the PlacesService
    */
@@ -264,13 +262,36 @@ export class GeoserveComponent implements AfterViewInit, OnDestroy {
       this.map.addLayer(this.marker);
     }
   }
-  /**
-   * Open the Location Input Dialog
-   */
-  openDialog() {
-    if (this.dialog && LocationDialogComponent) {
-      this.dialog.open(LocationDialogComponent);
-    }
+
+  ngAfterViewInit() {
+    // create leaflet map
+    this.createMap();
+
+    // create leaflet marker, do not add to map
+    this.createMarker();
+
+    // Add baselayers to map
+    this.addBaselayers();
+
+    // Add location control to map
+    this.addLocationControl();
+
+    // subscribe to location changes and menu toggling
+    this.subscribeToServices();
+
+    // Get region overlays
+    this.overlaysService.getOverlays();
+  }
+
+  ngOnDestroy() {
+    // unbind dragend event
+    this.destroyMarker();
+
+    // destroy map
+    this.destroyMap();
+
+    // unsubscribe to services
+    this.unsubscribeFromServices();
   }
 
   /**
@@ -309,6 +330,15 @@ export class GeoserveComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  /**
+   * Open the Location Input Dialog
+   */
+  openDialog() {
+    if (this.dialog && LocationDialogComponent) {
+      this.dialog.open(LocationDialogComponent);
+    }
+  }
+
   subscribeToServices(): void {
     this.subscription.add(
       this.coordinatesService.coordinates$.subscribe(coordinates => {
@@ -330,18 +360,5 @@ export class GeoserveComponent implements AfterViewInit, OnDestroy {
 
   unsubscribeFromServices(): void {
     this.subscription.unsubscribe();
-  }
-
-  /**
-   * Add overlays to the map.
-   *
-   * @param layers
-   */
-  addOverlays(layers) {
-    for (const name in layers) {
-      if (layers.hasOwnProperty(name)) {
-        this.layerControl.addOverlay(layers[name], name);
-      }
-    }
   }
 }
