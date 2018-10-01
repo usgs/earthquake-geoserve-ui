@@ -21,7 +21,7 @@ describe('NearbyPlaceComponent', () => {
     place = {
       admin1_code: 'NM',
       admin1_name: 'New Mexico',
-      azimuth: 162.7,
+      azimuth: -197.3,
       country_code: 'US',
       country_name: 'United States',
       distance: 2.736,
@@ -53,6 +53,12 @@ describe('NearbyPlaceComponent', () => {
   describe('compassWinds', () => {
     it('should accept compass wind as input and preserve', () => {
       expect(component.compassWinds('SSE')).toEqual('SSE');
+    });
+    it('should calculate correct winds when azimuth is negative', () => {
+      expect(component.compassWinds(place.azimuth)).toEqual('SSE');
+    });
+    it('should calculate correct winds when azimuth is negative', () => {
+      expect(component.compassWinds(162.7)).toEqual('SSE');
     });
   });
 });
