@@ -164,20 +164,10 @@ node {
       docker.image(BUILDER_IMAGE).inside() {
         ansiColor('xterm') {
           sh """
-            npm run audit | tee audit-results.txt
+            npm run audit
           """
         }
       }
-
-      // Publish results
-      publishHTML (target: [
-        allowMissing: true,
-        alwaysLinkToLastBuild: true,
-        keepAll: true,
-        reportDir: '',
-        reportFiles: 'audit-results.txt',
-        reportName: 'Audit Analysis'
-      ])
     }
 
     SECURITY_CHECKS['Penetration Tests'] = {
