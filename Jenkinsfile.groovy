@@ -247,7 +247,7 @@ node {
       // Run the penetration tests
       ansiColor('xterm') {
         sh """
-          PENTEST_IP='application'
+          PENTEST_IP='application:8080'
 
           docker exec ${OWASP_CONTAINER} \
             zap-cli -v -p ${ZAP_API_PORT} spider \
