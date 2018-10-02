@@ -162,21 +162,9 @@ node {
     SECURITY_CHECKS['Scan Dependencies'] = {
       // Analyze dependencies
       ansiColor('xterm') {
-        dependencyCheckAnalyzer(
-          datadir: '',
-          hintsFile: '',
-          includeCsvReports: false,
-          includeHtmlReports: true,
-          includeJsonReports: false,
-          includeVulnReports: true,
-          isAutoupdateDisabled: false,
-          outdir: 'dependency-check-data',
-          scanpath: "${WORKSPACE}",
-          skipOnScmChange: false,
-          skipOnUpstreamChange: false,
-          suppressionFile: 'suppression.xml',
-          zipExtensions: ''
-        )
+        sh """
+          npm run audit | tee audit-results.txt
+        """
       }
 
       // Publish results
@@ -184,9 +172,9 @@ node {
         allowMissing: true,
         alwaysLinkToLastBuild: true,
         keepAll: true,
-        reportDir: 'dependency-check-data',
-        reportFiles: 'dependency-check-report.html',
-        reportName: 'Dependency Analysis'
+        reportDir: '',
+        reportFiles: 'audit-results.txt',
+        reportName: 'Audit Analysis'
       ])
     }
 
