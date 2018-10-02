@@ -122,6 +122,11 @@ node {
       // Run linting, unit tests, and end-to-end tests
       docker.image(TESTER_IMAGE).inside () {
           ansiColor('xterm') {
+            // Rebuild node-sass binary. Builder uses node 8 while tester uses
+            // (currently) node 11. This causes errors.
+            sh """
+              npm rebuild node-sass
+            """
             sh """
               ng lint
             """
@@ -129,10 +134,10 @@ node {
               ng test earthquake-geoserve-ui --watch=false --code-coverage --progress false --browsers ChromeHeadless
             """
             sh """
-              ng test hazdev-ng-geoserve-output --watch=false --browsers ChromeHeadless
+              ng test hazdev-ng-geoserve-output --watch=false --code-coverage --progress false --browsers ChromeHeadless
             """
             sh """
-              ng e2e --progress false
+              ng e2e
             """
           }
       }
