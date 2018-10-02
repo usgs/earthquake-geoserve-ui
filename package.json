@@ -4,7 +4,6 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "audit": "auditjs > /dev/null; count=$?; if [ ${count} -lt 20 ]; then exit 0; else exit ${count}; fi",
     "start": "npm run build && ng serve -o",
     "build": "ng build --prod hazdev-ng-geoserve-output",
     "buildApp": "ng build --prod --delete-output-path false --base-href /geoserve/",
@@ -26,7 +25,6 @@
     "@angular/platform-browser": "6.1.8",
     "@angular/platform-browser-dynamic": "6.1.8",
     "@angular/router": "6.1.8",
-    "auditjs": "^3.0.10",
     "core-js": "^2.5.3",
     "hazdev-ng-location-view": "0.0.4",
     "leaflet": "^1.2.0",
