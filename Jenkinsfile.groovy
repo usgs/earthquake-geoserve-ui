@@ -161,7 +161,7 @@ node {
 
     SECURITY_CHECKS['Scan Dependencies'] = {
       // Analyze dependencies
-      docker.image(BUILDER_IMAGE).inside() {
+      docker.image(BUILDER_IMAGE).inside("--user root") {
         withEnv([
           'npm_config_cache=/tmp/npm-cache',
           'HOME=/tmp'
