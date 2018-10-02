@@ -162,10 +162,18 @@ node {
     SECURITY_CHECKS['Scan Dependencies'] = {
       // Analyze dependencies
       docker.image(BUILDER_IMAGE).inside() {
-        ansiColor('xterm') {
-          sh """
-            npm run audit
-          """
+        withEnv([
+          'npm_config_cache=/tmp/npm-cache',
+          'HOME=/tmp'
+        ]) {
+          ansiColor('xterm') {
+            sh """
+              source /etc/profile.d/nvm.sh > /dev/null 2>&1
+              npm config set package-lock false
+
+              npm run audit
+            """
+          }
         }
       }
     }
