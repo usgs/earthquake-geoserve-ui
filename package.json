@@ -28,7 +28,6 @@
     "core-js": "^2.5.3",
     "hazdev-ng-location-view": "0.0.4",
     "leaflet": "^1.2.0",
-    "lodash": "^3.10.1",
     "rxjs": "^6.2.1",
     "zone.js": "^0.8.26"
   },
