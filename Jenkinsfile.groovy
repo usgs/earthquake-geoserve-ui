@@ -122,6 +122,11 @@ node {
       // Run linting, unit tests, and end-to-end tests
       docker.image(TESTER_IMAGE).inside () {
           ansiColor('xterm') {
+            // Rebuild node-sass binary. Builder uses node 8 while tester uses
+            // (currently) node 11. This causes errors.
+            sh """
+              npm rebuild node-sass
+            """
             sh """
               ng lint
             """
@@ -129,10 +134,10 @@ node {
               ng test earthquake-geoserve-ui --watch=false --code-coverage --progress false --browsers ChromeHeadless
             """
             sh """
-              ng test hazdev-ng-geoserve-output --watch=false --browsers ChromeHeadless
+              ng test hazdev-ng-geoserve-output --watch=false --code-coverage --progress false --browsers ChromeHeadless
             """
             sh """
-              ng e2e --progress false
+              ng e2e
             """
           }
       }
@@ -156,33 +161,23 @@ node {
 
     SECURITY_CHECKS['Scan Dependencies'] = {
       // Analyze dependencies
-      ansiColor('xterm') {
-        dependencyCheckAnalyzer(
-          datadir: '',
-          hintsFile: '',
-          includeCsvReports: false,
-          includeHtmlReports: true,
-          includeJsonReports: false,
-          includeVulnReports: true,
-          isAutoupdateDisabled: false,
-          outdir: 'dependency-check-data',
-          scanpath: "${WORKSPACE}",
-          skipOnScmChange: false,
-          skipOnUpstreamChange: false,
-          suppressionFile: 'suppression.xml',
-          zipExtensions: ''
-        )
-      }
+      docker.image(BUILDER_IMAGE).inside("--user root") {
+        withEnv([
+          'npm_config_cache=/tmp/npm-cache',
+          'HOME=/tmp'
+        ]) {
+          ansiColor('xterm') {
+            sh """
+              source /etc/profile.d/nvm.sh > /dev/null 2>&1
+              npm config set package-lock false
+              # Ensure latest version of npm ...
+              npm install npm@latest -g
 
-      // Publish results
-      publishHTML (target: [
-        allowMissing: true,
-        alwaysLinkToLastBuild: true,
-        keepAll: true,
-        reportDir: 'dependency-check-data',
-        reportFiles: 'dependency-check-report.html',
-        reportName: 'Dependency Analysis'
-      ])
+              npm audit
+            """
+          }
+        }
+      }
     }
 
     SECURITY_CHECKS['Penetration Tests'] = {
@@ -242,7 +237,7 @@ node {
       // Run the penetration tests
       ansiColor('xterm') {
         sh """
-          PENTEST_IP='application'
+          PENTEST_IP='application:8080'
 
           docker exec ${OWASP_CONTAINER} \
             zap-cli -v -p ${ZAP_API_PORT} spider \
