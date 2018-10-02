@@ -161,10 +161,12 @@ node {
 
     SECURITY_CHECKS['Scan Dependencies'] = {
       // Analyze dependencies
-      ansiColor('xterm') {
-        sh """
-          npm run audit | tee audit-results.txt
-        """
+      docker.image(BUILDER_IMAGE).inside() {
+        ansiColor('xterm') {
+          sh """
+            npm run audit | tee audit-results.txt
+          """
+        }
       }
 
       // Publish results
