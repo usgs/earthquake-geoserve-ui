@@ -1,3 +1,22 @@
-<hazdev-template>
+<hazdev-template [TITLE]="'Geoserve'"
+  [CONTACT]="'lisa%2Behpweb@usgs.gov'">
+
+  <mat-nav-list templateSideNavigation>
+    <hazdev-template-navigation-group>
+      <hazdev-template-navigation-item display="Interactive Interface"
+        navRouterLink="/"></hazdev-template-navigation-item>
+    </hazdev-template-navigation-group>
+    <hazdev-template-navigation-group>
+      <hazdev-template-navigation-item display="Geoserve Web Services"
+        navHrefLink="/ws/geoserve/"></hazdev-template-navigation-item>
+      <hazdev-template-navigation-item display="Places Service"
+        navHrefLink="/ws/geoserve/places.php"></hazdev-template-navigation-item>
+      <hazdev-template-navigation-item display="Regions Service"
+        navHrefLink="/ws/geoserve/regions.php"></hazdev-template-navigation-item>
+      <hazdev-template-navigation-item display="Layers Service"
+        navHrefLink="/ws/geoserve/layers.php"></hazdev-template-navigation-item>
+    </hazdev-template-navigation-group>
+  </mat-nav-list>
+
   <app-geoserve></app-geoserve>
 </hazdev-template>
