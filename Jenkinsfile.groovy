@@ -293,9 +293,12 @@ node {
 
     stage('Trigger Deploy') {
       build(
-        job: 'deploy-ui',
+        job: 'deploy',
         parameters: [
-          string(name: 'IMAGE_VERSION', value: IMAGE_VERSION)
+          string(
+            name: 'UI_IMAGE_NAME',
+            value: "ghsc/hazdev/earthquake-geoserve/ui:${IMAGE_VERSION}"
+          )
         ],
         propagate: false,
         wait: false
