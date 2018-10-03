@@ -41,7 +41,7 @@ export class NearbyPlaceComponent {
 
     // adjust azimuth if negative
     azimuth = +azimuth;
-    if (azimuth < 0) {
+    while (azimuth < 0) {
       azimuth = azimuth + 360;
     }
 
