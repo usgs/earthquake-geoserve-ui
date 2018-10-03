@@ -39,7 +39,13 @@ export class NearbyPlaceComponent {
       return azimuth;
     }
 
-    return directions[Math.round((+azimuth % 360) / fullwind)];
+    // adjust azimuth if negative
+    azimuth = +azimuth;
+    while (azimuth < 0) {
+      azimuth = azimuth + 360;
+    }
+
+    return directions[Math.round((azimuth % 360) / fullwind)];
   }
 
   getDistance(place: Place): string {
