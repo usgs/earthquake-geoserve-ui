@@ -16,6 +16,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GeoserveOutputModule } from 'hazdev-ng-geoserve-output';
 import { LocationViewModule } from 'hazdev-ng-location-view';
+import { HazdevTemplateModule } from 'hazdev-ng-template';
 
 import { AppComponent } from './app.component';
 import { GeoserveComponent } from './geoserve/geoserve.component';
@@ -29,6 +30,7 @@ import { GeoserveComponent } from './geoserve/geoserve.component';
     BrowserAnimationsModule,
     FormsModule,
     GeoserveOutputModule.forRoot(),
+    HazdevTemplateModule,
     HttpClientModule,
     LocationViewModule.forRoot(),
     MatButtonModule,
