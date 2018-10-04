@@ -27,6 +27,7 @@
     "@angular/router": "6.1.8",
     "core-js": "^2.5.3",
     "hazdev-ng-location-view": "0.0.4",
+    "hazdev-ng-template": "^0.2.1",
     "leaflet": "^1.2.0",
     "rxjs": "^6.2.1",
     "zone.js": "^0.8.26"
