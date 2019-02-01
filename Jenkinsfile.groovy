@@ -18,10 +18,11 @@ node {
 
   // Used to install dependencies and build distributables
   def BUILDER_CONTAINER = "${APP_NAME}-${BUILD_ID}-BUILDER"
-  def BUILDER_IMAGE = "${DEVOPS_REGISTRY}/usgs/node:8"
+  def BUILDER_IMAGE = "${DEVOPS_REGISTRY}/usgs/node:10"
 
   // Name of image to deploy (push) to registry
   def DEPLOY_IMAGE = "${GITLAB_INNERSOURCE_REGISTRY}/ghsc/hazdev/earthquake-geoserve/ui"
+  def DOCKER_HUB_IMAGE = "usgs/earthquake-geoserve/ui"
 
   // Run application locally for testing security vulnerabilities
   def LOCAL_CONTAINER = "${APP_NAME}-${BUILD_ID}-PENTEST"
@@ -79,35 +80,14 @@ node {
 
       // Convert from Map --> JSON
       info = readJSON text: groovy.json.JsonOutput.toJson(info)
-
-      // Install all dependencies
-      docker.image(BUILDER_IMAGE).inside() {
-        withEnv([
-          'npm_config_cache=/tmp/npm-cache',
-          'HOME=/tmp'
-        ]) {
-
-          ansiColor('xterm') {
-            sh """
-              source /etc/profile.d/nvm.sh > /dev/null 2>&1
-              npm config set package-lock false
-
-              # Now install everything else so the build works as expected
-              npm install --no-save
-              npm run build
-              npm run buildApp
-            """
-            writeJSON file: 'dist/metadata.json', pretty: 4, json: info
-          }
-        }
-      }
+      writeJSON file: 'metadata.json', pretty: 4, json: info
 
       // Build candidate image for later penetration testing
       ansiColor('xterm') {
         sh """
-          docker pull ${BASE_IMAGE}
           docker build \
-            --build-arg BASE_IMAGE=${BASE_IMAGE} \
+            --build-arg FROM_IMAGE=${BASE_IMAGE} \
+            --build-arg BUILD_IMAGE=${BUILDER_IMAGE} \
             -t ${LOCAL_IMAGE} \
             .
         """
@@ -161,23 +141,26 @@ node {
 
     SECURITY_CHECKS['Scan Dependencies'] = {
       // Analyze dependencies
-      docker.image(BUILDER_IMAGE).inside("--user root") {
-        withEnv([
-          'npm_config_cache=/tmp/npm-cache',
-          'HOME=/tmp'
-        ]) {
-          ansiColor('xterm') {
-            sh """
-              source /etc/profile.d/nvm.sh > /dev/null 2>&1
-              npm config set package-lock false
-              # Ensure latest version of npm ...
-              npm install npm@latest -g
+      ansiColor('xterm') {
 
-              npm audit
-            """
-          }
-        }
+        // Scanning all of node_modules leads to "Too many open files" errors.
+        // No way to limit depth recursion with tool, so just eliminate this
+        // directory instead. The "package-lock.json" file should be scanned
+        // and already contains the recursive list of dependencies, so all good.
+        sh "rm -rf .tmp node_modules"
+
+        dependencyCheckAnalyzer(
+          datadir: '/var/lib/jenkins/nvd',
+          isAutoupdateDisabled: true,
+          outdir: 'dependency-check-results',
+          scanpath: "${WORKSPACE}"
+        )
       }
+
+      // Put summary on landing page for this build
+      dependencyCheckPublisher(
+        pattern: '**/dependency-check-report.xml'
+      )
     }
 
     SECURITY_CHECKS['Penetration Tests'] = {
@@ -287,6 +270,19 @@ node {
           sh """
             docker push ${DEPLOY_IMAGE}:${IMAGE_VERSION}
           """
+        }
+      }
+
+      // Re-tag candidate image as public image name and push to docker hub
+      docker.withRegistry('', 'usgs-docker-hub-credentials') {
+        ansiColor('xterm') {
+          sh """
+            docker tag \
+              ${LOCAL_IMAGE} \
+              ${DOCKER_HUB_IMAGE}:${IMAGE_VERSION}
+          """
+
+          sh "docker push ${DOCKER_HUB_IMAGE}:${IMAGE_VERSION}"
         }
       }
     }
