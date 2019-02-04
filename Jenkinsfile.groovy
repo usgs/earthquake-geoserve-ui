@@ -109,10 +109,10 @@ node {
               ng lint
             """
             sh """
-              ng test earthquake-geoserve-ui --watch=false --code-coverage --progress false --browsers ChromeHeadless
+              ng test hazdev-ng-geoserve-output --watch=false --code-coverage --progress false --browsers ChromeHeadless
             """
             sh """
-              ng test hazdev-ng-geoserve-output --watch=false --code-coverage --progress false --browsers ChromeHeadless
+              ng test earthquake-geoserve-ui --watch=false --code-coverage --progress false --browsers ChromeHeadless
             """
             sh """
               ng e2e
