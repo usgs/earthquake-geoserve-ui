@@ -102,10 +102,8 @@ node {
       // Run linting, unit tests, and end-to-end tests
       docker.image(TESTER_IMAGE).inside () {
           ansiColor('xterm') {
-            // Rebuild node-sass binary. Builder uses node 8 while tester uses
-            // (currently) node 11. This causes errors.
             sh """
-              npm rebuild node-sass
+              npm install --no-audit --no-save
             """
             sh """
               ng lint
