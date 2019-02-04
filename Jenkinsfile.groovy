@@ -112,7 +112,9 @@ node {
               ng test hazdev-ng-geoserve-output --watch=false --code-coverage --progress false --browsers ChromeHeadless
             """
             sh """
-              npm run build && \
+              npm run build
+            """
+            sh """
               ng test earthquake-geoserve-ui --watch=false --code-coverage --progress false --browsers ChromeHeadless
             """
             sh """
