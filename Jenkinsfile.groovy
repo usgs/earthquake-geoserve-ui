@@ -22,7 +22,7 @@ node {
 
   // Name of image to deploy (push) to registry
   def DEPLOY_IMAGE = "${GITLAB_INNERSOURCE_REGISTRY}/ghsc/hazdev/earthquake-geoserve/ui"
-  def DOCKER_HUB_IMAGE = "usgs/earthquake-geoserve/ui"
+  def DOCKER_HUB_IMAGE = "usgs/earthquake-geoserve-ui"
 
   // Run application locally for testing security vulnerabilities
   def LOCAL_CONTAINER = "${APP_NAME}-${BUILD_ID}-PENTEST"
