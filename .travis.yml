@@ -1,16 +1,13 @@
 sudo: required
-dist: trusty
+dist: xenial
 language: node_js
 node_js:
   - '10.15.1'
 
 addons:
-  apt:
-    sources:
-      - google-chrome
-    packages:
-      - google-chrome-stable
-      - google-chrome-beta
+  chrome: stable
+services:
+  - xvfb
 
 before_install:
   - export CHROME_BIN=/usr/bin/google-chrome
