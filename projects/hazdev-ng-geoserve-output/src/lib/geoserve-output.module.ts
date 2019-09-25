@@ -9,6 +9,7 @@ import {
 
 import { AdminRegionComponent } from './admin-region/admin-region.component';
 import { AuthoritativeRegionComponent } from './authoritative-region/authoritative-region.component';
+import { DistanceAzimuthPipe } from './distance-azimuth.pipe';
 import { GeoserveOutputComponent } from './geoserve-output.component';
 import { ListItemComponent } from './list-item/list-item.component';
 import { LocationOutputComponent } from './location-output/location-output.component';
@@ -20,6 +21,7 @@ import { NeicResponseRegionComponent } from './neic-response-region/neic-respons
 import { NoDataComponent } from './no-data/no-data.component';
 import { OffshoreRegionComponent } from './offshore-region/offshore-region.component';
 import { OverlaysService } from './overlays.service';
+import { PlaceNamePipe } from './place-name.pipe';
 import { PlacesService } from './places.service';
 import { RegionsService } from './regions.service';
 import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tectonic-summary-region.component';
@@ -28,6 +30,7 @@ import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tecton
   declarations: [
     AdminRegionComponent,
     AuthoritativeRegionComponent,
+    DistanceAzimuthPipe,
     GeoserveOutputComponent,
     ListItemComponent,
     LocationOutputComponent,
@@ -38,11 +41,13 @@ import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tecton
     NeicResponseRegionComponent,
     NoDataComponent,
     OffshoreRegionComponent,
+    PlaceNamePipe,
     TectonicSummaryRegionComponent
   ],
   exports: [
     AdminRegionComponent,
     AuthoritativeRegionComponent,
+    DistanceAzimuthPipe,
     GeoserveOutputComponent,
     ListItemComponent,
     LocationOutputComponent,
@@ -53,6 +58,7 @@ import { TectonicSummaryRegionComponent } from './tectonic-summary-region/tecton
     NeicResponseRegionComponent,
     NoDataComponent,
     OffshoreRegionComponent,
+    PlaceNamePipe,
     TectonicSummaryRegionComponent
   ],
   imports: [
