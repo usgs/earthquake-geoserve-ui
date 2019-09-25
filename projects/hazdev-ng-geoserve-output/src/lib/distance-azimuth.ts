@@ -9,6 +9,18 @@ export interface DistanceAzimuth {
   distance: number;
 }
 
+/**
+ * Compute distance and azimuth from place to reference place.
+ *
+ * @param place
+ *     starting place.
+ * @param referencePlace
+ *     optional destination place.
+ * @return
+ *     When reference place is specified:
+ *       calculate direction and azimuth from place to referencePlace.
+ *     Otherwise return distance and azimuth from place.
+ */
 export function getDistanceAzimuth(
   place: Place,
   referencePlace?: Place
