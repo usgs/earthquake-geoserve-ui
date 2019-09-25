@@ -10,6 +10,9 @@ export class NearbyPlaceListComponent implements OnInit {
   @Input()
   places: Place[];
 
+  @Input()
+  referencePlace: Place = null;
+
   constructor() {}
 
   ngOnInit() {}
