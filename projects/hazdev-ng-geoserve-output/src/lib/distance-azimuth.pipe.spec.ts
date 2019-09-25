@@ -3,10 +3,10 @@ import { DistanceAzimuthPipe } from './distance-azimuth.pipe';
 describe('DistanceAzimuthPipe', () => {
   let pipe;
   let place;
+  let referencePlace;
 
   beforeEach(() => {
     pipe = new DistanceAzimuthPipe();
-
     place = {
       admin1_code: 'NM',
       admin1_name: 'New Mexico',
@@ -22,6 +22,10 @@ describe('DistanceAzimuthPipe', () => {
       name: 'Vegas Junction',
       population: 0
     };
+    referencePlace = {
+      latitude: 39,
+      longitude: -105
+    };
   });
 
   describe('compassWinds', () => {
@@ -36,6 +40,17 @@ describe('DistanceAzimuthPipe', () => {
     });
     it('should calculate correct winds when azimuth is negative', () => {
       expect(pipe.compassWinds(522.7)).toEqual('SSE');
+    });
+  });
+
+  describe('transform', () => {
+    it('should accept a place', () => {
+      expect(pipe.transform(place)).toEqual('2.7 km (1.7 mi) SSE');
+    });
+    it('should accept a referencePlace', () => {
+      expect(pipe.transform(place, referencePlace)).toEqual(
+        '447.3 km (277.9 mi) N'
+      );
     });
   });
 });

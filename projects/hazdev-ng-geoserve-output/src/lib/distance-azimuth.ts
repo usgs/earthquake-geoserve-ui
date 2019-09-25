@@ -3,7 +3,9 @@ import * as calculator from 'azimuth';
 import { Place } from './place';
 
 export interface DistanceAzimuth {
+  // decimal degrees
   azimuth: number;
+  // kilometers
   distance: number;
 }
 
@@ -28,7 +30,7 @@ export function getDistanceAzimuth(
       }
     );
     azimuth = distAz.azimuth;
-    distance = distAz.distance;
+    distance = distAz.distance / 1000; // meters to kilometers
   }
 
   return {
