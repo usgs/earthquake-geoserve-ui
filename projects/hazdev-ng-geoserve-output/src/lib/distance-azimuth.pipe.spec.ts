@@ -49,7 +49,7 @@ describe('DistanceAzimuthPipe', () => {
     });
     it('should accept a referencePlace', () => {
       expect(pipe.transform(place, referencePlace)).toEqual(
-        '447.3 km (277.9 mi) N'
+        '447.3 km (277.9 mi) S'
       );
     });
   });

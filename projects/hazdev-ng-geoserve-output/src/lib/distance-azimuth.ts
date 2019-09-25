@@ -13,12 +13,12 @@ export interface DistanceAzimuth {
  * Compute distance and azimuth from place to reference place.
  *
  * @param place
- *     starting place.
+ *     destination place.
  * @param referencePlace
- *     optional destination place.
+ *     optional starting place.
  * @return
  *     When reference place is specified:
- *       calculate direction and azimuth from place to referencePlace.
+ *       calculate direction and azimuth from referencePlace to place.
  *     Otherwise return distance and azimuth from place.
  */
 export function getDistanceAzimuth(
@@ -32,13 +32,13 @@ export function getDistanceAzimuth(
     const distAz = calculator.azimuth(
       {
         elv: 0,
-        lat: place.latitude,
-        lng: place.longitude
+        lat: referencePlace.latitude,
+        lng: referencePlace.longitude
       },
       {
         elv: 0,
-        lat: referencePlace.latitude,
-        lng: referencePlace.longitude
+        lat: place.latitude,
+        lng: place.longitude
       }
     );
     azimuth = distAz.azimuth;
