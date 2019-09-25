@@ -1,3 +1,6 @@
 <ng-container *ngIf="placesService.places$ | async as places">
-  <geoserve-nearby-place-list [places]="places"></geoserve-nearby-place-list>
+  <geoserve-nearby-place-list
+    [places]="places"
+    [referencePlace]="placesService.referencePlace"
+  ></geoserve-nearby-place-list>
 </ng-container>

@@ -11,7 +11,10 @@ import { Feature } from './feature';
 @Injectable()
 export class PlacesService {
   places$ = new BehaviorSubject<Place[]>(null);
+
   readonly PLACES_URL = environment.apiUrl + 'places.json';
+
+  referencePlace: Place;
 
   constructor(private http: HttpClient) {}
 
@@ -59,6 +62,10 @@ export class PlacesService {
           }
         );
 
+        this.referencePlace = {
+          latitude,
+          longitude
+        };
         this.places$.next(places);
       });
   }
