@@ -35,10 +35,10 @@ describe('DistanceAzimuthPipe', () => {
     it('should calculate correct winds when azimuth is negative', () => {
       expect(pipe.compassWinds(place.azimuth)).toEqual('SSE');
     });
-    it('should calculate correct winds when azimuth is negative', () => {
+    it('should calculate correct winds when azimuth is positive', () => {
       expect(pipe.compassWinds(162.7)).toEqual('SSE');
     });
-    it('should calculate correct winds when azimuth is negative', () => {
+    it('should calculate correct winds when azimuth is positive', () => {
       expect(pipe.compassWinds(522.7)).toEqual('SSE');
     });
   });
