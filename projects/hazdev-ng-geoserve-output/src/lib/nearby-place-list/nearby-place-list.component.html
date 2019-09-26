@@ -2,7 +2,10 @@
 <div *ngIf="places; else noNearbyPlaces">
   <ol>
     <li *ngFor="let place of places">
-      <geoserve-nearby-place [place]="place"></geoserve-nearby-place>
+      <geoserve-nearby-place
+        [place]="place"
+        [referencePlace]="referencePlace"
+      ></geoserve-nearby-place>
     </li>
   </ol>
 </div>

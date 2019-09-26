@@ -48,7 +48,7 @@ describe('RegionsService', () => {
   });
 
   describe('getRegions', () => {
-    it('calls http get', () => {
+    it('calls http get', (done) => {
       let latitude, longitude;
 
       const regionsJson = {
@@ -71,10 +71,11 @@ describe('RegionsService', () => {
 
       regionsService.adminRegions$.subscribe(result => {
         expect(result).toEqual(regionsJson.admin.features[0]);
+        done();
       });
     });
 
-    it('handles errors', () => {
+    it('handles errors', (done) => {
       let latitude, longitude;
 
       latitude = 0;
@@ -90,6 +91,7 @@ describe('RegionsService', () => {
 
       regionsService.adminRegions$.subscribe(result => {
         expect(result).toBe(null);
+        done();
       });
     });
   });

@@ -1,7 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { DistanceAzimuthPipe } from '../distance-azimuth.pipe';
 import { NearbyPlaceComponent } from './nearby-place.component';
 import { Place } from '../place';
+import { PlaceNamePipe } from '../place-name.pipe';
 
 describe('NearbyPlaceComponent', () => {
   let component: NearbyPlaceComponent;
@@ -10,7 +12,7 @@ describe('NearbyPlaceComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [NearbyPlaceComponent]
+      declarations: [DistanceAzimuthPipe, NearbyPlaceComponent, PlaceNamePipe]
     }).compileComponents();
   }));
 
@@ -40,28 +42,5 @@ describe('NearbyPlaceComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('getName', () => {
-    it('should return the formatted name components', () => {
-      expect(component.getName(place)).toEqual(
-        'Vegas Junction, New Mexico, United States'
-      );
-    });
-  });
-
-  describe('compassWinds', () => {
-    it('should accept compass wind as input and preserve', () => {
-      expect(component.compassWinds('SSE')).toEqual('SSE');
-    });
-    it('should calculate correct winds when azimuth is negative', () => {
-      expect(component.compassWinds(place.azimuth)).toEqual('SSE');
-    });
-    it('should calculate correct winds when azimuth is negative', () => {
-      expect(component.compassWinds(162.7)).toEqual('SSE');
-    });
-    it('should calculate correct winds when azimuth is negative', () => {
-      expect(component.compassWinds(522.7)).toEqual('SSE');
-    });
   });
 });

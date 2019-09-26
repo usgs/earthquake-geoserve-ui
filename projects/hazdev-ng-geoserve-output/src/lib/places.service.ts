@@ -11,7 +11,10 @@ import { Feature } from './feature';
 @Injectable()
 export class PlacesService {
   places$ = new BehaviorSubject<Place[]>(null);
+
   readonly PLACES_URL = environment.apiUrl + 'places.json';
+
+  referencePlace: Place;
 
   constructor(private http: HttpClient) {}
 
@@ -48,10 +51,21 @@ export class PlacesService {
       .subscribe((response: PlacesJson) => {
         const places = response.event.features.map(
           (feature: Feature): Place => {
-            return feature.properties;
+            const place: Place = Object.assign({}, feature.properties);
+            if (feature.geometry && feature.geometry.coordinates) {
+              const coords = feature.geometry.coordinates;
+              place.elevation = coords[2];
+              place.latitude = coords[1];
+              place.longitude = coords[0];
+            }
+            return place;
           }
         );
 
+        this.referencePlace = {
+          latitude,
+          longitude
+        };
         this.places$.next(places);
       });
   }
